@@ -22,10 +22,12 @@ class SingleNavigationTabContainer extends StatelessWidget {
         //       width: navBarIconSize,
         //     )),
         Container(
-          child: Text(
-            tabText,
-            style: TextStyle(
-              color: isSelected ? RevmoColors.navbarColorSelectedIcon : RevmoColors.unSelectedTab,
+          child: FittedBox(
+            child: Text(
+              tabText,
+              style: TextStyle(
+                color: isSelected ? RevmoColors.navbarColorSelectedIcon : RevmoColors.unSelectedTab,
+              ),
             ),
           ),
         )

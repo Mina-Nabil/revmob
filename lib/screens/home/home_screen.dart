@@ -9,7 +9,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:revmo/screens/home/single_nav_tab.dart';
 import 'package:revmo/screens/home/tabs_nav.dart';
 import 'package:revmo/shared/colors.dart';
-import 'package:revmo/shared/paths.dart';
+import 'package:revmo/environment/paths.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -87,11 +88,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       controller: _tabController,
                       onTap: _selectTab,
                       tabs: [
-                        SingleNavigationTabContainer("aa", "MyCatalog", _selectedIndex == 0),
-                        SingleNavigationTabContainer("aa", "Requests", _selectedIndex == 1),
-                        SingleNavigationTabContainer("aa", "Dashboard", _selectedIndex == 2),
-                        SingleNavigationTabContainer("aa", "Customers", _selectedIndex == 3),
-                        SingleNavigationTabContainer("aa", "Notifications", _selectedIndex == 4),
+                        SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.myCatalog, _selectedIndex == 0),
+                        SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.requests, _selectedIndex == 1),
+                        SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.dashboard, _selectedIndex == 2),
+                        SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.customers, _selectedIndex == 3),
+                        SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.notifications, _selectedIndex == 4),
                       ],
                     ),
                   ),

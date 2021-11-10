@@ -1,0 +1,22 @@
+{
+    "dashboard": "Dashboard",
+    "@dashboard": {
+      "description": "The name of the dashboard screen"
+    },
+    "myCatalog": "My Catalog",
+    "@myCatalog": {
+      "description": "My Catalog name in the navigation bar"
+    },
+    "requests": "Requests",
+    "@requests": {
+      "description": "Requests name in the navigation bar"
+    },
+    "customers": "Customers",
+    "@customers": {
+      "description": "Customers everywhere"
+    },
+    "notifications": "Notifications",
+    "@notifications": {
+      "description": "Notifications everywhere"
+    }
+}

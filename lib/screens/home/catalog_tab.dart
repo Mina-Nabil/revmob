@@ -5,8 +5,10 @@ class CatalogTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("Ana catalog"),
+    return Scaffold(
+      body: Container(
+        child: Text("Ana catalog"),
+      ),
     );
   }
 }
