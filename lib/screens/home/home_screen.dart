@@ -13,6 +13,7 @@ import 'package:revmo/environment/paths.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const String ROUTE_NAME = "home";
   const HomeScreen({Key? key}) : super(key: key);
 
   @override

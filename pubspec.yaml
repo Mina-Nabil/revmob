@@ -33,6 +33,11 @@ dependencies:
   flutter_svg: ^0.21.0
   path_provider: ^2.0.6
   http: ^0.13.4
+  page_transition: ^2.0.4
+  form_validator: ^1.0.1
+  device_info_plus: ^3.1.1
+  image_cropper: ^1.4.1
+  image_picker: ^0.8.4+4
 
 dev_dependencies:
   flutter_test:
@@ -45,9 +50,13 @@ flutter:
   assets:
     - assets/images/blueLogo.png
     - assets/images/splash.png
+    - assets/images/sign_in_bg.png
     - assets/icons/
 
   fonts:
+      - family: Eurostile
+        fonts:
+          - asset: assets/fonts/Eurostile.ttf
       - family: Gibson
         fonts:
           - asset: assets/fonts/Gibson-Regular.ttf
@@ -58,4 +67,10 @@ flutter:
           - asset: assets/fonts/Gibson-BoldItalic.ttf
             weight: 700
             style: italic
+      - family: Gibson_Light
+        fonts:
+          - asset: assets/fonts/Gibson-Light.ttf
+      - family: Roboto
+        fonts:
+          - asset: assets/fonts/Roboto.ttf
 

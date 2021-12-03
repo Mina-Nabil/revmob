@@ -18,5 +18,229 @@
     "notifications": "Notifications",
     "@notifications": {
       "description": "Notifications everywhere"
+    },
+    "welcomeTo": "Welcome to",
+    "@welcomeTo": {
+      "description": "Welcome message in pre-login Screen"
+    },
+    "signIn": "Sign in",
+    "@signIn" : {
+      "description": "Sign in button text"
+    },
+    "signUp": "Sign Up",
+    "@signUp" : {
+      "description": "Sign up button text"
+    },
+    "signUpSeller": "Sign Up As Seller",
+    "@signUpSeller" : {
+      "description": "Sign up button text"
+    },
+    "signUpShowroom": "Create New Showroom",
+    "@signUpShowroom" : {
+      "description": "Sign up button text"
+    },
+    "continueText": "Continue",
+    "@continueText" : {
+      "description": "Coninute word"
+    },
+    "password": "Password",
+    "@password" : {
+      "description": "Password word"
+    },
+    "name": "Name",
+    "@name" : {
+      "description": "Name word"
+    },
+    "email": "Email",
+    "@email" : {
+      "description": "Email word"
+    },
+    "fullName": "Full Name",
+    "@fullName" : {
+      "description": "Full Name word"
+    },
+    "fullNameHint": "Your Name here",
+    "@fullNameHint" : {
+      "description": "Full Name Hint word"
+    },
+    "companyName": "Company Name",
+    "@companyName" : {
+      "description": "Company Name word"
+    },
+    "city": "City",
+    "@city" : {
+      "description": "City word"
+    },
+    "reuploadMsg": "Oops! Something is wrong.. Please re-upload",
+    "@reuploadMsg" : {
+      "description": "Reupload Image hint"
+    },
+    "sellerCreatedMsg": "Nice! You created a new account",
+    "@sellerCreatedMsg" : {
+      "description": "Seller Account Creation message"
+    },
+    "fieldReqMsg": "This field is required",
+    "@fieldReqMsg" : {
+      "description": "Required field message"
+    },
+    "emailTaken": "This email address is taken",
+    "@emailTaken" : {
+      "description": "Taken email message"
+    },
+    "phoneTaken": "This Phone Number is taken",
+    "@phoneTaken" : {
+      "description": "Taken mobile number message"
+    },
+    "setBankMsg": "Bank Info set successfully!",
+    "@setBankMsg" : {
+      "description": "Seller Account Creation message"
+    },
+    "showroomCreatedMsg": "Congratz! You created a new Showroom",
+    "@showroomCreatedMsg" : {
+      "description": "Seller Account Creation message"
+    },
+    "cityHint": "Please select your city",
+    "@cityHint" : {
+      "description": "Please select your city"
+    },
+    "companyNameHint": "The Showroom name here",
+    "@companyNameHint" : {
+      "description": "Full Name Hint word"
+    },
+    "bank": "Bank",
+    "@bank" : {
+      "description": "Bank word"
+    },
+    "bankHint": "The Bank Name and branch here",
+    "@bankHint" : {
+      "description": "Bank name and branch Hint"
+    },
+    "iban": "IBAN",
+    "@iban" : {
+      "description": "Iban word"
+    },
+    "ibanHint": "The Bank Account (IBAN) number here",
+    "@ibanHint" : {
+      "description": "The Bank Account (IBAN) number Hint"
+    },
+
+    "bankAccountName": "Account Holder Name",
+    "@bank" : {
+      "description": "Bank Account Name holder word"
+    },
+    "bankAccountNameHint": "The Bank Account Holder Name here",
+    "@bankAccountNameHint" : {
+      "description": "The Bank Account Holder Name here"
+    },
+
+    "bankAccountNumberHint": "The Bank Account Number here",
+    "@bankAccountNumberHint" : {
+      "description": "The Bank Account Number Hint"
+    },
+
+    "bankAccountNumber": "The Bank Account Number",
+    "@bankAccountNumber" : {
+      "description": "The Bank Account Number Hint"
+    },
+
+    "address": "Address",
+    "@address" : {
+      "description": "Your address here"
+    },
+    "addressHint": "Your address here",
+    "@addressHint" : {
+      "description": "Address Hint in forms"
+    },
+    "any6MinLength": "The minimum length is 6",
+    "@any6MinLength" : {
+      "description": "Minimum Length Validation Msg"
+    },
+    "any11MinLength": "The minimum length is 11",
+    "@any11MinLength" : {
+      "description": "Minimum Length Validation Msg"
+    },
+    "fullNameLengthOverMsg": "Name too long, the max length is 60",
+    "@fullNameLengthOverMsg" : {
+      "description": "Full Name Hint word"
+    },
+    "mobNumber": "Mobile No.",
+    "@mobNumber" : {
+      "description": "Mobile Number word"
+    },
+    "mobInvalidMsg": "Please enter a valid Mobile Number",
+    "@mobInvalidMsg" : {
+      "description": "Mobile Number word"
+    },
+    "mobNumberHint": "01234567891",
+    "@mobNumberHint" : {
+      "description": "Mobile Number Hint word"
+    },
+    "confirmPassword": "Confirm Password",
+    "@confirmPassword" : {
+      "description": "Confirm Password word"
+    },
+    "fullNameMin2Msg": "The full name field should include min. two names",
+    "@fullNameMin2Msg" : {
+      "description": "The full name minimum two names msg"
+    },
+    "emailMsg": "Please enter a valid email",
+    "@emailMsg" : {
+      "description": "valid email msg"
+    },
+    "confirmPasswordMsg": "Passwords are not the same",
+    "@confirmPasswordMsg" : {
+      "description": "confirm passwords msg"
+    },
+    "next": "Next",
+    "@next" : {
+      "description": "Next word"
+    },
+    "skip": "Skip",
+    "@next" : {
+      "description": "Skip word"
+    },
+    "forgotPasswordMsg": "Forgot Password",
+    "@forgotPasswordMsg" : {
+      "description": "Forgot password sign in msg"
+    },
+    "noAccountQ": "If you don't have an account",
+    "@noAccountQ" : {
+      "description": "If you dont have an account message"
+    },
+    "passwordHint": "Your Password here",
+    "@passwordHint" : {
+      "description": "passwordHint"
+    },
+    "emailHint": "Your email here",
+    "@emailHint" : {
+      "description": "Email hint"
+    },
+    "signUpStep_ContactInformation": "Contact\nInformation",
+    "@signUpStep_ContactInformation" : {
+      "description": "Personal Contact Information for seller sign up"
+    },
+    "signUpStep_CompanyDetails": "Company\nDetails",
+    "@signUpStep_CompanyDetails" : {
+      "description": "Company Details for company sign up"
+    },
+    "signUpStep_PaymentDetails": "Payment\nDetails",
+    "@signUpStep_PaymentDetails" : {
+      "description": "Payment Details for company sign up"
+    },
+    "signUpStep_AccountVerfication": "Account\nVerification",
+    "@signUpStep_AccountVerfication" : {
+      "description": "Account Verification"
+    },
+    "serverIssue": "Server Issue, Please try again",
+    "@serverIssue" : {
+      "description": "Message to show in case api call failed"
+    },
+    "addPhoto": "Add a Photo",
+    "@addPhoto" : {
+      "description": "Message to add photo"
+    },
+    "slogan": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vulputate sapien at tellus scelerisque, non ornare ante elementum. Mauris commodo urna magna, ac eleifend magna scelerisque ut.",
+    "@slogan" : {
+      "description": "PreLogin Page Slogan"
     }
 }

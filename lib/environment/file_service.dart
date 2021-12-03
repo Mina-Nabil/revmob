@@ -26,7 +26,7 @@ class FileService implements KeySaver {
   Future<String?> read(String key) async {
     try {
       File loadedFile = await getFile(key);
-      return await loadedFile.readAsString();
+      return await loadedFile.exists() ? await loadedFile.readAsString() : null;
     } catch (e) {
       print(e);
       return null;
