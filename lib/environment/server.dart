@@ -25,7 +25,7 @@ class ServerHandler {
   static const String _sellerApiPrefix = "api/seller/";
 
   //profile urls
-  static const String _loginURL = "seller/login";
+  static const String _loginURL = "api/seller/login";
   static const String _userURL = "user";
   static const String _checkEmail = "check/email";
   static const String _checkPhone = "check/phone";
@@ -36,7 +36,8 @@ class ServerHandler {
   static const String _getCatalogURL = "get/catalog";
   static const String _getCarPoolURL = "get/carpool";
   static const String _setBrandsURL = "set/brands";
-  static const String _getBrandsURL = "get/brands";
+  static const String _getAllBrandsURL = "get/all/brands";
+  static const String _getModelsByBrand = "get/models/";
   //offers urls
 
 
@@ -45,6 +46,11 @@ class ServerHandler {
     _token = token;
     _headers["Authorization"] = "Bearer $token";
     return await saver.save(_apiTokenKey, token);
+  }
+  Future<bool> deleteApiToken() async {
+    _token = null;
+    _headers.remove("Authorization");
+    return await saver.delete(_apiTokenKey);
   }
 
   Future<String?> get token async {
@@ -97,6 +103,14 @@ class ServerHandler {
 
   Uri get carpoolURI {
     return new Uri.https(_address, _sellerApiPrefix + _getCarPoolURL);
+  }
+
+  Uri get allBrandsURI {
+    return new Uri.https(_address, _sellerApiPrefix + _getAllBrandsURL);
+  }
+
+  Uri getBrandModelsURI(int brandID){
+    return new Uri.https(_address, _sellerApiPrefix + _getModelsByBrand + brandID.toString());
   }
 
   Future<String> get deviceName async {

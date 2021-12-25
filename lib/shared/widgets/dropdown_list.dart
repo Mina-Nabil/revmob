@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:form_validator/form_validator.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 
@@ -33,12 +32,12 @@ class _RevmoDropDownListState extends State<RevmoDropDownList> {
           items: widget.items.entries
               .map((e) => DropdownMenuItem<int>(
                     value: e.key,
-                    child: RevmoTheme.getbody1(e.value),
+                    child: RevmoTheme.getBody(e.value, 2),
                   ))
               .toList(),
           selectedItemBuilder:  (BuildContext context) {
           return widget.items.entries.map<Widget>((e) {
-            return RevmoTheme.getTextFieldText(e.value);
+            return RevmoTheme.getBody(e.value, 2, color: RevmoColors.darkBlue);
           }).toList();
           },
 
@@ -47,7 +46,7 @@ class _RevmoDropDownListState extends State<RevmoDropDownList> {
             print(selected);
             if (selected == null) return "The field is required";
           },
-          hint: Container(alignment: Alignment.center, child: RevmoTheme.getCaption(widget.hint, color: RevmoColors.darkGrey)),
+          hint: Container(alignment: Alignment.center, child: RevmoTheme.getCaption(widget.hint, 2, color: RevmoColors.darkGrey)),
           onChanged: (int? key) {
             setState(() {
               widget.selected.value = key;

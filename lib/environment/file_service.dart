@@ -35,11 +35,28 @@ class FileService implements KeySaver {
 
   @override
   Future<bool> save(String key, String value) async {
-    try{
-    File file = await getFile(key);
-    file = await file.writeAsString(value);   
+    try {
+      File file = await getFile(key);
+      file = await file.writeAsString(value);
       return true;
-    } catch (e){
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> delete(String key) async {
+    await _initDirectories();
+    try {
+      File loadedFile = await getFile(key);
+      if (await loadedFile.exists()) {
+        FileSystemEntity entity = await loadedFile.delete(recursive: true);
+        return !await entity.exists();
+      } else {
+        return false;
+      }
+    } catch (e) {
       print(e);
       return false;
     }

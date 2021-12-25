@@ -9,14 +9,14 @@ class Seller {
   static const String DB_MOB_VRFD_KEY = "SLLR_MOB1_VRFD";
   static const String DB_MAIL_VRFD_KEY = "SLLR_MAIL_VRFD";
   static const String DB_CAN_MNG_KEY = "SLLR_CAN_MNGR";
-  
+  static const String DB_showroom_KEY = "showroom";
+
   static const String FORM_IDENTIFIER_KEY = "identifier";
   static const String FORM_NAME_KEY = "name";
   static const String FORM_EMAIL_KEY = "email";
   static const String FORM_MOB_KEY = "mobNumber1";
   static const String FORM_IMGE_KEY = "image";
   static const String FORM_PW_KEY = "password";
-
 
   final int _id;
   String _fullName;
@@ -54,7 +54,8 @@ class Seller {
         _image = json[Seller.DB_IMG_KEY],
         _isMobVerified = json[Seller.DB_MOB_VRFD_KEY] == 1,
         _isEmailVerified = json[Seller.DB_MAIL_VRFD_KEY] == 1,
-        _canManage = json[Seller.DB_CAN_MNG_KEY] == 1;
+        _canManage = json[Seller.DB_CAN_MNG_KEY] == 1,
+        _showroom=(json[DB_showroom_KEY] != null) ? Showroom.fromJson(json[DB_showroom_KEY]) : null;
 
   updateInfo({required String imagefullName, required String email, required String mob}) {
     this._fullName = fullName;
@@ -79,4 +80,5 @@ class Seller {
   bool get isEmailVerified => _isEmailVerified;
   bool get isMobVerified => _isMobVerified;
   bool get canManage => _canManage;
+  bool get hasShowroom => (showroom != null && showroom is Showroom && showroom!.id > 0);
 }

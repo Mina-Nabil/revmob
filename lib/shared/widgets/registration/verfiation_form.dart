@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:revmo/screens/home/home_screen.dart';
+import 'package:revmo/screens/auth/congratz_newaccount_screen.dart';
 import 'package:revmo/shared/widgets/main_button.dart';
 
 class VerficationForm extends StatefulWidget {
@@ -21,7 +21,7 @@ class _VerficationFormState extends State<VerficationForm> {
         text: "B3den",
         width: double.infinity,
         callBack: () {
-          Navigator.of(context).pushNamed(HomeScreen.ROUTE_NAME);
+          Navigator.of(context).pushReplacementNamed(NewAccountCongratzScreen.ROUTE_NAME);
         },
       )
     ]));

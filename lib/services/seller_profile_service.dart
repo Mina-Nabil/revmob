@@ -25,7 +25,7 @@ class SellerProfileService {
     request.fields[Showroom.FORM_EMAIL_KEY] = email;
     request.fields[Showroom.FORM_MOB_KEY] = mobNumber;
     request.fields[Showroom.FORM_ADRS_KEY] = address;
-    request.fields[Showroom.FORM_PW_KEY] = cityID.toString();
+    request.fields[Showroom.FORM_CITY_KEY] = cityID.toString();
 
     if (image != null) {
       var pic = await http.MultipartFile.fromPath(
@@ -49,10 +49,13 @@ class SellerProfileService {
             decodedResponse["body"].containsKey("showroom")) {
           return new ApiResponse<Showroom>(
               true, new Showroom.fromJson(decodedResponse["body"]["showroom"]), AppLocalizations.of(context)!.showroomCreatedMsg);
+        } else {
+          return new ApiResponse(false, null, AppLocalizations.of(context)!.serverIssue,
+              errors: decodedResponse["body"]["errors"] ?? null);
         }
+      } else {
         return new ApiResponse(false, null, AppLocalizations.of(context)!.serverIssue);
-      } else
-        return new ApiResponse(false, null, AppLocalizations.of(context)!.serverIssue);
+      }
     } catch (e, stack) {
       print(e);
       print(stack);
@@ -69,7 +72,8 @@ class SellerProfileService {
     if (request.statusCode == 200) {
       try {
         Map<String, dynamic> decoded = jsonDecode(request.body);
-        return new ApiResponse<bool>(decoded["status"], decoded["status"], decoded["status"] ? AppLocalizations.of(context)!.setBankMsg : AppLocalizations.of(context)!.serverIssue,
+        return new ApiResponse<bool>(decoded["status"], decoded["status"],
+            decoded["status"] ? AppLocalizations.of(context)!.setBankMsg : AppLocalizations.of(context)!.serverIssue,
             errors: (decoded["body"].containsKey("errors")) ? decoded["body"]["errors"] ?? null : null);
       } catch (e, stack) {
         print(e.toString());

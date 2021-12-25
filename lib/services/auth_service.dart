@@ -1,31 +1,25 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:provider/provider.dart';
 import 'package:revmo/environment/api_response.dart';
 import 'package:revmo/environment/server.dart';
 import 'package:revmo/models/seller.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:revmo/providers/seller_provider.dart';
 
 class AuthService {
   static final ServerHandler server = new ServerHandler();
 
-  static Future<bool> isLoggedIn() async {
+  static Future<bool> _isLoggedIn() async {
     try {
       String? token = await server.token;
       if (token == null) {
-        return Future.value(false);
+        return false;
       }
       server.setApiToken(token);
-      final request = await http.get(server.userURI, headers: server.headers);
-      if (request.statusCode == 200) {
-        print(request.body);
-        final body = jsonDecode(request.body);
-        final ret = body["status"] ?? false;
-        if (ret) {}
-        return ret;
-      }
-      return Future.value(false);
+      return true;
     } catch (e) {
       print(e);
       return Future.value(false);
@@ -33,17 +27,19 @@ class AuthService {
   }
 
   static Future<ApiResponse<Seller?>> getCurrentUser(context) async {
+    if(!(await _isLoggedIn())){
+      return new ApiResponse(false, null, "Not LoggedIn!");
+    }
     final request = await http.get(server.userURI, headers: server.headers);
     if (request.statusCode == 200) {
       try {
         Map<String, dynamic> decoded = jsonDecode(request.body);
         if (decoded["status"] == true &&
-            decoded["status"] == true &&
             decoded.containsKey("body") &&
             decoded["body"] is Map<String, dynamic> &&
-            decoded["body"].containsKey("seller")) {
+            decoded["body"].containsKey("user")) {
           return new ApiResponse(
-              true, new Seller.fromJson(decoded["body"]["seller"]), AppLocalizations.of(context)!.sellerCreatedMsg);
+              true, new Seller.fromJson(decoded["body"]["user"]), AppLocalizations.of(context)!.sellerCreatedMsg);
         } else {
           return new ApiResponse(false, null, decoded["message"], errors: decoded["body"]["errors"] ?? null);
         }
@@ -110,27 +106,27 @@ class AuthService {
   }
 
   static Future<ApiResponse<Seller?>> login(context, {required String identifier, required String password}) async {
-    var request = http.MultipartRequest(
-      "POST",
-      server.loginURI,
-    )
-      ..fields
-          .addAll({Seller.FORM_IDENTIFIER_KEY: identifier, Seller.FORM_PW_KEY: password, "deviceName": await server.deviceName})
-      ..headers.addAll(server.headers);
+    var response = await http.post(server.loginURI,
+        headers: server.headers,
+        body: {Seller.FORM_IDENTIFIER_KEY: identifier, Seller.FORM_PW_KEY: password, "deviceName": await server.deviceName});
 
-    var response = await request.send();
     if (response.statusCode == 200) {
       try {
-        print(response.stream.toString());
-        var responseData = await response.stream.toBytes();
-        var responseString = String.fromCharCodes(responseData);
-        dynamic decoded = jsonDecode(responseString);
-        if (decoded["status"] == true) {
+        var responseData = response.body;
+        dynamic decoded = jsonDecode(responseData);
+        if (decoded["status"] == true &&
+            decoded.containsKey("body") &&
+            decoded["body"] is Map<String, dynamic> &&
+            decoded["body"].containsKey("apiKey") &&
+            decoded["body"].containsKey("seller")) {
           Seller newSeller = Seller.fromJson(decoded["body"]["seller"]);
-          server.setApiToken(decoded["body"]["token"]);
-          return new ApiResponse<Seller>(true, newSeller, AppLocalizations.of(context)!.sellerCreatedMsg);
+          server.setApiToken(decoded["body"]["apiKey"]);
+          return new ApiResponse<Seller>(true, newSeller, AppLocalizations.of(context)!.loggedInMsg);
         } else {
-          return new ApiResponse(false, null, decoded["message"], errors: decoded["body"]["errors"] ?? null);
+          return new ApiResponse(false, null, AppLocalizations.of(context)!.cantLogin,
+              errors: (decoded["body"] is Map<String, String> && decoded["body"].containsKey("errors"))
+                  ? decoded["body"]["errors"]
+                  : null);
         }
       } catch (e, stack) {
         print(e.toString());
@@ -138,7 +134,6 @@ class AuthService {
         return new ApiResponse(false, null, AppLocalizations.of(context)!.serverIssue);
       }
     } else {
-      print(response.stream.toString());
       return new ApiResponse(false, null, AppLocalizations.of(context)!.serverIssue);
     }
   }
@@ -177,5 +172,17 @@ class AuthService {
     } else {
       return ApiResponse(false, false, AppLocalizations.of(context)!.serverIssue);
     }
+  }
+
+  static Future<bool> logOut(context) async {
+    bool tokenDeleted = await server.deleteApiToken();
+    bool providerUserDeleted = true;
+    try {
+      Provider.of<SellerProvider>(context, listen: false).clearUser();
+    } catch (e) {
+      print(e);
+      providerUserDeleted = false;
+    }
+    return providerUserDeleted && tokenDeleted;
   }
 }

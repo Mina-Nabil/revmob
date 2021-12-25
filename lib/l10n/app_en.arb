@@ -27,6 +27,10 @@
     "@signIn" : {
       "description": "Sign in button text"
     },
+    "signOut": "Log Out",
+    "@signIn" : {
+      "description": "Log Out button text"
+    },
     "signUp": "Sign Up",
     "@signUp" : {
       "description": "Sign up button text"
@@ -79,6 +83,18 @@
     "@sellerCreatedMsg" : {
       "description": "Seller Account Creation message"
     },
+    "cantLogin": "Incorrect Info :( Please try again",
+    "@cantLogin" : {
+      "description": "not logged in message"
+    },
+    "loggedInMsg": "Nice! You are logged in!",
+    "@loggedInMsg" : {
+      "description": "logged in message"
+    },
+    "identifierNotFound": "Field not found in database",
+    "@identifierNotFound" : {
+      "description": "not found message"
+    },
     "fieldReqMsg": "This field is required",
     "@fieldReqMsg" : {
       "description": "Required field message"
@@ -94,6 +110,14 @@
     "setBankMsg": "Bank Info set successfully!",
     "@setBankMsg" : {
       "description": "Seller Account Creation message"
+    },
+    "emptyCarsList": "No Cars Selected? Please pick some cars",
+    "@emptyCarsList" : {
+      "description": "Empty Car list message"
+    },
+    "congratulations": "Congratulations",
+    "@congratulations" : {
+      "description": "Congratulations message"
     },
     "showroomCreatedMsg": "Congratz! You created a new Showroom",
     "@showroomCreatedMsg" : {
@@ -207,6 +231,34 @@
     "@noAccountQ" : {
       "description": "If you dont have an account message"
     },
+    "done": "Done",
+    "@done" : {
+      "description": "done word"
+    },
+    "noCars": "No Cars",
+    "@noCars" : {
+      "description": "no cars in empty catalog word"
+    },
+    "carCatalog": "Car Catalog",
+    "@carCatalog" : {
+      "description": "no cars in empty catalog word"
+    },
+    "addCars": "Let's Add Some",
+    "@addCars" : {
+      "description": "lets add some word"
+    },
+    "noCarsCaption": "Seems like you haven't added any cars yet",
+    "@noCarsCaption" : {
+      "description": "no cars in empty catalog word"
+    },
+    "price": "Price",
+    "@price" : {
+      "description": "Price word"
+    },
+    "search": "Search",
+    "@search" : {
+      "description": "search word"
+    },
     "passwordHint": "Your Password here",
     "@passwordHint" : {
       "description": "passwordHint"
@@ -234,6 +286,14 @@
     "serverIssue": "Server Issue, Please try again",
     "@serverIssue" : {
       "description": "Message to show in case api call failed"
+    },
+    "joinShowroom": "Join Showroom",
+    "@joinShowroom" : {
+      "description": "Join Showroom Message"
+    },
+    "alreadySignedIn": "You are already Signed In ;)",
+    "@alreadySignedIn" : {
+      "description": "already signed in Message"
     },
     "addPhoto": "Add a Photo",
     "@addPhoto" : {

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="6.9" height="7.6" viewBox="0 0 6.9 7.6">
+  <g id="Iconly_Light_Calendar" data-name="Iconly/Light/Calendar" transform="translate(0.3 0.3)">
+    <g id="Calendar">
+      <path id="Line_200" d="M0,.473H6.238" transform="translate(0.032 2.119)" fill="none" stroke="#003157" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="0.6"/>
+      <path id="Line_201" d="M.459.473h0" transform="translate(4.246 3.486)" fill="none" stroke="#003157" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="0.6"/>
+      <path id="Line_202" d="M.459.473h0" transform="translate(2.693 3.486)" fill="none" stroke="#003157" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="0.6"/>
+      <path id="Line_203" d="M.459.473h0" transform="translate(1.137 3.486)" fill="none" stroke="#003157" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="0.6"/>
+      <path id="Line_204" d="M.459.473h0" transform="translate(4.246 4.846)" fill="none" stroke="#003157" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="0.6"/>
+      <path id="Line_205" d="M.459.473h0" transform="translate(2.693 4.846)" fill="none" stroke="#003157" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="0.6"/>
+      <path id="Line_206" d="M.459.473h0" transform="translate(1.137 4.846)" fill="none" stroke="#003157" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="0.6"/>
+      <path id="Line_207" d="M.463,0V1.152" transform="translate(4.102)" fill="none" stroke="#003157" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="0.6"/>
+      <path id="Line_208" d="M.463,0V1.152" transform="translate(1.275)" fill="none" stroke="#003157" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="0.6"/>
+      <path id="Path" d="M4.633,0H1.67A1.506,1.506,0,0,0,0,1.625V4.792A1.52,1.52,0,0,0,1.67,6.447H4.63A1.507,1.507,0,0,0,6.3,4.819V1.625A1.5,1.5,0,0,0,4.633,0Z" transform="translate(0 0.553)" fill="none" stroke="#003157" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="0.6"/>
+    </g>
+  </g>
+</svg>

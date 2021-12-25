@@ -19,8 +19,7 @@ class RevmoBreadcrumb extends AnimatedWidget {
     double currentStep = SignUpSteps.of(context).stepsAnimator.value;
     double rowWidth = width - _nodeDiameter;
     double boxWidth = (width - _nodeDiameter) / stepsList.entries.length;
-    double blueWidth =
-        (rowWidth) * ((currentStep) / (stepsList.length-1)) + (((currentStep) / (stepsList.length-1)) * (boxWidth - _nodeDiameter / 2));
+    double blueWidth = (rowWidth) * ((currentStep) / (stepsList.length - 1)) - (currentStep * (_nodeDiameter / 2));
 
     return Container(
         constraints: BoxConstraints(minHeight: _minHeight),

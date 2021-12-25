@@ -42,8 +42,8 @@ class SignUp extends StatefulWidget {
 
   final bool _isShowroom;
 
-  static const SELLER_ROUTE_NAME = "signUp/seller";
-  static const SHOWROOM_ROUTE_NAME = "signUp/showroom";
+  static const SELLER_ROUTE_NAME = "/signUp/seller";
+  static const SHOWROOM_ROUTE_NAME = "/signUp/showroom";
 
   //dimensions
   final double _horizontalPadding = 25;
@@ -89,7 +89,7 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [RevmoColors.darkBlue, RevmoColors.darkerBlue])),
+                      colors: [RevmoColors.darkBlue, RevmoColors.darkestBlue])),
               child: SafeArea(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,

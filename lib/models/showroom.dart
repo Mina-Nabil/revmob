@@ -56,7 +56,7 @@ class Showroom {
   int _offersSent;
   int _offersAccepted;
   DateTime _createdAt;
-  String _salesRecord;
+  String? _salesRecord;
   String _salesRecordStatus;
   String? _salesRecordFrontImg;
   int? _bankID;
@@ -67,24 +67,24 @@ class Showroom {
         this._name = json[DB_name_KEY],
         this._ownerID = json[DB_OWNR_ID_KEY],
         this._address = json[DB_address_KEY],
-        this._balance = json[DB_balance_KEY],
+        this._balance = json[DB_balance_KEY].toDouble(),
         this._bankID = json[DB_BANK_ID_KEY],
-        this._cityID = json[DB_CITY_ID_KEY],
-        this._createdAt = json[DB_createdAt_KEY],
+        this._cityID = (json[DB_CITY_ID_KEY] is int) ? json[DB_CITY_ID_KEY] : int.parse(json[DB_CITY_ID_KEY]),
+        this._createdAt = DateTime.parse(json[DB_createdAt_KEY]),
         this._email = json[DB_email_KEY],
         this._image = json[DB_image_KEY],
-        this._isActive = json[DB_isActive_KEY],
-        this._isMailVerified = json[DB_isMailVerified_KEY],
-        this._isMobVerified = json[DB_isMobVerified_KEY],
-        this._isVerified = json[DB_isVerified_KEY],
+        this._isActive = json[DB_isActive_KEY]==1,
+        this._isMailVerified = json[DB_isMailVerified_KEY]==1,
+        this._isMobVerified = json[DB_isMobVerified_KEY]==1,
+        this._isVerified = json[DB_isVerified_KEY]==1,
         this._mobileNumber1 = json[DB_mobileNumber1_KEY],
-        this._offersAccepted = json[DB_offersAccepted_KEY],
-        this._offersSent = json[DB_offerSent_KEY],
+        this._offersAccepted = json[DB_offersAccepted_KEY] ?? 0,
+        this._offersSent = json[DB_offerSent_KEY] ?? 0,
         this._salesRecord = json[DB_salesRecord_KEY],
         this._salesRecordBackImg = json[DB_salesRecordBackImg_KEY],
         this._salesRecordFrontImg = json[DB_salesRecordFrontImg_KEY],
         this._salesRecordStatus = json[DB_salesRecordStatus_KEY],
-        this._verifiedSince = json[DB_verifiedSince_KEY];
+        this._verifiedSince = DateTime.tryParse(json[DB_verifiedSince_KEY]??"");
 
 
   int get id => _id;
@@ -104,7 +104,7 @@ class Showroom {
   int get offerSent => _offersSent;
   int get offersAccepted => _offersAccepted;
   DateTime get createdAt => _createdAt;
-  String get salesRecord => _salesRecord;
+  String? get salesRecord => _salesRecord;
   String get salesRecordStatus => _salesRecordStatus;
   String? get salesRecordFrontImg => _salesRecordFrontImg;
   String? get salesRecordBackImg => _salesRecordBackImg;

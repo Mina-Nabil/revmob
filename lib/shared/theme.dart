@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:revmo/shared/colors.dart';
 
 ///
@@ -11,6 +12,7 @@ import 'package:revmo/shared/colors.dart';
 class RevmoTheme {
   static const double FORMS_MAX_WIDTH = 400;
 
+  static const double _FONT_SIZE_0 = 10;
   static const double _FONT_SIZE_1 = 14;
   static const double _FONT_SIZE_2 = 20;
   static const double _FONT_SIZE_3 = 24;
@@ -23,60 +25,141 @@ class RevmoTheme {
   static const String FONT_GIBSON_LIGHT = "Gibson_Light";
   static const String FONT_ROBOTO = "ROBOTO";
 
-  static Text getbody1(String text,
-      {bool isBold = false,
-      FontStyle fontStyle = FontStyle.normal,
-      FontWeight weight = FontWeight.w700,
-      Color color = Colors.white}) {
-    return Text(
-      text,
-      style: TextStyle(
-          fontSize: _FONT_SIZE_3,
+  static const int _INDICATOR_TYPE = 1;
+  static List<Color> _indicatorColors = [
+    RevmoColors.white,
+    RevmoColors.originalBlue,
+    RevmoColors.darkBlue,
+  ];
+
+  static double getFontSize(int size) {
+    switch (size) {
+      case 0:
+        return _FONT_SIZE_0;
+      case 1:
+        return _FONT_SIZE_1;
+      case 2:
+        return _FONT_SIZE_2;
+      case 3:
+        return _FONT_SIZE_3;
+      case 4:
+        return _FONT_SIZE_4;
+      case 5:
+        return _FONT_SIZE_5;
+      case 6:
+      default:
+        return _FONT_SIZE_6;
+    }
+  }
+
+  static getBodyStyle(int size,
+          {bool isBold = false,
+          FontStyle fontStyle = FontStyle.normal,
+          FontWeight weight = FontWeight.w700,
+          Color color = Colors.white}) =>
+      TextStyle(
+          fontSize: getFontSize(size),
           fontStyle: fontStyle,
           color: color,
           fontFamily: FONT_GIBSON,
-          fontWeight: (isBold || weight != FontWeight.w700) ? weight : FontWeight.normal),
-    );
-  }
+          fontWeight: (isBold || weight != FontWeight.w700) ? weight : FontWeight.normal);
 
-  static Text getCaption(String text,
-      {bool isBold = false,
-      FontStyle fontStyle = FontStyle.normal,
-      FontWeight weight = FontWeight.w300,
-      Color color = Colors.white}) {
-    return Text(
-      text,
-      textAlign: TextAlign.center,
-      style: TextStyle(
-          fontSize: _FONT_SIZE_1,
+  static Text getBody(String text, int size,
+          {bool isBold = false,
+          FontStyle fontStyle = FontStyle.normal,
+          FontWeight weight = FontWeight.w700,
+          Color color = Colors.white}) =>
+      Text(
+        text,
+        style: getBodyStyle(size, color: color, fontStyle: fontStyle, weight: weight, isBold: isBold),
+      );
+
+  static getSemiBoldStyle(int size,
+          {FontStyle fontStyle = FontStyle.normal, FontWeight weight = FontWeight.w600, Color color = Colors.white}) =>
+      TextStyle(fontSize: getFontSize(size), fontStyle: fontStyle, color: color, fontFamily: FONT_GIBSON, fontWeight: weight);
+
+  static Text getSemiBold(String text, int size,
+          {FontStyle fontStyle = FontStyle.normal, FontWeight weight = FontWeight.w600, Color color = Colors.white}) =>
+      Text(
+        text,
+        style: getSemiBoldStyle(size, color: color, fontStyle: fontStyle, weight: weight),
+      );
+
+  static TextStyle getCaptionStyle(int size,
+          {bool isBold = false,
+          FontStyle fontStyle = FontStyle.normal,
+          FontWeight weight = FontWeight.w500,
+          Color color = Colors.white}) =>
+      TextStyle(
+          fontSize: getFontSize(size),
           fontStyle: fontStyle,
           fontFamily: FONT_GIBSON_LIGHT,
           color: color,
-          fontWeight: (isBold || weight != FontWeight.w300) ? weight : FontWeight.w300),
-    );
-  }
+          fontWeight: (isBold || weight != FontWeight.w500) ? weight : FontWeight.w500);
+
+  static Text getCaption(String text, int size,
+          {bool isBold = false,
+          FontStyle fontStyle = FontStyle.normal,
+          FontWeight weight = FontWeight.w300,
+          Color color = Colors.white}) =>
+      Text(text,
+          textAlign: TextAlign.center,
+          style: getCaptionStyle(size, isBold: isBold, fontStyle: fontStyle, weight: weight, color: color));
 
   static Text getEuroStileTitle(String text) {
-    return Text(text, style: TextStyle(fontFamily: FONT_EUROSTILE, fontSize: _FONT_SIZE_5, color: RevmoColors.originalBlue));
+    return Text(text, style: TextStyle(fontFamily: FONT_EUROSTILE, fontSize: getFontSize(5), color: RevmoColors.originalBlue));
   }
 
   static Text getFormTitle(String text) {
     return Text(text,
-        style: TextStyle(fontFamily: FONT_GIBSON, fontSize: _FONT_SIZE_2, color: Colors.white, fontWeight: FontWeight.w700));
+        style: TextStyle(fontFamily: FONT_GIBSON, fontSize: getFontSize(2), color: Colors.white, fontWeight: FontWeight.w500));
   }
 
   static Text getTextFieldLabel(String text) {
-    return Text(text, style: TextStyle(fontFamily: FONT_GIBSON, fontSize: _FONT_SIZE_1, color: Colors.white));
+    return Text(text, style: TextStyle(fontFamily: FONT_GIBSON, fontSize: getFontSize(1), color: Colors.white));
+  }
+
+  static TextStyle getTextFieldStyle() {
+    return TextStyle(fontFamily: FONT_GIBSON_LIGHT, color: RevmoColors.white);
+  }
+
+  static TextStyle getCarTileTitleStyle() {
+    return TextStyle(fontFamily: FONT_GIBSON, fontWeight: FontWeight.w700, color: RevmoColors.darkBlue);
+  }
+
+  static Text getCarTileTitle(String text) {
+    return Text(text, style: getCarTileTitleStyle());
   }
 
   static Text getTextFieldText(String text) {
-    return Text(text, style: TextStyle(fontFamily: FONT_GIBSON_LIGHT,  color: RevmoColors.darkBlue));
+    return Text(text, style: getTextFieldStyle());
   }
 
   static Text getIconButtonText(String text) {
     return Text(
       text,
-      style: TextStyle(fontFamily: FONT_ROBOTO, color: RevmoColors.cyan, fontSize: _FONT_SIZE_1),
+      style: TextStyle(fontFamily: FONT_ROBOTO, color: RevmoColors.cyan, fontSize: getFontSize(1)),
+    );
+  }
+
+  static LoadingIndicator getLoadingIndicator() {
+    return LoadingIndicator(indicatorType: Indicator.values[_INDICATOR_TYPE], colors: _indicatorColors, strokeWidth: 4.0);
+  }
+
+  static Widget getLoadingContainer(BuildContext context) {
+    return  Container(
+              height: 65,
+              width: 65,
+              padding: EdgeInsets.all(13),
+            decoration: BoxDecoration(
+              color: RevmoColors.darkGrey.withOpacity(0.9),
+              borderRadius: BorderRadius.all(Radius.circular(5))
+            ),
+            alignment: Alignment.center,
+            child: SizedBox(
+          
+              child: getLoadingIndicator()),
+   
     );
   }
 }

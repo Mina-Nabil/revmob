@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:revmo/environment/api_response.dart';
+import 'package:revmo/models/seller.dart';
+import 'package:revmo/models/showroom.dart';
+import 'package:revmo/providers/seller_provider.dart';
 import 'package:revmo/screens/auth/pre_login_screen.dart';
 import 'package:revmo/screens/home/home_screen.dart';
-import 'package:revmo/services/AuthService.dart';
+import 'package:revmo/services/auth_service.dart';
 import 'package:revmo/environment/paths.dart';
 
 class SplashScreen extends StatefulWidget {
-  static const String ROUTE_NAME = "splash";
+  static const String ROUTE_NAME = "/splash";
   static const Duration fadeDuration = const Duration(milliseconds: 3000); //milliseconds
 
   @override
@@ -29,12 +34,14 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void checkLoggedIn() async {
-
-    //if (await AuthService.isLoggedIn().timeout(Duration(minutes: 2))) {
-    if(false) {
-      Navigator.of(context).pushNamed(HomeScreen.ROUTE_NAME);
+    await Provider.of<SellerProvider>(context, listen: false).loadUser(context, forceReload: true);
+    Seller? seller = Provider.of<SellerProvider>(context, listen: false).user;
+    print("IsloggedIn " + (seller != null ).toString() ) ;
+    print("hasShowroom " + (seller!=null && seller.hasShowroom ).toString() ) ;
+    if (seller != null && seller.hasShowroom) {
+      Navigator.of(context).pushReplacementNamed(HomeScreen.ROUTE_NAME);
     } else {
-      Navigator.of(context).pushNamed(PreLoginScreen.ROUTE_NAME);
+      Navigator.of(context).pushReplacementNamed(PreLoginScreen.ROUTE_NAME);
     }
   }
 

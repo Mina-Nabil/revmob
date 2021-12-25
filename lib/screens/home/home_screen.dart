@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:revmo/providers/brands_provider.dart';
+import 'package:revmo/providers/models_provider.dart';
 import 'package:revmo/screens/home/catalog_tab.dart';
 import 'package:revmo/screens/home/customers_tab.dart';
 import 'package:revmo/screens/home/dashboard_tab.dart';
 import 'package:revmo/screens/home/notifications_tab.dart';
 import 'package:revmo/screens/home/requests_tab.dart';
-
-import 'package:flutter_svg/svg.dart';
-import 'package:revmo/screens/home/single_nav_tab.dart';
-import 'package:revmo/screens/home/tabs_nav.dart';
+import 'package:revmo/shared/widgets/home/single_nav_tab.dart';
+import 'package:revmo/shared/widgets/home/tabs_nav.dart';
 import 'package:revmo/shared/colors.dart';
-import 'package:revmo/environment/paths.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const String ROUTE_NAME = "home";
+  static const String ROUTE_NAME = "/home";
+  static const EdgeInsets HORIZONTAL_PADDING = const EdgeInsets.symmetric(horizontal: 15.0);
+
+  // final double _navBarTopMargin = 2.0;
+  // final double _navBarIconSize = 20.0;
+  // final double _navBarHighlightCircleRadius = 5.0;
+
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -22,11 +28,8 @@ class HomeScreen extends StatefulWidget {
 
 int _selectedIndex = 2;
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin  {
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   //screen dimensions
-  static const double navBarTopMargin = 2.0;
-  static const double navBarIconSize = 20.0;
-  static const double navBarHighlightCircleRadius = 5.0;
 
   late String _currentPage = DashboardTab.screenName;
   final List<String> pageKeys = [
@@ -45,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   };
 
   late final TabController _tabController;
- @override
+  @override
   void initState() {
     super.initState();
     _tabController = TabController(length: pageKeys.length, vsync: this, initialIndex: 0);
@@ -53,51 +56,58 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        top: false,
-        child: GestureDetector(
-            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-            child: WillPopScope(
-                onWillPop: () async {
-                  final isFirstRouteInCurrentTab = !await _navigatorKeys[_currentPage]!.currentState!.maybePop();
-                  if (isFirstRouteInCurrentTab) {
-                    if (_currentPage != DashboardTab.screenName) {
-                      _selectTab(2);
-                      return false;
-                    }
-                  }
-                  // let system handle back button if we're on the first route
-                  return isFirstRouteInCurrentTab;
-                },
-                child: Scaffold(
-                  backgroundColor: Colors.white,
-                  body: Stack(
-                    children: [
-                      OffStageTab((_selectedIndex == 0), CatalogTab.screenName, _navigatorKeys[CatalogTab.screenName]),
-                      OffStageTab((_selectedIndex == 1), RequestsTab.screenName, _navigatorKeys[RequestsTab.screenName]),
-                      OffStageTab((_selectedIndex == 2), DashboardTab.screenName, _navigatorKeys[DashboardTab.screenName]),
-                      OffStageTab((_selectedIndex == 3), CustomersTab.screenName, _navigatorKeys[CustomersTab.screenName]),
-                      OffStageTab((_selectedIndex == 4), NotificationsTab.screenName, _navigatorKeys[NotificationsTab.screenName]),
+    return GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: WillPopScope(
+            onWillPop: () async {
+              final isFirstRouteInCurrentTab = !await _navigatorKeys[_currentPage]!.currentState!.maybePop();
+              if (isFirstRouteInCurrentTab) {
+                if (_currentPage != DashboardTab.screenName) {
+                  _selectTab(2);
+                  return false;
+                }
+              }
+              // let system handle back button if we're on the first route
+              return isFirstRouteInCurrentTab;
+            },
+            child: MultiProvider(
+              providers: [
+                ChangeNotifierProvider<BrandsProvider>(create: (context) => new BrandsProvider(context)),
+                ChangeNotifierProvider<ModelsProvider>(create: (context) => new ModelsProvider(context))
+              ],
+              child: Scaffold(
+                backgroundColor: RevmoColors.darkBlue,
+                body: SafeArea(
+                    child: Container(
+                        child: Stack(
+                  children: [
+                    OffStageTab((_selectedIndex == 0), CatalogTab.screenName, _navigatorKeys[CatalogTab.screenName]),
+                    OffStageTab((_selectedIndex == 1), RequestsTab.screenName, _navigatorKeys[RequestsTab.screenName]),
+                    OffStageTab((_selectedIndex == 2), DashboardTab.screenName, _navigatorKeys[DashboardTab.screenName]),
+                    OffStageTab((_selectedIndex == 3), CustomersTab.screenName, _navigatorKeys[CustomersTab.screenName]),
+                    OffStageTab((_selectedIndex == 4), NotificationsTab.screenName, _navigatorKeys[NotificationsTab.screenName]),
+                  ],
+                ))),
+                bottomNavigationBar: Container(
+                  decoration: BoxDecoration(
+                      color: RevmoColors.navbarColorBG,
+                      border: Border(top: BorderSide(width: 0.25, color: RevmoColors.navbarBorder))),
+                  child: TabBar(
+                    indicatorColor: Colors.transparent,
+                    padding: EdgeInsets.only(bottom: 8),
+                    controller: _tabController,
+                    onTap: _selectTab,
+                    tabs: [
+                      SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.myCatalog, _selectedIndex == 0),
+                      SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.requests, _selectedIndex == 1),
+                      SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.dashboard, _selectedIndex == 2),
+                      SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.customers, _selectedIndex == 3),
+                      SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.notifications, _selectedIndex == 4),
                     ],
                   ),
-                  bottomNavigationBar: Container(
-                    decoration: BoxDecoration(
-                        color: RevmoColors.navbarColorBG,
-                        border: Border(top: BorderSide(width: 0.25, color: RevmoColors.navbarBorder))),
-                    child: TabBar(
-                      indicatorColor: Colors.transparent,
-                      controller: _tabController,
-                      onTap: _selectTab,
-                      tabs: [
-                        SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.myCatalog, _selectedIndex == 0),
-                        SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.requests, _selectedIndex == 1),
-                        SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.dashboard, _selectedIndex == 2),
-                        SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.customers, _selectedIndex == 3),
-                        SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.notifications, _selectedIndex == 4),
-                      ],
-                    ),
-                  ),
-                ))));
+                ),
+              ),
+            )));
   }
 
   void _selectTab(int index) {
@@ -124,7 +134,7 @@ class OffStageTab extends StatelessWidget {
     return Offstage(
       offstage: !isOn,
       child: TabsNavigator(
-        navigatorKey: navState ?? GlobalKey<NavigatorState>(),
+        navigatorKey: navState ?? new GlobalKey<NavigatorState>(),
         tabItem: tabItem,
       ),
     );

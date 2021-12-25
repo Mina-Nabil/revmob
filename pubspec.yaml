@@ -38,6 +38,10 @@ dependencies:
   device_info_plus: ^3.1.1
   image_cropper: ^1.4.1
   image_picker: ^0.8.4+4
+  provider: ^6.0.1
+  shimmer: ^2.0.0
+  carousel_slider: ^4.0.0
+  loading_indicator: ^3.0.2
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +55,7 @@ flutter:
     - assets/images/blueLogo.png
     - assets/images/splash.png
     - assets/images/sign_in_bg.png
+    - assets/images/congratz.png
     - assets/icons/
 
   fonts:
@@ -59,17 +64,24 @@ flutter:
           - asset: assets/fonts/Eurostile.ttf
       - family: Gibson
         fonts:
-          - asset: assets/fonts/Gibson-Regular.ttf
-          - asset: assets/fonts/Gibson-RegularItalic.ttf
+          - asset: assets/fonts/Gibson-Regular.otf
+          - asset: assets/fonts/Gibson-Italic.otf
             style: italic
-          - asset: assets/fonts/Gibson-bold.ttf
+          - asset: assets/fonts/Gibson-SemiBold.otf
+            weight: 500
+          - asset: assets/fonts/Gibson-SemiBoldIt.otf
+            weight: 500
+            style: italic
+          - asset: assets/fonts/Gibson-Bold.otf
             weight: 700
-          - asset: assets/fonts/Gibson-BoldItalic.ttf
+          - asset: assets/fonts/Gibson-BoldItalic.otf
             weight: 700
             style: italic
       - family: Gibson_Light
         fonts:
-          - asset: assets/fonts/Gibson-Light.ttf
+          - asset: assets/fonts/Gibson-Light.otf
+          - asset: assets/fonts/Gibson-LightIt.otf
+            style: italic
       - family: Roboto
         fonts:
           - asset: assets/fonts/Roboto.ttf
