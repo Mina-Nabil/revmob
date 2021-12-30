@@ -5,9 +5,9 @@ import 'package:revmo/screens/auth/signup_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:revmo/services/seller_profile_service.dart';
 import 'package:revmo/shared/theme.dart';
-import 'package:revmo/shared/widgets/main_button.dart';
-import 'package:revmo/shared/widgets/secondary_button.dart';
-import 'package:revmo/shared/widgets/text_field.dart';
+import 'package:revmo/shared/widgets/misc/main_button.dart';
+import 'package:revmo/shared/widgets/misc/secondary_button.dart';
+import 'package:revmo/shared/widgets/misc/text_field.dart';
 
 class PaymentForm extends StatefulWidget {
   final Duration animationsDuration;

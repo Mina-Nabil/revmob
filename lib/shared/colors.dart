@@ -20,6 +20,7 @@ class RevmoColors {
     static final Color greyishBlue =  darkBlue.withAlpha(178) ;
     static final Color petrolBlue =  Color.fromARGB(255, 51, 109, 153,) ;
     static final Color darkGrey =  Color.fromARGB(255, 101, 116, 130); 
+    static final Color lightGrey =  Color.fromARGB(25, 0, 49, 87); 
     static final Color white =  Color.fromARGB(255, 235, 235, 235);
     static final Color pinkishRed =  Color.fromARGB(255, 255, 10, 92); 
     static final Color darkRed =  Color.fromARGB(255, 202, 25, 25); 

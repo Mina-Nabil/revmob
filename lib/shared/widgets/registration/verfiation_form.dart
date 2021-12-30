@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:revmo/screens/auth/congratz_newaccount_screen.dart';
-import 'package:revmo/shared/widgets/main_button.dart';
+import 'package:revmo/shared/widgets/misc/main_button.dart';
 
 class VerficationForm extends StatefulWidget {
   final Duration animationsDuration;

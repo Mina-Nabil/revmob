@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:revmo/models/revmo_image.dart';
 import 'package:revmo/shared/colors.dart';
-import 'package:revmo/shared/widgets/revmo_image_placeholder.dart';
+import './revmo_image_placeholder.dart';
 
 class RevmoCarImageWidget extends StatelessWidget {
   const RevmoCarImageWidget({

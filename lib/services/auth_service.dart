@@ -27,13 +27,13 @@ class AuthService {
   }
 
   static Future<ApiResponse<Seller?>> getCurrentUser(context) async {
-    if(!(await _isLoggedIn())){
+    if (!(await _isLoggedIn())) {
       return new ApiResponse(false, null, "Not LoggedIn!");
     }
     final request = await http.get(server.userURI, headers: server.headers);
     if (request.statusCode == 200) {
       try {
-        Map<String, dynamic> decoded = jsonDecode(request.body);
+        Map<String, dynamic> decoded = jsonDecode(utf8.decode(request.bodyBytes));
         if (decoded["status"] == true &&
             decoded.containsKey("body") &&
             decoded["body"] is Map<String, dynamic> &&
@@ -112,8 +112,7 @@ class AuthService {
 
     if (response.statusCode == 200) {
       try {
-        var responseData = response.body;
-        dynamic decoded = jsonDecode(responseData);
+        dynamic decoded = jsonDecode(utf8.decode(response.bodyBytes));
         if (decoded["status"] == true &&
             decoded.containsKey("body") &&
             decoded["body"] is Map<String, dynamic> &&

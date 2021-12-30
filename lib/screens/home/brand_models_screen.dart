@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/models/brand.dart';
 import 'package:revmo/models/car.dart';
-import 'package:revmo/models/car_list.dart';
 import 'package:revmo/models/catalog.dart';
 import 'package:revmo/providers/models_provider.dart';
 import 'package:revmo/screens/home/home_screen.dart';
+import 'package:revmo/screens/home/model_colors_selection_screen.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/widgets/catalog/horizontal_model_cars_list.dart';
 import 'package:revmo/shared/widgets/home/revmo_appbar.dart';
-import 'package:revmo/shared/widgets/main_button.dart';
+import 'package:revmo/shared/widgets/misc/main_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CarsSelectionWidget extends InheritedWidget {
@@ -72,8 +73,9 @@ class _BrandModelsScreenState extends State<BrandModelsScreen> {
     super.initState();
   }
 
-  advanceForm(context) {
+  advanceForm() {
     if (selectedCars.length > 0) {
+      Navigator.of(context).push(PageTransition(child: ModelColorsSelectionsScreen(selectedCars), type: PageTransitionType.rightToLeft));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text(AppLocalizations.of(context)!.emptyCarsList)));
     }
@@ -100,14 +102,15 @@ class _BrandModelsScreenState extends State<BrandModelsScreen> {
                               itemBuilder: (context, index) {
                                 if (modelsProvider.brandModels[index].hasCars)
                                   return HorizontalModelCarsList(modelsProvider.brandModels[index]);
-                                else return Container();
+                                else
+                                  return Container();
                               })),
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 10),
                   child: MainButton(
                     text: AppLocalizations.of(context)!.done,
-                    callBack: (!isLoading) ? () => advanceForm(context) : null,
+                    callBack: (!isLoading) ? () => advanceForm() : null,
                     width: double.infinity,
                   ),
                 )

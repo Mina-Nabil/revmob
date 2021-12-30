@@ -6,7 +6,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:revmo/environment/paths.dart';
 import 'package:revmo/shared/colors.dart';
-import 'package:revmo/shared/widgets/revmo_text_icon_button.dart';
+import './revmo_text_icon_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DisplayPhotoUploader extends StatefulWidget {

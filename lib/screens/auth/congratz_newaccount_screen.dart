@@ -3,7 +3,7 @@ import 'package:revmo/environment/paths.dart';
 import 'package:revmo/screens/home/home_screen.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
-import 'package:revmo/shared/widgets/main_button.dart';
+import 'package:revmo/shared/widgets/misc/main_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NewAccountCongratzScreen extends StatelessWidget {

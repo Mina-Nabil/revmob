@@ -38,6 +38,10 @@ class CarList {
     return true;
   }
 
+  operator +(Car c) {
+    _cars.add(c);
+  }
+
   @override
   int get hashCode => super.hashCode;
   int get length => _cars.length;

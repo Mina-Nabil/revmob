@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:revmo/screens/auth/splash_screen.dart';
 import 'package:revmo/services/auth_service.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/widgets/home/revmo_appbar.dart';
-import 'package:revmo/shared/widgets/main_button.dart';
+import 'package:revmo/shared/widgets/misc/main_button.dart';
 
 class NotificationsTab extends StatelessWidget {
   static const screenName = "notificationsTab";

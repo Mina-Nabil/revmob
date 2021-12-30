@@ -2,20 +2,20 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:revmo/models/car.dart';
 import 'package:revmo/shared/colors.dart';
-import 'package:revmo/shared/widgets/revmo_image_placeholder.dart';
-import 'package:revmo/shared/widgets/revmo_image_widget.dart';
+import 'package:revmo/shared/widgets/misc/revmo_image_placeholder.dart';
+import 'package:revmo/shared/widgets/misc/revmo_image_widget.dart';
 
-class CarsCarousel extends StatefulWidget {
+class RevmoCarsCarousel extends StatefulWidget {
   final Car car;
   final double height;
   final double width;
-  const CarsCarousel({required this.car, required this.height, required this.width});
+  const RevmoCarsCarousel({required this.car, required this.height, required this.width});
 
   @override
-  _CarsCarouselState createState() => _CarsCarouselState();
+  _RevmoCarsCarouselState createState() => _RevmoCarsCarouselState();
 }
 
-class _CarsCarouselState extends State<CarsCarousel> {
+class _RevmoCarsCarouselState extends State<RevmoCarsCarousel> {
   int _current = 0;
   final CarouselController _controller = CarouselController();
   final double _indicatorsDiameter = 8.0;

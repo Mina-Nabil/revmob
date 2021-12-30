@@ -71,7 +71,7 @@ class SellerProfileService {
     final request = await http.post(server.bankInfoURI, headers: server.headers);
     if (request.statusCode == 200) {
       try {
-        Map<String, dynamic> decoded = jsonDecode(request.body);
+        Map<String, dynamic> decoded = jsonDecode(utf8.decode(request.bodyBytes));
         return new ApiResponse<bool>(decoded["status"], decoded["status"],
             decoded["status"] ? AppLocalizations.of(context)!.setBankMsg : AppLocalizations.of(context)!.serverIssue,
             errors: (decoded["body"].containsKey("errors")) ? decoded["body"]["errors"] ?? null : null);

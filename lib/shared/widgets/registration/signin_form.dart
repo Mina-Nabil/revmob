@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:revmo/models/seller.dart';
-import 'package:revmo/screens/auth/congratz_newaccount_screen.dart';
 import 'package:revmo/screens/auth/pre_login_screen.dart';
 import 'package:revmo/screens/home/home_screen.dart';
 import 'package:revmo/services/auth_service.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:revmo/shared/widgets/main_button.dart';
-import 'package:revmo/shared/widgets/text_field.dart';
+import 'package:revmo/shared/widgets/misc/main_button.dart';
+import 'package:revmo/shared/widgets/misc/text_field.dart';
 import 'package:form_validator/form_validator.dart';
 
 class SignInForm extends StatefulWidget {

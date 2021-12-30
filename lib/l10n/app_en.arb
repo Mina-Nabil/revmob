@@ -111,6 +111,14 @@
     "@setBankMsg" : {
       "description": "Seller Account Creation message"
     },
+    "details": "Details",
+    "@colors" : {
+      "description": "Details message"
+    },
+    "colors": "Colors",
+    "@colors" : {
+      "description": "Colors message"
+    },
     "emptyCarsList": "No Cars Selected? Please pick some cars",
     "@emptyCarsList" : {
       "description": "Empty Car list message"
@@ -166,11 +174,31 @@
     "@bankAccountNumber" : {
       "description": "The Bank Account Number Hint"
     },
-
     "address": "Address",
     "@address" : {
       "description": "Your address here"
     },
+    "motor": "Motor",
+    "@address" : {
+      "description": "motor name"
+    },
+    "gears": "Gears",
+    "transmission": "Transmission",
+    "fuel": "Fuel",
+    "literPerKm": "Liter / 100Km",
+    "topSpeed": "Top Speed",
+    "year": "Year",
+    "horsePower": "Horse Power",
+    "origin": "Origin",
+    "acceleration": "Acceleration",
+    "carHeight": "Car Height",
+    "carLength": "Car Length",
+    "carWidth": "Car Width",
+    "groundClearance": "Ground Clearance",
+    "rims": "Rims",
+    "torque": "Torque",
+    "dimensions": "Dimensions",
+    
     "addressHint": "Your address here",
     "@addressHint" : {
       "description": "Address Hint in forms"

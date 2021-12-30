@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:revmo/environment/api_response.dart';
 import 'package:revmo/models/seller.dart';
-import 'package:revmo/models/showroom.dart';
 import 'package:revmo/providers/seller_provider.dart';
 import 'package:revmo/screens/auth/pre_login_screen.dart';
 import 'package:revmo/screens/home/home_screen.dart';
-import 'package:revmo/services/auth_service.dart';
 import 'package:revmo/environment/paths.dart';
 
 class SplashScreen extends StatefulWidget {

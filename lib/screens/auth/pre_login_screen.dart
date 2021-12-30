@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/environment/paths.dart';
-import 'package:revmo/models/seller.dart';
 import 'package:revmo/providers/seller_provider.dart';
 import 'package:revmo/screens/auth/login_screen.dart';
 import 'package:revmo/screens/auth/signup_screen.dart';
 import 'package:revmo/services/auth_service.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:revmo/shared/widgets/main_button.dart';
-import 'package:revmo/shared/widgets/secondary_button.dart';
+import 'package:revmo/shared/widgets/misc/main_button.dart';
+import 'package:revmo/shared/widgets/misc/secondary_button.dart';
 
 class PreLoginScreen extends StatefulWidget {
   static const String ROUTE_NAME = "/prelogin";

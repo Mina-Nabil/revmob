@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:revmo/environment/paths.dart';
 import 'package:revmo/shared/colors.dart';
-import 'package:revmo/shared/widgets/revmo_icon_only_button.dart';
+import 'package:revmo/shared/widgets/misc/revmo_icon_only_button.dart';
 
 class RevmoAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Function()? _menuBarAction;

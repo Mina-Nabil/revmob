@@ -16,7 +16,7 @@ class HorizontalModelCarsList extends StatefulWidget {
 }
 
 class _HorizontalModelCarsListState extends State<HorizontalModelCarsList> {
-  final double _carHeight = 400;
+  final double _carHeight = 430;
 
   @override
   Widget build(BuildContext context) {

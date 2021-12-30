@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:revmo/shared/widgets/revmo_breadcrumb.dart';
+import 'package:revmo/shared/widgets/misc/revmo_breadcrumb.dart';
 import 'package:revmo/shared/widgets/registration/sign_up_pages.dart';
 
 class SignUpSteps extends InheritedWidget {

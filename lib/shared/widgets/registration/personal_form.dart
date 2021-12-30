@@ -7,10 +7,10 @@ import 'package:revmo/providers/seller_provider.dart';
 import 'package:revmo/screens/auth/signup_screen.dart';
 import 'package:revmo/services/auth_service.dart';
 import 'package:revmo/shared/theme.dart';
-import 'package:revmo/shared/widgets/display_photo_uploader.dart';
-import 'package:revmo/shared/widgets/main_button.dart';
+import 'package:revmo/shared/widgets/misc/display_photo_uploader.dart';
+import 'package:revmo/shared/widgets/misc/main_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:revmo/shared/widgets/text_field.dart';
+import 'package:revmo/shared/widgets/misc/text_field.dart';
 import 'package:revmo/shared/custom_validators.dart';
 import 'dart:io';
 

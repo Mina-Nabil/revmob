@@ -95,7 +95,6 @@ class CarModel {
   int get hashCode => id.hashCode;
   @override
   String toString() {
-    // TODO: implement toString
     return this.fullName + " " + cars.length.toString() + " cars";
   }
 }

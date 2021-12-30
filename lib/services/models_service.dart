@@ -14,7 +14,7 @@ class ModelsService {
     var request = await http.get(_server.getBrandModelsURI(brandID), headers: _server.headers);
     if (request.statusCode == 200) {
       try {
-        var decoded = jsonDecode(request.body);
+        var decoded = jsonDecode(utf8.decode(request.bodyBytes));
         if (decoded is Map<String, dynamic> &&
             decoded.containsKey("status") &&
             decoded["status"] == true &&

@@ -10,8 +10,8 @@ import 'package:revmo/shared/widgets/catalog/catalog_grid.dart';
 import 'package:revmo/shared/widgets/catalog/catalog_tile.dart';
 import 'package:revmo/shared/widgets/home/revmo_appbar.dart';
 import 'package:revmo/shared/widgets/home/search_bar.dart';
-import 'package:revmo/shared/widgets/main_button.dart';
-import 'package:revmo/shared/widgets/revmo_icon_only_button.dart';
+import 'package:revmo/shared/widgets/misc/main_button.dart';
+import 'package:revmo/shared/widgets/misc/revmo_icon_only_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CatalogTab extends StatefulWidget {

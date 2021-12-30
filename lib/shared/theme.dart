@@ -32,6 +32,8 @@ class RevmoTheme {
     RevmoColors.darkBlue,
   ];
 
+  static const Curve BOXES_CURVE = Curves.fastLinearToSlowEaseIn;
+
   static double getFontSize(int size) {
     switch (size) {
       case 0:

@@ -131,6 +131,9 @@ class Car implements Comparable {
   bool get hasParagraph1 => _paragraph1 != null && _paragraph1Title != null;
   bool get hasParagraph2 => _paragraph2 != null && _paragraph2Title != null;
 
+  String get desc1 => motorCC.toString() + "cc " + " - " + horsePowerString;
+  String get desc2 => model.type.name + " - " + rims.toString() + "' Rims";
+
   operator ==(o) {
     return o is Car && id == o.id;
   }

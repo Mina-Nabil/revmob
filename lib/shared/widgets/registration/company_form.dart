@@ -7,12 +7,12 @@ import 'package:revmo/models/showroom.dart';
 import 'package:revmo/screens/auth/signup_screen.dart';
 import 'package:revmo/services/seller_profile_service.dart';
 import 'package:revmo/shared/theme.dart';
-import 'package:revmo/shared/widgets/display_photo_uploader.dart';
-import 'package:revmo/shared/widgets/dropdown_list.dart';
-import 'package:revmo/shared/widgets/error_dialog.dart';
-import 'package:revmo/shared/widgets/main_button.dart';
-import 'package:revmo/shared/widgets/secondary_button.dart';
-import 'package:revmo/shared/widgets/text_field.dart';
+import 'package:revmo/shared/widgets/misc/display_photo_uploader.dart';
+import 'package:revmo/shared/widgets/misc/dropdown_list.dart';
+import 'package:revmo/shared/widgets/misc/error_dialog.dart';
+import 'package:revmo/shared/widgets/misc/main_button.dart';
+import 'package:revmo/shared/widgets/misc/secondary_button.dart';
+import 'package:revmo/shared/widgets/misc/text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CompanyForm extends StatefulWidget {
