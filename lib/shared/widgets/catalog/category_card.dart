@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:revmo/models/car.dart';
-import 'package:revmo/screens/home/brand_models_screen.dart';
+import 'package:revmo/screens/catalog/brand_models_screen.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:revmo/shared/widgets/misc/revmo_car_images_card.dart';
@@ -10,11 +10,13 @@ import 'package:shimmer/shimmer.dart';
 class CategoryCard extends StatefulWidget {
   final Car? c;
   final bool isLoading;
+  final bool isInitiallySelected;
   bool get canAccessCar => !isLoading && c != null;
-  const CategoryCard(this.c) : this.isLoading = false;
-  const CategoryCard.placeholder()
+  CategoryCard(this.c, this.isInitiallySelected) : this.isLoading = false;
+  CategoryCard.placeholder()
       : c = null,
-        isLoading = true;
+        isLoading = true,
+        isInitiallySelected = false;
   @override
   State<CategoryCard> createState() => _CategoryCardState();
 }
@@ -28,14 +30,10 @@ class _CategoryCardState extends State<CategoryCard> {
   final double _checkboxWidth = 35;
 
   bool isSelected = false;
-
-  @override
-  void didChangeDependencies() {
-    if (widget.canAccessCar) isSelected = CarsSelectionWidget.of(context).hasCar(widget.c!);
-    super.didChangeDependencies();
-  }
+  bool isToggled = false;
 
   void toggleCar() {
+    isToggled = true;
     if (widget.canAccessCar) {
       CarsSelectionWidget.of(context).toggleCar(widget.c!);
       setState(() {
@@ -47,8 +45,6 @@ class _CategoryCardState extends State<CategoryCard> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Container(
       //height is set on parent widget -- Horizontal List
       alignment: Alignment.centerLeft,
@@ -79,14 +75,19 @@ class _CategoryCardState extends State<CategoryCard> {
                 ? Stack(
                     alignment: Alignment.topLeft,
                     children: [
-                      RevmoCarImagesCard(widget.c!, height: _cardHeight, imagesWidth: _imageWidth, imagesHeight: _imageHeight,),
+                      RevmoCarImagesCard(
+                        widget.c!,
+                        height: _cardHeight,
+                        imagesWidth: _imageWidth,
+                        imagesHeight: _imageHeight,
+                      ),
                       Container(
                         margin: EdgeInsets.only(left: 15),
                         width: _checkboxWidth,
                         height: _checkboxHeight,
                         alignment: Alignment.topLeft,
                         child: RevmoCheckbox(
-                          initialValue: isSelected,
+                          initialValue: isToggled ? isSelected : widget.isInitiallySelected,
                           onTap: toggleCar,
                         ),
                       ),

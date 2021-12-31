@@ -35,11 +35,14 @@ class ServerHandler {
   //catalog urls
   static const String _getCatalogURL = "get/catalog";
   static const String _getCarPoolURL = "get/carpool";
-  static const String _setBrandsURL = "set/brands";
   static const String _getAllBrandsURL = "get/all/brands";
   static const String _getModelsByBrand = "get/models/";
-  //offers urls
+  static const String _addCarsToCatalogURL = "add/car";
+  static const String _editCarColorsURL = "edit/catalog/{id}";
+  static const String _removeCarFromCatalogURL = "";
+  static const String _deactivateCarFromCatalogURL = "";
 
+  //offers urls
 
   //Handle API Token
   Future<bool> setApiToken(String token) async {
@@ -47,6 +50,7 @@ class ServerHandler {
     _headers["Authorization"] = "Bearer $token";
     return await saver.save(_apiTokenKey, token);
   }
+
   Future<bool> deleteApiToken() async {
     _token = null;
     _headers.remove("Authorization");
@@ -109,12 +113,28 @@ class ServerHandler {
     return new Uri.https(_address, _sellerApiPrefix + _getAllBrandsURL);
   }
 
-  Uri getBrandModelsURI(int brandID){
+  Uri getBrandModelsURI(int brandID) {
     return new Uri.https(_address, _sellerApiPrefix + _getModelsByBrand + brandID.toString());
   }
 
+  Uri get addCarsToCatalogURI {
+    return new Uri.https(_address, _sellerApiPrefix + _addCarsToCatalogURL);
+  }
+
+  Uri get editCarColorsURI {
+    return new Uri.https(_address, _sellerApiPrefix + _editCarColorsURL);
+  }
+
+  Uri get removeCarCatalogURI {
+    return new Uri.https(_address, _sellerApiPrefix + _removeCarFromCatalogURL);
+  }
+
+  Uri get deactivateCarCatalogURI {
+    return new Uri.https(_address, _sellerApiPrefix + _deactivateCarFromCatalogURL);
+  }
+
   Future<String> get deviceName async {
-    if(_deviceName==null) {
+    if (_deviceName == null) {
       DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
       if (Platform.isAndroid) {
         AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
@@ -129,7 +149,4 @@ class ServerHandler {
       return Future.value(_deviceName);
     }
   }
-
-      
-
 }

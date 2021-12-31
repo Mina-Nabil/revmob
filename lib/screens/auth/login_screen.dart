@@ -24,6 +24,7 @@ class LoginScreen extends StatelessWidget {
         appBar: appbar,
         body: Container(
             height: MediaQuery.of(context).size.height,
+            padding: EdgeInsets.only(bottom: 15),
             alignment: Alignment.bottomCenter,
             decoration: BoxDecoration(
                 image: DecorationImage(

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/providers/brands_provider.dart';
+import 'package:revmo/providers/catalog_provider.dart';
 import 'package:revmo/providers/models_provider.dart';
-import 'package:revmo/screens/home/catalog_tab.dart';
+import 'package:revmo/screens/catalog/catalog_tab.dart';
 import 'package:revmo/screens/home/customers_tab.dart';
 import 'package:revmo/screens/home/dashboard_tab.dart';
 import 'package:revmo/screens/home/notifications_tab.dart';
@@ -73,7 +74,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             child: MultiProvider(
               providers: [
                 ChangeNotifierProvider<BrandsProvider>(create: (context) => new BrandsProvider(context)),
-                ChangeNotifierProvider<ModelsProvider>(create: (context) => new ModelsProvider(context))
+                ChangeNotifierProvider<ModelsProvider>(create: (context) => new ModelsProvider(context)),
+                ChangeNotifierProvider<CatalogProvider>(create: (context) => new CatalogProvider(context))
               ],
               child: Scaffold(
                 backgroundColor: RevmoColors.darkBlue,

@@ -149,19 +149,23 @@ class RevmoTheme {
   }
 
   static Widget getLoadingContainer(BuildContext context) {
-    return  Container(
-              height: 65,
-              width: 65,
-              padding: EdgeInsets.all(13),
-            decoration: BoxDecoration(
-              color: RevmoColors.darkGrey.withOpacity(0.9),
-              borderRadius: BorderRadius.all(Radius.circular(5))
-            ),
-            alignment: Alignment.center,
-            child: SizedBox(
-          
-              child: getLoadingIndicator()),
-   
+    return MediaQuery.removePadding(
+      removeTop: true,
+      removeBottom: true,
+      removeLeft: true,
+      removeRight: true,
+      context: context,
+      child: Container(
+        height: 65,
+        width: 65,
+        padding: EdgeInsets.all(13),
+        decoration:
+            BoxDecoration(color: RevmoColors.darkGrey.withOpacity(0.9), borderRadius: BorderRadius.all(Radius.circular(5))),
+        alignment: Alignment.topCenter,
+        child: SizedBox(
+            child:
+                LoadingIndicator(indicatorType: Indicator.values[_INDICATOR_TYPE], colors: _indicatorColors, strokeWidth: 4.0)),
+      ),
     );
   }
 }

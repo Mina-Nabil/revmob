@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:revmo/models/brand.dart';
-import 'package:revmo/screens/home/brand_models_screen.dart';
+import 'package:revmo/screens/catalog/brand_models_screen.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:shimmer/shimmer.dart';

@@ -74,12 +74,15 @@ class _SignInFormState extends State<SignInForm> {
                   onPressed: () {},
                 ),
                 RevmoTheme.getCaption(AppLocalizations.of(context)!.noAccountQ, 2),
-                TextButton(
-                  child: Text(AppLocalizations.of(context)!.signUp),
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(PreLoginScreen.ROUTE_NAME);
-                  },
-                ),
+                Center(
+                    child: Wrap(alignment: WrapAlignment.center, children: [
+                  TextButton(
+                    child: FittedBox(child: Text(AppLocalizations.of(context)!.signUp)),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(PreLoginScreen.ROUTE_NAME);
+                    },
+                  )
+                ])),
               ],
             ),
           ),

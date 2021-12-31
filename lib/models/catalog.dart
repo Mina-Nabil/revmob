@@ -5,10 +5,12 @@ import 'package:revmo/models/car.dart';
 import 'package:revmo/models/car_list.dart';
 import 'package:revmo/models/model.dart';
 import 'package:revmo/models/model_color.dart';
+import 'package:revmo/models/offer_defaults.dart';
 
 class Catalog {
   HashMap<CarModel, CarList> _carsToModelsMap = new HashMap<CarModel, CarList>();
   HashMap<Car, List<ModelColor>> _carColors = new HashMap<Car, List<ModelColor>>();
+  HashMap<Car, OfferDefaults> _carOfferInfo = new HashMap<Car, OfferDefaults>();
 
   List<int> get brandIDs {
     HashSet<int> ret = new HashSet<int>();
@@ -24,6 +26,24 @@ class Catalog {
 
   List<int> get modelIDs => _carsToModelsMap.keys.map((e) => e.id).toList();
   List<CarModel> get models => _carsToModelsMap.keys.toList();
+
+  clone(Catalog c) {
+    print("wna ba clone" + c.toString());
+    this.clear();
+    c.fullListOfCars.forEach((carElement) {
+      this.addCar(carElement);
+      c.getCarColors(carElement).forEach((colorElement) {
+        this.addColorToCar(carElement, colorElement);
+      });
+      if (c.getOfferInfo(carElement) != null) this.setOfferDefaults(carElement, c.getOfferInfo(carElement)!);
+    });
+  }
+
+  clear() {
+    _carsToModelsMap.clear();
+    _carColors.clear();
+    _carOfferInfo.clear();
+  }
 
   bool addCar(Car c) {
     if (!_carsToModelsMap.containsKey(c.model)) {
@@ -43,7 +63,7 @@ class Catalog {
     return true;
   }
 
-  bool associateColorToCar(Car c, ModelColor color) {
+  bool addColorToCar(Car c, ModelColor color) {
     if (_carsToModelsMap.containsKey(c.model.id) && _carsToModelsMap[c.model]!.hasCar(c)) {
       if (!_carColors.containsKey(c)) _carColors[c] = [];
       _carColors[c]!.add(color);
@@ -62,6 +82,7 @@ class Catalog {
   List<ModelColor> getCarColors(Car c) => (_carColors[c] != null) ? _carColors[c]! : [];
 
   bool hasCar(Car c) {
+    print("geet hna");
     if (_carsToModelsMap.containsKey(c.model)) {
       return _carsToModelsMap[c.model]!.hasCar(c);
     } else
@@ -98,6 +119,22 @@ class Catalog {
       ret += carlist.length;
     });
     return ret;
+  }
+
+  bool get isEmpty => length == 0;
+
+  OfferDefaults? getOfferInfo(Car c) {
+    if (this.hasCar(c)) {
+      return _carOfferInfo[c] ?? null;
+    }
+  }
+
+  bool setOfferDefaults(Car car, OfferDefaults offerDefaults) {
+    if (this.hasCar(car)) {
+      _carOfferInfo[car] = offerDefaults;
+      return true;
+    } else
+      return false;
   }
 
   @override

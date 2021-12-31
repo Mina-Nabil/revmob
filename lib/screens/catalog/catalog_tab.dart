@@ -11,6 +11,7 @@ import 'package:revmo/shared/widgets/catalog/catalog_tile.dart';
 import 'package:revmo/shared/widgets/home/revmo_appbar.dart';
 import 'package:revmo/shared/widgets/home/search_bar.dart';
 import 'package:revmo/shared/widgets/misc/main_button.dart';
+import 'package:revmo/shared/widgets/misc/no_cars_found.dart';
 import 'package:revmo/shared/widgets/misc/revmo_icon_only_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -173,30 +174,10 @@ class _CatalogTabState extends State<CatalogTab> {
                                     ),
                                   )
                                 : (myCatalog?.length == 0)
-                                    ? Center(
-                                        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                        SvgPicture.asset(
-                                          Paths.emptyCatalogSVG,
-                                          color: RevmoColors.darkerBlue,
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        FittedBox(
-                                          child: RevmoTheme.getSemiBold(AppLocalizations.of(context)!.noCars, 2,
-                                              color: RevmoColors.originalBlue),
-                                        ),
-                                        FittedBox(
-                                          child: RevmoTheme.getBody(AppLocalizations.of(context)!.noCarsCaption, 1),
-                                        ),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        MainButton(
-                                            width: double.infinity,
-                                            text: AppLocalizations.of(context)!.addCars,
-                                            callBack: goToCarPool)
-                                      ]))
+                                    ? NoCarsFound(
+                                        true,
+                                        addButtonFunc: goToCarPool,
+                                      )
                                     : ListView.builder(
                                         itemCount: myCatalog!.length,
                                         itemBuilder: (cntx, index) {

@@ -5,7 +5,7 @@ import 'package:revmo/shared/widgets/catalog/brand_tile.dart';
 
 class CatalogGrid extends StatefulWidget {
   final double _tilePadding = 4;
-  const CatalogGrid();
+  CatalogGrid();
 
   @override
   _CatalogGridState createState() => _CatalogGridState();

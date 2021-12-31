@@ -152,6 +152,11 @@ class Car implements Comparable {
       return 0;
   }
 
+  @override
+  String toString() {
+    return this.carName;
+  }
+
   /*
   static List<Car> get testdata {
     CarType type1 = CarType(1, "H/B", "هاتش باك");

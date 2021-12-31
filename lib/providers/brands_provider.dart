@@ -12,7 +12,6 @@ class BrandsProvider extends ChangeNotifier {
   List<Brand> get brands => _brands;
 
   loadBrands() async {
-    print("calling brands");
     ApiResponse<List<Brand>?> response = await BrandsService.getBrands(context);
     if (response.body != null && response.body is List<Brand>) {
       _brands.clear();
