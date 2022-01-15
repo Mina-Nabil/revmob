@@ -1,11 +1,11 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:revmo/models/brand.dart';
-import 'package:revmo/models/car.dart';
-import 'package:revmo/models/catalog.dart';
-import 'package:revmo/models/model.dart';
-import 'package:revmo/models/model_color.dart';
+import 'package:revmo/models/cars/brand.dart';
+import 'package:revmo/models/cars/car.dart';
+import 'package:revmo/models/cars/catalog.dart';
+import 'package:revmo/models/cars/model.dart';
+import 'package:revmo/models/cars/model_color.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -39,10 +39,7 @@ class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
   late RangeValues priceRange;
 
   notifyFiltersListeners() {
-    widget.brandFilters.notifyListeners();
-    widget.modelFilters.notifyListeners();
-    widget.catgFilters.notifyListeners();
-    widget.colorFilters.notifyListeners();
+    setState(() {});
   }
 
   toggleBrand(Brand b) {
@@ -100,6 +97,16 @@ class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
     Navigator.pop(context, true);
   }
 
+  resetFilters() {
+    widget.brandFilters.value.clear();
+    widget.modelFilters.value.clear();
+    widget.catgFilters.value.clear();
+    widget.colorFilters.value.clear();
+    widget.minPrice.value = widget.catalog.minCarPrice;
+    widget.maxPrice.value = widget.catalog.maxCarPrice;
+    notifyFiltersListeners();
+  }
+
   cancel() {
     Navigator.pop(context, false);
   }
@@ -114,8 +121,6 @@ class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
   @override
   void initState() {
     priceRange = new RangeValues(widget.catalog.minCarPrice, widget.catalog.maxCarPrice);
-    widget.minPrice.value = widget.catalog.minCarPrice;
-    widget.maxPrice.value = widget.catalog.maxCarPrice;
     super.initState();
   }
 
@@ -153,24 +158,22 @@ class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
                             child:
                                 RevmoTheme.getSemiBold(AppLocalizations.of(context)!.brands, 1, color: RevmoColors.originalBlue),
                           ),
-                          ValueListenableBuilder<HashSet<Brand>>(
-                              valueListenable: widget.brandFilters,
-                              builder: (context, updatedBrands, _) => GridView.count(
-                                    crossAxisCount: 4,
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    childAspectRatio: 77.5 / 31,
-                                    children: widget.catalog.brands
-                                        .map((e) => Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3.5),
-                                              child: BrandFilterTile(
-                                                onTap: () => toggleBrand(e),
-                                                brand: e,
-                                                isSelected: updatedBrands.contains(e),
-                                              ),
-                                            ))
-                                        .toList(),
-                                  )),
+                          GridView.count(
+                            crossAxisCount: 4,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            childAspectRatio: 77.5 / 31,
+                            children: widget.catalog.brands
+                                .map((e) => Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3.5),
+                                      child: BrandFilterTile(
+                                        onTap: () => toggleBrand(e),
+                                        brand: e,
+                                        isSelected: widget.brandFilters.value.contains(e),
+                                      ),
+                                    ))
+                                .toList(),
+                          ),
                           sheetBreaker,
                           //models area
                           Padding(
@@ -179,27 +182,24 @@ class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
                                 RevmoTheme.getSemiBold(AppLocalizations.of(context)!.models, 1, color: RevmoColors.originalBlue),
                           ),
 
-                          ValueListenableBuilder<HashSet<Brand>>(
-                              valueListenable: widget.brandFilters,
-                              builder: (context, updatedBrands, _) {
-                                return GridView.count(
-                                  crossAxisCount: 4,
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  childAspectRatio: 77.5 / 31,
-                                  children: widget.catalog.models
-                                      .where((model) => updatedBrands.isEmpty || updatedBrands.contains(model.brand))
-                                      .map((model) => Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3.5),
-                                            child: CarModelFilterTile(
-                                              onTap: () => toggleModel(model),
-                                              model: model,
-                                              isSelected: widget.modelFilters.value.contains(model),
-                                            ),
-                                          ))
-                                      .toList(),
-                                );
-                              }),
+                          GridView.count(
+                            crossAxisCount: 4,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            childAspectRatio: 77.5 / 31,
+                            children: widget.catalog.models
+                                .where((model) =>
+                                    widget.brandFilters.value.isEmpty || widget.brandFilters.value.contains(model.brand))
+                                .map((model) => Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3.5),
+                                      child: CarModelFilterTile(
+                                        onTap: () => toggleModel(model),
+                                        model: model,
+                                        isSelected: widget.modelFilters.value.contains(model),
+                                      ),
+                                    ))
+                                .toList(),
+                          ),
                           //categories area
                           sheetBreaker,
                           Padding(
@@ -207,33 +207,26 @@ class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
                             child: RevmoTheme.getSemiBold(AppLocalizations.of(context)!.categories, 1,
                                 color: RevmoColors.originalBlue),
                           ),
-                          ValueListenableBuilder<HashSet<Brand>>(
-                              valueListenable: widget.brandFilters,
-                              builder: (context, updatedBrands, _) {
-                                return ValueListenableBuilder<HashSet<CarModel>>(
-                                    valueListenable: widget.modelFilters,
-                                    builder: (context, updatedModels, _) {
-                                      return GridView.count(
-                                        crossAxisCount: 4,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        childAspectRatio: 77.5 / 31,
-                                        children: widget.catalog.fullListOfCars
-                                            .where((car) =>
-                                                (updatedBrands.isEmpty || updatedBrands.contains(car.model.brand)) &&
-                                                (updatedModels.isEmpty || updatedModels.contains(car.model)))
-                                            .map((car) => Padding(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3.5),
-                                                  child: CategoryFilterTile(
-                                                    onTap: () => toggleCategory(car),
-                                                    car: car,
-                                                    isSelected: widget.catgFilters.value.contains(car),
-                                                  ),
-                                                ))
-                                            .toList(),
-                                      );
-                                    });
-                              }),
+                          GridView.count(
+                              crossAxisCount: 4,
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              childAspectRatio: 77.5 / 31,
+                              children: widget.catalog.fullListOfCars
+                                  .where((car) =>
+                                      (widget.brandFilters.value.isEmpty ||
+                                          widget.brandFilters.value.contains(car.model.brand)) &&
+                                      (widget.modelFilters.value.isEmpty || widget.modelFilters.value.contains(car.model)))
+                                  .map((car) => Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3.5),
+                                        child: CategoryFilterTile(
+                                          onTap: () => toggleCategory(car),
+                                          car: car,
+                                          isSelected: widget.catgFilters.value.contains(car),
+                                        ),
+                                      ))
+                                  .toList()),
+
                           sheetBreaker,
                           //colors area
                           Padding(
@@ -241,37 +234,26 @@ class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
                             child:
                                 RevmoTheme.getSemiBold(AppLocalizations.of(context)!.colors, 1, color: RevmoColors.originalBlue),
                           ),
-
-                          ValueListenableBuilder<HashSet<Brand>>(
-                              valueListenable: widget.brandFilters,
-                              builder: (context, updatedBrands, _) {
-                                return ValueListenableBuilder<HashSet<CarModel>>(
-                                    valueListenable: widget.modelFilters,
-                                    builder: (context, updatedModels, _) {
-                                      return ValueListenableBuilder<HashSet<Car>>(
-                                          valueListenable: widget.catgFilters,
-                                          builder: (context, updatedCars, _) {
-                                            return GridView.count(
-                                              crossAxisCount: 4,
-                                              shrinkWrap: true,
-                                              physics: NeverScrollableScrollPhysics(),
-                                              childAspectRatio: 77.5 / 31,
-                                              children: widget.catalog
-                                                  .filterColors(
-                                                      brandSet: updatedBrands, modelSet: updatedModels, carSet: updatedCars)
-                                                  .map((color) => Padding(
-                                                        padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3.5),
-                                                        child: ColorFilterTile(
-                                                          onTap: () => toggleColor(color),
-                                                          color: color,
-                                                          isSelected: widget.colorFilters.value.contains(color),
-                                                        ),
-                                                      ))
-                                                  .toList(),
-                                            );
-                                          });
-                                    });
-                              }),
+                          GridView.count(
+                            crossAxisCount: 4,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            childAspectRatio: 77.5 / 31,
+                            children: widget.catalog
+                                .filterColors(
+                                    brandSet: widget.brandFilters.value,
+                                    modelSet: widget.modelFilters.value,
+                                    carSet: widget.catgFilters.value)
+                                .map((color) => Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3.5),
+                                      child: ColorFilterTile(
+                                        onTap: () => toggleColor(color),
+                                        color: color,
+                                        isSelected: widget.colorFilters.value.contains(color),
+                                      ),
+                                    ))
+                                .toList(),
+                          ),
 
                           //price range area
                           Padding(
@@ -313,8 +295,13 @@ class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
                             ],
                           ),
                           MainButton(
-                            text: AppLocalizations.of(context)!.done,
+                            text: AppLocalizations.of(context)!.apply,
                             callBack: applyFilters,
+                          ),
+                          SecondaryButton(
+                            text: AppLocalizations.of(context)!.reset,
+                            callBack: resetFilters,
+                            textColor: RevmoColors.originalBlue,
                           ),
                           SecondaryButton(
                             text: AppLocalizations.of(context)!.cancel,

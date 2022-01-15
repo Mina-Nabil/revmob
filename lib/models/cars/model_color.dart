@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:revmo/models/revmo_image.dart';
+import 'revmo_image.dart';
 
 class ModelColor {
   static const String DB_id_KEY = "id";

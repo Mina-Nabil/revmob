@@ -1,4 +1,4 @@
-import 'package:revmo/models/showroom.dart';
+import 'package:revmo/models/cars/showroom.dart';
 
 class Seller {
   static const String DB_ID = "id";

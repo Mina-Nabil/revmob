@@ -5,19 +5,20 @@ import 'package:revmo/shared/widgets/catalog/brand_tile.dart';
 
 class BrandsGrid extends StatefulWidget {
   final double _tilePadding = 4;
-  BrandsGrid();
+  final ValueNotifier<String?> filterText;
+  BrandsGrid(this.filterText);
 
   @override
   _BrandsGridState createState() => _BrandsGridState();
 }
 
 class _BrandsGridState extends State<BrandsGrid> {
-  bool isLoadingBrands=true;
+  bool isLoadingBrands = true;
   @override
   void initState() {
     Future.delayed(Duration.zero).then((_) async {
-    await Provider.of<BrandsProvider>(context, listen: false).loadBrands();
-    isLoadingBrands=false;
+      await Provider.of<BrandsProvider>(context, listen: false).loadBrands();
+      isLoadingBrands = false;
     });
     super.initState();
   }
@@ -25,18 +26,23 @@ class _BrandsGridState extends State<BrandsGrid> {
   @override
   Widget build(BuildContext context) {
     return Consumer<BrandsProvider>(builder: (context, brandsProvider, _) {
-      return Container(
-        child: GridView.count(
-            crossAxisCount: 3,
-            children: (isLoadingBrands && brandsProvider.brands.isEmpty)
-                ? generatePlaceholders(4)
-                : brandsProvider.brands
-                    .map((e) => Padding(
-                          padding: EdgeInsets.all(widget._tilePadding),
-                          child: BrandTile(e),
-                        ))
-                    .toList()),
-      );
+      return ValueListenableBuilder<String?>(
+          valueListenable: widget.filterText,
+          builder: (cnxt, searchText, _) {
+            return Container(
+              child: GridView.count(
+                  crossAxisCount: 3,
+                  children: (isLoadingBrands && brandsProvider.brands.isEmpty)
+                      ? generatePlaceholders(4)
+                      : brandsProvider.brands
+                          .where((b) => searchText == null || b.name.toLowerCase().contains(searchText))
+                          .map((e) => Padding(
+                                padding: EdgeInsets.all(widget._tilePadding),
+                                child: BrandTile(e),
+                              ))
+                          .toList()),
+            );
+          });
     });
   }
 

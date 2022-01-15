@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:revmo/environment/api_response.dart';
-import 'package:revmo/models/showroom.dart';
+import 'package:revmo/models/cars/showroom.dart';
 import 'package:revmo/screens/auth/signup_screen.dart';
 import 'package:revmo/services/seller_profile_service.dart';
 import 'package:revmo/shared/theme.dart';

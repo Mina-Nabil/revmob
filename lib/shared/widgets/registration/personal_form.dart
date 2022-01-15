@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/environment/api_response.dart';
-import 'package:revmo/models/seller.dart';
+import 'package:revmo/models/users/seller.dart';
 import 'package:revmo/providers/seller_provider.dart';
 import 'package:revmo/screens/auth/signup_screen.dart';
 import 'package:revmo/services/auth_service.dart';

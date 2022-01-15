@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:revmo/models/car.dart';
-import 'package:revmo/models/catalog.dart';
-import 'package:revmo/models/model_color.dart';
+import 'package:revmo/models/cars/car.dart';
+import 'package:revmo/models/cars/catalog.dart';
+import 'package:revmo/models/cars/model_color.dart';
 import 'package:revmo/providers/catalog_provider.dart';
 import 'package:revmo/screens/catalog/model_colors_selection_screen.dart';
 import 'package:revmo/shared/colors.dart';

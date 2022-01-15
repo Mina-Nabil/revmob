@@ -1,9 +1,9 @@
-import 'package:revmo/models/brand.dart';
-import 'package:revmo/models/car.dart';
-import 'package:revmo/models/car_list.dart';
-import 'package:revmo/models/car_type.dart';
-import 'package:revmo/models/model_color.dart';
-import 'package:revmo/models/revmo_image.dart';
+import 'brand.dart';
+import 'car.dart';
+import 'car_list.dart';
+import 'car_type.dart';
+import 'model_color.dart';
+import 'revmo_image.dart';
 
 class CarModel {
   //DB keys

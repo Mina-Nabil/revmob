@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
-import 'package:revmo/models/brand.dart';
-import 'package:revmo/models/car.dart';
-import 'package:revmo/models/catalog.dart';
+import 'package:revmo/models/cars/brand.dart';
+import 'package:revmo/models/cars/car.dart';
+import 'package:revmo/models/cars/catalog.dart';
 import 'package:revmo/providers/catalog_provider.dart';
 import 'package:revmo/providers/models_provider.dart';
 import 'package:revmo/screens/home/home_screen.dart';

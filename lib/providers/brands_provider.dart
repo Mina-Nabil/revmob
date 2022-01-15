@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:revmo/environment/api_response.dart';
-import 'package:revmo/models/brand.dart';
+import 'package:revmo/models/cars/brand.dart';
 import 'package:revmo/services/brands_service.dart';
 
 class BrandsProvider extends ChangeNotifier {

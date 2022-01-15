@@ -6,7 +6,7 @@ import 'package:revmo/environment/api_response.dart';
 import 'package:revmo/environment/server.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:revmo/models/showroom.dart';
+import 'package:revmo/models/cars/showroom.dart';
 
 class SellerProfileService {
   static final ServerHandler server = new ServerHandler();

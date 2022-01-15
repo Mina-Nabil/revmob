@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:revmo/models/car.dart';
+import 'package:revmo/models/cars/car.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/widgets/misc/revmo_image_placeholder.dart';
 import 'package:revmo/shared/widgets/misc/revmo_image_widget.dart';

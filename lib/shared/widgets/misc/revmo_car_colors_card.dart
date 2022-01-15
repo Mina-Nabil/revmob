@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:revmo/models/car.dart';
-import 'package:revmo/models/model_color.dart';
+import 'package:revmo/models/cars/car.dart';
+import 'package:revmo/models/cars/model_color.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:revmo/shared/widgets/misc/color_selector.dart';
 import 'revmo_expandable_info_card.dart';

@@ -9,9 +9,11 @@ class SearchBar extends StatelessWidget {
   final double _barHeight;
   final TextEditingController _textController;
   final double _iconPadding = 13;
-  final Function() _searchFunction;
+  final Function()? _searchFunction;
 
-  SearchBar({required TextEditingController textEditingController, required double height, required Function() searchCallback})
+  bool _isUserWriting = false;
+
+  SearchBar({required TextEditingController textEditingController, required double height, Function()? searchCallback})
       : _textController = textEditingController,
         _searchFunction = searchCallback,
         _barHeight = height;
@@ -22,17 +24,21 @@ class SearchBar extends StatelessWidget {
       height: _barHeight,
       decoration: BoxDecoration(color: RevmoColors.darkerBlue, borderRadius: BorderRadius.all(Radius.circular(5))),
       child: TextField(
-        onChanged: (input) async {
-          await Future.delayed(Duration(milliseconds: 500));
-          if (input.length>0 && input == _textController.text) {
-            _searchFunction();
-          }
-        },
+        onChanged: (_searchFunction != null)
+            ? (input) async {
+                if (!_isUserWriting) {
+                  _isUserWriting = true;
+                  await Future.delayed(Duration(seconds: 1));
+                  print("abuse");
+                  _searchFunction!();
+                  _isUserWriting = false;
+                }
+              }
+            : null,
         controller: _textController,
         style: RevmoTheme.getTextFieldStyle(),
         keyboardAppearance: Brightness.light,
         decoration: InputDecoration(
-          
             isDense: true,
             border: OutlineInputBorder(
               borderSide: BorderSide.none,

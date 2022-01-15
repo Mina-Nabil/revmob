@@ -25,7 +25,7 @@ class RevmoSellerApp extends StatelessWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: ChangeNotifierProvider<SellerProvider>(
-          create: (cntxt) => SellerProvider(),
+            create: (cntxt) => SellerProvider(),
             child: MaterialApp(
               title: 'Revmo Pro',
               theme: ThemeData(
@@ -64,7 +64,7 @@ class RevmoSellerApp extends StatelessWidget {
                     return PageTransition(child: NewAccountCongratzScreen(), type: PageTransitionType.topToBottom);
                   case PreLoginScreen.ROUTE_NAME:
                     return PageTransition(child: PreLoginScreen(), type: PageTransitionType.fade);
-  
+
                   case SignUp.SELLER_ROUTE_NAME:
                     return PageTransition(child: SignUp.seller(), type: PageTransitionType.fade);
                   case SignUp.SHOWROOM_ROUTE_NAME:

@@ -10,9 +10,9 @@ class MyCatalogPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CatalogProvider>(
       builder: (cnxt, catalogProvider, _) => ListView.builder(
-          itemCount: catalogProvider.catalog.length,
-          itemBuilder: (cntx, index) =>
-              CatalogTile(catalogProvider.catalog[index], catalogProvider.catalog.getCarColors(catalogProvider.catalog[index]))),
+          itemCount: catalogProvider.filteredCatalog.length,
+          itemBuilder: (cntx, index) => CatalogTile(catalogProvider.filteredCatalog[index],
+              catalogProvider.catalog.getCarColors(catalogProvider.filteredCatalog[index]))),
     );
   }
 }

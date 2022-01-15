@@ -267,6 +267,14 @@
     "@done" : {
       "description": "done word"
     },
+    "reset": "Reset",
+    "@reset" : {
+      "description": "reset word"
+    },
+    "apply": "Apply",
+    "@apply" : {
+      "description": "apply word"
+    },
     "noCars": "No Cars",
     "@noCars" : {
       "description": "no cars in empty catalog word"

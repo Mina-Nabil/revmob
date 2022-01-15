@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:revmo/models/revmo_image.dart';
+import 'package:revmo/models/cars/revmo_image.dart';
 import 'package:revmo/shared/colors.dart';
 import './revmo_image_placeholder.dart';
 

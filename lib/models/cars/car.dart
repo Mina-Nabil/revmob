@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
-import 'package:revmo/models/car_accessory.dart';
-import 'package:revmo/models/model.dart';
-import 'package:revmo/models/revmo_image.dart';
+import 'car_accessory.dart';
+import 'model.dart';
+import 'revmo_image.dart';
 
 class Car implements Comparable {
   static final NumberFormat _formatter = NumberFormat("#,###", "en");
@@ -143,6 +143,15 @@ class Car implements Comparable {
 
   String get desc1 => motorCC.toString() + "cc " + " - " + horsePowerString;
   String get desc2 => model.type.name + " - " + rims.toString() + "' Rims";
+
+  bool hasText(String searchText) {
+    searchText = searchText.toLowerCase();
+    return _catgName.toLowerCase().contains(searchText) ||
+        _model.name.toLowerCase().contains(searchText) ||
+        _model.brand.name.toLowerCase().contains(searchText) ||
+        _model.arbcName.toLowerCase().contains(searchText) ||
+        _model.brand.arbcName.toLowerCase().contains(searchText);
+  }
 
   operator ==(o) {
     return o is Car && id == o.id;

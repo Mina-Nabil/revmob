@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/environment/paths.dart';
-import 'package:revmo/models/brand.dart';
-import 'package:revmo/models/car.dart';
-import 'package:revmo/models/model.dart';
-import 'package:revmo/models/model_color.dart';
+import 'package:revmo/models/cars/car.dart';
+import 'package:revmo/models/cars/brand.dart';
+import 'package:revmo/models/cars/model.dart';
+import 'package:revmo/models/cars/model_color.dart';
 import 'package:revmo/providers/catalog_provider.dart';
 import 'package:revmo/screens/home/home_screen.dart';
 import 'package:revmo/shared/colors.dart';
@@ -46,7 +46,8 @@ class _CatalogTabState extends State<CatalogTab> {
   ValueNotifier<HashSet<Car>> _catgFilters = new ValueNotifier(HashSet<Car>());
   ValueNotifier<double> minPrice = new ValueNotifier(double.minPositive);
   ValueNotifier<double> maxPrice = new ValueNotifier(double.maxFinite);
-  String? searchText;
+
+  ValueNotifier<String?> brandSearch = new ValueNotifier<String?>(null);
 
   int pageIndex = 0;
   bool isLoadingMyCatalog = true;
@@ -56,14 +57,26 @@ class _CatalogTabState extends State<CatalogTab> {
   Future refreshMyCatalog() async {
     setState(() {
       hideCatalog = true;
+      isLoadingMyCatalog = true;
     });
     bool forceRefresh =
         (DateTime.now().difference(latestRefresh)).inSeconds > 5; //if latest refresh occured more than 5 seconds ago
     await Provider.of<CatalogProvider>(context, listen: false).loadCatalog(forceLoad: forceRefresh);
+    refreshFilters();
     if (forceRefresh) latestRefresh = DateTime.now();
     setState(() {
       hideCatalog = false;
+      isLoadingMyCatalog = false;
     });
+  }
+
+  refreshFilters() {
+    _brandFilters.value.clear();
+    _modelFilters.value.clear();
+    _colorFilters.value.clear();
+    _catgFilters.value.clear();
+    minPrice.value = Provider.of<CatalogProvider>(context, listen: false).catalog.minCarPrice;
+    maxPrice.value = Provider.of<CatalogProvider>(context, listen: false).catalog.maxCarPrice;
   }
 
   @override
@@ -71,6 +84,8 @@ class _CatalogTabState extends State<CatalogTab> {
     Future.delayed(Duration.zero).then((_) async {
       await Provider.of<CatalogProvider>(context, listen: false).loadCatalog();
       setState(() {
+        minPrice.value = Provider.of<CatalogProvider>(context, listen: false).catalog.minCarPrice;
+        maxPrice.value = Provider.of<CatalogProvider>(context, listen: false).catalog.maxCarPrice;
         isLoadingMyCatalog = false;
       });
     });
@@ -110,29 +125,33 @@ class _CatalogTabState extends State<CatalogTab> {
                   Expanded(
                     child: SearchBar(
                       height: _barHeight,
-                      searchCallback: searchItem,
+                      searchCallback: !isLoadingMyCatalog ? ((pageIndex==0) ? searchCatalog : searchBrands) : null,
                       textEditingController: _textEditingController,
                     ),
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 3, right: 1),
                     child: RevmoIconButton(
-                      callback: (pageIndex == 0) ? sortItems : null,
+                      callback: (pageIndex == 0 && !isLoadingMyCatalog) ? sortCatalog : null,
                       width: _barHeight,
                       color: RevmoColors.petrol,
                       iconWidget: SvgPicture.asset(Paths.sortSVG,
-                          color: (pageIndex == 0) ? Colors.white : Colors.white.withOpacity(RevmoTheme.DIMMING_RATIO)),
+                          color: (pageIndex == 0 && !isLoadingMyCatalog)
+                              ? Colors.white
+                              : Colors.white.withOpacity(RevmoTheme.DIMMING_RATIO)),
                       iconPadding: _iconsPadding,
                     ),
                   ),
                   Container(
                       margin: EdgeInsets.only(left: 1),
                       child: RevmoIconButton(
-                        callback: (pageIndex == 0) ? filterItems : null,
+                        callback: (pageIndex == 0 && !isLoadingMyCatalog) ? filterCatalog : null,
                         width: _barHeight,
                         color: RevmoColors.originalBlue,
                         iconWidget: SvgPicture.asset(Paths.filtersSVG,
-                            color: (pageIndex == 0) ? Colors.white : Colors.white.withOpacity(RevmoTheme.DIMMING_RATIO)),
+                            color: (pageIndex == 0 && !isLoadingMyCatalog)
+                                ? Colors.white
+                                : Colors.white.withOpacity(RevmoTheme.DIMMING_RATIO)),
                         iconPadding: _iconsPadding,
                       )),
                 ],
@@ -224,7 +243,7 @@ class _CatalogTabState extends State<CatalogTab> {
                                                     alignment: Alignment.center,
                                                     height: constraints.maxHeight,
                                                     child: NoCarsFound(
-                                                      true,
+                                                      Provider.of<CatalogProvider>(context).catalog.isEmpty,
                                                       addButtonFunc: goToCarPool,
                                                     ),
                                                   ),
@@ -235,7 +254,7 @@ class _CatalogTabState extends State<CatalogTab> {
                             ),
                           ),
                           //Cars Catalog
-                          BrandsGrid()
+                          BrandsGrid(brandSearch)
                         ]),
                   ),
                 ],
@@ -255,9 +274,9 @@ class _CatalogTabState extends State<CatalogTab> {
     _pagesController.animateToPage(1, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
 
-  sortItems() {}
+  sortCatalog() {}
 
-  filterItems() async {
+  filterCatalog() async {
     bool? res = await showModalBottomSheet<bool>(
         barrierColor: RevmoColors.backgroundDim,
         backgroundColor: Colors.transparent,
@@ -266,26 +285,24 @@ class _CatalogTabState extends State<CatalogTab> {
         context: context,
         builder: (context) => RevmoFiltersSheet(Provider.of<CatalogProvider>(context).catalog, _brandFilters, _modelFilters,
             _catgFilters, _colorFilters, minPrice, maxPrice));
-    if (res == true) {
 
-      print("Brands: " + _brandFilters.toString());
-      print("Models: " + _modelFilters.toString());
-      print("Catgs: " + _catgFilters.toString());
-      print("Colors: " + _colorFilters.toString());
-      print("MinPrice: " + minPrice.toString());
-      print("MaxPrice: " + maxPrice.toString());
-    }
+    searchCatalog();
   }
 
-  searchItem() {
+  searchCatalog() {
     Provider.of<CatalogProvider>(context, listen: false).filterCatalog(
-        search: searchText,
+        search: _textEditingController.text.trim(),
         brands: _brandFilters.value,
         catgs: _catgFilters.value,
         colors: _colorFilters.value,
         models: _modelFilters.value,
         minPrice: minPrice.value,
         maxPrice: maxPrice.value);
+  }
+
+  searchBrands(){
+    brandSearch.value = _textEditingController.text.trim();
+    brandSearch.notifyListeners();
   }
 
   @override

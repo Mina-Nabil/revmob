@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:revmo/environment/paths.dart';
-import 'package:revmo/models/car.dart';
+import 'package:revmo/models/cars/car.dart';
 import 'package:revmo/shared/widgets/misc/accessory_tile.dart';
 import 'package:revmo/shared/widgets/misc/info_tile.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

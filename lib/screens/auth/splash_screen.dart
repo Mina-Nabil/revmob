@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:revmo/models/seller.dart';
+import 'package:revmo/models/users/seller.dart';
 import 'package:revmo/providers/seller_provider.dart';
 import 'package:revmo/screens/auth/pre_login_screen.dart';
 import 'package:revmo/screens/home/home_screen.dart';

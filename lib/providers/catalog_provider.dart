@@ -2,11 +2,11 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:revmo/environment/api_response.dart';
-import 'package:revmo/models/brand.dart';
-import 'package:revmo/models/car.dart';
-import 'package:revmo/models/catalog.dart';
-import 'package:revmo/models/model.dart';
-import 'package:revmo/models/model_color.dart';
+import 'package:revmo/models/cars/brand.dart';
+import 'package:revmo/models/cars/car.dart';
+import 'package:revmo/models/cars/catalog.dart';
+import 'package:revmo/models/cars/model.dart';
+import 'package:revmo/models/cars/model_color.dart';
 import 'package:revmo/services/catalog_service.dart';
 
 class CatalogProvider extends ChangeNotifier {
@@ -58,8 +58,10 @@ class CatalogProvider extends ChangeNotifier {
       HashSet<ModelColor>? colors,
       HashSet<CarModel>? models,
       HashSet<Car>? catgs,
-      double minPrice = double.minPositive,
-      double maxPrice = double.maxFinite}) {
-    print("ba filter");
+      double? minPrice,
+      double? maxPrice}) {
+    _filteredCatalog = _sellerCatalog.filterCatalog(
+        searchText: search, brands: brands, colors: colors, models: models, cars: catgs, minPrice: minPrice, maxPrice: maxPrice);
+    notifyListeners();
   }
 }

@@ -1,8 +1,8 @@
 import 'dart:collection';
 
-import 'package:revmo/models/brand.dart';
-import 'package:revmo/models/car.dart';
-import 'package:revmo/models/model.dart';
+import 'brand.dart';
+import 'car.dart';
+import 'model.dart';
 
 class CarList {
   final HashSet<Car> _cars = new HashSet();

@@ -81,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               ],
               child: Scaffold(
                 backgroundColor: RevmoColors.darkBlue,
+                
                 body: SafeArea(
                     child: Container(
                         child: Stack(

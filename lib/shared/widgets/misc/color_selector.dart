@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:revmo/models/car.dart';
-import 'package:revmo/models/model_color.dart';
+import 'package:revmo/models/cars/car.dart';
+import 'package:revmo/models/cars/model_color.dart';
 import 'package:revmo/screens/catalog/model_colors_selection_screen.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:revmo/shared/widgets/misc/revmo_checkbox.dart';
-import 'package:revmo/shared/widgets/misc/revmo_image_placeholder.dart';
 import 'package:revmo/shared/widgets/misc/revmo_image_widget.dart';
 
 class ModelColorSelector extends StatefulWidget {

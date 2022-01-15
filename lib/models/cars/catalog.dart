@@ -1,11 +1,11 @@
 import 'dart:collection';
 
-import 'package:revmo/models/brand.dart';
-import 'package:revmo/models/car.dart';
-import 'package:revmo/models/car_list.dart';
-import 'package:revmo/models/model.dart';
-import 'package:revmo/models/model_color.dart';
-import 'package:revmo/models/offer_defaults.dart';
+import 'brand.dart';
+import 'car.dart';
+import 'car_list.dart';
+import 'model.dart';
+import 'model_color.dart';
+import '../offer_defaults.dart';
 
 class Catalog {
   CarList _carList = new CarList();
@@ -110,12 +110,42 @@ class Catalog {
     _carOfferInfo.clear();
   }
 
-  HashSet<Car> filterCars({HashSet<Brand>? brands, HashSet<CarModel>? models, HashSet<ModelColor>? colors, HashSet<Car>? cars}) {
+  Catalog filterCatalog(
+      {String? searchText,
+      HashSet<Brand>? brands,
+      HashSet<CarModel>? models,
+      HashSet<ModelColor>? colors,
+      HashSet<Car>? cars,
+      double? minPrice,
+      double? maxPrice}) {
+    Catalog tmp = new Catalog();
+    tmp.addCars(filterCars(
+        searchText: searchText,
+        brands: brands,
+        models: models,
+        colors: colors,
+        cars: cars,
+        minPrice: minPrice,
+        maxPrice: maxPrice));
+    return tmp;
+  }
+
+  HashSet<Car> filterCars(
+      {String? searchText,
+      HashSet<Brand>? brands,
+      HashSet<CarModel>? models,
+      HashSet<ModelColor>? colors,
+      HashSet<Car>? cars,
+      double? minPrice,
+      double? maxPrice}) {
     HashSet<Car> filtered = new HashSet<Car>();
     _carList.cars.forEach((car) {
       if ((brands == null || (brands.isEmpty || brands.contains(car.model.brand))) &&
           (models == null || (models.isEmpty || models.contains(car.model))) &&
-          (colors == null || (colors.isEmpty || getCarColors(car).contains(colors))) &&
+          (colors == null || (colors.isEmpty || this.hasAnyOfColors(car, colors))) &&
+          ((minPrice == null) || car.avgPrice >= minPrice) &&
+          ((maxPrice == null) || car.avgPrice <= maxPrice) &&
+          ((searchText == null) || car.hasText(searchText)) &&
           (cars == null || (cars.isEmpty || cars.contains(car)))) {
         filtered.add(car);
       }
@@ -146,7 +176,7 @@ class Catalog {
       if ((cars.isEmpty || cars.contains(car)) &&
           (brands.isEmpty || brands.contains(car.model.brand)) &&
           (models.isEmpty || models.contains(car.model)) &&
-          (colors.isEmpty || getCarColors(car).contains(colors))) {
+          (colors.isEmpty || this.hasAnyOfColors(car, colors))) {
         filtered.add(car.model.brand);
       }
     });
@@ -163,7 +193,7 @@ class Catalog {
       if ((cars.isEmpty || cars.contains(car)) &&
           (brands.isEmpty || brands.contains(car.model.brand)) &&
           (models.isEmpty || models.contains(car.model)) &&
-          (colors.isEmpty || getCarColors(car).contains(colors))) {
+          (colors.isEmpty || this.hasAnyOfColors(car, colors))) {
         filtered.add(car.model);
       }
     });
@@ -179,6 +209,14 @@ class Catalog {
     _brands.add(c.model.brand);
     _carColors[c] = [];
     return true;
+  }
+
+  bool addCars(Iterable<Car> carlist) {
+    bool ret = true;
+    carlist.forEach((car) {
+      ret &= this.addCar(car);
+    });
+    return ret;
   }
 
   bool addCarWithColors(Car c, List<ModelColor> colors) {
@@ -201,6 +239,18 @@ class Catalog {
       return _carColors[car]!.contains(color);
     } else
       return false;
+  }
+
+  bool hasAnyOfColors(Car car, Iterable<ModelColor> colors) {
+    bool ret = false;
+    if (_carColors[car] != null)
+      for (ModelColor color in colors) {
+        if (_carColors[car]!.contains(color)) {
+          ret = true;
+          break;
+        }
+      }
+    return ret;
   }
 
   bool hasCar(Car c) => _carList.contains(c);

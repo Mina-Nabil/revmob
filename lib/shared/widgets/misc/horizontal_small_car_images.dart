@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:revmo/models/car.dart';
+import 'package:revmo/models/cars/car.dart';
 import 'package:revmo/shared/widgets/misc/revmo_image_widget.dart';
 
 class HorizontalSmallCarImagesList extends StatelessWidget {
