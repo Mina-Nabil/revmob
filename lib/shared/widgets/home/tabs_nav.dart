@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:revmo/models/brand.dart';
 import 'package:revmo/screens/catalog/brand_models_screen.dart';
+import 'package:revmo/screens/catalog/car_details_screen.dart';
 import 'package:revmo/screens/catalog/catalog_tab.dart';
 import 'package:revmo/screens/home/customers_tab.dart';
 import 'package:revmo/screens/home/dashboard_tab.dart';
@@ -35,6 +36,12 @@ class TabsNavigator extends StatelessWidget {
               return PageTransition(
                   child: BrandModelsScreen(
                     brand: routeSettings.arguments as Brand,
+                  ),
+                  type: PageTransitionType.rightToLeft);
+            case CarDetailsScreen.ROUTE_NAME:
+              return PageTransition(
+                  child: CarDetailsScreen(
+                    routeSettings.arguments as CarDetailsScreenArguments,
                   ),
                   type: PageTransitionType.rightToLeft);
 

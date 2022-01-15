@@ -24,9 +24,9 @@ class ModelsService {
           decoded["body"].forEach((e) {
             try {
               models.add(CarModel.fromJson(e, loadCars: loadCars));
-            } catch (e) {
+            } catch (e, stack) {
               print(e);
-              print(decoded["body"].runtimeType);
+              print(stack);
             }
           });
           return new ApiResponse<List<CarModel>?>(true, models, "Tmam");

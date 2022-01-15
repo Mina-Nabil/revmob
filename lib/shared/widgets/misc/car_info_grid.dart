@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:revmo/environment/paths.dart';
 import 'package:revmo/models/car.dart';
+import 'package:revmo/shared/widgets/misc/accessory_tile.dart';
 import 'package:revmo/shared/widgets/misc/info_tile.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CarInfoGrid extends StatelessWidget {
   final Car car;
-  const CarInfoGrid(this.car);
+  final bool isScrollable;
+  const CarInfoGrid(this.car, {this.isScrollable = false});
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +38,36 @@ class CarInfoGrid extends StatelessWidget {
           svgPath: Paths.heightClearanceSVG, title: AppLocalizations.of(context)!.groundClearance, value: car.height.toString()),
       CarInfoTile(svgPath: Paths.rimsSVG, title: AppLocalizations.of(context)!.rims, value: car.rims.toString()),
     ];
+    final List<Widget> accessoryTiles = car.accessories.map((e) => AccessoryTile(e)).toList();
 
-    return GridView.count(
-      crossAxisCount: 2,
-      mainAxisSpacing: 7,
-      crossAxisSpacing: 7,
-      childAspectRatio: 150/30,
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      padding: const EdgeInsets.symmetric(horizontal: 5.0),  
-      children: infoTiles,
-    );
+    return SingleChildScrollView(
+        physics: (isScrollable) ? AlwaysScrollableScrollPhysics() : NeverScrollableScrollPhysics(),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            GridView.count(
+              crossAxisCount: 2,
+              mainAxisSpacing: 7,
+              crossAxisSpacing: 7,
+              childAspectRatio: 150 / 30,
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+              children: infoTiles,
+            ),
+            SizedBox(height: 20),
+            GridView.count(
+              crossAxisCount: 2,
+              mainAxisSpacing: 7,
+              crossAxisSpacing: 7,
+              childAspectRatio: 13.0,
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+              children: accessoryTiles,
+            ),
+            SizedBox(height: 20),
+          ],
+        ));
   }
 }

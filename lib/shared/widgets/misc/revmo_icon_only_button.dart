@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:revmo/shared/theme.dart';
 
 class RevmoIconButton extends StatelessWidget {
   final double _borderRadius = 5;
 
   final Color _color;
-  final Function() _callback;
+  final Function()? _callback;
   final Widget _iconWidget;
   final double _width;
   final double _iconPadding;
 
-  const RevmoIconButton({required Color color, required Function() callback, required Widget iconWidget, required double width, required double iconPadding})
+  const RevmoIconButton({required Color color, required Function()? callback, required Widget iconWidget, required double width, required double iconPadding})
       : _color = color,
         _callback = callback,
         _width = width,
@@ -24,7 +25,7 @@ class RevmoIconButton extends StatelessWidget {
         width: _width,
         padding: EdgeInsets.all(_iconPadding),
         height: _width,
-        decoration: BoxDecoration(color: _color, borderRadius: BorderRadius.all(Radius.circular(_borderRadius))),
+        decoration: BoxDecoration(color: (_callback!=null) ? _color : _color.withOpacity(RevmoTheme.DIMMING_RATIO), borderRadius: BorderRadius.all(Radius.circular(_borderRadius))),
         child: _iconWidget,
       ),
     );

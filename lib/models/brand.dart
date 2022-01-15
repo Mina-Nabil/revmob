@@ -20,5 +20,8 @@ class Brand {
   operator ==(o) => o is Brand && id == o.id;
 
   @override
+  String toString() => name;
+
+  @override
   int get hashCode => id.hashCode;
 }

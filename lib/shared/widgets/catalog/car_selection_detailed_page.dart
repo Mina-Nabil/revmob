@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:revmo/models/car.dart';
+import 'package:revmo/models/model_color.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
-import 'package:revmo/shared/widgets/catalog/cars_carousel.dart';
+import 'package:revmo/shared/widgets/catalog/images_carousel.dart';
 import 'package:revmo/shared/widgets/misc/car_info_grid.dart';
 import 'package:revmo/shared/widgets/misc/horizontal_small_car_images.dart';
 import 'package:revmo/shared/widgets/misc/revmo_car_colors_card.dart';
@@ -10,7 +11,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CarSelectionDetailedPage extends StatefulWidget {
   final Car car;
-  const CarSelectionDetailedPage(this.car);
+  final List<ModelColor> selectedColors;
+  const CarSelectionDetailedPage(this.car, {this.selectedColors = const []});
 
   @override
   State<CarSelectionDetailedPage> createState() => _CarSelectionDetailedPageState();
@@ -19,13 +21,11 @@ class CarSelectionDetailedPage extends StatefulWidget {
 class _CarSelectionDetailedPageState extends State<CarSelectionDetailedPage> with SingleTickerProviderStateMixin {
   final Duration _arrowAnimationDuration = const Duration(milliseconds: 200);
   final Duration _boxAnimationDuration = const Duration(milliseconds: 1500);
-  final double _carouselHeight = 240;
-  final double _carouserWidth = 350;
-  final double _maxHeight = 640;
-  final double _minHeight = 410;
-  final double _defaultTextBoxHeight = 20;
-  final double _largeTextBoxHeight = 30;
-  final double _smallTextBoxHeight = 20;
+  final double _carouselHeight = 280;
+  final double _carouserWidth = 320;
+  final double _maxHeight = 1000;
+  final double _minHeight = 435;
+  final double _largeTextBoxHeight = 25;
   late AnimationController _controller;
 
   late double _mainCardHeight;
@@ -74,29 +74,29 @@ class _CarSelectionDetailedPageState extends State<CarSelectionDetailedPage> wit
           AnimatedContainer(
             duration: _boxAnimationDuration,
             curve: RevmoTheme.BOXES_CURVE,
-            height: _mainCardHeight,
+            constraints: BoxConstraints(minHeight: _minHeight, maxHeight: _mainCardHeight),
             padding: EdgeInsets.only(top: 15),
             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(5))),
             child: ListView(
-              // shrinkWrap: true,
+              shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               children: [
-                RevmoCarsCarousel(
+                RevmoImagesCarousel(
                   car: widget.car,
                   height: _carouselHeight,
                   width: _carouserWidth,
                 ),
                 //car info
                 Container(
+                  alignment: Alignment.center,
                   margin: EdgeInsets.symmetric(vertical: 5),
-                  height: _defaultTextBoxHeight,
-                  child: FittedBox(
-                      child: RevmoTheme.getSemiBold(widget.car.desc1, 1, weight: FontWeight.w700, color: RevmoColors.darkBlue)),
+                  child: RevmoTheme.getSemiBold(widget.car.desc1, 1, weight: FontWeight.w700, color: RevmoColors.darkBlue),
                 ),
                 Container(
-                    height: _defaultTextBoxHeight,
-                    child: FittedBox(child: RevmoTheme.getSemiBold(widget.car.desc2, 1, color: RevmoColors.darkBlue))),
+                    alignment: Alignment.center, child: RevmoTheme.getSemiBold(widget.car.desc2, 1, color: RevmoColors.darkBlue)),
+
                 Container(
+                  alignment: Alignment.center,
                   margin: const EdgeInsets.symmetric(vertical: 8.0),
                   child: HorizontalSmallCarImagesList(widget.car),
                 ),
@@ -124,12 +124,18 @@ class _CarSelectionDetailedPageState extends State<CarSelectionDetailedPage> wit
                 //Expandable details section
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
-                  child: CarInfoGrid(widget.car),
+                  child: CarInfoGrid(
+                    widget.car,
+                    isScrollable: true,
+                  ),
                 )
               ],
             ),
           ),
-          RevmoCarColorsCard(widget.car)
+          RevmoCarColorsCard(
+            widget.car,
+            initiallySelectedColors: widget.selectedColors,
+          ),
         ],
       ),
     );

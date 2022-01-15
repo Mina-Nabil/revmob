@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:revmo/models/car_accessory.dart';
 import 'package:revmo/models/model.dart';
 import 'package:revmo/models/revmo_image.dart';
 
@@ -33,6 +34,7 @@ class Car implements Comparable {
 
   static const String DB_model_KEY = "model";
   static const String DB_images_KEY = "images";
+  static const String DB_accessories_KEY = "accessories";
 
   final int _id;
   final String _catgName;
@@ -42,16 +44,17 @@ class Car implements Comparable {
   final int _horsePower;
   final int _seats;
   final double _acceleration;
-  final int _motorCC;
+  final String _motorCC;
   final String _torque;
   final String _transmission;
   final int _topSpeed;
-  final int _height;
+  final double _height;
   final int _rims;
   final int _trunkCapacity;
   final String _dimensions;
   final String _mainImageURL;
   final List<RevmoCarImage> _images;
+  final List<CarAccessory> _accessories;
   final String? _paragraph1Title;
   final String? _paragraph1;
   final String? _paragraph2Title;
@@ -71,7 +74,7 @@ class Car implements Comparable {
         _torque = json[DB_torque_KEY],
         _transmission = json[DB_transmission_KEY],
         _topSpeed = json[DB_top_speed_KEY],
-        _height = json[DB_height_KEY],
+        _height = json[DB_height_KEY] is double ? json[DB_height_KEY] : double.parse(json[DB_height_KEY].toString()),
         _rims = json[DB_rims_KEY],
         _trunkCapacity = json[DB_trunk_KEY],
         _dimensions = json[DB_dimensions_KEY],
@@ -83,12 +86,18 @@ class Car implements Comparable {
         _paragraph2Title = json[DB_paragraph_title2_KEY],
         _sortValue = json[DB_sort_KEY],
         _images = [],
-        _added = json[DB_added_KEY] ?? DateTime(2012) {
+        _accessories = [],
+        _added = json[DB_added_KEY] != null ? (DateTime.tryParse(json[DB_added_KEY]) ?? DateTime.now()) : DateTime.now() {
     assert(model != null || json.containsKey(DB_model_KEY), "Model shall be initialized with the Car object");
     _images.addAll(_model.images);
     if (json[DB_images_KEY] != null && json[DB_images_KEY] is Iterable<dynamic>) {
       json[DB_images_KEY].forEach((e) {
         _images.add(RevmoCarImage(imageURL: e[DB_carimage_url_KEY], sortingValue: e[DB_carimage_sort_KEY], isModelImage: false));
+      });
+    }
+    if (json[DB_accessories_KEY] != null && json[DB_accessories_KEY] is Iterable<dynamic>) {
+      json[DB_accessories_KEY].forEach((e) {
+        _accessories.add(new CarAccessory.fromJson(e));
       });
     }
   }
@@ -114,16 +123,17 @@ class Car implements Comparable {
   int get seats => _seats;
   int get sort => _sortValue;
   double get acceleration => _acceleration;
-  int get motorCC => _motorCC;
+  String get motorCC => _motorCC;
   String get torque => _torque;
   String get transmission => _transmission;
   int get topSpeed => _topSpeed;
-  int get height => _height;
+  double get height => _height;
   int get rims => _rims;
   int get trunkCapacity => _trunkCapacity;
   String get dimensions => _dimensions;
   String get mainImageURL => _mainImageURL;
   List<RevmoCarImage> get carImages => _images;
+  List<CarAccessory> get accessories => _accessories;
   String? get paragraphTitle1 => _paragraph1Title;
   String? get paragraph1 => _paragraph1;
   String? get paragraphTitle2 => _paragraph2Title;

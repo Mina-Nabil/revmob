@@ -40,8 +40,8 @@ class CarInfoTile extends StatelessWidget {
                   fit: FlexFit.tight,
                   child: Container(
                     alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 9),
-                    child: FittedBox(child: RevmoTheme.getBody(title, 2, color: RevmoColors.darkBlue)),
+                    padding: EdgeInsets.symmetric(vertical: 6),
+                    child: FittedBox(child: RevmoTheme.getBody(title, 1, color: RevmoColors.darkBlue)),
                   )),
               Flexible(
                   flex: 2,

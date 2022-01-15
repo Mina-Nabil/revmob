@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:revmo/environment/paths.dart';
 import 'package:revmo/providers/brands_provider.dart';
 import 'package:revmo/providers/catalog_provider.dart';
 import 'package:revmo/providers/models_provider.dart';
@@ -8,6 +9,7 @@ import 'package:revmo/screens/home/customers_tab.dart';
 import 'package:revmo/screens/home/dashboard_tab.dart';
 import 'package:revmo/screens/home/notifications_tab.dart';
 import 'package:revmo/screens/home/requests_tab.dart';
+import 'package:revmo/shared/widgets/home/revmo_appbar.dart';
 import 'package:revmo/shared/widgets/home/single_nav_tab.dart';
 import 'package:revmo/shared/widgets/home/tabs_nav.dart';
 import 'package:revmo/shared/colors.dart';
@@ -90,6 +92,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     OffStageTab((_selectedIndex == 4), NotificationsTab.screenName, _navigatorKeys[NotificationsTab.screenName]),
                   ],
                 ))),
+                appBar: RevmoAppBar(
+                  addLogout: true,
+                  showMenuIcon: true,
+                ),
                 bottomNavigationBar: Container(
                   decoration: BoxDecoration(
                       color: RevmoColors.navbarColorBG,
@@ -100,11 +106,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     controller: _tabController,
                     onTap: _selectTab,
                     tabs: [
-                      SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.myCatalog, _selectedIndex == 0),
-                      SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.requests, _selectedIndex == 1),
-                      SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.dashboard, _selectedIndex == 2),
-                      SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.customers, _selectedIndex == 3),
-                      SingleNavigationTabContainer("aa", AppLocalizations.of(context)!.notifications, _selectedIndex == 4),
+                      SingleNavigationTabContainer(Paths.navCar, AppLocalizations.of(context)!.myCatalog, _selectedIndex == 0),
+                      SingleNavigationTabContainer(Paths.navRequests, AppLocalizations.of(context)!.requests, _selectedIndex == 1),
+                      SingleNavigationTabContainer(Paths.rimsSVG, AppLocalizations.of(context)!.dashboard, _selectedIndex == 2),
+                      SingleNavigationTabContainer(Paths.navCustomers, AppLocalizations.of(context)!.customers, _selectedIndex == 3),
+                      SingleNavigationTabContainer(Paths.navNotifications, AppLocalizations.of(context)!.notifications, _selectedIndex == 4),
                     ],
                   ),
                 ),

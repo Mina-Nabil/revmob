@@ -11,6 +11,7 @@ import 'package:revmo/shared/colors.dart';
 
 class RevmoTheme {
   static const double FORMS_MAX_WIDTH = 400;
+  static const double DETAILS_BOXES_MIN = 40;
 
   static const double _FONT_SIZE_0 = 10;
   static const double _FONT_SIZE_1 = 14;
@@ -24,6 +25,8 @@ class RevmoTheme {
   static const String FONT_GIBSON = "Gibson";
   static const String FONT_GIBSON_LIGHT = "Gibson_Light";
   static const String FONT_ROBOTO = "ROBOTO";
+
+  static const double DIMMING_RATIO = 0.63;
 
   static const int _INDICATOR_TYPE = 1;
   static List<Color> _indicatorColors = [
@@ -74,6 +77,18 @@ class RevmoTheme {
       Text(
         text,
         style: getBodyStyle(size, color: color, fontStyle: fontStyle, weight: weight, isBold: isBold),
+      );
+
+  static getTitleStyle({Color color = Colors.white}) => TextStyle(
+      fontSize: getFontSize(2),
+      fontStyle: FontStyle.normal,
+      color: Colors.white,
+      fontFamily: FONT_GIBSON,
+      fontWeight: FontWeight.w600);
+
+  static Text getTitle(String text, {Color color = Colors.white}) => Text(
+        text,
+        style: getTitleStyle(color: color),
       );
 
   static getSemiBoldStyle(int size,
@@ -159,8 +174,7 @@ class RevmoTheme {
         height: 65,
         width: 65,
         padding: EdgeInsets.all(13),
-        decoration:
-            BoxDecoration(color: RevmoColors.darkGrey.withOpacity(0.9), borderRadius: BorderRadius.all(Radius.circular(5))),
+        decoration: BoxDecoration(color: RevmoColors.backgroundDim, borderRadius: BorderRadius.all(Radius.circular(5))),
         alignment: Alignment.topCenter,
         child: SizedBox(
             child:

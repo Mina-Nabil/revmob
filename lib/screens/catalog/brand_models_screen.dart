@@ -32,7 +32,6 @@ class CarsSelectionWidget extends InheritedWidget {
   }
 
   bool hasCar(Car c) {
-    print(selectedCars.toString());
     return selectedCars.hasCar(c);
   }
 
@@ -43,8 +42,13 @@ class CarsSelectionWidget extends InheritedWidget {
   toggleCar(Car c) {
     if (selectedCars.hasCar(c))
       selectedCars.removeCar(c);
-    else
-      selectedCars.addCar(c);
+    else {
+      if (isOwned(c))
+        selectedCars.addCarWithColors(c, ownedCars.getCarColors(c));
+      else
+        selectedCars.addCar(c);
+    }
+    print(selectedCars.toString());
   }
 }
 
@@ -93,6 +97,10 @@ class _BrandModelsScreenState extends State<BrandModelsScreen> {
     }
   }
 
+  goBack() {
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,14 +109,14 @@ class _BrandModelsScreenState extends State<BrandModelsScreen> {
         body: CarsSelectionWidget(
           selectedCars,
           Provider.of<CatalogProvider>(context, listen: false).catalog,
-          Container(
-            padding: HomeScreen.HORIZONTAL_PADDING,
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [
-                Expanded(
-                  child: Consumer<ModelsProvider>(
-                      builder: (context, modelsProvider, child) => (isLoading)
+          Consumer<ModelsProvider>(
+            builder: (context, modelsProvider, child) => Container(
+                padding: HomeScreen.HORIZONTAL_PADDING,
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: (isLoading)
                           ? ListView(children: [HorizontalModelCarsList.placeholder(), HorizontalModelCarsList.placeholder()])
                           : (modelsProvider.brandModels.length > 0)
                               ? ListView.builder(
@@ -119,18 +127,21 @@ class _BrandModelsScreenState extends State<BrandModelsScreen> {
                                     else
                                       return Container();
                                   })
-                              : NoCarsFound(false)),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 10),
-                  child: MainButton(
-                    text: AppLocalizations.of(context)!.done,
-                    callBack: (!isLoading) ? () => advanceForm() : null,
-                    width: double.infinity,
-                  ),
-                )
-              ],
-            ),
+                              : NoCarsFound(false),
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      child: MainButton(
+                        text: (modelsProvider.brandModels.length > 0)
+                            ? AppLocalizations.of(context)!.done
+                            : AppLocalizations.of(context)!.back,
+                        callBack:
+                            (!isLoading) ? (() => (modelsProvider.brandModels.length > 0) ? advanceForm() : goBack()) : null,
+                        width: double.infinity,
+                      ),
+                    )
+                  ],
+                )),
           ),
         ));
   }

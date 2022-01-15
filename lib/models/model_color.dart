@@ -39,10 +39,12 @@ class ModelColor {
 
   operator ==(other) {
     if (other is ModelColor) {
-      if (other.id == this.id) return true;
+      if (other.hashCode == this.hashCode) return true;
     }
     return false;
   }
 
-  int get hashCode => id.hashCode;
+  String toString() => name;
+
+  int get hashCode => _color.hashCode * _name.hashCode;
 }

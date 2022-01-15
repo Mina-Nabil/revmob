@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:revmo/environment/paths.dart';
 import 'package:revmo/shared/colors.dart';
 
 class RevmoImagePlaceholder extends StatelessWidget {
@@ -19,9 +21,9 @@ class RevmoImagePlaceholder extends StatelessWidget {
         margin: EdgeInsets.all(2.0),
         color: RevmoColors.originalBlue.withAlpha((255 * .3).toInt()),
         child: Center(
-            child: Icon(
-          Icons.car_repair,
-          color: Colors.white,
+            child: SvgPicture.asset(
+          Paths.carBodySVG,
+          color: RevmoColors.darkestBlue,
         )));
   }
 }

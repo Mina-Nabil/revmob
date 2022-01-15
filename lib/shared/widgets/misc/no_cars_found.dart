@@ -33,7 +33,7 @@ class NoCarsFound extends StatelessWidget {
         height: 20,
       ),
       if(addButtonFunc!=null)
-      MainButton(width: double.infinity, text: AppLocalizations.of(context)!.addCars, callBack: addButtonFunc)
+      MainButton(width: double.infinity, text: AppLocalizations.of(context)!.letsAddCars, callBack: addButtonFunc)
     ]));
   }
 }

@@ -27,7 +27,7 @@
     "@signIn" : {
       "description": "Sign in button text"
     },
-    "signOut": "Log Out",
+    "logout": "Log Out",
     "@signIn" : {
       "description": "Log Out button text"
     },
@@ -179,7 +179,11 @@
       "description": "Your address here"
     },
     "motor": "Motor",
-    "@address" : {
+    "@motor" : {
+      "description": "motor name"
+    },
+    "carFoundInCatalogMsg": "Car already found in Catalog",
+    "@carFoundInCatalogMsg" : {
       "description": "motor name"
     },
     "gears": "Gears",
@@ -271,8 +275,68 @@
     "@carCatalog" : {
       "description": "no cars in empty catalog word"
     },
-    "addCars": "Let's Add Some",
+    "no": "No",
+    "@no" : {
+      "description": "no in dialogs"
+    },
+    "confirm": "Confirm",
+    "@confirm" : {
+      "description": "confirm in dialogs"
+    },
+    "pleaseConfirm": "Please Confirm",
+    "@pleaseConfirm" : {
+      "description": "confirm dialog title"
+    },
+    "areYouSure": "Are you sure you want to",
+    "@areYouSure" : {
+      "description": "confirmation question start"
+    },
+    "removeCarQuestion": "remove the selected Car",
+    "@removeCarQuestion" : {
+      "description": "car removal confirmation"
+    },
+    "addCars": "Add Cars",
     "@addCars" : {
+      "description": "add cars word"
+    },
+    "filters": "Filters",
+    "@filters" : {
+      "description": "filters word"
+    },
+    "brands": "Brands",
+    "@brands" : {
+      "description": "Brands word"
+    },
+    "back": "Back",
+    "@back" : {
+      "description": "Back word"
+    },
+    "models": "Models",
+    "@models" : {
+      "description": "Models word"
+    },
+    "categories": "Categories",
+    "@brands" : {
+      "description": "Categories word"
+    },
+    "egCurrency": "EGP",
+    "@egCurrency" : {
+      "description": "egyptian currency"
+    },
+    "removeCar": "Remove Car",
+    "@removeCar" : {
+      "description": "remove car word"
+    },
+    "updateColors": "Update Colors",
+    "@updateColors" : {
+      "description": "update colors word"
+    },
+    "cantAddCarsMsg": "Car with no colors? Please select colors for all cars",
+    "@cantAddCarsMsg" : {
+      "description": "cant to add cars as their is no selected colors"
+    },
+    "letsAddCars": "Let's Add Some",
+    "@letsAddCars" : {
       "description": "lets add some word"
     },
     "noCarsCaption": "Seems like you haven't added any cars yet",
@@ -326,6 +390,14 @@
     "addPhoto": "Add a Photo",
     "@addPhoto" : {
       "description": "Message to add photo"
+    },
+    "cancel": "Cancel",
+    "@cancel" : {
+      "description": "cancel word"
+    },
+    "checkConnection": "Please check the Internet Connection",
+    "@checkConnection" : {
+      "description": "internet connection issue"
     },
     "slogan": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vulputate sapien at tellus scelerisque, non ornare ante elementum. Mauris commodo urna magna, ac eleifend magna scelerisque ut.",
     "@slogan" : {

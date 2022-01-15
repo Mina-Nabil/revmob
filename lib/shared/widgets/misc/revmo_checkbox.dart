@@ -4,8 +4,8 @@ import 'package:revmo/shared/colors.dart';
 class RevmoCheckbox extends StatelessWidget {
   final double _diameter = 30;
   final bool isSelected;
-  final Function() onTap;
-  const RevmoCheckbox({required bool initialValue, required Function() onTap})
+  final Function()? onTap;
+  const RevmoCheckbox({required bool initialValue, Function()? onTap})
       : isSelected = initialValue,
         onTap = onTap;
 

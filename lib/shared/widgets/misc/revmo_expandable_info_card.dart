@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 
-class RevmoExpandableInfoContainer extends StatefulWidget {
+class RevmoExpandableInfoCard extends StatefulWidget {
   final String title;
   final Widget body;
   final double minHeight;
   final double maxHeight;
   final bool isLoading;
   final bool initialStateExpanded;
-  const RevmoExpandableInfoContainer(
+  const RevmoExpandableInfoCard(
       {required this.title,
       required this.body,
       required this.minHeight,
       required this.maxHeight,
       this.initialStateExpanded = false})
       : isLoading = false;
-  RevmoExpandableInfoContainer.placeholder({required this.minHeight})
+  RevmoExpandableInfoCard.placeholder({required this.minHeight})
       : isLoading = true,
         title = "N/A",
         body = Container(),
@@ -24,10 +24,10 @@ class RevmoExpandableInfoContainer extends StatefulWidget {
         maxHeight = 0;
 
   @override
-  _RevmoExpandableInfoContainerState createState() => _RevmoExpandableInfoContainerState();
+  _RevmoExpandableInfoCardState createState() => _RevmoExpandableInfoCardState();
 }
 
-class _RevmoExpandableInfoContainerState extends State<RevmoExpandableInfoContainer> with SingleTickerProviderStateMixin {
+class _RevmoExpandableInfoCardState extends State<RevmoExpandableInfoCard> with SingleTickerProviderStateMixin {
   final Duration _boxAnimationDuration = const Duration(seconds: 1);
   final Duration _arrowAnimationDuration = const Duration(milliseconds: 200);
 
@@ -35,17 +35,20 @@ class _RevmoExpandableInfoContainerState extends State<RevmoExpandableInfoContai
   late AnimationController _controller;
   late double _tweenBegin;
   late double _tweenEnd;
+  late bool _isExpanded;
 
   toggleBox() {
     if (_currentHeight == widget.minHeight)
       setState(() {
         _controller.forward();
         _currentHeight = widget.maxHeight;
+        _isExpanded = true;
       });
     else
       setState(() {
         _controller.reverse();
         _currentHeight = widget.minHeight;
+        _isExpanded = false;
       });
   }
 
@@ -58,6 +61,7 @@ class _RevmoExpandableInfoContainerState extends State<RevmoExpandableInfoContai
       duration: _arrowAnimationDuration,
       vsync: this,
     );
+    _isExpanded = widget.initialStateExpanded;
     super.initState();
   }
 
@@ -65,14 +69,14 @@ class _RevmoExpandableInfoContainerState extends State<RevmoExpandableInfoContai
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: _boxAnimationDuration,
-      height: _currentHeight,
-      constraints: BoxConstraints(minHeight: widget.minHeight, maxHeight: widget.maxHeight),
+      constraints: BoxConstraints(minHeight: widget.minHeight, maxHeight: _currentHeight),
       curve: RevmoTheme.BOXES_CURVE,
       width: double.infinity,
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(5))),
       child: ListView(
-        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
         children: [
+          //card title
           GestureDetector(
             onTap: toggleBox,
             child: Container(
@@ -96,7 +100,14 @@ class _RevmoExpandableInfoContainerState extends State<RevmoExpandableInfoContai
               ),
             ),
           ),
-          widget.body
+          //card content
+          Container(
+              constraints: BoxConstraints(minHeight: 0, maxHeight: widget.maxHeight - widget.minHeight),
+              child: ListView(
+                shrinkWrap: true,
+                physics: AlwaysScrollableScrollPhysics(),
+                children: [widget.body],
+              )),
         ],
       ),
     );

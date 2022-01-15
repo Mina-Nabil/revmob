@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        backgroundColor: RevmoColors.darkBlue,
+        backgroundColor: Colors.transparent,
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: false,
         appBar: appbar,
@@ -35,7 +35,7 @@ class LoginScreen extends StatelessWidget {
                 gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [RevmoColors.darkBlue, RevmoColors.darkestBlue])),
+                    colors: [RevmoColors.darkBlue, RevmoColors.darkerBlue])),
             constraints: BoxConstraints(maxWidth: RevmoTheme.FORMS_MAX_WIDTH),
             child: SignInForm()),
       ),

@@ -9,7 +9,7 @@ class SellerProvider extends ChangeNotifier {
 
   Seller? get user => _currentUser;
 
-  loadUser(context, {bool forceReload = false}) async {
+  Future loadUser(context, {bool forceReload = false}) async {
     if (forceReload || (_currentUser == null)) {
       clearUser();
       var response = await AuthService.getCurrentUser(context);

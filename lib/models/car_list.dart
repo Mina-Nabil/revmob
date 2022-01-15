@@ -1,7 +1,11 @@
+import 'dart:collection';
+
+import 'package:revmo/models/brand.dart';
 import 'package:revmo/models/car.dart';
+import 'package:revmo/models/model.dart';
 
 class CarList {
-  final List<Car> _cars = [];
+  final HashSet<Car> _cars = new HashSet();
 
   CarList({List<Car>? cars});
 
@@ -25,7 +29,37 @@ class CarList {
     return _cars.contains(c);
   }
 
-  operator [](int i) => _cars[i];
+  bool hasModel(CarModel model) {
+    bool ret = false;
+    for (var car in _cars) {
+      if (car.model == model) {
+        ret = true;
+        break;
+      }
+    }
+    return ret;
+  }
+
+  bool hasBrand(Brand brand) {
+    bool ret = false;
+    for (var car in _cars) {
+      if (car.model.brand == brand) {
+        ret = true;
+        break;
+      }
+    }
+    return ret;
+  }
+
+  clear() {
+    _cars.clear();
+  }
+
+  bool contains(Car car) {
+    return _cars.contains(car);
+  }
+
+  operator [](int i) => _cars.elementAt(i);
 
   operator ==(otherList) {
     if (!(otherList is CarList)) return false;
@@ -46,7 +80,7 @@ class CarList {
   int get hashCode => super.hashCode;
   int get length => _cars.length;
 
-  List<Car> get cars => _cars;
+  HashSet<Car> get cars => _cars;
 
   @override
   String toString() {

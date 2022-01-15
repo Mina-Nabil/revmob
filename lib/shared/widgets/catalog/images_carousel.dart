@@ -5,17 +5,17 @@ import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/widgets/misc/revmo_image_placeholder.dart';
 import 'package:revmo/shared/widgets/misc/revmo_image_widget.dart';
 
-class RevmoCarsCarousel extends StatefulWidget {
+class RevmoImagesCarousel extends StatefulWidget {
   final Car car;
   final double height;
   final double width;
-  const RevmoCarsCarousel({required this.car, required this.height, required this.width});
+  const RevmoImagesCarousel({required this.car, required this.height, required this.width});
 
   @override
-  _RevmoCarsCarouselState createState() => _RevmoCarsCarouselState();
+  _RevmoImagesCarouselState createState() => _RevmoImagesCarouselState();
 }
 
-class _RevmoCarsCarouselState extends State<RevmoCarsCarousel> {
+class _RevmoImagesCarouselState extends State<RevmoImagesCarousel> {
   int _current = 0;
   final CarouselController _controller = CarouselController();
   final double _indicatorsDiameter = 8.0;

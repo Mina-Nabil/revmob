@@ -39,8 +39,8 @@ class ServerHandler {
   static const String _getModelsByBrand = "get/models/";
   static const String _addCarsToCatalogURL = "add/car";
   static const String _editCarColorsURL = "edit/catalog/{id}";
-  static const String _removeCarFromCatalogURL = "";
-  static const String _deactivateCarFromCatalogURL = "";
+  static const String _removeCarFromCatalogURL = "remove/car";
+  static const String _deactivateCarFromCatalogURL = "deactivate/car";
 
   //offers urls
 

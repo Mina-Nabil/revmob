@@ -3,15 +3,15 @@ import 'package:provider/provider.dart';
 import 'package:revmo/providers/brands_provider.dart';
 import 'package:revmo/shared/widgets/catalog/brand_tile.dart';
 
-class CatalogGrid extends StatefulWidget {
+class BrandsGrid extends StatefulWidget {
   final double _tilePadding = 4;
-  CatalogGrid();
+  BrandsGrid();
 
   @override
-  _CatalogGridState createState() => _CatalogGridState();
+  _BrandsGridState createState() => _BrandsGridState();
 }
 
-class _CatalogGridState extends State<CatalogGrid> {
+class _BrandsGridState extends State<BrandsGrid> {
   bool isLoadingBrands=true;
   @override
   void initState() {
@@ -29,7 +29,7 @@ class _CatalogGridState extends State<CatalogGrid> {
         child: GridView.count(
             crossAxisCount: 3,
             children: (isLoadingBrands && brandsProvider.brands.isEmpty)
-                ? generatePlaceholders(5)
+                ? generatePlaceholders(4)
                 : brandsProvider.brands
                     .map((e) => Padding(
                           padding: EdgeInsets.all(widget._tilePadding),

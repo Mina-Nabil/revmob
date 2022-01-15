@@ -109,7 +109,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                                   ? [
                                       MainButton(
                                         callBack: logOut,
-                                        text: AppLocalizations.of(context)!.signOut.toUpperCase(),
+                                        text: AppLocalizations.of(context)!.logout.toUpperCase(),
                                         width: _buttonsWidth,
                                       ),
                                       SecondaryButton(

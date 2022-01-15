@@ -5,6 +5,7 @@ import 'package:revmo/providers/seller_provider.dart';
 import 'package:revmo/screens/auth/pre_login_screen.dart';
 import 'package:revmo/screens/home/home_screen.dart';
 import 'package:revmo/environment/paths.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SplashScreen extends StatefulWidget {
   static const String ROUTE_NAME = "/splash";
@@ -31,7 +32,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void checkLoggedIn() async {
-    await Provider.of<SellerProvider>(context, listen: false).loadUser(context, forceReload: true);
+    await (Provider.of<SellerProvider>(context, listen: false).loadUser(context, forceReload: true).onError((error, stackTrace) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: FittedBox(child: Text(AppLocalizations.of(context)!.checkConnection + "!"),)));
+    }));
     Seller? seller = Provider.of<SellerProvider>(context, listen: false).user;
     print("IsloggedIn " + (seller != null ).toString() ) ;
     print("hasShowroom " + (seller!=null && seller.hasShowroom ).toString() ) ;

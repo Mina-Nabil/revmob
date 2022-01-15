@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:revmo/models/car.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
-import 'package:revmo/shared/widgets/catalog/cars_carousel.dart';
+import 'package:revmo/shared/widgets/catalog/images_carousel.dart';
 
 class RevmoCarImagesCard extends StatelessWidget {
   final Car car;
@@ -23,7 +23,7 @@ class RevmoCarImagesCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             //carousel
-            Container(margin: EdgeInsets.only(top: 10), child: RevmoCarsCarousel(car: car, height: imagesHeight, width: imagesWidth)),
+            Container(margin: EdgeInsets.only(top: 10), child: RevmoImagesCarousel(car: car, height: imagesHeight, width: imagesWidth)),
             //car info
             Container(
               margin: EdgeInsets.symmetric(vertical: 5),

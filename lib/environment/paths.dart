@@ -7,6 +7,7 @@ class Paths {
   static const String noCarsPNG = "assets/images/congratz.png";
 
   //SVGs
+  static const String logOutSVG = "assets/icons/logOut.svg";
   static const String logoSVG = "assets/icons/logo.svg";
   static const String cameraSVG = "assets/icons/camera.svg";
   static const String calendarSVG = "assets/icons/calendar.svg";
@@ -32,4 +33,11 @@ class Paths {
   static const String topSpeedometerSVG = "assets/icons/topSpeedometer.svg";
   static const String transmissionSVG = "assets/icons/transmission.svg";
   static const String trunkCapacitySVG = "assets/icons/trunkCapicity.svg";
+
+  //nav SVGs
+  static const String navCar = "assets/icons/navCar.svg";
+  static const String navRequests = "assets/icons/navRequests.svg";
+  static const String navCustomers = "assets/icons/navCustomers.svg";
+  static const String navNotifications = "assets/icons/navNotifications.svg";
+
 }

@@ -9,17 +9,16 @@ class RevmoButton extends StatelessWidget {
   final double width;
   final Function()? callBack;
   final Color color;
+  final Color textColor;
   final String text;
   final bool addBorder;
-  const RevmoButton({this.callBack, required this.width, required this.color, required this.text, this.addBorder=false});
+  const RevmoButton({this.callBack, required this.width, required this.color, required this.text, this.addBorder=false, this.textColor= Colors.white});
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: callBack,
-      
+    return TextButton(
+      onPressed: callBack, 
       style: ButtonStyle(
-
         textStyle: MaterialStateProperty.all<TextStyle>(TextStyle(fontSize: _fontSize)),
           backgroundColor: MaterialStateProperty.all(color),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
@@ -30,7 +29,7 @@ class RevmoButton extends StatelessWidget {
       child: Container(
         width: width,
         alignment: Alignment.center,
-        child: Text(text),
+        child: Text(text, style: TextStyle(color: textColor),),
       ),
     );
   }

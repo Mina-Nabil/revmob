@@ -99,7 +99,7 @@ class _SignInFormState extends State<SignInForm> {
       if (response.status == true && response.body is Seller) {
         ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text(response.msg)));
         if (response.body!.hasShowroom)
-          Navigator.of(context).pushReplacementNamed(HomeScreen.ROUTE_NAME);
+          Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.ROUTE_NAME, ModalRoute.withName('/'),);
         else
           Navigator.of(context).pushReplacementNamed(PreLoginScreen.ROUTE_NAME);
       } else {

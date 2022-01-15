@@ -7,7 +7,7 @@ class MainButton extends StatelessWidget {
   final Function()? callBack;
   final String text;
 
-  const MainButton({this.callBack, required this.width, required this.text});
+  const MainButton({this.callBack, this.width = double.infinity, required this.text});
 
   @override
   Widget build(BuildContext context) {
