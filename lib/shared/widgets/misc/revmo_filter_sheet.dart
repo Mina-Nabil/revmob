@@ -36,8 +36,6 @@ class RevmoFiltersSheet extends StatefulWidget {
 class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
   final double _cornerRadius = 12.0;
 
-  late RangeValues priceRange;
-
   notifyFiltersListeners() {
     setState(() {});
   }
@@ -120,7 +118,6 @@ class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
 
   @override
   void initState() {
-    priceRange = new RangeValues(widget.catalog.minCarPrice, widget.catalog.maxCarPrice);
     super.initState();
   }
 
@@ -261,7 +258,7 @@ class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
                             child:
                                 RevmoTheme.getSemiBold(AppLocalizations.of(context)!.price, 1, color: RevmoColors.originalBlue),
                           ),
-                          Row(
+                          widget.catalog.minCarPrice==0 && widget.catalog.maxCarPrice==0 ? Container() : Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               FittedBox(
@@ -276,7 +273,7 @@ class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
                                     inactiveTrackColor: RevmoColors.grey,
                                     valueIndicatorColor: RevmoColors.originalBlue,
                                   ),
-                                  child: RangeSlider(
+                                  child:  RangeSlider(
                                     min: widget.catalog.minCarPrice,
                                     max: widget.catalog.maxCarPrice,
                                     values: new RangeValues(widget.minPrice.value, widget.maxPrice.value),
@@ -286,7 +283,7 @@ class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
                                         widget.maxPrice.value = (values.end / 1000).roundToDouble() * 1000;
                                       });
                                     },
-                                  ),
+                                  ) ,
                                 ),
                               ),
                               FittedBox(

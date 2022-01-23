@@ -104,7 +104,7 @@ class _BrandModelsScreenState extends State<BrandModelsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: RevmoAppBar(),
+        appBar: RevmoAppBar(title: AppLocalizations.of(context)!.pickModels,),
         backgroundColor: RevmoColors.darkBlue,
         body: CarsSelectionWidget(
           selectedCars,

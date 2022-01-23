@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:revmo/environment/paths.dart';
 import 'package:revmo/screens/auth/pre_login_screen.dart';
+import 'package:revmo/screens/settings/settings_screen.dart';
 import 'package:revmo/services/auth_service.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
@@ -11,13 +12,19 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class RevmoAppBar extends StatefulWidget implements PreferredSizeWidget {
   final bool _showMenuIcon;
   final bool _addLogout;
+  final bool _addSettings;
   final Iterable<PopupMenuItem<String>> _buttonsToAdd;
   final String? title;
   RevmoAppBar(
-      {Iterable<PopupMenuItem<String>> buttonsToAdd = const [], bool addLogout = false, bool showMenuIcon = false, this.title})
+      {Iterable<PopupMenuItem<String>> buttonsToAdd = const [],
+      bool addLogout = false,
+      bool addSettings = false,
+      bool showMenuIcon = false,
+      this.title})
       : preferredSize = Size.fromHeight(kToolbarHeight),
         this._showMenuIcon = showMenuIcon,
         this._addLogout = addLogout,
+        this._addSettings = addSettings,
         this._buttonsToAdd = buttonsToAdd;
   @override
   final Size preferredSize;
@@ -50,12 +57,26 @@ class _RevmoAppBarState extends State<RevmoAppBar> {
                   color: RevmoColors.darkGrey,
                   position: RelativeRect.fromLTRB(MediaQuery.of(context).size.width, kToolbarHeight, 40.0, 0),
                   items: [
+                    if (widget._addSettings)
+                      PopupMenuItem<String>(
+                        child: ListTile(
+                            dense: true,
+                            leading: Icon(
+                              Icons.settings,
+                              color: Colors.white,
+                            ),
+                            title: new FittedBox(child: Text(AppLocalizations.of(context)!.settings))),
+                        onTap: () async {
+                          await Future.delayed(Duration.zero);
+                          Navigator.of(context).pushNamed(SettingsScreen.ROUTE_NAME);
+                        },
+                      ),
                     if (widget._addLogout)
                       PopupMenuItem<String>(
                         child: ListTile(
                             dense: true,
-                            leading: SvgPicture.asset(
-                              Paths.logOutSVG,
+                            leading: Icon(
+                              Icons.logout,
                               color: Colors.white,
                             ),
                             title: new FittedBox(child: Text(AppLocalizations.of(context)!.logout))),
@@ -63,7 +84,7 @@ class _RevmoAppBarState extends State<RevmoAppBar> {
                           await AuthService.logOut(context);
                           Navigator.of(context).popAndPushNamed(PreLoginScreen.ROUTE_NAME);
                         },
-                      )
+                      ),
                   ]..addAll(widget._buttonsToAdd)),
               iconWidget: SvgPicture.asset(
                 Paths.menuSVG,

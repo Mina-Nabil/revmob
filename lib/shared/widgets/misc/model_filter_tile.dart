@@ -12,7 +12,7 @@ class CarModelFilterTile extends StatelessWidget {
 
   final double _width = 70;
   final double _height = 25;
-  final double _allPadding = 7;
+  final double _padding = 5;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class CarModelFilterTile extends StatelessWidget {
       child: Container(
         height: _height,
         width: _width,
-        padding: EdgeInsets.all(_allPadding),
+        padding: EdgeInsets.symmetric(vertical: _padding),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(5)),
             color: (isSelected) ? RevmoColors.grey.withAlpha(50) : Colors.white,
@@ -40,7 +40,7 @@ class CarModelFilterTile extends StatelessWidget {
                 ),
               ),
             ),
-            Flexible(child: RevmoTheme.getBody(model.name, 1, color: RevmoColors.darkBlue))
+            Flexible(child: FittedBox(child: RevmoTheme.getBody(model.name, 1, color: RevmoColors.darkBlue)))
           ],
         ),
       ),

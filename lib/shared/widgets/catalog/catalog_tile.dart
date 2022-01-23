@@ -7,6 +7,7 @@ import 'package:revmo/models/cars/model_color.dart';
 import 'package:revmo/screens/catalog/car_details_screen.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
+import 'package:revmo/shared/widgets/misc/revmo_image_placeholder.dart';
 
 class CatalogTile extends StatelessWidget {
   final int _imageHeight = 110;
@@ -23,7 +24,8 @@ class CatalogTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.of(context).pushNamed(CarDetailsScreen.ROUTE_NAME, arguments: CarDetailsScreenArguments(car, ownedColors)),
+      onTap: () =>
+          Navigator.of(context).pushNamed(CarDetailsScreen.ROUTE_NAME, arguments: CarDetailsScreenArguments(car, ownedColors)),
       child: Container(
         height: _tileHeight,
         width: double.infinity,
@@ -42,6 +44,12 @@ class CatalogTile extends StatelessWidget {
                       car.model.imageUrl,
                       cacheHeight: _imageHeight,
                       cacheWidth: _imageWidth,
+                      errorBuilder: (_, __, stacktrace) {
+                        print(stacktrace);
+                        return  RevmoImagePlaceholder(
+                        height: _imageHeight.toDouble(),
+                        width: _imageWidth.toDouble(),
+                      );},
                       width: _imageWidth.toDouble(),
                       height: _imageHeight.toDouble(),
                     ),

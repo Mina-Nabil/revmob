@@ -21,7 +21,7 @@ class BrandFilterTile extends StatelessWidget {
       child: Container(
         height: _height,
         width: _width,
-        padding: EdgeInsets.all(7),
+        padding: EdgeInsets.symmetric(vertical: 5),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(5)),
             color: (isSelected) ? RevmoColors.grey.withAlpha(50) : Colors.white,
@@ -31,16 +31,20 @@ class BrandFilterTile extends StatelessWidget {
           children: [
             Flexible(
               fit: FlexFit.tight,
-              child: Image.network(
-                brand.logoURL,
-                errorBuilder: (_, __, ___) => RevmoImagePlaceholder(
-                  height: _height,
-                  width: _width,
+              child: Center(
+                child: Image.network(
+                  brand.logoURL,
+                  errorBuilder: (_, __, ___) => RevmoImagePlaceholder(
+                    height: _height,
+                    width: _width,
+                  ),
+                  fit: BoxFit.fitHeight,
                 ),
-                fit: BoxFit.fitHeight,
               ),
             ),
-            Flexible(child: RevmoTheme.getBody(brand.name, 1, color: RevmoColors.darkBlue))
+            Flexible(
+              
+              child: FittedBox(child: RevmoTheme.getBody(brand.name, 1, color: RevmoColors.darkBlue)))
           ],
         ),
       ),

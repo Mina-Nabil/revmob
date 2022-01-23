@@ -27,7 +27,6 @@ class CatalogProvider extends ChangeNotifier {
         _sellerCatalog = response.body!;
         _filteredCatalog = response.body!;
       }
-      print("loaded catalog is " + _sellerCatalog.toString());
     }
     notifyListeners();
   }

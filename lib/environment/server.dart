@@ -41,6 +41,17 @@ class ServerHandler {
   static const String _editCarColorsURL = "edit/catalog/{id}";
   static const String _removeCarFromCatalogURL = "remove/car";
   static const String _deactivateCarFromCatalogURL = "deactivate/car";
+  //team management urls
+  static const String _getTeamURL = "get/team";
+  static const String _getJoinRequestsURL = "get/joinrequests";
+  static const String _getInvitationsURL = "get/invitations";
+  static const String _searchSellers = "search/sellers";
+  static const String _searchShowrooms = "search/showrooms";
+  static const String _sendInvitation = "invite/seller";
+  static const String _sendJoinRequest = "submit/join/request";
+  static const String _acceptRequest = "accept/seller";
+  static const String _acceptInvitation = "accept/invitation";
+  static const String _deleteRequest = "delete/request";
 
   //offers urls
 
@@ -73,65 +84,36 @@ class ServerHandler {
   }
 
   //URL Getters
-  Uri get loginURI {
-    return new Uri.https(_address, _loginURL);
-  }
+  //profile URLS
+  Uri get loginURI => new Uri.https(_address, _loginURL);
+  Uri get registrationURI => new Uri.https(_address, _registerURL);
+  Uri get checkEmailURI => new Uri.https(_address, _sellerApiPrefix + _checkEmail);
+  Uri get checkPhoneURI => new Uri.https(_address, _sellerApiPrefix + _checkPhone);
+  Uri get userURI => new Uri.https(_address, _sellerApiPrefix + _userURL);
+  Uri get createShowroom => new Uri.https(_address, _sellerApiPrefix + _createShowroom);
+  Uri get bankInfoURI => Uri.https(_address, _sellerApiPrefix + _bankURL);
 
-  Uri get registrationURI {
-    return new Uri.https(_address, _registerURL);
-  }
+  //Catalog URIs
+  Uri get catalogURI => new Uri.https(_address, _sellerApiPrefix + _getCatalogURL);
+  Uri get carpoolURI => new Uri.https(_address, _sellerApiPrefix + _getCarPoolURL);
+  Uri get allBrandsURI => new Uri.https(_address, _sellerApiPrefix + _getAllBrandsURL);
+  Uri getBrandModelsURI(int brandID) => new Uri.https(_address, _sellerApiPrefix + _getModelsByBrand + brandID.toString());
+  Uri get addCarsToCatalogURI => new Uri.https(_address, _sellerApiPrefix + _addCarsToCatalogURL);
+  Uri get editCarColorsURI => new Uri.https(_address, _sellerApiPrefix + _editCarColorsURL);
+  Uri get removeCarCatalogURI => new Uri.https(_address, _sellerApiPrefix + _removeCarFromCatalogURL);
+  Uri get deactivateCarCatalogURI => new Uri.https(_address, _sellerApiPrefix + _deactivateCarFromCatalogURL);
 
-  Uri get checkEmailURI {
-    return new Uri.https(_address, _sellerApiPrefix + _checkEmail);
-  }
-
-  Uri get checkPhoneURI {
-    return new Uri.https(_address, _sellerApiPrefix + _checkPhone);
-  }
-
-  Uri get userURI {
-    return new Uri.https(_address, _sellerApiPrefix + _userURL);
-  }
-
-  Uri get createShowroom {
-    return new Uri.https(_address, _sellerApiPrefix + _createShowroom);
-  }
-
-  Uri get bankInfoURI {
-    return new Uri.https(_address, _sellerApiPrefix + _bankURL);
-  }
-
-  Uri get catalogURI {
-    return new Uri.https(_address, _sellerApiPrefix + _getCatalogURL);
-  }
-
-  Uri get carpoolURI {
-    return new Uri.https(_address, _sellerApiPrefix + _getCarPoolURL);
-  }
-
-  Uri get allBrandsURI {
-    return new Uri.https(_address, _sellerApiPrefix + _getAllBrandsURL);
-  }
-
-  Uri getBrandModelsURI(int brandID) {
-    return new Uri.https(_address, _sellerApiPrefix + _getModelsByBrand + brandID.toString());
-  }
-
-  Uri get addCarsToCatalogURI {
-    return new Uri.https(_address, _sellerApiPrefix + _addCarsToCatalogURL);
-  }
-
-  Uri get editCarColorsURI {
-    return new Uri.https(_address, _sellerApiPrefix + _editCarColorsURL);
-  }
-
-  Uri get removeCarCatalogURI {
-    return new Uri.https(_address, _sellerApiPrefix + _removeCarFromCatalogURL);
-  }
-
-  Uri get deactivateCarCatalogURI {
-    return new Uri.https(_address, _sellerApiPrefix + _deactivateCarFromCatalogURL);
-  }
+  //Account & team management URIs
+  Uri get teamUri => new Uri.https(_address, _sellerApiPrefix + _getTeamURL);
+  Uri get sellersSearchURI => new Uri.https(_address, _sellerApiPrefix + _searchSellers);
+  Uri get joinRequestsURI => new Uri.https(_address, _sellerApiPrefix + _getJoinRequestsURL);
+  Uri get showroomSearchURI => new Uri.https(_address, _sellerApiPrefix + _searchShowrooms);
+  Uri get showroomInvitationsURI => new Uri.https(_address, _sellerApiPrefix + _getInvitationsURL);
+  Uri get sendInvitationURI => new Uri.https(_address, _sellerApiPrefix + _sendInvitation);
+  Uri get sendJoinRequestURI => new Uri.https(_address, _sellerApiPrefix + _sendJoinRequest);
+  Uri get acceptRequestURI => new Uri.https(_address, _sellerApiPrefix + _acceptRequest);
+  Uri get acceptInvitationURI => new Uri.https(_address, _sellerApiPrefix + _acceptInvitation);
+  Uri get deleteRequestURI => new Uri.https(_address, _sellerApiPrefix + _deleteRequest);
 
   Future<String> get deviceName async {
     if (_deviceName == null) {

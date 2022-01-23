@@ -5,17 +5,20 @@ import 'package:revmo/shared/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:revmo/shared/theme.dart';
 
+// ignore: must_be_immutable
 class SearchBar extends StatelessWidget {
   final double _barHeight;
   final TextEditingController _textController;
   final double _iconPadding = 13;
   final Function()? _searchFunction;
+  final String? _hintText;
 
   bool _isUserWriting = false;
 
-  SearchBar({required TextEditingController textEditingController, required double height, Function()? searchCallback})
+  SearchBar({required TextEditingController textEditingController, required double height, Function()? searchCallback, String? hintText})
       : _textController = textEditingController,
         _searchFunction = searchCallback,
+        _hintText = hintText,
         _barHeight = height;
 
   @override
@@ -29,7 +32,6 @@ class SearchBar extends StatelessWidget {
                 if (!_isUserWriting) {
                   _isUserWriting = true;
                   await Future.delayed(Duration(seconds: 1));
-                  print("abuse");
                   _searchFunction!();
                   _isUserWriting = false;
                 }
@@ -49,7 +51,7 @@ class SearchBar extends StatelessWidget {
                   Paths.searchSVG,
                   color: RevmoColors.white.withAlpha(128),
                 )),
-            hintText: AppLocalizations.of(context)!.search,
+            hintText: _hintText ?? AppLocalizations.of(context)!.search,
             hintStyle: TextStyle(color: RevmoColors.white.withAlpha(128), fontSize: RevmoTheme.getFontSize(1))),
       ),
     );

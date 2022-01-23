@@ -20,7 +20,7 @@ class RevmoButton extends StatelessWidget {
       onPressed: callBack, 
       style: ButtonStyle(
         textStyle: MaterialStateProperty.all<TextStyle>(TextStyle(fontSize: _fontSize)),
-          backgroundColor: MaterialStateProperty.all(color),
+          backgroundColor: MaterialStateProperty.all(callBack!=null ? color : color.withOpacity(0.6)),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(_borderRadius),
             
@@ -29,7 +29,7 @@ class RevmoButton extends StatelessWidget {
       child: Container(
         width: width,
         alignment: Alignment.center,
-        child: Text(text, style: TextStyle(color: textColor),),
+        child: FittedBox(child: Text(text, style: TextStyle(color: textColor),)),
       ),
     );
   }

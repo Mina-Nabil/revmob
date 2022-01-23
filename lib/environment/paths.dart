@@ -30,9 +30,15 @@ class Paths {
   static const String roadSVG = "assets/icons/road.svg";
   static const String seatsSVG = "assets/icons/seats.svg";
   static const String speedometerSVG = "assets/icons/speedometer.svg";
+  static const String speedoLargeSVG = "assets/icons/speedo2.svg";
   static const String topSpeedometerSVG = "assets/icons/topSpeedometer.svg";
   static const String transmissionSVG = "assets/icons/transmission.svg";
   static const String trunkCapacitySVG = "assets/icons/trunkCapicity.svg";
+  static const String personSVG = "assets/icons/person.svg";
+  static const String historySVG = "assets/icons/history.svg";
+  static const String groupSVG = "assets/icons/group.svg";
+  static const String groupLargeSVG = "assets/icons/groupLarge.svg";
+  static const String chatSVG = "assets/icons/chat.svg";
 
   //nav SVGs
   static const String navCar = "assets/icons/navCar.svg";

@@ -4,10 +4,10 @@ import 'dart:io';
 import 'package:provider/provider.dart';
 import 'package:revmo/environment/api_response.dart';
 import 'package:revmo/environment/server.dart';
-import 'package:revmo/models/users/seller.dart';
+import 'package:revmo/models/accounts/seller.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:revmo/providers/seller_provider.dart';
+import 'package:revmo/providers/account_provider.dart';
 
 class AuthService {
   static final ServerHandler server = new ServerHandler();
@@ -39,7 +39,7 @@ class AuthService {
             decoded["body"] is Map<String, dynamic> &&
             decoded["body"].containsKey("user")) {
           return new ApiResponse(
-              true, new Seller.fromJson(decoded["body"]["user"]), AppLocalizations.of(context)!.sellerCreatedMsg);
+              true, new Seller.fromJson(decoded["body"]["user"], inTeam: true), AppLocalizations.of(context)!.loggedInMsg);
         } else {
           return new ApiResponse(false, null, decoded["message"], errors: decoded["body"]["errors"] ?? null);
         }
@@ -177,7 +177,7 @@ class AuthService {
     bool tokenDeleted = await server.deleteApiToken();
     bool providerUserDeleted = true;
     try {
-      Provider.of<SellerProvider>(context, listen: false).clearUser();
+      Provider.of<AccountProvider>(context, listen: false).clearUser();
     } catch (e) {
       print(e);
       providerUserDeleted = false;

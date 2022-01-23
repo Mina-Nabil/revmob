@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:revmo/providers/account_provider.dart';
+import 'package:revmo/screens/home/home_screen.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -60,6 +63,12 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    Future.delayed(Duration.zero).then((_) async {
+      await Provider.of<AccountProvider>(context, listen: false).loadUser(context, forceReload: true);
+      if (Provider.of<AccountProvider>(context, listen: false).showroom != null) {
+        Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.ROUTE_NAME, ModalRoute.withName('/'));
+      }
+    });
     barTween = new Tween<double>(begin: 0, end: 1);
     animationController = new AnimationController(duration: Duration(milliseconds: 500), vsync: this);
     animation = barTween.animate(animationController);

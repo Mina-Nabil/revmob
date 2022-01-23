@@ -1,4 +1,6 @@
-import 'package:revmo/models/bank_info.dart';
+import 'package:revmo/models/accounts/bank_info.dart';
+import 'package:revmo/models/accounts/join_request.dart';
+import 'package:revmo/models/accounts/seller.dart';
 
 class Showroom {
   static const String DB_ID = "id";
@@ -24,7 +26,8 @@ class Showroom {
 
   static const String DB_balance_KEY = "SHRM_BLNC";
 
-  static const String DB_image_KEY = "SHRM_IMGE";
+  static const String DB_image_KEY = "image_url";
+  static const String DB_owner_KEY = "owner";
 
   static const String DB_offerSent_KEY = "SHRM_OFRS_SENT";
   static const String DB_offersAccepted_KEY = "SHRM_OFRS_ACPT";
@@ -61,8 +64,10 @@ class Showroom {
   String? _salesRecordFrontImg;
   int? _bankID;
   BankInfo? _bankingInfo;
+  Seller? _owner;
+  JoinRequestStatus? requestedStatus;
 
-  Showroom.fromJson(Map<String, dynamic> json)
+  Showroom.fromJson(Map<String, dynamic> json, {this.requestedStatus})
       : this._id = json[DB_ID],
         this._name = json[DB_name_KEY],
         this._ownerID = json[DB_OWNR_ID_KEY],
@@ -73,10 +78,10 @@ class Showroom {
         this._createdAt = DateTime.parse(json[DB_createdAt_KEY]),
         this._email = json[DB_email_KEY],
         this._image = json[DB_image_KEY],
-        this._isActive = json[DB_isActive_KEY]==1,
-        this._isMailVerified = json[DB_isMailVerified_KEY]==1,
-        this._isMobVerified = json[DB_isMobVerified_KEY]==1,
-        this._isVerified = json[DB_isVerified_KEY]==1,
+        this._isActive = json[DB_isActive_KEY] == 1,
+        this._isMailVerified = json[DB_isMailVerified_KEY] == 1,
+        this._isMobVerified = json[DB_isMobVerified_KEY] == 1,
+        this._isVerified = json[DB_isVerified_KEY] == 1,
         this._mobileNumber1 = json[DB_mobileNumber1_KEY],
         this._offersAccepted = json[DB_offersAccepted_KEY] ?? 0,
         this._offersSent = json[DB_offerSent_KEY] ?? 0,
@@ -84,8 +89,9 @@ class Showroom {
         this._salesRecordBackImg = json[DB_salesRecordBackImg_KEY],
         this._salesRecordFrontImg = json[DB_salesRecordFrontImg_KEY],
         this._salesRecordStatus = json[DB_salesRecordStatus_KEY],
-        this._verifiedSince = DateTime.tryParse(json[DB_verifiedSince_KEY]??"");
-
+        this._verifiedSince = DateTime.tryParse(json[DB_verifiedSince_KEY] ?? "") {
+    this._owner = json[DB_owner_KEY] != null ? Seller.fromJson(json[DB_owner_KEY], loadedShowroom: this) : null;
+  }
 
   int get id => _id;
   int get ownerID => _ownerID;
@@ -109,8 +115,14 @@ class Showroom {
   String? get salesRecordFrontImg => _salesRecordFrontImg;
   String? get salesRecordBackImg => _salesRecordBackImg;
   int? get bankID => _bankID;
+  Seller? get owner => _owner;
 
   BankInfo? get bankingInfo => _bankingInfo;
 
-  set bankingInfo(BankInfo? info) => this._bankingInfo=info; 
+  set bankingInfo(BankInfo? info) => this._bankingInfo = info;
+
+  operator ==(o) => o.hashCode == this.hashCode;
+
+  @override
+  int get hashCode => id.hashCode;
 }

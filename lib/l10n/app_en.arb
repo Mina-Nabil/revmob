@@ -15,6 +15,74 @@
     "@customers": {
       "description": "Customers everywhere"
     },
+    "home": "Home",
+    "@home": {
+      "description": "Home Page Word"
+    },
+    "offersHistory": "Offers History",
+    "@offersHistory": {
+      "description": "Offers History Word"
+    },
+    "settings": "Settings",
+    "@settings": {
+      "description": "Settings Word"
+    },
+    "contactUs": "Contact Us!",
+    "@contactUs": {
+      "description": "Contact Us Word"
+    },
+    "account": "Account",
+    "@account": {
+      "description": "Account Word"
+    },
+    "team": "Team",
+    "@team": {
+      "description": "Team Word"
+    },
+    "yourTeam": "Your Team",
+    "@yourTeam": {
+      "description": "Team Word"
+    },
+    "addToSalesTeam": "Add To The Team",
+    "@addToSalesTeam": {
+      "description": "Team Word"
+    },
+    "totalCarsSold": "Cars Sold",
+    "@totalCarsSold": {
+      "description": "Total Cars Sold text"
+    },
+    "totalSales": "Sales Sum",
+    "@totalSales": {
+      "description": "Total Sales"
+    },
+    "noShowroomsFound": "No Showrooms Found",
+    "@noShowroomsFound": {
+      "description": "No Showrooms Found Msg"
+    },
+    "noUsersFound": "No Users Found",
+    "@noUsersFound": {
+      "description": "No Users Found Msg"
+    },
+    "pickModels": "Pick Models",
+    "@pickModels": {
+      "description": "Pick Models"
+    },
+    "pickColors": "Pick Colors",
+    "@pickColors": {
+      "description": "Pick Colors"
+    },
+    "inviteToTeam": "Invite",
+    "@inviteToTeam": {
+      "description": "sending invitation statement"
+    },
+    "submitJoinRequest": "Join",
+    "@submitJoinRequest": {
+      "description": "show showroom request"
+    },
+    "cancelRequest": "Requested",
+    "@cancelRequest": {
+      "description": "cancel request"
+    },
     "notifications": "Notifications",
     "@notifications": {
       "description": "Notifications everywhere"
@@ -263,6 +331,10 @@
     "@noAccountQ" : {
       "description": "If you dont have an account message"
     },
+    "accept": "Accept",
+    "@accept" : {
+      "description": "accept word"
+    },
     "done": "Done",
     "@done" : {
       "description": "done word"
@@ -358,6 +430,38 @@
     "search": "Search",
     "@search" : {
       "description": "search word"
+    },
+    "showrooms": "Showrooms",
+    "@showrooms" : {
+      "description": "Showrooms word"
+    },
+    "seller": "Seller",
+    "@seller" : {
+      "description": "Seller word"
+    },
+    "teamMember": "Team Member",
+    "@teamMember" : {
+      "description": "Team Member word"
+    },
+    "owner": "Owner",
+    "@owner" : {
+      "description": "Owner word"
+    },
+    "admin": "Admin",
+    "@admin" : {
+      "description": "Admin word"
+    },
+    "requestedToJoin": "Requested to Join",
+    "@requestedToJoin" : {
+      "description": "Requested to Join word"
+    },
+    "invitedToJoin": "Invited to Join",
+    "@invitedToJoin" : {
+      "description": "Invited to Join word"
+    },
+    "searchAllSellers": "Search all Revmo Sellers",
+    "@searchAllSellers" : {
+      "description": "search all revmo sellers word"
     },
     "passwordHint": "Your Password here",
     "@passwordHint" : {

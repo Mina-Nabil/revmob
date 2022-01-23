@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:revmo/models/users/seller.dart';
+import 'package:provider/provider.dart';
+import 'package:revmo/models/accounts/seller.dart';
+import 'package:revmo/providers/account_provider.dart';
 import 'package:revmo/screens/auth/pre_login_screen.dart';
 import 'package:revmo/screens/home/home_screen.dart';
-import 'package:revmo/services/auth_service.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -95,22 +96,18 @@ class _SignInFormState extends State<SignInForm> {
   submitForm() async {
     disableForm();
     if (_formState.currentState!.validate()) {
-      var response = await AuthService.login(context, identifier: _identifierController.text, password: _passwordController.text);
-      if (response.status == true && response.body is Seller) {
-        ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text(response.msg)));
-        if (response.body!.hasShowroom)
-          Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.ROUTE_NAME, ModalRoute.withName('/'),);
+      Seller? loggedInUser = await Provider.of<AccountProvider>(context, listen: false)
+          .login(context, _identifierController.text, _passwordController.text);
+      if (loggedInUser is Seller) {
+        if (loggedInUser.hasShowroom)
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            HomeScreen.ROUTE_NAME,
+            ModalRoute.withName('/'),
+          );
         else
           Navigator.of(context).pushReplacementNamed(PreLoginScreen.ROUTE_NAME);
       } else {
         enableForm();
-        print(response.msg);
-        ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text(response.msg)));
-        if (response.errors != null && response.errors!.length > 0) {
-          response.errors!.forEach((field, msg) {
-            ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text(msg.toString())));
-          });
-        }
       }
     } else {
       enableForm();

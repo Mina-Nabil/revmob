@@ -80,7 +80,7 @@ class Catalog {
     _carList.cars.forEach((car) {
       if (car.avgPrice < minPrice) minPrice = car.avgPrice;
     });
-    return minPrice;
+    return minPrice==double.maxFinite ? 0 : minPrice;
   }
 
   double get maxCarPrice {
@@ -88,7 +88,7 @@ class Catalog {
     _carList.cars.forEach((car) {
       if (car.avgPrice > maxPrice) maxPrice = car.avgPrice;
     });
-    return maxPrice;
+    return maxPrice==double.minPositive ? 0 : maxPrice;
   }
 
   //catalog functions

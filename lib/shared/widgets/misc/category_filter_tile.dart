@@ -21,7 +21,7 @@ class CategoryFilterTile extends StatelessWidget {
       child: Container(
         height: _height,
         width: _width,
-        padding: EdgeInsets.all(7),
+          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 2),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(5)),
             color: (isSelected) ? RevmoColors.grey.withAlpha(50) : Colors.white,
@@ -40,7 +40,7 @@ class CategoryFilterTile extends StatelessWidget {
                 fit: BoxFit.fitHeight,
               ),
             ),
-            Flexible(child: FittedBox(child: RevmoTheme.getBody(car.catgName, 1, color: RevmoColors.darkBlue)))
+            Flexible(child: RevmoTheme.getBody(car.catgName, 0, color: RevmoColors.darkBlue))
           ],
         ),
       ),

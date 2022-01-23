@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:revmo/environment/api_response.dart';
-import 'package:revmo/models/cars/showroom.dart';
+import 'package:revmo/models/accounts/showroom.dart';
 import 'package:revmo/screens/auth/signup_screen.dart';
 import 'package:revmo/services/seller_profile_service.dart';
 import 'package:revmo/shared/theme.dart';
@@ -98,14 +98,14 @@ class _CompanyFormState extends State<CompanyForm> {
                   width: 320,
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(bottom: 25),
-                child: SecondaryButton(
-                  callBack: skipForm,
-                  text: AppLocalizations.of(context)!.skip,
-                  width: 320,
-                ),
-              ),
+              // Container(
+              //   child: SecondaryButton(
+              //     callBack: skipForm,
+              //     text: AppLocalizations.of(context)!.skip,
+              //     width: 320,
+              //   ),
+              // ),
+              SizedBox(height: 30,)
             ]),
           ),
           if (isWaitingForResponse) RevmoTheme.getLoadingContainer(context),

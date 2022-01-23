@@ -7,7 +7,7 @@ import 'package:revmo/screens/catalog/catalog_tab.dart';
 import 'package:revmo/screens/home/customers_tab.dart';
 import 'package:revmo/screens/home/dashboard_tab.dart';
 import 'package:revmo/screens/home/notifications_tab.dart';
-import 'package:revmo/screens/home/requests_tab.dart';
+import 'package:revmo/screens/offers/requests_tab.dart';
 
 class TabsNavigator extends StatelessWidget {
   TabsNavigator({required this.navigatorKey, required this.tabItem});

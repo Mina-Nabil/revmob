@@ -8,7 +8,7 @@ import 'package:revmo/screens/catalog/catalog_tab.dart';
 import 'package:revmo/screens/home/customers_tab.dart';
 import 'package:revmo/screens/home/dashboard_tab.dart';
 import 'package:revmo/screens/home/notifications_tab.dart';
-import 'package:revmo/screens/home/requests_tab.dart';
+import 'package:revmo/screens/offers/requests_tab.dart';
 import 'package:revmo/shared/widgets/home/revmo_appbar.dart';
 import 'package:revmo/shared/widgets/home/single_nav_tab.dart';
 import 'package:revmo/shared/widgets/home/tabs_nav.dart';
@@ -96,6 +96,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 appBar: RevmoAppBar(
                   addLogout: true,
                   showMenuIcon: true,
+                  addSettings: true,
                 ),
                 bottomNavigationBar: Container(
                   decoration: BoxDecoration(

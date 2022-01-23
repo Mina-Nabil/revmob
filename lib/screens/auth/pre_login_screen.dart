@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/environment/paths.dart';
-import 'package:revmo/providers/seller_provider.dart';
+import 'package:revmo/providers/account_provider.dart';
 import 'package:revmo/screens/auth/login_screen.dart';
 import 'package:revmo/screens/auth/signup_screen.dart';
+import 'package:revmo/screens/home/home_screen.dart';
+import 'package:revmo/screens/settings/join_showroom_screen.dart';
 import 'package:revmo/services/auth_service.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -29,7 +31,10 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
   @override
   initState() {
     Future.delayed(Duration.zero).then((_) async {
-      await Provider.of<SellerProvider>(context, listen: false).loadUser(context);
+      await Provider.of<AccountProvider>(context, listen: false).loadUser(context, forceReload: true);
+      if(Provider.of<AccountProvider>(context, listen: false).showroom!=null){
+        Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.ROUTE_NAME, ModalRoute.withName('/'));
+      }
       setState(() {
         loading = false;
       });
@@ -85,12 +90,12 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 5),
-                      child: RevmoTheme.getCaption(AppLocalizations.of(context)!.slogan, 2),
+                      child:  RevmoTheme.getCaption(AppLocalizations.of(context)!.slogan, 1),
                     ),
                   ],
                 )),
                 Container(
-                  child: Consumer<SellerProvider>(
+                  child: Consumer<AccountProvider>(
                     builder: (cnxt, sellerProvider, _) {
                       print("Loading: " + loading.toString());
                       print("isUser: " + (sellerProvider.user != null).toString());
@@ -114,7 +119,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                                       ),
                                       SecondaryButton(
                                         callBack: () {
-                                          Navigator.of(context).pushNamed(SignUp.SHOWROOM_ROUTE_NAME);
+                                          Navigator.of(context).pushNamed(JoinShowroomScreen.ROUTE_NAME);
                                         },
                                         text: AppLocalizations.of(context)!.joinShowroom.toUpperCase(),
                                         width: _buttonsWidth,

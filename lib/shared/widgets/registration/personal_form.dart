@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/environment/api_response.dart';
-import 'package:revmo/models/users/seller.dart';
-import 'package:revmo/providers/seller_provider.dart';
+import 'package:revmo/models/accounts/seller.dart';
+import 'package:revmo/providers/account_provider.dart';
 import 'package:revmo/screens/auth/signup_screen.dart';
 import 'package:revmo/services/auth_service.dart';
 import 'package:revmo/shared/theme.dart';
@@ -49,8 +49,8 @@ class _PersonalFormState extends State<PersonalForm> {
         isWaitingForResponse = true;
       });
       await loadSeller();
-      if (Provider.of<SellerProvider>(context, listen: false).user != null &&
-          Provider.of<SellerProvider>(context, listen: false).user is Seller) {
+      if (Provider.of<AccountProvider>(context, listen: false).user != null &&
+          Provider.of<AccountProvider>(context, listen: false).user is Seller) {
         moveBar();
         ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text(AppLocalizations.of(context)!.alreadySignedIn)));
         movePage();
@@ -64,7 +64,7 @@ class _PersonalFormState extends State<PersonalForm> {
   }
 
   Future loadSeller() async {
-    await Provider.of<SellerProvider>(context, listen: false).loadUser(context);
+    await Provider.of<AccountProvider>(context, listen: false).loadUser(context);
   }
 
   @override

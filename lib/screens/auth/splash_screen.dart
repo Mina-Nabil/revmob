@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:revmo/models/users/seller.dart';
-import 'package:revmo/providers/seller_provider.dart';
+import 'package:revmo/models/accounts/seller.dart';
+import 'package:revmo/providers/account_provider.dart';
 import 'package:revmo/screens/auth/pre_login_screen.dart';
 import 'package:revmo/screens/home/home_screen.dart';
 import 'package:revmo/environment/paths.dart';
@@ -32,10 +32,10 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void checkLoggedIn() async {
-    await (Provider.of<SellerProvider>(context, listen: false).loadUser(context, forceReload: true).onError((error, stackTrace) {
+    await (Provider.of<AccountProvider>(context, listen: false).loadUser(context, forceReload: true).onError((error, stackTrace) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: FittedBox(child: Text(AppLocalizations.of(context)!.checkConnection + "!"),)));
     }));
-    Seller? seller = Provider.of<SellerProvider>(context, listen: false).user;
+    Seller? seller = Provider.of<AccountProvider>(context, listen: false).user;
     print("IsloggedIn " + (seller != null ).toString() ) ;
     print("hasShowroom " + (seller!=null && seller.hasShowroom ).toString() ) ;
     if (seller != null && seller.hasShowroom) {

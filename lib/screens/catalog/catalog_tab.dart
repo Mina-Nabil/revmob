@@ -1,9 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:revmo/environment/paths.dart';
 import 'package:revmo/models/cars/car.dart';
 import 'package:revmo/models/cars/brand.dart';
 import 'package:revmo/models/cars/model.dart';
@@ -14,11 +12,11 @@ import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:revmo/shared/widgets/catalog/brands_grid_page.dart';
 import 'package:revmo/shared/widgets/catalog/my_catalog_page.dart';
-import 'package:revmo/shared/widgets/home/search_bar.dart';
+import 'package:revmo/shared/widgets/misc/default_header.dart';
 import 'package:revmo/shared/widgets/misc/no_cars_found.dart';
 import 'package:revmo/shared/widgets/misc/revmo_filter_sheet.dart';
-import 'package:revmo/shared/widgets/misc/revmo_icon_only_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:revmo/shared/widgets/misc/titles_row.dart';
 
 class CatalogTab extends StatefulWidget {
   static const String screenName = "catalogTab";
@@ -28,14 +26,6 @@ class CatalogTab extends StatefulWidget {
 }
 
 class _CatalogTabState extends State<CatalogTab> {
-  final double _barHeight = 40;
-  final double _iconsPadding = 10;
-  final double _titleTopMargin = 14;
-  final double _titleBotMargin = 5;
-  final double _restTitleBotMargin = 10;
-  final double _blueHighlightWidth = 10;
-  final double _blueHighlightHeight = 3;
-
   final TextEditingController _textEditingController = new TextEditingController();
   final PageController _pagesController = new PageController();
 
@@ -44,8 +34,8 @@ class _CatalogTabState extends State<CatalogTab> {
   ValueNotifier<HashSet<ModelColor>> _colorFilters = new ValueNotifier(HashSet<ModelColor>());
   ValueNotifier<HashSet<CarModel>> _modelFilters = new ValueNotifier(HashSet<CarModel>());
   ValueNotifier<HashSet<Car>> _catgFilters = new ValueNotifier(HashSet<Car>());
-  ValueNotifier<double> minPrice = new ValueNotifier(double.minPositive);
-  ValueNotifier<double> maxPrice = new ValueNotifier(double.maxFinite);
+  ValueNotifier<double> minPrice = new ValueNotifier(0);
+  ValueNotifier<double> maxPrice = new ValueNotifier(0);
 
   ValueNotifier<String?> brandSearch = new ValueNotifier<String?>(null);
 
@@ -118,102 +108,24 @@ class _CatalogTabState extends State<CatalogTab> {
               height: 15,
             ),
             //search & filters
-            Container(
-              height: _barHeight,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: SearchBar(
-                      height: _barHeight,
-                      searchCallback: !isLoadingMyCatalog ? ((pageIndex==0) ? searchCatalog : searchBrands) : null,
-                      textEditingController: _textEditingController,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 3, right: 1),
-                    child: RevmoIconButton(
-                      callback: (pageIndex == 0 && !isLoadingMyCatalog) ? sortCatalog : null,
-                      width: _barHeight,
-                      color: RevmoColors.petrol,
-                      iconWidget: SvgPicture.asset(Paths.sortSVG,
-                          color: (pageIndex == 0 && !isLoadingMyCatalog)
-                              ? Colors.white
-                              : Colors.white.withOpacity(RevmoTheme.DIMMING_RATIO)),
-                      iconPadding: _iconsPadding,
-                    ),
-                  ),
-                  Container(
-                      margin: EdgeInsets.only(left: 1),
-                      child: RevmoIconButton(
-                        callback: (pageIndex == 0 && !isLoadingMyCatalog) ? filterCatalog : null,
-                        width: _barHeight,
-                        color: RevmoColors.originalBlue,
-                        iconWidget: SvgPicture.asset(Paths.filtersSVG,
-                            color: (pageIndex == 0 && !isLoadingMyCatalog)
-                                ? Colors.white
-                                : Colors.white.withOpacity(RevmoTheme.DIMMING_RATIO)),
-                        iconPadding: _iconsPadding,
-                      )),
-                ],
-              ),
+            RevmoDefaultHeader(
+              searchCallback: !isLoadingMyCatalog ? ((pageIndex == 0) ? searchCatalog : searchBrands) : null,
+              searchTextController: _textEditingController,
+              filterCallback: (pageIndex == 0 && !isLoadingMyCatalog) ? filterCatalog : null,
+              sortCallback: (pageIndex == 0 && !isLoadingMyCatalog) ? sortCatalog : null,
             ),
+
             //catalog tabs
             Expanded(
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Flexible(
-                          child: GestureDetector(
-                              onTap: goToMyCatalog,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(top: _titleTopMargin, bottom: _titleBotMargin),
-                                    alignment: Alignment.centerLeft,
-                                    child: FittedBox(
-                                      child: RevmoTheme.getSemiBold(
-                                          AppLocalizations.of(context)!.myCatalog +
-                                              " (" +
-                                              Provider.of<CatalogProvider>(context).filteredCatalog.length.toString() +
-                                              ")",
-                                          2,
-                                          color: (pageIndex == 0) ? Colors.white : RevmoColors.darkGrey),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(bottom: _restTitleBotMargin),
-                                    width: _blueHighlightWidth,
-                                    height: _blueHighlightHeight,
-                                    color: (pageIndex == 0) ? RevmoColors.originalBlue : Colors.transparent,
-                                  )
-                                ],
-                              ))),
-                      Flexible(
-                          child: GestureDetector(
-                              onTap: goToCarPool,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(top: _titleTopMargin, bottom: _titleBotMargin),
-                                    alignment: Alignment.centerRight,
-                                    child: FittedBox(
-                                      child: RevmoTheme.getSemiBold(AppLocalizations.of(context)!.carCatalog, 2,
-                                          color: (pageIndex == 1) ? Colors.white : RevmoColors.darkGrey),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(bottom: _restTitleBotMargin),
-                                    width: _blueHighlightWidth,
-                                    height: _blueHighlightHeight,
-                                    color: (pageIndex == 1) ? RevmoColors.originalBlue : Colors.transparent,
-                                  )
-                                ],
-                              ))),
-                    ],
-                  ),
+                  TitlesRow({
+                    AppLocalizations.of(context)!.myCatalog +
+                        " (" +
+                        Provider.of<CatalogProvider>(context).filteredCatalog.length.toString() +
+                        ")": goToMyCatalog,
+                    AppLocalizations.of(context)!.addCars: goToCarPool,
+                  }, pageIndex),
                   Expanded(
                     child: PageView(
                         controller: _pagesController,
@@ -267,16 +179,20 @@ class _CatalogTabState extends State<CatalogTab> {
   }
 
   goToMyCatalog() {
-    _pagesController.animateToPage(0, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+    _pagesController.animateToPage(0, duration: RevmoTheme.PAGES_DURATION, curve: RevmoTheme.PAGES_CURVE);
   }
 
   goToCarPool() {
-    _pagesController.animateToPage(1, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+    _pagesController.animateToPage(1, duration: RevmoTheme.PAGES_DURATION, curve: RevmoTheme.PAGES_CURVE);
   }
 
   sortCatalog() {}
 
   filterCatalog() async {
+    if (minPrice.value > Provider.of<CatalogProvider>(context, listen: false).catalog.maxCarPrice ||
+        minPrice.value < Provider.of<CatalogProvider>(context, listen: false).catalog.minCarPrice ||
+        maxPrice.value > Provider.of<CatalogProvider>(context, listen: false).catalog.maxCarPrice ||
+        maxPrice.value < Provider.of<CatalogProvider>(context, listen: false).catalog.minCarPrice) refreshFilters();
     bool? res = await showModalBottomSheet<bool>(
         barrierColor: RevmoColors.backgroundDim,
         backgroundColor: Colors.transparent,
@@ -300,9 +216,8 @@ class _CatalogTabState extends State<CatalogTab> {
         maxPrice: maxPrice.value);
   }
 
-  searchBrands(){
+  searchBrands() {
     brandSearch.value = _textEditingController.text.trim();
-    brandSearch.notifyListeners();
   }
 
   @override

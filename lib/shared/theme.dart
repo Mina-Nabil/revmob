@@ -12,6 +12,8 @@ import 'package:revmo/shared/colors.dart';
 class RevmoTheme {
   static const double FORMS_MAX_WIDTH = 400;
   static const double DETAILS_BOXES_MIN = 40;
+  static const double DEFAULT_HEADERS_HEIGHT = 64;
+  static const double SEARCH_BAR_HEIGHT = 40;
 
   static const double _FONT_SIZE_0 = 10;
   static const double _FONT_SIZE_1 = 14;
@@ -35,7 +37,10 @@ class RevmoTheme {
     RevmoColors.darkBlue,
   ];
 
+//animtaions consts
   static const Curve BOXES_CURVE = Curves.fastLinearToSlowEaseIn;
+  static const Curve PAGES_CURVE = Curves.easeInOut;
+  static const Duration PAGES_DURATION = const Duration(milliseconds: 300);
 
   static double getFontSize(int size) {
     switch (size) {
@@ -73,9 +78,11 @@ class RevmoTheme {
           {bool isBold = false,
           FontStyle fontStyle = FontStyle.normal,
           FontWeight weight = FontWeight.w700,
+          TextOverflow? overflow,
           Color color = Colors.white}) =>
       Text(
         text,
+        overflow: TextOverflow.ellipsis,
         style: getBodyStyle(size, color: color, fontStyle: fontStyle, weight: weight, isBold: isBold),
       );
 
@@ -86,8 +93,9 @@ class RevmoTheme {
       fontFamily: FONT_GIBSON,
       fontWeight: FontWeight.w600);
 
-  static Text getTitle(String text, {Color color = Colors.white}) => Text(
+  static Text getTitle(String text, {Color color = Colors.white, TextOverflow overflow = TextOverflow.ellipsis}) => Text(
         text,
+        overflow: overflow,
         style: getTitleStyle(color: color),
       );
 
@@ -96,9 +104,13 @@ class RevmoTheme {
       TextStyle(fontSize: getFontSize(size), fontStyle: fontStyle, color: color, fontFamily: FONT_GIBSON, fontWeight: weight);
 
   static Text getSemiBold(String text, int size,
-          {FontStyle fontStyle = FontStyle.normal, FontWeight weight = FontWeight.w600, Color color = Colors.white}) =>
+          {FontStyle fontStyle = FontStyle.normal,
+          FontWeight weight = FontWeight.w600,
+          Color color = Colors.white,
+          TextOverflow overflow = TextOverflow.ellipsis}) =>
       Text(
         text,
+        overflow: overflow,
         style: getSemiBoldStyle(size, color: color, fontStyle: fontStyle, weight: weight),
       );
 
@@ -118,8 +130,10 @@ class RevmoTheme {
           {bool isBold = false,
           FontStyle fontStyle = FontStyle.normal,
           FontWeight weight = FontWeight.w300,
+          TextOverflow? overflow,
           Color color = Colors.white}) =>
       Text(text,
+          overflow: overflow,
           textAlign: TextAlign.center,
           style: getCaptionStyle(size, isBold: isBold, fontStyle: fontStyle, weight: weight, color: color));
 

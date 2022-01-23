@@ -50,7 +50,7 @@ class _ModelColorsSelectionsScreenState extends State<ModelColorsSelectionsScree
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: RevmoAppBar(),
+        appBar: RevmoAppBar(title: AppLocalizations.of(context)!.pickColors,),
         backgroundColor: RevmoColors.darkBlue,
         body: ModelColorsSelectionWidget(
           selectedCars: widget.catalog,

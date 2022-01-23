@@ -46,7 +46,7 @@ class _RevmoDropDownListState extends State<RevmoDropDownList> {
             print(selected);
             if (selected == null) return "The field is required";
           },
-          hint: Container(alignment: Alignment.center, child: RevmoTheme.getCaption(widget.hint, 2, color: RevmoColors.darkGrey)),
+          hint: Container(alignment: Alignment.center, child: FittedBox(child: RevmoTheme.getCaption(widget.hint, 1, color: RevmoColors.darkGrey))),
           onChanged: (int? key) {
             setState(() {
               widget.selected.value = key;
