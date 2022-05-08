@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -16,7 +18,10 @@ import 'package:revmo/screens/settings/settings_screen.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 
+import 'fixes/http_overrides.dart';
+
 void main() {
+  HttpOverrides.global = MyHttpOverrides();
   runApp(RevmoSellerApp());
 }
 
