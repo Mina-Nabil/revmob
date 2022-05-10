@@ -159,7 +159,10 @@ class _DisplayPhotoUploaderState extends State<DisplayPhotoUploader> {
 
   Future<File?> cropImage() async {
     if (lastUploadedImagePath != null)
-      return await ImageCropper.cropImage(
+      return await
+
+
+      ImageCropper().cropImage(
           sourcePath: lastUploadedImagePath!,
           aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
           maxWidth: 700,
