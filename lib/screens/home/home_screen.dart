@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/environment/paths.dart';
@@ -99,6 +101,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   addSettings: true,
                 ),
                 bottomNavigationBar: Container(
+                  padding: Platform.isIOS ? EdgeInsets.only(bottom: 15) : EdgeInsets.zero,
                   decoration: BoxDecoration(
                       color: RevmoColors.navbarColorBG,
                       border: Border(top: BorderSide(width: 0.25, color: RevmoColors.navbarBorder))),
