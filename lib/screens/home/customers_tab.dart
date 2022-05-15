@@ -12,6 +12,8 @@ import '../../shared/widgets/home/search_bar.dart';
 import '../../shared/widgets/misc/revmo_icon_only_button.dart';
 import 'package:revmo/Configurations/Extensions/extensions.dart';
 
+import 'customersDetails/customers_details.dart';
+
 class CustomersTab extends StatelessWidget {
   static const String screenName = "customerTab";
 
@@ -68,13 +70,20 @@ class CustomersTab extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: 10,
-              itemBuilder: (context, index) => FadeInUp(
-                duration: Duration(milliseconds: 700),
+          child: ListView.separated(
+            shrinkWrap: true,
+            itemCount: 10,
+            itemBuilder: (context, index) => FadeInUp(
+              duration: Duration(milliseconds: 400),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CustomersDetails()));
+                },
                 child: Container(
-                  margin: EdgeInsets.only(bottom: 20),
+                  // margin: EdgeInsets.only(bottom: 20),
                   // height: 162,
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -92,22 +101,13 @@ class CustomersTab extends StatelessWidget {
                               flex: 1,
                               child: Padding(
                                 padding: EdgeInsets.only(right: 10),
-                                child: CircleAvatar(
-                                  backgroundColor:
-                                      Color(0xff07C5FA).withOpacity(0.2),
-                                  child: Text(
-                                    'MH',
-                                    style:
-                                        TextStyle(color: Color(0xff26AEE4)),
-                                  ),
-                                ),
+                                child: InitialsCircle(name: 'MH',),
                               ),
                             ),
                             Expanded(
                               flex: 3,
                               child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
@@ -128,11 +128,8 @@ class CustomersTab extends StatelessWidget {
                                     children: [
                                       SizedBox(
                                           height: 30,
-                                          child: Image.network(catalog
-                                              .catalog
-                                              .models[0]
-                                              .brand
-                                              .logoURL)),
+                                          child: Image.network(catalog.catalog
+                                              .models[0].brand.logoURL)),
                                       SizedBox(
                                         height: 5,
                                       ),
@@ -176,8 +173,7 @@ class CustomersTab extends StatelessWidget {
                             Expanded(
                               flex: 3,
                               child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
@@ -189,11 +185,9 @@ class CustomersTab extends StatelessWidget {
                                           child: Image.network(catalog
                                               .catalog.models[0].imageUrl)),
                                       SizedBox(
-                                        height: 5,
+                                        height: 6,
                                       ),
-                                      SizedBox(
-                                        height: 1,
-                                      ),
+
                                       Text(
                                         '500,000 EGP',
                                         style: TextStyle(
@@ -256,8 +250,7 @@ class CustomersTab extends StatelessWidget {
                                       ),
                                       itemCount: 5,
                                       itemSize: 10.0,
-                                      unratedColor:
-                                          Colors.amber.withAlpha(50),
+                                      unratedColor: Colors.amber.withAlpha(50),
                                       direction: Axis.horizontal,
                                     ),
                                     SizedBox(
@@ -292,8 +285,7 @@ class CustomersTab extends StatelessWidget {
                                       ),
                                       itemCount: 5,
                                       itemSize: 10.0,
-                                      unratedColor:
-                                          Colors.amber.withAlpha(50),
+                                      unratedColor: Colors.amber.withAlpha(50),
                                       direction: Axis.horizontal,
                                     ),
                                     SizedBox(
@@ -315,9 +307,40 @@ class CustomersTab extends StatelessWidget {
                     ],
                   ),
                 ),
-              )),
+              ),
+            ),
+            separatorBuilder: (BuildContext context, int index) {
+              return SizedBox(
+                height: 20,
+              );
+            },
+          ),
         )
       ]).setPageHorizontalPadding(context),
+    );
+  }
+}
+
+class InitialsCircle extends StatelessWidget {
+   InitialsCircle({
+    Key? key,
+    required this.name,
+     this.opacity,
+     this.whiteText,
+
+  }) : super(key: key);
+final String name;
+ double? opacity;
+ bool? whiteText;
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      backgroundColor:
+          Color(0xff07C5FA).withOpacity(opacity != null ? opacity! : 0.2 ),
+      child: Text(
+        name,
+        style: TextStyle(color:whiteText != null ? Colors.white : Color(0xff26AEE4)),
+      ),
     );
   }
 }

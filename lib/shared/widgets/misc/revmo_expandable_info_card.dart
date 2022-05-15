@@ -72,6 +72,7 @@ class _RevmoExpandableInfoCardState extends State<RevmoExpandableInfoCard> with 
       constraints: BoxConstraints(minHeight: widget.minHeight, maxHeight: _currentHeight),
       curve: RevmoTheme.BOXES_CURVE,
       width: double.infinity,
+
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(5))),
       child: ListView(
         physics: NeverScrollableScrollPhysics(),
