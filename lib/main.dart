@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -17,12 +19,15 @@ import 'package:revmo/screens/settings/settings_screen.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:get_it/get_it.dart';
+import 'fixes/http_overrides.dart';
 
 GetIt getIt = GetIt.instance;
+
 
 void main() {
   getIt.registerLazySingleton<ServerHandler>(() => new ServerHandler());
 
+  HttpOverrides.global = MyHttpOverrides();
   runApp(RevmoSellerApp());
 }
 
