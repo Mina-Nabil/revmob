@@ -42,9 +42,16 @@ dependencies:
   shimmer: ^2.0.0
   carousel_slider: ^4.0.0
   loading_indicator: ^3.0.2
+<<<<<<< HEAD
   get_it: ^7.2.0
   multi_select_flutter: ^4.0.0
   flutter_datetime_picker: ^1.5.1
+=======
+  flutter_rating_bar: ^4.0.0
+  animate_do: ^2.0.0
+
+
+>>>>>>> 410b64be9c7dc648e7f0eb16d5a8208c184d17cf
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/providers/brands_provider.dart';
@@ -37,9 +38,8 @@ class _BrandsGridState extends State<BrandsGrid> {
                       : brandsProvider.brands
                           .where((b) => searchText == null || b.name.toLowerCase().contains(searchText))
                           .map((e) => Padding(
-                                padding: EdgeInsets.only(
-                                    right: widget._tilePadding, bottom: widget._tilePadding * 2, left: widget._tilePadding),
-                                child: BrandTile(e),
+                                padding: EdgeInsets.all(widget._tilePadding),
+                                child: FadeInUp(child: BrandTile(e)),
                               ))
                           .toList()),
             );
@@ -50,9 +50,7 @@ class _BrandsGridState extends State<BrandsGrid> {
   List<Widget> generatePlaceholders(int count) {
     List<Widget> ret = [];
     for (int i = 0; i < count; i++)
-      ret.add(Padding(
-          padding: EdgeInsets.only(right: widget._tilePadding, bottom: widget._tilePadding * 2, left: widget._tilePadding),
-          child: BrandTile.placeholder()));
+      ret.add(FadeInUp(child: Padding(padding: EdgeInsets.all(widget._tilePadding), child: BrandTile.placeholder())));
     return ret;
   }
 }

@@ -10,8 +10,7 @@ class OfferHistoryScreen extends StatefulWidget {
 class _OfferHistoryScreenState extends State<OfferHistoryScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    return Scaffold(
     );
   }
 }
