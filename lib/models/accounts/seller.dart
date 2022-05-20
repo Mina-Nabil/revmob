@@ -1,29 +1,29 @@
 import 'package:intl/intl.dart';
 import 'package:revmo/models/accounts/join_request.dart';
+import 'package:revmo/models/accounts/profile.dart';
 import 'package:revmo/models/accounts/showroom.dart';
 
-class Seller {
+class Seller implements Profile {
   static final NumberFormat _formatter = NumberFormat("#,###", "en");
-  static const String DB_ID = "id";
-  static const String DB_NAME_KEY = "SLLR_NAME";
-  static const String DB_MOB_KEY = "SLLR_MOB1";
-  static const String DB_MAIL_KEY = "SLLR_MAIL";
-  static const String DB_MOB_VRFD_KEY = "SLLR_MOB1_VRFD";
-  static const String DB_MAIL_VRFD_KEY = "SLLR_MAIL_VRFD";
-  static const String DB_CAN_MNG_KEY = "SLLR_CAN_MNGR";
-  static const String DB_INVITED_KEY = "JNRQ_STTS"; //showroom invitation status
-  static const String DB_IMG_KEY = "image_url";
-  static const String DB_TOTAL_SALES_KEY = "cars_sold_price";
-  static const String DB_SALES_COUNT_KEY = "cars_sold_count";
-  static const String DB_showroom_KEY = "showroom";
+  static const String API_ID = "id";
+  static const String API_NAME_Key = "SLLR_NAME";
+  static const String API_MOB_Key = "SLLR_MOB1";
+  static const String API_MAIL_Key = "SLLR_MAIL";
+  static const String API_MOB_VRFD_Key = "SLLR_MOB1_VRFD";
+  static const String API_MAIL_VRFD_Key = "SLLR_MAIL_VRFD";
+  static const String API_CAN_MNG_Key = "SLLR_CAN_MNGR";
+  static const String API_INVITED_Key = "JNRQ_STTS"; //showroom invitation status
+  static const String API_IMG_Key = "image_url";
+  static const String API_TOTAL_SALES_Key = "cars_sold_price";
+  static const String API_SALES_COUNT_Key = "cars_sold_count";
+  static const String API_showroom_Key = "showroom";
 
-
-  static const String FORM_IDENTIFIER_KEY = "identifier";
-  static const String FORM_NAME_KEY = "name";
-  static const String FORM_EMAIL_KEY = "email";
-  static const String FORM_MOB_KEY = "mobNumber1";
-  static const String FORM_IMGE_KEY = "image";
-  static const String FORM_PW_KEY = "password";
+  static const String FORM_IDENTIFIER_Key = "identifier";
+  static const String FORM_NAME_Key = "name";
+  static const String FORM_EMAIL_Key = "email";
+  static const String FORM_MOB_Key = "mobNumber1";
+  static const String FORM_IMGE_Key = "image";
+  static const String FORM_PW_Key = "password";
 
   final int _id;
   String _fullName;
@@ -63,20 +63,20 @@ class Seller {
         _isMobVerified = isMobVerified;
 
   Seller.fromJson(Map<String, dynamic> json, {Showroom? loadedShowroom, this.inTeam = false, this.requestedStatus})
-      : _id = json[Seller.DB_ID],
-        _fullName = json[Seller.DB_NAME_KEY] ?? "noID",
-        _mob = json[Seller.DB_MOB_KEY] ?? "noID",
-        _email = json[Seller.DB_MAIL_KEY] ?? "noID",
-        _image = json[Seller.DB_IMG_KEY],
-        _totalSoldCars = json[Seller.DB_SALES_COUNT_KEY],
-        _salesTotal = json[Seller.DB_TOTAL_SALES_KEY].toDouble(),
-        _isMobVerified = json[Seller.DB_MOB_VRFD_KEY] == 1,
-        _isEmailVerified = json[Seller.DB_MAIL_VRFD_KEY] == 1,
-        _canManage = json[Seller.DB_CAN_MNG_KEY] == 1,
+      : _id = json[Seller.API_ID],
+        _fullName = json[Seller.API_NAME_Key] ?? "noID",
+        _mob = json[Seller.API_MOB_Key] ?? "noID",
+        _email = json[Seller.API_MAIL_Key] ?? "noID",
+        _image = json[Seller.API_IMG_Key],
+        _totalSoldCars = json[Seller.API_SALES_COUNT_Key],
+        _salesTotal = json[Seller.API_TOTAL_SALES_Key].toDouble(),
+        _isMobVerified = json[Seller.API_MOB_VRFD_Key] == 1,
+        _isEmailVerified = json[Seller.API_MAIL_VRFD_Key] == 1,
+        _canManage = json[Seller.API_CAN_MNG_Key] == 1,
         showroom = (loadedShowroom != null)
             ? loadedShowroom
-            : (json[DB_showroom_KEY] != null)
-                ? Showroom.fromJson(json[DB_showroom_KEY])
+            : (json[API_showroom_Key] != null)
+                ? Showroom.fromJson(json[API_showroom_Key])
                 : null;
 
   updateInfo({required String imagefullName, required String email, required String mob}) {
@@ -109,6 +109,14 @@ class Seller {
   bool get managerNotOwner => _canManage && !isOwner;
   bool get isOwner => showroom != null && this.id == showroom!.ownerID;
   bool get hasShowroom => (showroom != null && showroom is Showroom && showroom!.id > 0);
+
+  String get initials {
+    String ret = "";
+    _fullName.split(" ").forEach((name) {
+      ret += name[0].toUpperCase();
+    });
+    return ret;
+  }
 
   operator ==(Object? s) {
     return s is Seller && s.hashCode == this.hashCode;

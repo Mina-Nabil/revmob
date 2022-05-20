@@ -50,13 +50,13 @@ class _ShowroomTileState extends State<ShowroomTile> {
         minVerticalPadding: 0,
         dense: true,
         horizontalTitleGap: 5,
-        leading: UserImage.showroom(widget.showroom, 40),
+        leading: UserImage(widget.showroom, 40, isShowroom: true,),
         title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, crossAxisAlignment: CrossAxisAlignment.center, children: [
           Container(
               margin: EdgeInsets.symmetric(vertical: 15),
               child: FittedBox(
                   child: RevmoTheme.getSemiBold(
-                widget.showroom.name,
+                widget.showroom.fullName,
                 1,
                 color: RevmoColors.darkestBlue,
               ))),

@@ -3,15 +3,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:revmo/environment/api_response.dart';
 import 'package:revmo/environment/server.dart';
+import 'package:revmo/main.dart';
 import 'package:revmo/models/cars/catalog.dart';
 import 'package:revmo/models/cars/model_color.dart';
 import 'package:revmo/models/cars/car.dart';
-import 'package:revmo/models/offer_defaults.dart';
+import 'package:revmo/models/offers/offer_defaults.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CatalogService {
-  static final ServerHandler _server = new ServerHandler();
+  static final ServerHandler _server = getIt.get<ServerHandler>();
 
   Future<ApiResponse<Catalog?>> getSellerCatalog(BuildContext context) async {
     var request = await http.get(_server.catalogURI, headers: _server.headers);

@@ -32,7 +32,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
   initState() {
     Future.delayed(Duration.zero).then((_) async {
       await Provider.of<AccountProvider>(context, listen: false).loadUser(context, forceReload: true);
-      if(Provider.of<AccountProvider>(context, listen: false).showroom!=null){
+      if (Provider.of<AccountProvider>(context, listen: false).showroom != null) {
         Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.ROUTE_NAME, ModalRoute.withName('/'));
       }
       setState(() {
@@ -50,7 +50,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
     if (await AuthService.logOut(context))
       Navigator.of(context).pushNamed(LoginScreen.ROUTE_NAME);
     else
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.serverIssue)));
+      RevmoTheme.showRevmoSnackbar(context, AppLocalizations.of(context)!.serverIssue);
     setState(() {
       logOutEnabled = true;
       waitingForLogout = false;
@@ -90,16 +90,13 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 5),
-                      child:  RevmoTheme.getCaption(AppLocalizations.of(context)!.slogan, 1),
+                      child: RevmoTheme.getCaption(AppLocalizations.of(context)!.slogan, 1),
                     ),
                   ],
                 )),
                 Container(
                   child: Consumer<AccountProvider>(
                     builder: (cnxt, sellerProvider, _) {
-                      print("Loading: " + loading.toString());
-                      print("isUser: " + (sellerProvider.user != null).toString());
-                      print("hasShowroom: " + (sellerProvider.user != null && sellerProvider.user!.hasShowroom).toString());
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 56.0),
                         child: Column(

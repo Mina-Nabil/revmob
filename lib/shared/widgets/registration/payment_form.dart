@@ -7,7 +7,7 @@ import 'package:revmo/services/seller_profile_service.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:revmo/shared/widgets/misc/main_button.dart';
 import 'package:revmo/shared/widgets/misc/secondary_button.dart';
-import 'package:revmo/shared/widgets/misc/text_field.dart';
+import 'package:revmo/shared/widgets/misc/revmo_text_field.dart';
 
 class PaymentForm extends StatefulWidget {
   final Duration animationsDuration;
@@ -93,7 +93,7 @@ class _PaymentFormState extends State<PaymentForm> {
           accountbankName: _bankNameController.text,
           iban: _ibanController.text);
       if (isSetResponse.status) {
-        ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text(isSetResponse.msg)));
+        RevmoTheme.showRevmoSnackbar(context, isSetResponse.msg);
         moveBar();
         movePage();
       } else {

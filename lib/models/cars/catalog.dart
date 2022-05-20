@@ -5,7 +5,7 @@ import 'car.dart';
 import 'car_list.dart';
 import 'model.dart';
 import 'model_color.dart';
-import '../offer_defaults.dart';
+import '../offers/offer_defaults.dart';
 
 class Catalog {
   CarList _carList = new CarList();

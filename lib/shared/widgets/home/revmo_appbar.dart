@@ -15,12 +15,14 @@ class RevmoAppBar extends StatefulWidget implements PreferredSizeWidget {
   final bool _addSettings;
   final Iterable<PopupMenuItem<String>> _buttonsToAdd;
   final String? title;
+  final String? subtitle;
   RevmoAppBar(
       {Iterable<PopupMenuItem<String>> buttonsToAdd = const [],
       bool addLogout = false,
       bool addSettings = false,
       bool showMenuIcon = false,
-      this.title})
+      this.title, 
+      this.subtitle})
       : preferredSize = Size.fromHeight(kToolbarHeight),
         this._showMenuIcon = showMenuIcon,
         this._addLogout = addLogout,
@@ -45,7 +47,19 @@ class _RevmoAppBarState extends State<RevmoAppBar> {
       elevation: 0.0,
       centerTitle: false,
       titleSpacing: 0,
-      title: widget.title != null ? RevmoTheme.getTitle(widget.title!) : null,
+      title: widget.title != null ? Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          RevmoTheme.getTitle(widget.title!),
+          if(widget.subtitle!=null)
+          ...[
+            SizedBox(height: 5,),
+            RevmoTheme.getCaption(widget.subtitle!, 0)
+          ]
+        ],
+      ) : null,
+      
       actions: [
         if (widget._showMenuIcon)
           Container(

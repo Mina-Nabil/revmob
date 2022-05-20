@@ -4,13 +4,14 @@ import 'dart:io';
 import 'package:provider/provider.dart';
 import 'package:revmo/environment/api_response.dart';
 import 'package:revmo/environment/server.dart';
+import 'package:revmo/main.dart';
 import 'package:revmo/models/accounts/seller.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:revmo/providers/account_provider.dart';
 
 class AuthService {
-  static final ServerHandler server = new ServerHandler();
+  static final ServerHandler server = getIt.get<ServerHandler>();
 
   static Future<bool> _isLoggedIn() async {
     try {
@@ -65,10 +66,10 @@ class AuthService {
       server.registrationURI,
     )
       ..fields.addAll({
-        Seller.FORM_NAME_KEY: name,
-        Seller.FORM_EMAIL_KEY: email,
-        Seller.FORM_MOB_KEY: mobNumber,
-        Seller.FORM_PW_KEY: password,
+        Seller.FORM_NAME_Key: name,
+        Seller.FORM_EMAIL_Key: email,
+        Seller.FORM_MOB_Key: mobNumber,
+        Seller.FORM_PW_Key: password,
         "deviceName": await server.deviceName
       })
       ..headers.addAll(server.headers);
@@ -108,7 +109,7 @@ class AuthService {
   static Future<ApiResponse<Seller?>> login(context, {required String identifier, required String password}) async {
     var response = await http.post(server.loginURI,
         headers: server.headers,
-        body: {Seller.FORM_IDENTIFIER_KEY: identifier, Seller.FORM_PW_KEY: password, "deviceName": await server.deviceName});
+        body: {Seller.FORM_IDENTIFIER_Key: identifier, Seller.FORM_PW_Key: password, "deviceName": await server.deviceName});
 
     if (response.statusCode == 200) {
       try {
@@ -139,7 +140,7 @@ class AuthService {
 
   static Future<ApiResponse<bool>> isEmailTaken(context, email) async {
     final request = await http.post(server.checkEmailURI, headers: server.headers, body: {
-      Seller.FORM_EMAIL_KEY: email,
+      Seller.FORM_EMAIL_Key: email,
     });
     if (request.statusCode == 200) {
       try {

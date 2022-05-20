@@ -17,6 +17,7 @@ class RevmoTextField extends StatefulWidget {
   final int maxLines;
   final TextInputType keyboardType;
   final Function()? onEditingComplete;
+  final bool darkMode;
 
   const RevmoTextField(
       {required this.controller,
@@ -27,8 +28,9 @@ class RevmoTextField extends StatefulWidget {
       this.prefixText,
       this.onChangeValidation,
       this.fieldKey,
-      this.maxLines=1,
+      this.maxLines = 1,
       this.validateOnChange = false,
+      this.darkMode = true,
       this.keyboardType = TextInputType.text,
       this.onEditingComplete});
 
@@ -56,12 +58,12 @@ class _RevmoTextFieldState extends State<RevmoTextField> {
           Container(
               alignment: Alignment.topLeft,
               margin: EdgeInsets.symmetric(vertical: widget._fieldMargin),
-              child: RevmoTheme.getTextFieldLabel(widget.title)),
+              child: RevmoTheme.getTextFieldLabel(widget.title, color: (widget.darkMode) ? Colors.white : RevmoColors.darkBlue)),
           Stack(
             alignment: Alignment.centerRight,
             children: [
               FocusScope(
-                onFocusChange: (widget.onEditingComplete!=null) ? (_) => widget.onEditingComplete!() : null,
+                onFocusChange: (widget.onEditingComplete != null) ? (_) => widget.onEditingComplete!() : null,
                 child: TextFormField(
                   key: widget.fieldKey,
                   validator: widget.validator,
@@ -73,7 +75,7 @@ class _RevmoTextFieldState extends State<RevmoTextField> {
                               : _fieldKey.currentState?.validate();
                         }
                       : widget.onChangeValidation,
-                  style: TextStyle(color: RevmoColors.darkBlue),
+                  style: RevmoTheme.getBodyStyle(1, color: RevmoColors.darkBlue),
                   decoration: InputDecoration(
                     suffixIcon: (widget.obscureText)
                         ? IconButton(
@@ -91,14 +93,22 @@ class _RevmoTextFieldState extends State<RevmoTextField> {
                     fillColor: Colors.white,
                     filled: true,
                     hintText: widget.hintText,
-                    errorStyle: TextStyle(color: RevmoColors.yellow),
+                    errorStyle: TextStyle(color: (widget.darkMode) ? RevmoColors.yellow : RevmoColors.darkRed),
                     errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(3)), borderSide: BorderSide(color: RevmoColors.yellow)),
+                        borderRadius: BorderRadius.all(Radius.circular(3)),
+                        borderSide: BorderSide(color: (widget.darkMode) ? RevmoColors.yellow : RevmoColors.darkRed)),
                     focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(3)),
-                        borderSide: BorderSide(color: RevmoColors.yellow, width: 2)),
+                        borderSide: BorderSide(color: (widget.darkMode) ? RevmoColors.yellow : RevmoColors.darkRed, width: 2)),
                     hintStyle: TextStyle(color: RevmoColors.greyishBlue),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(3))),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(3)),
+                        borderSide:
+                            (widget.darkMode) ? const BorderSide() : const BorderSide(color: RevmoColors.grey, width: .25)),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(3)),
+                        borderSide:
+                            (widget.darkMode) ? const BorderSide() : const BorderSide(color: RevmoColors.grey, width: .25)),
                   ),
                   controller: widget.controller,
                   maxLines: widget.maxLines,

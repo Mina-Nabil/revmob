@@ -11,8 +11,7 @@ import 'package:revmo/shared/widgets/misc/display_photo_uploader.dart';
 import 'package:revmo/shared/widgets/misc/dropdown_list.dart';
 import 'package:revmo/shared/widgets/misc/error_dialog.dart';
 import 'package:revmo/shared/widgets/misc/main_button.dart';
-import 'package:revmo/shared/widgets/misc/secondary_button.dart';
-import 'package:revmo/shared/widgets/misc/text_field.dart';
+import 'package:revmo/shared/widgets/misc/revmo_text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CompanyForm extends StatefulWidget {
@@ -105,7 +104,9 @@ class _CompanyFormState extends State<CompanyForm> {
               //     width: 320,
               //   ),
               // ),
-              SizedBox(height: 30,)
+              SizedBox(
+                height: 30,
+              )
             ]),
           ),
           if (isWaitingForResponse) RevmoTheme.getLoadingContainer(context),
@@ -127,10 +128,10 @@ class _CompanyFormState extends State<CompanyForm> {
           image: _selectedImage.value);
       if (response.status == true && response.body is Showroom) {
         moveBar();
-        ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text(response.msg)));
+        RevmoTheme.showRevmoSnackbar(context, response.msg);
         movePage();
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text(response.msg)));
+        RevmoTheme.showRevmoSnackbar(context, response.msg);
         if (response.errors != null && response.errors!.length > 0) {
           showDialog(
               context: context,

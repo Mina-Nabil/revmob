@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:revmo/environment/server.dart';
 import 'package:revmo/providers/account_provider.dart';
 import 'package:revmo/screens/auth/congratz_newaccount_screen.dart';
 import 'package:revmo/screens/auth/login_screen.dart';
@@ -15,8 +16,13 @@ import 'package:revmo/screens/settings/join_showroom_screen.dart';
 import 'package:revmo/screens/settings/settings_screen.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
+import 'package:get_it/get_it.dart';
+
+GetIt getIt = GetIt.instance;
 
 void main() {
+  getIt.registerLazySingleton<ServerHandler>(() => new ServerHandler());
+
   runApp(RevmoSellerApp());
 }
 

@@ -32,6 +32,7 @@ class ServerHandler {
   static const String _registerURL = "api/seller/register";
   static const String _createShowroom = "create/showroom";
   static const String _bankURL = "api/seller/set/banking";
+
   //catalog urls
   static const String _getCatalogURL = "get/catalog";
   static const String _getCarPoolURL = "get/carpool";
@@ -41,6 +42,7 @@ class ServerHandler {
   static const String _editCarColorsURL = "edit/catalog/{id}";
   static const String _removeCarFromCatalogURL = "remove/car";
   static const String _deactivateCarFromCatalogURL = "deactivate/car";
+
   //team management urls
   static const String _getTeamURL = "get/team";
   static const String _getJoinRequestsURL = "get/joinrequests";
@@ -54,6 +56,11 @@ class ServerHandler {
   static const String _deleteRequest = "delete/request";
 
   //offers urls
+  static const String _submitOffer = "submit/offer";
+  static const String _getNewOfferRequests = "offerrequests";
+  static const String _getPendingOffers = "offers/pending";
+  static const String _getApprovedOffers = "offers/approved";
+  static const String _getExpiredOffers = "offers/expired";
 
   //Handle API Token
   Future<bool> setApiToken(String token) async {
@@ -102,6 +109,13 @@ class ServerHandler {
   Uri get editCarColorsURI => new Uri.https(_address, _sellerApiPrefix + _editCarColorsURL);
   Uri get removeCarCatalogURI => new Uri.https(_address, _sellerApiPrefix + _removeCarFromCatalogURL);
   Uri get deactivateCarCatalogURI => new Uri.https(_address, _sellerApiPrefix + _deactivateCarFromCatalogURL);
+
+  //Offers URIs
+  Uri get submitOfferURI => new Uri.https(_address, _sellerApiPrefix + _submitOffer);
+  Uri get offerRequestsURI => new Uri.https(_address, _sellerApiPrefix + _getNewOfferRequests);
+  Uri get pendingOffersURI => new Uri.https(_address, _sellerApiPrefix + _getPendingOffers);
+  Uri get approvedOffersURI => new Uri.https(_address, _sellerApiPrefix + _getApprovedOffers);
+  Uri get expiredOffersURI => new Uri.https(_address, _sellerApiPrefix + _getExpiredOffers);
 
   //Account & team management URIs
   Uri get teamUri => new Uri.https(_address, _sellerApiPrefix + _getTeamURL);

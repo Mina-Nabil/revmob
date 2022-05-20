@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:revmo/models/cars/brand.dart';
+import 'package:revmo/providers/catalog_provider.dart';
+import 'package:revmo/providers/offers_provider.dart';
 import 'package:revmo/screens/catalog/brand_models_screen.dart';
 import 'package:revmo/screens/catalog/car_details_screen.dart';
 import 'package:revmo/screens/catalog/catalog_tab.dart';
@@ -21,7 +24,8 @@ class TabsNavigator extends StatelessWidget {
     if (tabItem == CatalogTab.screenName)
       child = CatalogTab();
     else if (tabItem == RequestsTab.screenName)
-      child = RequestsTab();
+      child = ChangeNotifierProvider<OffersProvider>(
+          builder: (cnxt, brandsProvider) => RequestsTab(), create: (cnxt) => OffersProvider(cnxt));
     else if (tabItem == DashboardTab.screenName)
       child = DashboardTab();
     else if (tabItem == CustomersTab.screenName)

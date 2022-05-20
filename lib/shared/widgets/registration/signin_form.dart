@@ -8,7 +8,7 @@ import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:revmo/shared/widgets/misc/main_button.dart';
-import 'package:revmo/shared/widgets/misc/text_field.dart';
+import 'package:revmo/shared/widgets/misc/revmo_text_field.dart';
 import 'package:form_validator/form_validator.dart';
 
 class SignInForm extends StatefulWidget {

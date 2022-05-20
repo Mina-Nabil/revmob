@@ -1,8 +1,8 @@
 class Brand {
-  static const String DB_id_KEY = "id";
-  static const String DB_name_KEY = "BRND_NAME";
-  static const String DB_logoUrl_KEY = "logo_url";
-  static const String DB_arbcName_KEY = "BRND_ARBC_NAME";
+  static const String API_id_Key = "id";
+  static const String API_name_Key = "BRND_NAME";
+  static const String API_logoUrl_Key = "logo_url";
+  static const String API_arbcName_Key = "BRND_ARBC_NAME";
 
   final int id;
   final String name;
@@ -12,10 +12,10 @@ class Brand {
   Brand(this.id, this.name, this.arbcName, this.logoURL);
 
   Brand.fromJson(Map<String, dynamic> json)
-      : id = json[DB_id_KEY],
-        name = json[DB_name_KEY],
-        arbcName = json[DB_arbcName_KEY],
-        logoURL = json[DB_logoUrl_KEY];
+      : id = json[API_id_Key],
+        name = json[API_name_Key],
+        arbcName = json[API_arbcName_Key],
+        logoURL = json[API_logoUrl_Key];
 
   operator ==(o) => o is Brand && id == o.id;
 

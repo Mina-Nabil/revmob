@@ -3,6 +3,30 @@
     "@dashboard": {
       "description": "The name of the dashboard screen"
     },
+    "newOffer": "New Offer",
+    "@newRequests": {
+      "description": "New offer page title"
+    },
+    "newRequests": "New",
+    "@newRequests": {
+      "description": "New requests title"
+    },
+    "pending": "Pending",
+    "@pending": {
+      "description": "Pending requests title"
+    },
+    "approved": "Approved",
+    "@approved": {
+      "description": "Approved requests title"
+    },
+    "expired": "Expired",
+    "@expired": {
+      "description": "Approved requests title"
+    },
+    "createOffer": "Create Offer",
+    "@createOffer": {
+      "description": "Create offer msg"
+    },
     "myCatalog": "My Catalog",
     "@myCatalog": {
       "description": "My Catalog name in the navigation bar"
@@ -291,9 +315,45 @@
     "@mobNumber" : {
       "description": "Mobile Number word"
     },
+    "isloan": "Loan Option Included?",
+    "@isloan" : {
+      "description": "Offer checkbox label, asking if loan is valid for the offer"
+    },
+    "sameColor": "Same Colors",
+    "@sameColor" : {
+      "description": "Same Color Radio option in create offer form"
+    },
+    "otherColors": "Other",
+    "@otherColors" : {
+      "description": "Other color option in create offer form"
+    },
+    "noCustomers": "No Customers",
+    "@noCustomers" : {
+      "description": "No Customers Msg"
+    },
+    "noCustomersSub": "Seems like you haven't any customers yet",
+    "@noCustomersSub" : {
+      "description": "No Customers Subtitle Msg"
+    },
+    "noOffers": "No Offers Found",
+    "@noOffers" : {
+      "description": "No Offers Msg"
+    },
+    "noOffersSub": "Oops.. nothing found here",
+    "@noOffersSub" : {
+      "description": "No Offers Subtitle Msg"
+    },
+    "downPaymentLessThanPriceMsg": "Downpayment less than the price ? Maybe Something is wrong",
+    "@downPaymentLessThanPriceMsg" : {
+      "description": "Invalid downpayment entry, less than price"
+    },
+    "numberInvalidMsg": "Please enter a valid Number",
+    "@numberInvalidMsg" : {
+      "description": "Invalid number entry"
+    },
     "mobInvalidMsg": "Please enter a valid Mobile Number",
     "@mobInvalidMsg" : {
-      "description": "Mobile Number word"
+      "description": "Invalid Mobile Number entry"
     },
     "mobNumberHint": "01234567891",
     "@mobNumberHint" : {
@@ -423,9 +483,41 @@
     "@noCarsCaption" : {
       "description": "no cars in empty catalog word"
     },
+    "minDownpayment": "Min. Reservation Payment",
+    "@minDownpayment" : {
+      "description": "Minimum downpayment to be submitted by the seller in offer creation"
+    },
+    "minDownpaymentHint": "Insert Amount",
+    "@minDownpaymentHint" : {
+      "description": "Minimum downpayment  hint text to be shown on the offer creation from"
+    },
+    "setAsDefaultOffer": "Set as Default Offer for this car",
+    "@setAsDefaultOffer" : {
+      "description": "Set as default offer label"
+    },
+    "comment": "Comment",
+    "@comment" : {
+      "description": "Comment word"
+    },
+    "commentHint": "Type your notes",
+    "@commentHint" : {
+      "description": "comment hint , used in form"
+    },
+    "from": "From",
+    "@from" : {
+      "description": "From word"
+    },
+    "to": "To",
+    "@to" : {
+      "description": "To word"
+    },
     "price": "Price",
     "@price" : {
       "description": "Price word"
+    },
+    "priceFormHint": "Insert Price",
+    "@price" : {
+      "description": "Price hint in case of price text field"
     },
     "search": "Search",
     "@search" : {

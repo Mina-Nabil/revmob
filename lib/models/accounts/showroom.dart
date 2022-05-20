@@ -1,45 +1,46 @@
 import 'package:revmo/models/accounts/bank_info.dart';
 import 'package:revmo/models/accounts/join_request.dart';
+import 'package:revmo/models/accounts/profile.dart';
 import 'package:revmo/models/accounts/seller.dart';
 
-class Showroom {
-  static const String DB_ID = "id";
-  static const String DB_OWNR_ID_KEY = "SHRM_OWNR_ID";
-  static const String DB_CITY_ID_KEY = "SHRM_CITY_ID";
-  static const String DB_BANK_ID_KEY = "SHRM_BANK_ID";
-  static const String DB_name_KEY = "SHRM_NAME";
-  static const String DB_email_KEY = "SHRM_MAIL";
-  static const String DB_address_KEY = "SHRM_ADRS";
-  static const String DB_mobileNumber1_KEY = "SHRM_MOB1";
-  static const String DB_isVerified_KEY = "SHRM_VRFD";
-  static const String DB_isActive_KEY = "SHRM_ACTV";
-  static const String DB_isMailVerified_KEY = "SHRM_MAIL_VRFD";
-  static const String DB_isMobVerified_KEY = "SHRM_MOB1_VRFD";
+class Showroom implements Profile {
+  static const String API_ID = "id";
+  static const String API_OWNR_ID_Key = "SHRM_OWNR_ID";
+  static const String API_CITY_ID_Key = "SHRM_CITY_ID";
+  static const String API_BANK_ID_Key = "SHRM_BANK_ID";
+  static const String API_name_Key = "SHRM_NAME";
+  static const String API_email_Key = "SHRM_MAIL";
+  static const String API_address_Key = "SHRM_ADRS";
+  static const String API_mobileNumber1_Key = "SHRM_MOB1";
+  static const String API_isVerified_Key = "SHRM_VRFD";
+  static const String API_isActive_Key = "SHRM_ACTV";
+  static const String API_isMailVerified_Key = "SHRM_MAIL_VRFD";
+  static const String API_isMobVerified_Key = "SHRM_MOB1_VRFD";
 
-  static const String DB_salesRecord_KEY = "SHRM_RECD";
-  static const String DB_salesRecordStatus_KEY = "SHRM_RECD_STTS";
+  static const String API_salesRecord_Key = "SHRM_RECD";
+  static const String API_salesRecordStatus_Key = "SHRM_RECD_STTS";
 
-  static const String DB_salesRecordFrontImg_KEY = "SHRM_RECD_FRNT";
-  static const String DB_salesRecordBackImg_KEY = "SHRM_RECD_BACK";
+  static const String API_salesRecordFrontImg_Key = "SHRM_RECD_FRNT";
+  static const String API_salesRecordBackImg_Key = "SHRM_RECD_BACK";
 
-  static const String DB_verifiedSince_KEY = "SHRM_VRFD_SNCE";
+  static const String API_verifiedSince_Key = "SHRM_VRFD_SNCE";
 
-  static const String DB_balance_KEY = "SHRM_BLNC";
+  static const String API_balance_Key = "SHRM_BLNC";
 
-  static const String DB_image_KEY = "image_url";
-  static const String DB_owner_KEY = "owner";
+  static const String API_image_Key = "image_url";
+  static const String API_owner_Key = "owner";
 
-  static const String DB_offerSent_KEY = "SHRM_OFRS_SENT";
-  static const String DB_offersAccepted_KEY = "SHRM_OFRS_ACPT";
-  static const String DB_createdAt_KEY = "created_at";
+  static const String API_offerSent_Key = "SHRM_OFRS_SENT";
+  static const String API_offersAccepted_Key = "SHRM_OFRS_ACPT";
+  static const String API_createdAt_Key = "created_at";
 
-  static const String FORM_NAME_KEY = "name";
-  static const String FORM_EMAIL_KEY = "email";
-  static const String FORM_MOB_KEY = "mobNumber1";
-  static const String FORM_IMGE_KEY = "image";
-  static const String FORM_PW_KEY = "password";
-  static const String FORM_ADRS_KEY = "address";
-  static const String FORM_CITY_KEY = "cityID";
+  static const String FORM_NAME_Key = "name";
+  static const String FORM_EMAIL_Key = "email";
+  static const String FORM_MOB_Key = "mobNumber1";
+  static const String FORM_IMGE_Key = "image";
+  static const String FORM_PW_Key = "password";
+  static const String FORM_ADRS_Key = "address";
+  static const String FORM_CITY_Key = "cityID";
 
   final int _id;
   final int _ownerID;
@@ -68,38 +69,38 @@ class Showroom {
   JoinRequestStatus? requestedStatus;
 
   Showroom.fromJson(Map<String, dynamic> json, {this.requestedStatus})
-      : this._id = json[DB_ID],
-        this._name = json[DB_name_KEY],
-        this._ownerID = json[DB_OWNR_ID_KEY],
-        this._address = json[DB_address_KEY],
-        this._balance = json[DB_balance_KEY].toDouble(),
-        this._bankID = json[DB_BANK_ID_KEY],
-        this._cityID = (json[DB_CITY_ID_KEY] is int) ? json[DB_CITY_ID_KEY] : int.parse(json[DB_CITY_ID_KEY]),
-        this._createdAt = DateTime.parse(json[DB_createdAt_KEY]),
-        this._email = json[DB_email_KEY],
-        this._image = json[DB_image_KEY],
-        this._isActive = json[DB_isActive_KEY] == 1,
-        this._isMailVerified = json[DB_isMailVerified_KEY] == 1,
-        this._isMobVerified = json[DB_isMobVerified_KEY] == 1,
-        this._isVerified = json[DB_isVerified_KEY] == 1,
-        this._mobileNumber1 = json[DB_mobileNumber1_KEY],
-        this._offersAccepted = json[DB_offersAccepted_KEY] ?? 0,
-        this._offersSent = json[DB_offerSent_KEY] ?? 0,
-        this._salesRecord = json[DB_salesRecord_KEY],
-        this._salesRecordBackImg = json[DB_salesRecordBackImg_KEY],
-        this._salesRecordFrontImg = json[DB_salesRecordFrontImg_KEY],
-        this._salesRecordStatus = json[DB_salesRecordStatus_KEY],
-        this._verifiedSince = DateTime.tryParse(json[DB_verifiedSince_KEY] ?? "") {
-    this._owner = json[DB_owner_KEY] != null ? Seller.fromJson(json[DB_owner_KEY], loadedShowroom: this) : null;
+      : this._id = json[API_ID],
+        this._name = json[API_name_Key],
+        this._ownerID = json[API_OWNR_ID_Key],
+        this._address = json[API_address_Key],
+        this._balance = json[API_balance_Key].toDouble(),
+        this._bankID = json[API_BANK_ID_Key],
+        this._cityID = (json[API_CITY_ID_Key] is int) ? json[API_CITY_ID_Key] : int.parse(json[API_CITY_ID_Key]),
+        this._createdAt = DateTime.parse(json[API_createdAt_Key]),
+        this._email = json[API_email_Key],
+        this._image = json[API_image_Key],
+        this._isActive = json[API_isActive_Key] == 1,
+        this._isMailVerified = json[API_isMailVerified_Key] == 1,
+        this._isMobVerified = json[API_isMobVerified_Key] == 1,
+        this._isVerified = json[API_isVerified_Key] == 1,
+        this._mobileNumber1 = json[API_mobileNumber1_Key],
+        this._offersAccepted = json[API_offersAccepted_Key] ?? 0,
+        this._offersSent = json[API_offerSent_Key] ?? 0,
+        this._salesRecord = json[API_salesRecord_Key],
+        this._salesRecordBackImg = json[API_salesRecordBackImg_Key],
+        this._salesRecordFrontImg = json[API_salesRecordFrontImg_Key],
+        this._salesRecordStatus = json[API_salesRecordStatus_Key],
+        this._verifiedSince = DateTime.tryParse(json[API_verifiedSince_Key] ?? "") {
+    this._owner = json[API_owner_Key] != null ? Seller.fromJson(json[API_owner_Key], loadedShowroom: this) : null;
   }
 
   int get id => _id;
   int get ownerID => _ownerID;
   int get cityID => _cityID;
-  String get name => _name;
+  String get fullName => _name;
   String get email => _email;
   String get address => _address;
-  String get mobNumber => _mobileNumber1;
+  String get mob => _mobileNumber1;
   bool get isVerified => _isVerified;
   bool get isActive => _isActive;
   bool get isMailVerified => _isMailVerified;
@@ -116,10 +117,19 @@ class Showroom {
   String? get salesRecordBackImg => _salesRecordBackImg;
   int? get bankID => _bankID;
   Seller? get owner => _owner;
+  Showroom? get showroom => this;
 
   BankInfo? get bankingInfo => _bankingInfo;
 
   set bankingInfo(BankInfo? info) => this._bankingInfo = info;
+
+  String get initials {
+    String ret = "";
+    _name.split(" ").forEach((name) {
+      ret += name[0].toUpperCase();
+    });
+    return ret;
+  }
 
   operator ==(o) => o.hashCode == this.hashCode;
 

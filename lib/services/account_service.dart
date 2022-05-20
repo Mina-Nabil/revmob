@@ -5,12 +5,13 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:revmo/environment/api_response.dart';
 import 'package:revmo/environment/server.dart';
+import 'package:revmo/main.dart';
 import 'package:revmo/models/accounts/join_request.dart';
 import 'package:revmo/models/accounts/showroom.dart';
 import 'package:revmo/models/accounts/seller.dart';
 
 class AccountService {
-  static final ServerHandler _server = new ServerHandler();
+  static final ServerHandler _server = getIt.get<ServerHandler>();
 
   //Team Handling Functions
   static Future<ApiResponse<List<Seller>?>> getShowroomTeam(BuildContext context, {Showroom? loadedShowroom}) async {

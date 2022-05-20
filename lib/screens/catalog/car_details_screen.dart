@@ -98,7 +98,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
         isLoading = false;
       });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.cantAddCarsMsg)));
+      RevmoTheme.showRevmoSnackbar(context, AppLocalizations.of(context)!.cantAddCarsMsg);
     }
   }
 

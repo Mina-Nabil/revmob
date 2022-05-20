@@ -16,6 +16,7 @@ class RevmoCarImagesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         height: height,
+        width: double.infinity,
         decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5)), color: Colors.white),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

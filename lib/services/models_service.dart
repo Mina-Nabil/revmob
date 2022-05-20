@@ -3,12 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:revmo/environment/api_response.dart';
 import 'package:revmo/environment/server.dart';
+import 'package:revmo/main.dart';
 import 'package:revmo/models/cars/model.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ModelsService {
-  static ServerHandler _server = new ServerHandler();
+  static ServerHandler _server = getIt.get<ServerHandler>();
 
   static Future<ApiResponse<List<CarModel>?>> getModels(BuildContext context, int brandID, bool loadCars) async {
     var request = await http.get(_server.getBrandModelsURI(brandID), headers: _server.headers);

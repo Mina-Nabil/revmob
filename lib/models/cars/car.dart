@@ -7,34 +7,34 @@ class Car implements Comparable {
   static final NumberFormat _formatter = NumberFormat("#,###", "en");
 
   //Api Keys
-  static const String DB_id_KEY = "id";
-  static const String DB_catgName_KEY = "CAR_CATG";
-  static const String DB_avgPrice_KEY = "CAR_PRCE";
-  static const String DB_horsePower_KEY = "CAR_HPWR";
-  static const String DB_seats_KEY = "CAR_SEAT";
-  static const String DB_sort_KEY = "CAR_VLUE";
-  static const String DB_acceleration_KEY = "CAR_ACC";
-  static const String DB_engineCC_KEY = "CAR_ENCC";
-  static const String DB_torque_KEY = "CAR_TORQ";
-  static const String DB_transmission_KEY = "CAR_TRNS";
-  static const String DB_top_speed_KEY = "CAR_TPSP";
-  static const String DB_height_KEY = "CAR_HEIT";
-  static const String DB_rims_KEY = "CAR_RIMS";
-  static const String DB_trunk_KEY = "CAR_TRNK";
-  static const String DB_dimensions_KEY = "CAR_DIMN";
-  static const String DB_paragraph_title1_KEY = "CAR_TTL1";
-  static const String DB_paragraph_title2_KEY = "CAR_TTL2";
-  static const String DB_paragraph1_KEY = "CAR_PRG1";
-  static const String DB_paragraph2_KEY = "CAR_PRG2";
-  static const String DB_main_image_KEY = "image_url";
-  static const String DB_added_KEY = "created_at";
+  static const String API_id_Key = "id";
+  static const String API_catgName_Key = "CAR_CATG";
+  static const String API_avgPrice_Key = "CAR_PRCE";
+  static const String API_horsePower_Key = "CAR_HPWR";
+  static const String API_seats_Key = "CAR_SEAT";
+  static const String API_sort_Key = "CAR_VLUE";
+  static const String API_acceleration_Key = "CAR_ACC";
+  static const String API_engineCC_Key = "CAR_ENCC";
+  static const String API_torque_Key = "CAR_TORQ";
+  static const String API_transmission_Key = "CAR_TRNS";
+  static const String API_top_speed_Key = "CAR_TPSP";
+  static const String API_height_Key = "CAR_HEIT";
+  static const String API_rims_Key = "CAR_RIMS";
+  static const String API_trunk_Key = "CAR_TRNK";
+  static const String API_dimensions_Key = "CAR_DIMN";
+  static const String API_paragraph_title1_Key = "CAR_TTL1";
+  static const String API_paragraph_title2_Key = "CAR_TTL2";
+  static const String API_paragraph1_Key = "CAR_PRG1";
+  static const String API_paragraph2_Key = "CAR_PRG2";
+  static const String API_main_image_Key = "image_url";
+  static const String API_added_Key = "created_at";
 
-  static const String DB_carimage_url_KEY = "image_url";
-  static const String DB_carimage_sort_KEY = "CIMG_VLUE";
+  static const String API_carimage_url_Key = "image_url";
+  static const String API_carimage_sort_Key = "CIMG_VLUE";
 
-  static const String DB_model_KEY = "model";
-  static const String DB_images_KEY = "images";
-  static const String DB_accessories_KEY = "accessories";
+  static const String API_model_Key = "model";
+  static const String API_images_Key = "images";
+  static const String API_accessories_Key = "accessories";
 
   final int _id;
   final String _catgName;
@@ -64,39 +64,40 @@ class Car implements Comparable {
   // Car(this.id, this.catgName, this.avgPrice, this.model, this.added);
 
   Car.fromJson(Map<String, dynamic> json, {CarModel? model})
-      : _id = json[DB_id_KEY] ?? 1,
-        _catgName = json[DB_catgName_KEY],
-        _avgPrice = json[DB_avgPrice_KEY].toDouble(),
-        _horsePower = json[DB_horsePower_KEY],
-        _seats = json[DB_seats_KEY],
-        _acceleration = json[DB_acceleration_KEY].toDouble(),
-        _motorCC = json[DB_engineCC_KEY],
-        _torque = json[DB_torque_KEY],
-        _transmission = json[DB_transmission_KEY],
-        _topSpeed = json[DB_top_speed_KEY],
-        _height = json[DB_height_KEY] is double ? json[DB_height_KEY] : double.parse(json[DB_height_KEY].toString()),
-        _rims = json[DB_rims_KEY],
-        _trunkCapacity = json[DB_trunk_KEY],
-        _dimensions = json[DB_dimensions_KEY],
-        _mainImageURL = json[DB_main_image_KEY],
-        _model = model ?? CarModel.fromJson(json[DB_model_KEY]),
-        _paragraph1 = json[DB_paragraph1_KEY],
-        _paragraph2 = json[DB_paragraph2_KEY],
-        _paragraph1Title = json[DB_paragraph_title1_KEY],
-        _paragraph2Title = json[DB_paragraph_title2_KEY],
-        _sortValue = json[DB_sort_KEY],
+      : _id = json[API_id_Key] ?? 1,
+        _catgName = json[API_catgName_Key],
+        _avgPrice = json[API_avgPrice_Key].toDouble(),
+        _horsePower = json[API_horsePower_Key],
+        _seats = json[API_seats_Key],
+        _acceleration = json[API_acceleration_Key].toDouble(),
+        _motorCC = json[API_engineCC_Key],
+        _torque = json[API_torque_Key],
+        _transmission = json[API_transmission_Key],
+        _topSpeed = json[API_top_speed_Key],
+        _height = json[API_height_Key] is double ? json[API_height_Key] : double.parse(json[API_height_Key].toString()),
+        _rims = json[API_rims_Key],
+        _trunkCapacity = json[API_trunk_Key],
+        _dimensions = json[API_dimensions_Key],
+        _mainImageURL = json[API_main_image_Key],
+        _model = model ?? CarModel.fromJson(json[API_model_Key]),
+        _paragraph1 = json[API_paragraph1_Key],
+        _paragraph2 = json[API_paragraph2_Key],
+        _paragraph1Title = json[API_paragraph_title1_Key],
+        _paragraph2Title = json[API_paragraph_title2_Key],
+        _sortValue = json[API_sort_Key],
         _images = [],
         _accessories = [],
-        _added = json[DB_added_KEY] != null ? (DateTime.tryParse(json[DB_added_KEY]) ?? DateTime.now()) : DateTime.now() {
-    assert(model != null || json.containsKey(DB_model_KEY), "Model shall be initialized with the Car object");
+        _added = json[API_added_Key] != null ? (DateTime.tryParse(json[API_added_Key]) ?? DateTime.now()) : DateTime.now() {
+    assert(model != null || json.containsKey(API_model_Key), "Model shall be initialized with the Car object");
     _images.addAll(_model.images);
-    if (json[DB_images_KEY] != null && json[DB_images_KEY] is Iterable<dynamic>) {
-      json[DB_images_KEY].forEach((e) {
-        _images.add(RevmoCarImage(imageURL: e[DB_carimage_url_KEY], sortingValue: e[DB_carimage_sort_KEY], isModelImage: false));
+    if (json[API_images_Key] != null && json[API_images_Key] is Iterable<dynamic>) {
+      json[API_images_Key].forEach((e) {
+        _images
+            .add(RevmoCarImage(imageURL: e[API_carimage_url_Key], sortingValue: e[API_carimage_sort_Key], isModelImage: false));
       });
     }
-    if (json[DB_accessories_KEY] != null && json[DB_accessories_KEY] is Iterable<dynamic>) {
-      json[DB_accessories_KEY].forEach((e) {
+    if (json[API_accessories_Key] != null && json[API_accessories_Key] is Iterable<dynamic>) {
+      json[API_accessories_Key].forEach((e) {
         _accessories.add(new CarAccessory.fromJson(e));
       });
     }
@@ -105,9 +106,7 @@ class Car implements Comparable {
   String get carName => model.brand.name + " " + model.name + " " + catgName + " " + model.year;
   String get modelName => model.brand.name + " " + model.name;
 
-  String get formattedDate {
-    return added.day.toString() + "/" + added.month.toString() + "/" + added.year.toString();
-  }
+  String get formattedDate => _added.day.toString() + "/" + _added.month.toString() + "/" + _added.year.toString();
 
   String get formattedPrice {
     return _formatter.format(avgPrice);
@@ -117,7 +116,7 @@ class Car implements Comparable {
   String get catgName => _catgName;
   double get avgPrice => _avgPrice;
   CarModel get model => _model;
-  DateTime get added => _added;
+  DateTime get addedDate => _added;
   int get horsePower => _horsePower;
   String get horsePowerString => _horsePower.toString() + " Hp";
   int get seats => _seats;

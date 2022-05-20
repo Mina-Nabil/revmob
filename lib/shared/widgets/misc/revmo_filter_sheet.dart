@@ -13,6 +13,7 @@ import 'package:revmo/shared/widgets/misc/brand_filter_tile.dart';
 import 'package:revmo/shared/widgets/misc/category_filter_tile.dart';
 import 'package:revmo/shared/widgets/misc/color_filter_tile.dart';
 import 'package:revmo/shared/widgets/misc/main_button.dart';
+import 'package:revmo/shared/widgets/misc/page_break.dart';
 import 'package:revmo/shared/widgets/misc/secondary_button.dart';
 import 'package:revmo/shared/widgets/misc/model_filter_tile.dart';
 
@@ -109,13 +110,6 @@ class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
     Navigator.pop(context, false);
   }
 
-  var sheetBreaker = Container(
-    margin: EdgeInsets.symmetric(vertical: 5),
-    width: double.infinity,
-    height: .25,
-    color: RevmoColors.grey,
-  );
-
   @override
   void initState() {
     super.initState();
@@ -171,7 +165,7 @@ class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
                                     ))
                                 .toList(),
                           ),
-                          sheetBreaker,
+                          PageBreak(),
                           //models area
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -198,7 +192,7 @@ class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
                                 .toList(),
                           ),
                           //categories area
-                          sheetBreaker,
+                          PageBreak(),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: RevmoTheme.getSemiBold(AppLocalizations.of(context)!.categories, 1,
@@ -224,7 +218,7 @@ class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
                                       ))
                                   .toList()),
 
-                          sheetBreaker,
+                          PageBreak(),
                           //colors area
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -258,39 +252,41 @@ class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
                             child:
                                 RevmoTheme.getSemiBold(AppLocalizations.of(context)!.price, 1, color: RevmoColors.originalBlue),
                           ),
-                          widget.catalog.minCarPrice==0 && widget.catalog.maxCarPrice==0 ? Container() : Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              FittedBox(
-                                  child: RevmoTheme.getBody((widget.minPrice.value / 1000).round().toString() + "k", 1,
-                                      color: RevmoColors.darkerBlue)),
-                              Flexible(
-                                fit: FlexFit.tight,
-                                child: SliderTheme(
-                                  data: SliderThemeData(
-                                    activeTrackColor: RevmoColors.originalBlue,
-                                    trackHeight: 0.25,
-                                    inactiveTrackColor: RevmoColors.grey,
-                                    valueIndicatorColor: RevmoColors.originalBlue,
-                                  ),
-                                  child:  RangeSlider(
-                                    min: widget.catalog.minCarPrice,
-                                    max: widget.catalog.maxCarPrice,
-                                    values: new RangeValues(widget.minPrice.value, widget.maxPrice.value),
-                                    onChanged: (values) {
-                                      setState(() {
-                                        widget.minPrice.value = (values.start / 1000).roundToDouble() * 1000;
-                                        widget.maxPrice.value = (values.end / 1000).roundToDouble() * 1000;
-                                      });
-                                    },
-                                  ) ,
+                          widget.catalog.minCarPrice == 0 && widget.catalog.maxCarPrice == 0
+                              ? Container()
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    FittedBox(
+                                        child: RevmoTheme.getBody((widget.minPrice.value / 1000).round().toString() + "k", 1,
+                                            color: RevmoColors.darkerBlue)),
+                                    Flexible(
+                                      fit: FlexFit.tight,
+                                      child: SliderTheme(
+                                        data: SliderThemeData(
+                                          activeTrackColor: RevmoColors.originalBlue,
+                                          trackHeight: 0.25,
+                                          inactiveTrackColor: RevmoColors.grey,
+                                          valueIndicatorColor: RevmoColors.originalBlue,
+                                        ),
+                                        child: RangeSlider(
+                                          min: widget.catalog.minCarPrice,
+                                          max: widget.catalog.maxCarPrice,
+                                          values: new RangeValues(widget.minPrice.value, widget.maxPrice.value),
+                                          onChanged: (values) {
+                                            setState(() {
+                                              widget.minPrice.value = (values.start / 1000).roundToDouble() * 1000;
+                                              widget.maxPrice.value = (values.end / 1000).roundToDouble() * 1000;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    FittedBox(
+                                        child: RevmoTheme.getBody((widget.maxPrice.value / 1000).round().toString() + "k", 1,
+                                            color: RevmoColors.darkerBlue)),
+                                  ],
                                 ),
-                              ),
-                              FittedBox(
-                                  child: RevmoTheme.getBody((widget.maxPrice.value / 1000).round().toString() + "k", 1,
-                                      color: RevmoColors.darkerBlue)),
-                            ],
-                          ),
                           MainButton(
                             text: AppLocalizations.of(context)!.apply,
                             callBack: applyFilters,

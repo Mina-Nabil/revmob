@@ -14,6 +14,7 @@ class RevmoTheme {
   static const double DETAILS_BOXES_MIN = 40;
   static const double DEFAULT_HEADERS_HEIGHT = 64;
   static const double SEARCH_BAR_HEIGHT = 40;
+  static const double FIELDS_VER_MARGIN = 10;
 
   static const double _FONT_SIZE_0 = 10;
   static const double _FONT_SIZE_1 = 14;
@@ -89,7 +90,7 @@ class RevmoTheme {
   static getTitleStyle({Color color = Colors.white}) => TextStyle(
       fontSize: getFontSize(2),
       fontStyle: FontStyle.normal,
-      color: Colors.white,
+      color: color,
       fontFamily: FONT_GIBSON,
       fontWeight: FontWeight.w600);
 
@@ -146,8 +147,8 @@ class RevmoTheme {
         style: TextStyle(fontFamily: FONT_GIBSON, fontSize: getFontSize(2), color: Colors.white, fontWeight: FontWeight.w500));
   }
 
-  static Text getTextFieldLabel(String text) {
-    return Text(text, style: TextStyle(fontFamily: FONT_GIBSON, fontSize: getFontSize(1), color: Colors.white));
+  static Text getTextFieldLabel(String text, {Color color=Colors.white}) {
+    return Text(text, style: TextStyle(fontFamily: FONT_GIBSON, fontSize: getFontSize(1), color: color));
   }
 
   static TextStyle getTextFieldStyle() {
@@ -195,5 +196,9 @@ class RevmoTheme {
                 LoadingIndicator(indicatorType: Indicator.values[_INDICATOR_TYPE], colors: _indicatorColors, strokeWidth: 4.0)),
       ),
     );
+  }
+
+  static showRevmoSnackbar(BuildContext context, String msg){
+    ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text(msg, style: getBodyStyle(1, color: RevmoColors.darkBlue),)));
   }
 }

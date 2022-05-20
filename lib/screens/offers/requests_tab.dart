@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:revmo/environment/paths.dart';
+import 'package:provider/provider.dart';
+import 'package:revmo/providers/offers_provider.dart';
 import 'package:revmo/screens/home/home_screen.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:revmo/shared/widgets/home/search_bar.dart';
-import 'package:revmo/shared/widgets/misc/revmo_icon_only_button.dart';
+import 'package:revmo/shared/widgets/misc/default_header.dart';
+import 'package:revmo/shared/widgets/misc/no_cars_found.dart';
+import 'package:revmo/shared/widgets/misc/not_found_widget.dart';
+import 'package:revmo/shared/widgets/misc/titles_row.dart';
+import 'package:revmo/shared/widgets/offers/offer_tile.dart';
 
 class RequestsTab extends StatefulWidget {
   static const String screenName = "requestsTab";
@@ -17,15 +20,21 @@ class RequestsTab extends StatefulWidget {
 }
 
 class _RequestsTabState extends State<RequestsTab> {
-  final double _iconsPadding = 10;
-
+  int currentPage = 0;
   bool isLoading = true;
-  final TextEditingController _textEditingController = new TextEditingController();
-
+  final TextEditingController _searchTextController = new TextEditingController();
+  PageController _pageController = new PageController();
   @override
   void initState() {
-    //after requests loading
-    isLoading=false;
+    Future.delayed(Duration.zero).then((value) async {
+      await Provider.of<OffersProvider>(context, listen: false).loadOfferRequests();
+      await Provider.of<OffersProvider>(context, listen: false).loadPendingOffers();
+      await Provider.of<OffersProvider>(context, listen: false).loadApprovedOffers();
+      await Provider.of<OffersProvider>(context, listen: false).loadExpiredOffers();
+      setState(() {
+        isLoading = false;
+      });
+    });
     super.initState();
   }
 
@@ -43,58 +52,144 @@ class _RequestsTabState extends State<RequestsTab> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 //tab title
-                SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  width: double.infinity,
-                  child: RevmoTheme.getSemiBold(AppLocalizations.of(context)!.requests, 3),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
+                ...[
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    width: double.infinity,
+                    child: RevmoTheme.getSemiBold(AppLocalizations.of(context)!.requests, 3),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                ],
 
-                //search & filters
-                Container(
-                  height: RevmoTheme.SEARCH_BAR_HEIGHT,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: SearchBar(
-                          height: RevmoTheme.SEARCH_BAR_HEIGHT,
-                          searchCallback: !isLoading ? setFilters : null,
-                          textEditingController: _textEditingController,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 3, right: 1),
-                        child: RevmoIconButton(
-                          callback: (!isLoading) ? sortRequests : null,
-                          width: RevmoTheme.SEARCH_BAR_HEIGHT,
-                          color: RevmoColors.petrol,
-                          iconWidget: SvgPicture.asset(Paths.sortSVG,
-                              color: !isLoading ? Colors.white : Colors.white.withOpacity(RevmoTheme.DIMMING_RATIO)),
-                          iconPadding: _iconsPadding,
-                        ),
-                      ),
-                      Container(
-                          margin: EdgeInsets.only(left: 1),
-                          child: RevmoIconButton(
-                            callback: !isLoading ? setFilters : null,
-                            width: RevmoTheme.SEARCH_BAR_HEIGHT,
-                            color: RevmoColors.originalBlue,
-                            iconWidget: SvgPicture.asset(Paths.filtersSVG,
-                                color: !isLoading ? Colors.white : Colors.white.withOpacity(RevmoTheme.DIMMING_RATIO)),
-                            iconPadding: _iconsPadding,
-                          )),
+                //search, filters & titles
+                ...[
+                  RevmoDefaultHeader(
+                    searchCallback: searchRequests,
+                    searchTextController: _searchTextController,
+                    hideFilterbutton: false,
+                    hideSortbutton: false,
+                    filterCallback: setFilters,
+                    sortCallback: sortRequests,
+                  ),
+                  TitlesRow(
+                    {
+                      AppLocalizations.of(context)!.newRequests: () {
+                        setState(() {
+                          currentPage = 0;
+                        });
+                        _pageController.jumpToPage(0);
+                      },
+                      AppLocalizations.of(context)!.pending: () {
+                        setState(() {
+                          currentPage = 1;
+                        });
+                        _pageController.jumpToPage(1);
+                      },
+                      AppLocalizations.of(context)!.approved: () {
+                        setState(() {
+                          currentPage = 2;
+                        });
+                        _pageController.jumpToPage(2);
+                      },
+                      AppLocalizations.of(context)!.expired: () {
+                        setState(() {
+                          currentPage = 3;
+                        });
+                        _pageController.jumpToPage(3);
+                      },
+                    },
+                    currentPage,
+                    subtitles: [
+                      " (" + Provider.of<OffersProvider>(context).newRequests.length.toString() + ")",
+                      " (" + Provider.of<OffersProvider>(context).pending.length.toString() + ")",
+                      " (" + Provider.of<OffersProvider>(context).approved.length.toString() + ")",
+                      " (" + Provider.of<OffersProvider>(context).expired.length.toString() + ")",
                     ],
                   ),
-                ),
+                ],
+                Expanded(
+                  child: (isLoading)
+                      ? Center(child: CircularProgressIndicator())
+                      : Consumer<OffersProvider>(
+                          builder: (cnxt, offersProvider, _) => PageView(
+                            onPageChanged: (index) {
+                              setState(() {
+                                currentPage = index;
+                              });
+                            },
+                            physics: AlwaysScrollableScrollPhysics(),
+                            controller: _pageController,
+                            children: [
+                              RefreshIndicator(
+                                onRefresh: refreshNewRequests,
+                                child: offersProvider.newRequests.length > 0
+                                    ? ListView.builder(
+                                        padding: EdgeInsets.symmetric(horizontal: 5),
+                                        shrinkWrap: true,
+                                        itemCount: offersProvider.newRequests.length,
+                                        itemBuilder: (cnxt, i) => OfferTile.request(offersProvider.newRequests[i]))
+                                    : NotFoundWidget.offers(),
+                              ),
+                              RefreshIndicator(
+                                  onRefresh: refreshPendingRequests,
+                                  child: offersProvider.pending.length > 0
+                                      ? ListView.builder(
+                                          padding: EdgeInsets.symmetric(horizontal: 5),
+                                          shrinkWrap: true,
+                                          itemCount: offersProvider.pending.length,
+                                          itemBuilder: (cnxt, i) => OfferTile.pending(offersProvider.pending[i]),
+                                        )
+                                      : NotFoundWidget.offers()),
+                              RefreshIndicator(
+                                onRefresh: refreshApprovedRequests,
+                                child: offersProvider.approved.length > 0
+                                    ? ListView.builder(
+                                        padding: EdgeInsets.symmetric(horizontal: 5),
+                                        shrinkWrap: true,
+                                        itemCount: offersProvider.approved.length,
+                                        itemBuilder: (cnxt, i) => OfferTile.approved(offersProvider.approved[i]))
+                                    : NotFoundWidget.offers(),
+                              ),
+                              RefreshIndicator(
+                                  onRefresh: refreshExpiredRequests,
+                                  child: offersProvider.approved.length > 0
+                                      ? ListView.builder(
+                                          padding: EdgeInsets.symmetric(horizontal: 5),
+                                          shrinkWrap: true,
+                                          itemCount: offersProvider.expired.length,
+                                          itemBuilder: (cnxt, i) => OfferTile.expired(offersProvider.expired[i]))
+                                      : NotFoundWidget.offers()),
+                            ],
+                          ),
+                        ),
+                )
               ],
             )));
   }
 
+  searchRequests() {}
+
   sortRequests() {}
 
   setFilters() {}
+
+  Future refreshNewRequests() async {
+    await Provider.of<OffersProvider>(context, listen: false).loadOfferRequests(forceReload: true);
+  }
+
+  Future refreshPendingRequests() async {
+    await Provider.of<OffersProvider>(context, listen: false).loadPendingOffers(forceReload: true);
+  }
+
+  Future refreshApprovedRequests() async {
+    await Provider.of<OffersProvider>(context, listen: false).loadApprovedOffers(forceReload: true);
+  }
+
+  Future refreshExpiredRequests() async {
+    await Provider.of<OffersProvider>(context, listen: false).loadExpiredOffers(forceReload: true);
+  }
 }

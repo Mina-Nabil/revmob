@@ -86,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     child: Container(
                         child: Stack(
                   children: [
-                    OffStageTab((_selectedIndex == 0), CatalogTab.screenName, _navigatorKeys[CatalogTab.screenName]),
+                    OffStageTab((_selectedIndex == 0),  CatalogTab.screenName, _navigatorKeys[CatalogTab.screenName]),
                     OffStageTab((_selectedIndex == 1), RequestsTab.screenName, _navigatorKeys[RequestsTab.screenName]),
                     OffStageTab((_selectedIndex == 2), DashboardTab.screenName, _navigatorKeys[DashboardTab.screenName]),
                     OffStageTab((_selectedIndex == 3), CustomersTab.screenName, _navigatorKeys[CustomersTab.screenName]),
@@ -99,6 +99,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   addSettings: true,
                 ),
                 bottomNavigationBar: Container(
+                  padding: EdgeInsets.only(bottom: 10),
                   decoration: BoxDecoration(
                       color: RevmoColors.navbarColorBG,
                       border: Border(top: BorderSide(width: 0.25, color: RevmoColors.navbarBorder))),

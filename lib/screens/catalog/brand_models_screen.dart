@@ -9,6 +9,7 @@ import 'package:revmo/providers/models_provider.dart';
 import 'package:revmo/screens/home/home_screen.dart';
 import 'package:revmo/screens/catalog/model_colors_selection_screen.dart';
 import 'package:revmo/shared/colors.dart';
+import 'package:revmo/shared/theme.dart';
 import 'package:revmo/shared/widgets/catalog/horizontal_model_cars_list.dart';
 import 'package:revmo/shared/widgets/home/revmo_appbar.dart';
 import 'package:revmo/shared/widgets/misc/main_button.dart';
@@ -93,7 +94,7 @@ class _BrandModelsScreenState extends State<BrandModelsScreen> {
       Navigator.of(context)
           .push(PageTransition(child: ModelColorsSelectionsScreen(selectedCars), type: PageTransitionType.rightToLeft));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text(AppLocalizations.of(context)!.emptyCarsList)));
+      RevmoTheme.showRevmoSnackbar(context, AppLocalizations.of(context)!.emptyCarsList);
     }
   }
 

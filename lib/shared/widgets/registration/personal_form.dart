@@ -10,7 +10,7 @@ import 'package:revmo/shared/theme.dart';
 import 'package:revmo/shared/widgets/misc/display_photo_uploader.dart';
 import 'package:revmo/shared/widgets/misc/main_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:revmo/shared/widgets/misc/text_field.dart';
+import 'package:revmo/shared/widgets/misc/revmo_text_field.dart';
 import 'package:revmo/shared/custom_validators.dart';
 import 'dart:io';
 
@@ -52,7 +52,7 @@ class _PersonalFormState extends State<PersonalForm> {
       if (Provider.of<AccountProvider>(context, listen: false).user != null &&
           Provider.of<AccountProvider>(context, listen: false).user is Seller) {
         moveBar();
-        ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text(AppLocalizations.of(context)!.alreadySignedIn)));
+        RevmoTheme.showRevmoSnackbar(context, AppLocalizations.of(context)!.alreadySignedIn);
         movePage();
       }
       setState(() {
@@ -214,15 +214,15 @@ class _PersonalFormState extends State<PersonalForm> {
           password: _passwordController.text);
       if (response.status == true && response.body != null) {
         moveBar();
-        ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text(response.msg)));
+        RevmoTheme.showRevmoSnackbar(context, response.msg);
         movePage();
       } else {
         enableForm();
         print(response.msg);
-        ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text(response.msg)));
+        RevmoTheme.showRevmoSnackbar(context, response.msg);
         if (response.errors != null && response.errors!.length > 0) {
           response.errors!.forEach((field, msg) {
-            ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text(msg.toString())));
+            RevmoTheme.showRevmoSnackbar(context, msg.toString());
           });
         }
       }

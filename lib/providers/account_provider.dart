@@ -39,10 +39,10 @@ class AccountProvider extends ChangeNotifier {
       return response.body!;
     } else {
       print(response.msg);
-      ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text(response.msg)));
+      RevmoTheme.showRevmoSnackbar(context, response.msg);
       if (response.errors != null && response.errors!.length > 0) {
         response.errors!.forEach((field, msg) {
-          ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text(msg.toString())));
+          RevmoTheme.showRevmoSnackbar(context, msg.toString());
         });
       }
     }
@@ -148,8 +148,7 @@ class AccountProvider extends ChangeNotifier {
           if (_showroomInvitations != null) _showroomInvitations!.remove(request);
           notifyListeners();
         } else {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: RevmoTheme.getBody(response.msg, 1, color: RevmoColors.darkBlue)));
+          RevmoTheme.showRevmoSnackbar(context, response.msg);
         }
       }
     }
@@ -182,8 +181,7 @@ class AccountProvider extends ChangeNotifier {
           notifyListeners();
           return true;
         } else {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: RevmoTheme.getBody(response.msg, 1, color: RevmoColors.darkBlue)));
+          RevmoTheme.showRevmoSnackbar(context, response.msg);
         }
       }
     }
@@ -202,8 +200,7 @@ class AccountProvider extends ChangeNotifier {
         } catch (e) {}
         notifyListeners();
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: RevmoTheme.getBody(response.msg, 1, color: RevmoColors.darkBlue)));
+        RevmoTheme.showRevmoSnackbar(context, response.msg);
       }
     }
   }
@@ -223,8 +220,7 @@ class AccountProvider extends ChangeNotifier {
           if (_sellersRequests != null) _sellersRequests!.remove(request);
           if (_showroomInvitations != null) _showroomInvitations!.remove(request);
         } else {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: RevmoTheme.getBody(response.msg, 1, color: RevmoColors.darkBlue)));
+          RevmoTheme.showRevmoSnackbar(context, response.msg);
         }
         notifyListeners();
       }
@@ -251,8 +247,7 @@ class AccountProvider extends ChangeNotifier {
           notifyListeners();
           return true;
         } else {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: RevmoTheme.getBody(response.msg, 1, color: RevmoColors.darkBlue)));
+          RevmoTheme.showRevmoSnackbar(context, response.msg);
         }
       }
     }
@@ -268,12 +263,11 @@ class AccountProvider extends ChangeNotifier {
         try {
           Showroom loadedShowroomSearch = _showroomSearch!.firstWhere((s) => s == joinRequest.showroom);
           loadedShowroomSearch.requestedStatus = JoinRequestStatus.RequestedBySeller;
+          notifyListeners();
         } catch (e) {}
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: RevmoTheme.getBody(response.msg, 1, color: RevmoColors.darkBlue)));
+        RevmoTheme.showRevmoSnackbar(context, response.msg);
       }
-      notifyListeners();
     }
   }
 }

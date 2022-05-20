@@ -6,10 +6,11 @@ import 'package:revmo/environment/api_response.dart';
 import 'package:revmo/environment/server.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:revmo/main.dart';
 import 'package:revmo/models/accounts/showroom.dart';
 
 class SellerProfileService {
-  static final ServerHandler server = new ServerHandler();
+  static final ServerHandler server = getIt.get<ServerHandler>();
 
   static Future<ApiResponse<Showroom?>> createShowroom(
     context, {
@@ -21,11 +22,11 @@ class SellerProfileService {
     File? image,
   }) async {
     var request = http.MultipartRequest("POST", server.createShowroom);
-    request.fields[Showroom.FORM_NAME_KEY] = name;
-    request.fields[Showroom.FORM_EMAIL_KEY] = email;
-    request.fields[Showroom.FORM_MOB_KEY] = mobNumber;
-    request.fields[Showroom.FORM_ADRS_KEY] = address;
-    request.fields[Showroom.FORM_CITY_KEY] = cityID.toString();
+    request.fields[Showroom.FORM_NAME_Key] = name;
+    request.fields[Showroom.FORM_EMAIL_Key] = email;
+    request.fields[Showroom.FORM_MOB_Key] = mobNumber;
+    request.fields[Showroom.FORM_ADRS_Key] = address;
+    request.fields[Showroom.FORM_CITY_Key] = cityID.toString();
 
     if (image != null) {
       var pic = await http.MultipartFile.fromPath(

@@ -50,7 +50,9 @@ class _ModelColorsSelectionsScreenState extends State<ModelColorsSelectionsScree
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: RevmoAppBar(title: AppLocalizations.of(context)!.pickColors,),
+        appBar: RevmoAppBar(
+          title: AppLocalizations.of(context)!.pickColors,
+        ),
         backgroundColor: RevmoColors.darkBlue,
         body: ModelColorsSelectionWidget(
           selectedCars: widget.catalog,
@@ -103,7 +105,7 @@ class _ModelColorsSelectionsScreenState extends State<ModelColorsSelectionsScree
         isLoading = false;
       });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.cantAddCarsMsg)));
+      RevmoTheme.showRevmoSnackbar(context, AppLocalizations.of(context)!.cantAddCarsMsg);
     }
   }
 }

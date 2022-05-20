@@ -8,6 +8,7 @@ import 'package:revmo/models/cars/catalog.dart';
 import 'package:revmo/models/cars/model.dart';
 import 'package:revmo/models/cars/model_color.dart';
 import 'package:revmo/services/catalog_service.dart';
+import 'package:revmo/shared/theme.dart';
 
 class CatalogProvider extends ChangeNotifier {
   BuildContext _context;
@@ -26,9 +27,11 @@ class CatalogProvider extends ChangeNotifier {
       if (response.status && response.body != null) {
         _sellerCatalog = response.body!;
         _filteredCatalog = response.body!;
+        notifyListeners();
+      } else {
+        RevmoTheme.showRevmoSnackbar(_context, response.msg);
       }
     }
-    notifyListeners();
   }
 
   addCarsToCatalog(Catalog catalog) async {
@@ -36,8 +39,10 @@ class CatalogProvider extends ChangeNotifier {
     if (response.status && response.body != null) {
       _sellerCatalog = response.body!;
       _filteredCatalog = response.body!;
+      notifyListeners();
+    } else {
+      RevmoTheme.showRevmoSnackbar(_context, response.msg);
     }
-    notifyListeners();
   }
 
   Future<bool> removeCar(Car car) async {

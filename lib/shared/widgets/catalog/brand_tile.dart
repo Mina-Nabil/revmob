@@ -3,6 +3,7 @@ import 'package:revmo/models/cars/brand.dart';
 import 'package:revmo/screens/catalog/brand_models_screen.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
+import 'package:revmo/shared/widgets/catalog/brand_logo.dart';
 import 'package:revmo/shared/widgets/misc/revmo_image_placeholder.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -58,13 +59,7 @@ class BrandTile extends StatelessWidget {
                         padding: EdgeInsets.only(left: _horizontalPadding, right: _horizontalPadding, top: _verticalPadding),
                         child: AspectRatio(
                           aspectRatio: 1.0,
-                          child: (isPlaceholder)
-                              ? Container()
-                              : Image.network(
-                                  b!.logoURL,
-                                  errorBuilder: (context, exception, _)  =>  RevmoImagePlaceholder(height: _tileHeight, width: _tileWidth),
-                                  fit: BoxFit.fitWidth,
-                                ),
+                          child: (isPlaceholder) ? Container() : BrandLogo(b!, _tileWidth, _tileHeight),
                         )),
                   ),
                   SizedBox(

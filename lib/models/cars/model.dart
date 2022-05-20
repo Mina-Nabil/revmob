@@ -7,18 +7,18 @@ import 'revmo_image.dart';
 
 class CarModel {
   //DB keys
-  static const DB_id_KEY = "id";
-  static const DB_name_KEY = "MODL_NAME";
-  static const DB_imageURL_KEY = "image_url";
-  static const DB_type_KEY = "type";
-  static const DB_cars_KEY = "cars";
-  static const DB_brand_KEY = "brand";
-  static const DB_year_KEY = "MODL_YEAR";
-  static const DB_colors_KEY = "colors";
-  static const DB_model_images_KEY = "images";
-  static const DB_model_image_url_KEY = "image_url";
-  static const DB_model_image_sort_KEY = "MOIM_SORT";
-  static const DB_arbcName_KEY = "MODL_ARBC_NAME";
+  static const API_id_Key = "id";
+  static const API_name_Key = "MODL_NAME";
+  static const API_imageURL_Key = "image_url";
+  static const API_type_Key = "type";
+  static const API_cars_Key = "cars";
+  static const API_brand_Key = "brand";
+  static const API_year_Key = "MODL_YEAR";
+  static const API_colors_Key = "colors";
+  static const API_model_images_Key = "images";
+  static const API_model_image_url_Key = "image_url";
+  static const API_model_image_sort_Key = "MOIM_SORT";
+  static const API_arbcName_Key = "MODL_ARBC_NAME";
 
   final int _id;
   final String _name;
@@ -46,30 +46,30 @@ class CarModel {
         _colorImages = [];
 
   CarModel.fromJson(Map<String, dynamic> json, {bool loadCars = false})
-      : _id = json[DB_id_KEY],
-        _name = json[DB_name_KEY],
-        _year = json[DB_year_KEY],
-        _arbcName = json[DB_arbcName_KEY],
-        _brand = Brand.fromJson(json[DB_brand_KEY]),
-        _type = CarType.fromJson(json[DB_type_KEY]),
-        _imageURL = json[DB_imageURL_KEY],
+      : _id = json[API_id_Key],
+        _name = json[API_name_Key],
+        _year = json[API_year_Key],
+        _arbcName = json[API_arbcName_Key],
+        _brand = Brand.fromJson(json[API_brand_Key]),
+        _type = CarType.fromJson(json[API_type_Key]),
+        _imageURL = json[API_imageURL_Key],
         _colorImages = [],
         _colors = [],
         _images = [],
         _cars = CarList() {
-    if (json.containsKey(DB_colors_KEY) && json[DB_colors_KEY] is List<dynamic>) {
-      json[DB_colors_KEY].forEach((e) {
+    if (json.containsKey(API_colors_Key) && json[API_colors_Key] is List<dynamic>) {
+      json[API_colors_Key].forEach((e) {
         _colors.add(ModelColor.fromJson(e));
       });
     }
-    if (json.containsKey(DB_model_images_KEY) && json[DB_model_images_KEY] is List<dynamic>) {
-      json[DB_model_images_KEY].forEach((e) {
+    if (json.containsKey(API_model_images_Key) && json[API_model_images_Key] is List<dynamic>) {
+      json[API_model_images_Key].forEach((e) {
         _images.add(
-            RevmoCarImage(imageURL: e[DB_model_image_url_KEY], sortingValue: e[DB_model_image_sort_KEY], isModelImage: true));
+            RevmoCarImage(imageURL: e[API_model_image_url_Key], sortingValue: e[API_model_image_sort_Key], isModelImage: true));
       });
     }
-    if (loadCars && json.containsKey(DB_cars_KEY) && json[DB_cars_KEY] is List<dynamic>) {
-      json[DB_cars_KEY].forEach((e) {
+    if (loadCars && json.containsKey(API_cars_Key) && json[API_cars_Key] is List<dynamic>) {
+      json[API_cars_Key].forEach((e) {
         _cars.add(Car.fromJson(e, model: this));
       });
     }

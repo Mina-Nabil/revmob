@@ -1,9 +1,9 @@
 class CarAccessory {
-  static const String DB_id_key = "id";
-  static const String DB_name_key = "ACSR_NAME";
-  static const String DB_arbcName_key = "ACSR_ARBC_NAME";
-  static const String DB_value_key = "ACCR_VLUE";
-  static const String DB_pivot_key = "pivot";
+  static const String API_id_Key = "id";
+  static const String API_name_Key = "ACSR_NAME";
+  static const String API_arbcName_Key = "ACSR_ARBC_NAME";
+  static const String API_value_Key = "ACCR_VLUE";
+  static const String API_pivot_Key = "pivot";
 
   int _id;
   String _name;
@@ -17,10 +17,10 @@ class CarAccessory {
         this._value = value;
 
   CarAccessory.fromJson(Map<String, dynamic> json)
-      : this._id = json[DB_id_key],
-        this._name = json[DB_name_key],
-        this._arbcName = json[DB_arbcName_key],
-        this._value = json[DB_pivot_key][DB_value_key] ?? null;
+      : this._id = json[API_id_Key],
+        this._name = json[API_name_Key],
+        this._arbcName = json[API_arbcName_Key],
+        this._value = json[API_pivot_Key][API_value_Key] ?? null;
 
   int get id => _id;
   String get name => _name;

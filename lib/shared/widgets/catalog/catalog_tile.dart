@@ -7,6 +7,7 @@ import 'package:revmo/models/cars/model_color.dart';
 import 'package:revmo/screens/catalog/car_details_screen.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
+import 'package:revmo/shared/widgets/misc/date_row.dart';
 import 'package:revmo/shared/widgets/misc/revmo_image_placeholder.dart';
 
 class CatalogTile extends StatelessWidget {
@@ -29,7 +30,7 @@ class CatalogTile extends StatelessWidget {
       child: Container(
         height: _tileHeight,
         width: double.infinity,
-        margin: EdgeInsets.symmetric(vertical: _margin),
+        margin: EdgeInsets.only(bottom: _margin * 2),
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(_borderRadius))),
         child: Row(
           children: [
@@ -46,32 +47,20 @@ class CatalogTile extends StatelessWidget {
                       cacheWidth: _imageWidth,
                       errorBuilder: (_, __, stacktrace) {
                         print(stacktrace);
-                        return  RevmoImagePlaceholder(
-                        height: _imageHeight.toDouble(),
-                        width: _imageWidth.toDouble(),
-                      );},
+                        return RevmoImagePlaceholder(
+                          height: _imageHeight.toDouble(),
+                          width: _imageWidth.toDouble(),
+                        );
+                      },
                       width: _imageWidth.toDouble(),
                       height: _imageHeight.toDouble(),
                     ),
                   ),
-                  Row(
-                    children: [
-                      FittedBox(
-                        child: Container(
-                          alignment: Alignment.center,
-                          margin: EdgeInsets.only(left: 10, right: 2, bottom: 2),
-                          child: SvgPicture.asset(
-                            Paths.calendarSVG,
-                            color: RevmoColors.darkBlue,
-                            height: _calHeight,
-                          ),
-                        ),
-                      ),
-                      FittedBox(
-                        child: RevmoTheme.getCaption(car.formattedDate, 1, color: RevmoColors.darkBlue),
-                      ),
-                    ],
-                  )
+                  Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(left: 10, right: 2, bottom: 2),
+                    child: DateRow(car.addedDate),
+                  ),
                 ],
               ),
             ),

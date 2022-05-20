@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:revmo/environment/api_response.dart';
 import 'package:revmo/models/cars/model.dart';
 import 'package:revmo/services/models_service.dart';
+import 'package:revmo/shared/theme.dart';
 
 class ModelsProvider extends ChangeNotifier {
   BuildContext _context;
@@ -17,10 +18,10 @@ class ModelsProvider extends ChangeNotifier {
     if (response.status == true) {
       _modelsByBrand.clear();
       _modelsByBrand = response.body!;
-      _modelsByBrand.forEach((e)=>print(e));
+      _modelsByBrand.forEach((e) => print(e));
       notifyListeners();
     } else {
-      ScaffoldMessenger.of(_context).showSnackBar(SnackBar(content: new Text(response.msg)));
+      RevmoTheme.showRevmoSnackbar(_context, response.msg);
     }
   }
 }

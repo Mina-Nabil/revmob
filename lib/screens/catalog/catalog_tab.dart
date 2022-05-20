@@ -119,13 +119,14 @@ class _CatalogTabState extends State<CatalogTab> {
             Expanded(
               child: Column(
                 children: [
-                  TitlesRow({
-                    AppLocalizations.of(context)!.myCatalog +
-                        " (" +
-                        Provider.of<CatalogProvider>(context).filteredCatalog.length.toString() +
-                        ")": goToMyCatalog,
-                    AppLocalizations.of(context)!.addCars: goToCarPool,
-                  }, pageIndex),
+                  TitlesRow(
+                    {
+                      AppLocalizations.of(context)!.myCatalog: goToMyCatalog,
+                      AppLocalizations.of(context)!.addCars: goToCarPool,
+                    },
+                    pageIndex,
+                    subtitles: [" (" + Provider.of<CatalogProvider>(context).filteredCatalog.length.toString() + ")"],
+                  ),
                   Expanded(
                     child: PageView(
                         controller: _pagesController,

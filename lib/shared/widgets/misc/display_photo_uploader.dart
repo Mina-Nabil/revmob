@@ -6,6 +6,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:revmo/environment/paths.dart';
 import 'package:revmo/shared/colors.dart';
+import 'package:revmo/shared/theme.dart';
 import './revmo_text_icon_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -170,7 +171,7 @@ class _DisplayPhotoUploaderState extends State<DisplayPhotoUploader> {
             showCancelConfirmationDialog: true,
           ));
     else
-      ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text(AppLocalizations.of(context)!.reuploadMsg)));
+      RevmoTheme.showRevmoSnackbar(context, AppLocalizations.of(context)!.reuploadMsg);
   }
 
   setImage(File? image) {

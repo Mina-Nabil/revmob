@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:revmo/shared/colors.dart';
+import 'package:revmo/shared/theme.dart';
 
 class RevmoButton extends StatelessWidget {
-  final double _borderRadius = 3.0;
+  final double _borderRadius = 5.0;
   final double _borderWidth = 1.5;
   final double _fontSize = 15.0;
 
@@ -29,7 +30,7 @@ class RevmoButton extends StatelessWidget {
       child: Container(
         width: width,
         alignment: Alignment.center,
-        child: FittedBox(child: Text(text, style: TextStyle(color: textColor),)),
+        child: FittedBox(child: Text(text.toUpperCase(), style: RevmoTheme.getCaptionStyle(1, color: textColor),)),
       ),
     );
   }

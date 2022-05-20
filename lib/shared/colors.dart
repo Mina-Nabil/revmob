@@ -23,6 +23,7 @@ class RevmoColors {
   static const Color petrol = const Color.fromARGB(255, 51, 109, 153);
   static const Color darkGrey = const Color.fromARGB(255, 101, 116, 130);
   static const Color grey = const Color.fromARGB(255, 61, 69, 150);
+  static const Color lightPetrol = const Color.fromARGB(255, 0, 49, 87);
   static const Color lightGrey = const Color.fromARGB(25, 0, 49, 87);
   static const Color white = const Color.fromARGB(255, 235, 235, 235);
   static const Color pinkishRed = const Color.fromARGB(255, 255, 10, 92);
