@@ -5,6 +5,7 @@ import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:revmo/shared/widgets/catalog/brand_logo.dart';
 import 'package:revmo/shared/widgets/misc/revmo_image_placeholder.dart';
+import 'package:revmo/shared/widgets/UIwidgets/skeleton_loading.dart';
 import 'package:shimmer/shimmer.dart';
 
 class BrandTile extends StatelessWidget {
@@ -33,17 +34,38 @@ class BrandTile extends StatelessWidget {
         if (!isPlaceholder) Navigator.pushNamed(context, BrandModelsScreen.ROUTE_NAME, arguments: b);
       },
       child: (isPlaceholder)
-          ? Shimmer.fromColors(
-              baseColor: RevmoColors.baseShimmer,
-              highlightColor: RevmoColors.highlightShimmer,
-              enabled: isPlaceholder,
-              child: Container(
+      ?
+          // ? Shimmer.fromColors(
+          //     baseColor: RevmoColors.baseShimmer,
+          //     highlightColor: RevmoColors.highlightShimmer,
+          //     enabled: isPlaceholder,
+          //     child:
+      Container(
                   width: _tileWidth,
                   height: _tileHeight,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
                     color: Colors.white,
-                  )))
+                  ),
+     child:  SkeletonLoading(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 27,
+                      backgroundColor: Colors.white,
+                    ),
+SizedBox(height: 15,),
+                    Container(
+                      width: 60,
+                      height: 16,
+                      color: Colors.white,
+                    )
+
+                  ],
+              ),
+              ))
           : Container(
               width: _tileWidth,
               height: _tileHeight,

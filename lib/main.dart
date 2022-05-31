@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,7 @@ import 'package:revmo/screens/settings/settings_screen.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:get_it/get_it.dart';
+import 'Configurations/Extensions/loading_service.dart';
 import 'fixes/http_overrides.dart';
 
 GetIt getIt = GetIt.instance;
@@ -29,6 +31,8 @@ void main() {
 
   HttpOverrides.global = MyHttpOverrides();
   runApp(RevmoSellerApp());
+  configLoading();
+
 }
 
 class RevmoSellerApp extends StatelessWidget {
@@ -87,6 +91,12 @@ class RevmoSellerApp extends StatelessWidget {
                     return PageTransition(child: JoinShowroomScreen(), type: PageTransitionType.fade);
                 }
               },
+            builder:  EasyLoading.init(
+                builder: (context, child) => MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  child: child ?? const Scaffold(),
+                ),
+              ),
               home: SplashScreen(),
             )));
   }

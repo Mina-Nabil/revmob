@@ -1,13 +1,17 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:revmo/Configurations/Extensions/extensions.dart';
-import 'package:revmo/screens/home/customers_tab.dart';
+import 'package:revmo/models/Customers/CUSTOMERS_MODDEL_MODEL.dart';
 import 'package:revmo/shared/colors.dart';
+import 'package:revmo/shared/widgets/UIwidgets/initial_name_widget.dart';
 import '../../../shared/widgets/Customers/customers_page.dart';
 import '../../../shared/widgets/Customers/revmo_customer_deal_card.dart';
 import '../../../shared/widgets/home/revmo_appbar.dart';
 
 class CustomersDetails extends StatefulWidget {
+
+final SoldOffer customer;
+  const CustomersDetails ({ Key? key, required this.customer }): super(key: key);
   @override
   _CustomersDetailsState createState() => _CustomersDetailsState();
 }
@@ -24,16 +28,12 @@ class _CustomersDetailsState extends State<CustomersDetails> {
           children: [
             Row(
               children: [
-                InitialsCircle(
-                  name: 'MH',
-                  opacity: 0.8,
-                  whiteText: true,
-                ),
+                RevmoInitialNameWidget(initial:  widget.customer.buyer!.initials),
                 SizedBox(
                   width: 10,
                 ),
                 Text(
-                  'Mohamed Helmy',
+                  widget.customer.buyer!.buyerName ?? '',
                   style: TextStyle(fontSize: 20),
                 ),
               ],
@@ -41,9 +41,9 @@ class _CustomersDetailsState extends State<CustomersDetails> {
             SizedBox(
               height: 20,
             ),
-            FadeIn(child: RevmoCarDetailsCard(isInitiallyExpanded: true,)),
-            FadeInUp(child: RevmoCarCustomerDetailsCard()),
-            FadeInUp(child: RevmoCustomerDealDetailsCard()),
+            FadeIn(child: RevmoBuyerDetailsCard(isInitiallyExpanded: true,buyer: widget.customer.buyer!,)),
+            FadeInUp(child: RevmoCarCustomerDetailsCard(car: widget.customer.car!,)),
+            FadeInUp(child: RevmoCustomerDealDetailsCard(offer: widget.customer,)),
             FadeInUp(child: RevmoReviewsList())
           ],
         ).setPageHorizontalPadding(context),

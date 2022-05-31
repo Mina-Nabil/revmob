@@ -18,7 +18,6 @@ class NewOfferScreen extends StatelessWidget {
       ),
       backgroundColor: RevmoColors.darkBlue,
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
         child: ListView(
           shrinkWrap: true,
           children: [

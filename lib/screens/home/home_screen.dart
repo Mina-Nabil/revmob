@@ -17,6 +17,9 @@ import 'package:revmo/shared/widgets/home/tabs_nav.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../providers/customers_provider.dart';
+import '../../providers/offers_provider.dart';
+
 class HomeScreen extends StatefulWidget {
   static const String ROUTE_NAME = "/home";
   static const EdgeInsets HORIZONTAL_PADDING = const EdgeInsets.symmetric(horizontal: 15.0);
@@ -79,7 +82,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               providers: [
                 ChangeNotifierProvider<BrandsProvider>(create: (context) => new BrandsProvider(context)),
                 ChangeNotifierProvider<ModelsProvider>(create: (context) => new ModelsProvider(context)),
-                ChangeNotifierProvider<CatalogProvider>(create: (context) => new CatalogProvider(context))
+                ChangeNotifierProvider<CatalogProvider>(create: (context) => new CatalogProvider(context)),
+                ChangeNotifierProvider<OffersProvider>(create: (context) => new OffersProvider(context)),
+                ChangeNotifierProvider<CustomersProvider>(create: (context) => new CustomersProvider(context))
               ],
               child: Scaffold(
                 backgroundColor: RevmoColors.darkBlue,
@@ -101,11 +106,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   addSettings: true,
                 ),
                 bottomNavigationBar: Container(
-<<<<<<< HEAD
-                  padding: EdgeInsets.only(bottom: 10),
-=======
                   padding: Platform.isIOS ? EdgeInsets.only(bottom: 15) : EdgeInsets.zero,
->>>>>>> 410b64be9c7dc648e7f0eb16d5a8208c184d17cf
                   decoration: BoxDecoration(
                       color: RevmoColors.navbarColorBG,
                       border: Border(top: BorderSide(width: 0.25, color: RevmoColors.navbarBorder))),

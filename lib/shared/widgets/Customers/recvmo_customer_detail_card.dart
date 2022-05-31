@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:revmo/shared/widgets/misc/revmo_expandable_info_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class RevmoCarDetailsCard extends StatelessWidget {
-  //haneb3at el customer class badal el car
-  // final Car car;
+import '../../../models/Customers/CUSTOMERS_MODDEL_MODEL.dart';
+import 'detail_text.dart';
+
+class RevmoBuyerDetailsCard extends StatelessWidget {
+  final Buyer buyer;
   final bool isInitiallyExpanded;
-
-  const RevmoCarDetailsCard({this.isInitiallyExpanded = false});
-
+  const RevmoBuyerDetailsCard({this.isInitiallyExpanded = false,required this.buyer});
   final double maxBoxHeight = 330;
 
   @override
@@ -22,7 +23,7 @@ class RevmoCarDetailsCard extends StatelessWidget {
         child: RevmoExpandableInfoCard(
           body: Padding(
             padding: EdgeInsets.only(left: 10, right: 10),
-            child: Details(),
+            child: Details(buyer: buyer,),
           ),
           //Todo customer details
           title: AppLocalizations.of(context)!.details,
@@ -34,8 +35,13 @@ class RevmoCarDetailsCard extends StatelessWidget {
 }
 
 class Details extends StatelessWidget {
+  final Buyer buyer;
+  const Details({required this.buyer});
+
   @override
   Widget build(BuildContext context) {
+    var formatter = NumberFormat();
+
     return Container(
       padding: EdgeInsets.all(0),
       child: Column(
@@ -43,27 +49,27 @@ class Details extends StatelessWidget {
         children: [
           DetailText(
             title: "Name",
-            info: 'Mohamed Helmy Abd Ellatif',
+            info: buyer.fullName,
           ),
           DetailText(
             title: "National ID",
-            info: '0000000000000000',
+            info: buyer.buyerNationalId,
           ),
           DetailText(
             title: "Email",
-            info: 'Marcmgedbaky@hotmail.com',
+            info: buyer.buyerMail!,
           ),
           DetailText(
             title: "Mobile No",
-            info: '01113266564',
+            info: buyer.buyerMob1!,
           ),
           DetailText(
             title: "Address",
-            info: 'Abbas El Akkad - Nasr City - Cairo - Egypt',
+            info: 'Omar Ibn Elkhattab street',
           ),
           DetailText(
             title: "Date of birth",
-            info: '5/0/1982',
+            info: DateFormat('dd-MM-yyyy').format(buyer.buyerBday!).toString(),
           ),
         ],
       ),
@@ -71,36 +77,3 @@ class Details extends StatelessWidget {
   }
 }
 
-class DetailText extends StatelessWidget {
-  const DetailText({Key? key, required this.title, required this.info})
-      : super(key: key);
-  final String title;
-  final String info;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              color: RevmoColors.darkBlue,
-            ),
-          ),
-          SizedBox(
-            height: 2,
-          ),
-          Text(
-            info,
-            style: TextStyle(
-              color: RevmoColors.darkBlue,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}

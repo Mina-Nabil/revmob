@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:revmo/shared/widgets/misc/revmo_expandable_info_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../models/Customers/CUSTOMERS_MODDEL_MODEL.dart';
+
 class RevmoCustomerDealDetailsCard extends StatelessWidget {
   //haneb3at el customer class badal el car
   // final Car car;
+  final SoldOffer offer;
   final bool isInitiallyExpanded;
 
-  const RevmoCustomerDealDetailsCard({this.isInitiallyExpanded = false});
+  const RevmoCustomerDealDetailsCard({this.isInitiallyExpanded = false, required this.offer});
 
   final double maxBoxHeight = 330;
 
@@ -22,7 +26,7 @@ class RevmoCustomerDealDetailsCard extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 20.0),
       alignment: Alignment.topCenter,
       child: RevmoExpandableInfoCard(
-        body: Details(),
+        body: DealDetails(offer: offer,),
         //Todo customer details
         // title: AppLocalizations.of(context)!.details,
         title: 'Deal Details',
@@ -34,9 +38,14 @@ class RevmoCustomerDealDetailsCard extends StatelessWidget {
   }
 }
 
-class Details extends StatelessWidget {
+class DealDetails extends StatelessWidget {
+  final SoldOffer offer;
+  const DealDetails({ required this.offer});
+
   @override
   Widget build(BuildContext context) {
+    var formatter = NumberFormat();
+
     final mediaQuery = MediaQuery.of(context);
 
     return Container(
@@ -48,7 +57,7 @@ class Details extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: Container(
               padding: EdgeInsets.all(10),
-              width: 100,
+              width: 110,
               decoration: BoxDecoration(
                 color: Color(0xff26AEE4).withOpacity(0.3),
                 borderRadius: BorderRadius.circular(5),
@@ -64,7 +73,8 @@ class Details extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    '25/2/1997',
+                    // '25/2/1997',
+                    DateFormat('dd-MM-yyyy').format(offer.offerStartDate!).toString(),
                     style: TextStyle(color: RevmoColors.darkBlue, fontSize: 12),
                   )
                 ],
@@ -78,32 +88,34 @@ class Details extends StatelessWidget {
               children: [
                 DetailText(
                   title: "Price",
-                  info: '1,500,000 EGP',
+                  info: formatter.format(offer.offerPrice),
                 ),
                 DetailText(
                   title: "Min Reservation Payment",
-                  info: '1000 EGP',
+                  info: formatter.format(offer.offerMinPayment),
                 ),
                 DetailText(
                   title: "Payment Method",
-                  info: 'Loan',
+                  info: offer.offerCanLoan == 0 ? 'No Loan Option' : 'Loan',
                 ),
+
+                offer.offerCanLoan == 1 ? SizedBox.shrink():
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
                       width: mediaQuery.size.width * 0.3,
                       child: DetailText(
-                        title: "Address",
-                        info: 'Abbas El Akkad - Nasr City - Cairo - Egypt',
+                        title: "Loan Amount/ month ",
+                        info: '7000 EGP',
                       ),
                     ),
                     SizedBox(
                       width: 50,
                     ),
                     DetailText(
-                      title: "Date of birth",
-                      info: '5/0/1982',
+                      title: "Duration",
+                      info: '5 years',
                     ),
                   ],
                 ),

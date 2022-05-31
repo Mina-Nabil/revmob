@@ -35,8 +35,8 @@ class Offer {
   Car _car;
   OfferState _state;
   bool _isLoan;
-  double _price;
-  double _downPayment;
+  int _price;
+  int _downPayment;
   DateTime _startDate;
   DateTime _expiryDate;
   String? _sellerComment;
@@ -63,7 +63,7 @@ class Offer {
         _expiryDate = DateTime.tryParse(json[API_expiryDate_Key]) ?? DateTime.now(),
         _sellerComment = json[API_sellerComment_Key],
         _buyerComment = json[API_buyerComment_Key],
-        _buyerResponseDate = DateTime.tryParse(json[API_responseDate_Key]),
+        _buyerResponseDate = DateTime.tryParse(json[API_responseDate_Key]?? DateTime.now().toString()),
         _colors = [] {
     if (json[API_colors_Key] != null && json[API_colors_Key] is Iterable<String>) {
       json[API_colors_Key].forEach((c) {
@@ -78,8 +78,8 @@ class Offer {
   Car get car => _car;
   bool get isLoan => _isLoan;
   OfferState get state => _state;
-  double get price => _price;
-  double get downPayment => _downPayment;
+  int get price => _price;
+  int get downPayment => _downPayment;
   DateTime get issuingDate => _startDate;
   String get formatedIssuingDate =>
       _startDate.day.toString() + "/" + _startDate.month.toString() + "/" + _startDate.year.toString();

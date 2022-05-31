@@ -1,18 +1,24 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/providers/offers_provider.dart';
-import 'package:revmo/screens/home/home_screen.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:revmo/shared/widgets/misc/default_header.dart';
-import 'package:revmo/shared/widgets/misc/no_cars_found.dart';
 import 'package:revmo/shared/widgets/misc/not_found_widget.dart';
 import 'package:revmo/shared/widgets/misc/titles_row.dart';
 import 'package:revmo/shared/widgets/offers/offer_tile.dart';
+import 'package:revmo/Configurations/Extensions/extensions.dart';
+import '../../shared/widgets/misc/main_button.dart';
+import 'package:revmo/shared/widgets/offers/Requests/requests.dart';
+
+import '../../shared/widgets/UIwidgets/success_message.dart';
 
 class RequestsTab extends StatefulWidget {
   static const String screenName = "requestsTab";
+
   const RequestsTab();
 
   @override
@@ -22,15 +28,21 @@ class RequestsTab extends StatefulWidget {
 class _RequestsTabState extends State<RequestsTab> {
   int currentPage = 0;
   bool isLoading = true;
-  final TextEditingController _searchTextController = new TextEditingController();
+  final TextEditingController _searchTextController =
+      new TextEditingController();
   PageController _pageController = new PageController();
+
   @override
   void initState() {
     Future.delayed(Duration.zero).then((value) async {
-      await Provider.of<OffersProvider>(context, listen: false).loadOfferRequests();
-      await Provider.of<OffersProvider>(context, listen: false).loadPendingOffers();
-      await Provider.of<OffersProvider>(context, listen: false).loadApprovedOffers();
-      await Provider.of<OffersProvider>(context, listen: false).loadExpiredOffers();
+      await Provider.of<OffersProvider>(context, listen: false)
+          .loadOfferRequests();
+      await Provider.of<OffersProvider>(context, listen: false)
+          .loadPendingOffers();
+      await Provider.of<OffersProvider>(context, listen: false)
+          .loadApprovedOffers();
+      await Provider.of<OffersProvider>(context, listen: false)
+          .loadExpiredOffers();
       setState(() {
         isLoading = false;
       });
@@ -40,10 +52,12 @@ class _RequestsTabState extends State<RequestsTab> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+
     return Scaffold(
         backgroundColor: RevmoColors.darkBlue,
         body: Container(
-            padding: HomeScreen.HORIZONTAL_PADDING,
+            // padding: HomeScreen.HORIZONTAL_PADDING,
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: Column(
@@ -58,7 +72,8 @@ class _RequestsTabState extends State<RequestsTab> {
                   ),
                   Container(
                     width: double.infinity,
-                    child: RevmoTheme.getSemiBold(AppLocalizations.of(context)!.requests, 3),
+                    child: RevmoTheme.getSemiBold(
+                        AppLocalizations.of(context)!.requests, 3),
                   ),
                   SizedBox(
                     height: 15,
@@ -104,10 +119,30 @@ class _RequestsTabState extends State<RequestsTab> {
                     },
                     currentPage,
                     subtitles: [
-                      " (" + Provider.of<OffersProvider>(context).newRequests.length.toString() + ")",
-                      " (" + Provider.of<OffersProvider>(context).pending.length.toString() + ")",
-                      " (" + Provider.of<OffersProvider>(context).approved.length.toString() + ")",
-                      " (" + Provider.of<OffersProvider>(context).expired.length.toString() + ")",
+                      " (" +
+                          Provider.of<OffersProvider>(context)
+                              .newRequests
+                              .length
+                              .toString() +
+                          ")",
+                      " (" +
+                          Provider.of<OffersProvider>(context)
+                              .pending
+                              .length
+                              .toString() +
+                          ")",
+                      " (" +
+                          Provider.of<OffersProvider>(context)
+                              .approved
+                              .length
+                              .toString() +
+                          ")",
+                      " (" +
+                          Provider.of<OffersProvider>(context)
+                              .expired
+                              .length
+                              .toString() +
+                          ")",
                     ],
                   ),
                 ],
@@ -128,47 +163,114 @@ class _RequestsTabState extends State<RequestsTab> {
                                 onRefresh: refreshNewRequests,
                                 child: offersProvider.newRequests.length > 0
                                     ? ListView.builder(
-                                        padding: EdgeInsets.symmetric(horizontal: 5),
+                                        padding:
+                                            EdgeInsets.symmetric(horizontal: 5),
                                         shrinkWrap: true,
-                                        itemCount: offersProvider.newRequests.length,
-                                        itemBuilder: (cnxt, i) => OfferTile.request(offersProvider.newRequests[i]))
+                                        itemCount:
+                                            offersProvider.newRequests.length,
+                                        itemBuilder: (cnxt, i) {
+                                          print(offersProvider.newRequests.length);
+                                        return   FadeInUp(
+                                            child: OfferTile.request(
+                                                offersProvider
+                                                    .newRequests[i]),
+                                          );
+                                        })
                                     : NotFoundWidget.offers(),
                               ),
                               RefreshIndicator(
                                   onRefresh: refreshPendingRequests,
                                   child: offersProvider.pending.length > 0
-                                      ? ListView.builder(
-                                          padding: EdgeInsets.symmetric(horizontal: 5),
-                                          shrinkWrap: true,
-                                          itemCount: offersProvider.pending.length,
-                                          itemBuilder: (cnxt, i) => OfferTile.pending(offersProvider.pending[i]),
+                                      ? Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            FadeInRight(
+                                              child: MainButton(
+                                                  width: 200,
+                                                  text:
+                                                      'EXTEND ALL OFFERS FOR 2 DAYS',
+                                                  // AppLocalizations.of(
+                                                  //         context)!
+                                                  //     .createOffer,
+                                                  callBack: () {
+                                                    extendAllOffers();
+                                                  }),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Expanded(
+                                              child: ListView.separated(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 5),
+                                                // physics:
+                                                //     NeverScrollableScrollPhysics(),
+                                                shrinkWrap: true,
+                                                itemCount: offersProvider
+                                                    .pending.length,
+                                                itemBuilder: (cnxt, i) {
+                                                  return FadeInUp(
+                                                    duration: Duration(milliseconds: 200),
+                                                      child: PendingRequestTile(
+                                                    pendingOffer: offersProvider
+                                                        .pending[i],
+                                                    extendOffer: () {
+                                                      extendOfferForTwoDays(
+                                                          offersProvider
+                                                              .pending[i].id);
+                                                    },
+                                                  ));
+                                                  // OfferTile.pending(offersProvider.pending[i]);
+                                                },
+                                                separatorBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  return SizedBox(
+                                                    height: 10,
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                          ],
                                         )
                                       : NotFoundWidget.offers()),
                               RefreshIndicator(
                                 onRefresh: refreshApprovedRequests,
                                 child: offersProvider.approved.length > 0
                                     ? ListView.builder(
-                                        padding: EdgeInsets.symmetric(horizontal: 5),
+                                        padding:
+                                            EdgeInsets.symmetric(horizontal: 5),
                                         shrinkWrap: true,
-                                        itemCount: offersProvider.approved.length,
-                                        itemBuilder: (cnxt, i) => OfferTile.approved(offersProvider.approved[i]))
+                                        itemCount:
+                                            offersProvider.approved.length,
+                                        itemBuilder: (cnxt, i) =>
+                                            OfferTile.approved(
+                                                offersProvider.approved[i]))
                                     : NotFoundWidget.offers(),
                               ),
                               RefreshIndicator(
                                   onRefresh: refreshExpiredRequests,
                                   child: offersProvider.approved.length > 0
                                       ? ListView.builder(
-                                          padding: EdgeInsets.symmetric(horizontal: 5),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 5),
                                           shrinkWrap: true,
-                                          itemCount: offersProvider.expired.length,
-                                          itemBuilder: (cnxt, i) => OfferTile.expired(offersProvider.expired[i]))
+                                          itemCount:
+                                              offersProvider.expired.length,
+                                          itemBuilder: (cnxt, i) =>
+                                              OfferTile.expired(
+                                                  offersProvider.expired[i]))
                                       : NotFoundWidget.offers()),
                             ],
                           ),
                         ),
                 )
               ],
-            )));
+            ).setPageHorizontalPadding(context)));
   }
 
   searchRequests() {}
@@ -178,18 +280,68 @@ class _RequestsTabState extends State<RequestsTab> {
   setFilters() {}
 
   Future refreshNewRequests() async {
-    await Provider.of<OffersProvider>(context, listen: false).loadOfferRequests(forceReload: true);
+    await Provider.of<OffersProvider>(context, listen: false)
+        .loadOfferRequests(forceReload: true);
   }
 
   Future refreshPendingRequests() async {
-    await Provider.of<OffersProvider>(context, listen: false).loadPendingOffers(forceReload: true);
+    await Provider.of<OffersProvider>(context, listen: false)
+        .loadPendingOffers(forceReload: true);
   }
 
   Future refreshApprovedRequests() async {
-    await Provider.of<OffersProvider>(context, listen: false).loadApprovedOffers(forceReload: true);
+    await Provider.of<OffersProvider>(context, listen: false)
+        .loadApprovedOffers(forceReload: true);
   }
 
   Future refreshExpiredRequests() async {
-    await Provider.of<OffersProvider>(context, listen: false).loadExpiredOffers(forceReload: true);
+    await Provider.of<OffersProvider>(context, listen: false)
+        .loadExpiredOffers(forceReload: true);
   }
+
+  extendOfferForTwoDays(int id) {
+    EasyLoading.show();
+    Provider.of<OffersProvider>(context, listen: false)
+        .extendOffer(id)
+        .then((value) {
+      EasyLoading.dismiss();
+      if (value) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              Future.delayed(const Duration(seconds: 2), () {
+                Navigator.of(context).pop(true);
+              });
+              return SuccessMessage(
+                message: 'Offer $id Extended Successfully',
+              );
+            });
+      } else {
+        EasyLoading.dismiss();
+      }
+    });
+  }
+
+  extendAllOffers(){
+    EasyLoading.show();
+    Provider.of<OffersProvider>(context, listen: false).extendAllOffers().then((value) {
+
+      EasyLoading.dismiss();
+      if (value) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              Future.delayed(const Duration(seconds: 2), () {
+                Navigator.of(context).pop();
+              });
+              return SuccessMessage(
+                message: 'All Offers Has been Extended',
+              );
+            });
+      } else {
+        EasyLoading.dismiss();
+      }
+    });
+  }
+
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:revmo/environment/paths.dart';
 import 'package:revmo/models/cars/revmo_image.dart';
 import 'package:revmo/models/offers/new_offer_screen.dart';
@@ -14,6 +15,8 @@ import 'package:revmo/shared/widgets/misc/main_button.dart';
 import 'package:revmo/shared/widgets/misc/revmo_image_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:revmo/shared/widgets/settings/user_image.dart';
+
+import '../../../providers/offers_provider.dart';
 
 class OfferTile extends StatelessWidget {
   final OfferRequest? request;
@@ -55,7 +58,12 @@ class OfferTile extends StatelessWidget {
 
     createNewOffer() {
       if (this.request != null)
-        Navigator.of(context).push(PageTransition(child: NewOfferScreen(this.request!), type: PageTransitionType.rightToLeft));
+        Navigator.of(context).push(PageTransition(child: NewOfferScreen(this.request!), type: PageTransitionType.rightToLeft)).then((value) {
+      if(value != null) {
+        Provider.of<OffersProvider>(context, listen: false).removeIndexWithIdNew(request!.id);
+      }else {
+      }
+        });
     }
 
     return Container(

@@ -3,15 +3,18 @@ import 'package:provider/provider.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:revmo/shared/widgets/misc/revmo_expandable_info_card.dart';
 
+import '../../../models/cars/car.dart';
 import '../../../providers/catalog_provider.dart';
 import '../../colors.dart';
+import '../misc/car_info_grid.dart';
 
 class RevmoCarCustomerDetailsCard extends StatelessWidget {
-  // final Car car;
+  final Car car;
   final bool isInitiallyExpanded;
-  final double maxBoxHeight = 654;
+  final double maxBoxHeight = 450;
 
-  const RevmoCarCustomerDetailsCard({this.isInitiallyExpanded = false});
+  const RevmoCarCustomerDetailsCard(
+      {this.isInitiallyExpanded = false, required this.car});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,9 @@ class RevmoCarCustomerDetailsCard extends StatelessWidget {
         child: RevmoExpandableInfoCard(
           body: Padding(
             padding: EdgeInsets.only(left: 20, right: 20),
-            child: CardDetailsCustomer(),
+            child: CardDetailsCustomer(
+              car: car,
+            ),
           ),
           // title: AppLocalizations.of(context)!.details,
           title: 'Car Details',
@@ -34,10 +39,14 @@ class RevmoCarCustomerDetailsCard extends StatelessWidget {
 }
 
 class CardDetailsCustomer extends StatelessWidget {
+  final Car car;
+
+  const CardDetailsCustomer({required this.car});
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    final catalog = Provider.of<CatalogProvider>(context);
+    // final catalog = Provider.of<CatalogProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -50,23 +59,23 @@ class CardDetailsCustomer extends StatelessWidget {
               children: [
                 SizedBox(
                   height: 30,
-                  child:
-                      Image.network(catalog.catalog.models[0].brand.logoURL),
+                  child: Image.network(car.model.brand.logoURL),
                 ),
-                SizedBox(
+           const      SizedBox(
                   height: 5,
                 ),
-                Text(
-                  catalog.catalog.models[0].fullName,
-                  style: TextStyle(color: RevmoColors.darkBlue),
-                ),
-                SizedBox(
-                  height: 1,
-                ),
+                // Text(
+                //   car.model.fullName,
+                //   style: TextStyle(color: RevmoColors.darkBlue),
+                // ),
+                // SizedBox(
+                //   height: 1,
+                // ),
                 SizedBox(
                   width: mediaQuery.size.width * 0.3,
                   child: Text(
-                    'A/T / INSCRIPTION 2021 - Silver',
+                    // 'A/T / INSCRIPTION 2021 - Silver',
+                    car.carName,
                     style: TextStyle(color: RevmoColors.darkBlue),
                   ),
                 ),
@@ -74,10 +83,14 @@ class CardDetailsCustomer extends StatelessWidget {
             ),
             SizedBox(
               width: mediaQuery.size.width * 0.4,
-              child: Image.network(catalog.catalog.models[0].imageUrl),
+              child: Image.network(car.model.imageUrl),
             ),
           ],
         ),
+        SizedBox(
+          height: 10,
+        ),
+        CarInfoGrid(car),
       ],
     );
   }

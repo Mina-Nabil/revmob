@@ -54,6 +54,8 @@ class ServerHandler {
   static const String _acceptRequest = "accept/seller";
   static const String _acceptInvitation = "accept/invitation";
   static const String _deleteRequest = "delete/request";
+  static const String _extendOffer = "extend/offer";
+  static const String _extendAllOffer = "extend/offers";
 
   //offers urls
   static const String _submitOffer = "submit/offer";
@@ -61,6 +63,12 @@ class ServerHandler {
   static const String _getPendingOffers = "offers/pending";
   static const String _getApprovedOffers = "offers/approved";
   static const String _getExpiredOffers = "offers/expired";
+
+
+  //customers urls
+  static const String _getCustomers = "seller/customers";
+
+
 
   //Handle API Token
   Future<bool> setApiToken(String token) async {
@@ -116,6 +124,8 @@ class ServerHandler {
   Uri get pendingOffersURI => new Uri.https(_address, _sellerApiPrefix + _getPendingOffers);
   Uri get approvedOffersURI => new Uri.https(_address, _sellerApiPrefix + _getApprovedOffers);
   Uri get expiredOffersURI => new Uri.https(_address, _sellerApiPrefix + _getExpiredOffers);
+  Uri get extendOffer => new Uri.https(_address, _sellerApiPrefix + _extendOffer);
+  Uri get extendAllOffers => new Uri.https(_address, _sellerApiPrefix + _extendAllOffer);
 
   //Account & team management URIs
   Uri get teamUri => new Uri.https(_address, _sellerApiPrefix + _getTeamURL);
@@ -128,6 +138,13 @@ class ServerHandler {
   Uri get acceptRequestURI => new Uri.https(_address, _sellerApiPrefix + _acceptRequest);
   Uri get acceptInvitationURI => new Uri.https(_address, _sellerApiPrefix + _acceptInvitation);
   Uri get deleteRequestURI => new Uri.https(_address, _sellerApiPrefix + _deleteRequest);
+
+
+
+  //Customers URIS
+  Uri get getCustomers => new Uri.https(_address, _sellerApiPrefix + _getCustomers);
+
+
 
   Future<String> get deviceName async {
     if (_deviceName == null) {

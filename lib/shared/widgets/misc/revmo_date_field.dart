@@ -49,7 +49,7 @@ class _RevmoDateFieldState extends State<RevmoDateField> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.defaultValue != null) widget.controller.text = DateFormat('dd-MMM-y').format(widget.defaultValue!);
+    if (widget.defaultValue != null) widget.controller.text = DateFormat('dd-MM-yyyy').format(widget.defaultValue!);
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,9 +108,9 @@ class _RevmoDateFieldState extends State<RevmoDateField> {
                               backgroundColor: RevmoColors.white,
                               itemStyle: TextStyle(color: RevmoColors.darkBlue, fontWeight: FontWeight.bold, fontSize: 18),
                               doneStyle: TextStyle(color: RevmoColors.darkBlue, fontSize: 16)), onChanged: (date) {
-                        widget.controller.value = TextEditingValue(text: DateFormat('dd-MMM-y').format(date));
+                        widget.controller.value = TextEditingValue(text: DateFormat('dd-MM-yyyy').format(date));
                       }, onConfirm: (date) {
-                        widget.controller.value = TextEditingValue(text: DateFormat('dd-MMM-y').format(date));
+                        widget.controller.value = TextEditingValue(text: DateFormat('dd-MM-yyyy').format(date));
                       });
                     }),
               ),

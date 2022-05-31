@@ -50,7 +50,7 @@ class _BrandsGridState extends State<BrandsGrid> {
   List<Widget> generatePlaceholders(int count) {
     List<Widget> ret = [];
     for (int i = 0; i < count; i++)
-      ret.add(FadeInUp(child: Padding(padding: EdgeInsets.all(widget._tilePadding), child: BrandTile.placeholder())));
+      ret.add(Padding(padding: EdgeInsets.all(widget._tilePadding), child: BrandTile.placeholder()));
     return ret;
   }
 }

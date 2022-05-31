@@ -1,25 +1,41 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:revmo/providers/customers_provider.dart';
 import 'package:revmo/shared/colors.dart';
 
 import '../../environment/paths.dart';
-import '../../providers/catalog_provider.dart';
 import '../../shared/theme.dart';
+import '../../shared/widgets/Customers/LoadingShimmers/customer_tile_loading_widget.dart';
+import '../../shared/widgets/Customers/customer_tile_list.dart';
 import '../../shared/widgets/home/search_bar.dart';
+import '../../shared/widgets/misc/not_found_widget.dart';
 import '../../shared/widgets/misc/revmo_icon_only_button.dart';
 import 'package:revmo/Configurations/Extensions/extensions.dart';
 
 import 'customersDetails/customers_details.dart';
 
-class CustomersTab extends StatelessWidget {
+class CustomersTab extends StatefulWidget {
   static const String screenName = "customerTab";
 
   @override
+  _CustomersTabState createState() => _CustomersTabState();
+}
+
+class _CustomersTabState extends State<CustomersTab> {
+  @override
+  void initState() {
+    Future.delayed(Duration(milliseconds: 800), () {
+      Provider.of<CustomersProvider>(context, listen: false).setFuture();
+    });
+    // Provider.of<CustomersProvider>(context, listen: false).setFuture();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final catalog = Provider.of<CatalogProvider>(context);
+    final customerProvider = Provider.of<CustomersProvider>(context);
 
     return Scaffold(
       backgroundColor: RevmoColors.darkBlue,
@@ -70,277 +86,86 @@ class CustomersTab extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: ListView.separated(
-            shrinkWrap: true,
-            itemCount: 10,
-            itemBuilder: (context, index) => FadeInUp(
-              duration: Duration(milliseconds: 400),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CustomersDetails()));
-                },
-                child: Container(
-                  // margin: EdgeInsets.only(bottom: 20),
-                  // height: 162,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: 10, left: 15, right: 15, bottom: 10),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 10),
-                                child: InitialsCircle(name: 'MH',),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(bottom: 10),
-                                    child: Text(
-                                      'Mohamed Helmy',
-                                      style: TextStyle(
-                                          color: RevmoColors.darkBlue),
-                                    ),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                          height: 30,
-                                          child: Image.network(catalog.catalog
-                                              .models[0].brand.logoURL)),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        catalog.catalog.models[0].fullName,
-                                        style: TextStyle(
-                                            color: RevmoColors.darkBlue),
-                                      ),
-                                      SizedBox(
-                                        height: 1,
-                                      ),
-                                      Text(
-                                        catalog.catalog.models[0].type.name,
-                                        style: TextStyle(
-                                            color: RevmoColors.darkBlue),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.account_circle_rounded,
-                                        color: Colors.black,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        'Aly hashmawy',
-                                        style: TextStyle(
-                                            color: RevmoColors.darkBlue),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                          child: Image.network(catalog
-                                              .catalog.models[0].imageUrl)),
-                                      SizedBox(
-                                        height: 6,
-                                      ),
+          child: RefreshIndicator(
+            onRefresh: fetchCustomers,
+            child: FutureBuilder(
+              future: customerProvider.customersFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    return Center(
+                        child: Text(
+                      'Oops.. Something went wrong !',
+                      style: TextStyle(color: Colors.grey),
+                    ));
+                  } else if (customerProvider.customersList.isEmpty) {
+                    return FadeInUp(
+                      child: Center(
+                        child: NotFoundWidget.customers(),
+                        // fetchCustomers
+                      ),
+                    );
+                  } else if (customerProvider.isLoading == true) {
+                    print(customerProvider.isLoading);
+                    return ListView.separated(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: 3,
+                      itemBuilder: (context, index) => FadeInUp(
+                          duration: Duration(milliseconds: 300),
+                          child: CustomTileLoadingWidget()),
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(
+                          height: 20,
+                        );
+                      },
+                    );
 
-                                      Text(
-                                        '500,000 EGP',
-                                        style: TextStyle(
-                                            color: RevmoColors.darkBlue,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                    // Center(child: CircularProgressIndicator(),);
+                  } else {
+                    return ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: customerProvider.customersList.length,
+                      itemBuilder: (context, index) => FadeInUp(
+                        duration: Duration(milliseconds: 300),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CustomersDetails(
+                                          customer: customerProvider
+                                              .customersList[index],
+                                        )));
+                          },
+                          child: CustomersListTile(
+                            customerSoldOffer:
+                                customerProvider.customersList[index],
+                          ),
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.only(left: 65, right: 10),
-                        height: 30,
-                        decoration: BoxDecoration(
-                          color: Color(0xff26AEE4).withOpacity(0.2),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.calendar_month,
-                                  color: RevmoColors.darkBlue,
-                                  size: 17,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  '25/2/1997',
-                                  style: TextStyle(
-                                      color: RevmoColors.darkBlue,
-                                      fontSize: 12),
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.bus_alert_outlined,
-                                      color: RevmoColors.darkBlue,
-                                      size: 14,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    RatingBarIndicator(
-                                      rating: 3,
-                                      itemBuilder: (context, index) => Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                      ),
-                                      itemCount: 5,
-                                      itemSize: 10.0,
-                                      unratedColor: Colors.amber.withAlpha(50),
-                                      direction: Axis.horizontal,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      ' |  3.0',
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          color: RevmoColors.darkBlue),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.bus_alert_outlined,
-                                      color: RevmoColors.darkBlue,
-                                      size: 14,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    RatingBarIndicator(
-                                      rating: 3,
-                                      itemBuilder: (context, index) => Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                      ),
-                                      itemCount: 5,
-                                      itemSize: 10.0,
-                                      unratedColor: Colors.amber.withAlpha(50),
-                                      direction: Axis.horizontal,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      ' |  3.0',
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          color: RevmoColors.darkBlue),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(
+                          height: 20,
+                        );
+                      },
+                    );
+                  }
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
             ),
-            separatorBuilder: (BuildContext context, int index) {
-              return SizedBox(
-                height: 20,
-              );
-            },
           ),
         )
       ]).setPageHorizontalPadding(context),
     );
   }
-}
 
-class InitialsCircle extends StatelessWidget {
-   InitialsCircle({
-    Key? key,
-    required this.name,
-     this.opacity,
-     this.whiteText,
-
-  }) : super(key: key);
-final String name;
- double? opacity;
- bool? whiteText;
-  @override
-  Widget build(BuildContext context) {
-    return CircleAvatar(
-      backgroundColor:
-          Color(0xff07C5FA).withOpacity(opacity != null ? opacity! : 0.2 ),
-      child: Text(
-        name,
-        style: TextStyle(color:whiteText != null ? Colors.white : Color(0xff26AEE4)),
-      ),
-    );
+  Future fetchCustomers() async {
+    await Provider.of<CustomersProvider>(context, listen: false)
+        .fetchCustomers();
   }
 }
