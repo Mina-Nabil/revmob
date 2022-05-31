@@ -100,6 +100,7 @@ class OffersProvider extends ChangeNotifier {
       if (response.body != null && response.body is List<Offer>) {
         _pending.clear();
         _pending = response.body!;
+        _pending.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
         notifyListeners();
       } else {
         RevmoTheme.showRevmoSnackbar(context, response.msg);

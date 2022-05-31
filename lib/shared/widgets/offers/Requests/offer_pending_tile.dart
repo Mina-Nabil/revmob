@@ -87,10 +87,21 @@ class PendingRequestTile extends StatelessWidget {
                         const SizedBox(
                           height: 16,
                         ),
+
+                        diff.inDays <= 3 ?
                         Text(
                           'Expires in ${diff.inDays} Days',
-                          style: TextStyle(color: Color(0xff26AEE4)),
-                        ),
+                          style:
+
+                          TextStyle(color:   Colors.red),
+                        ) :
+                        Text(
+                          'Expires in ${diff.inDays} Days',
+                          style:
+
+                          TextStyle(color:   Color(0xff26AEE4)),
+                        )
+                        ,
                         Container(
                           alignment: Alignment.bottomRight,
                           child: RevmoCarImageWidget(

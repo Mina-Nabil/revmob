@@ -169,11 +169,11 @@ class _RequestsTabState extends State<RequestsTab> {
                                         itemCount:
                                             offersProvider.newRequests.length,
                                         itemBuilder: (cnxt, i) {
-                                          print(offersProvider.newRequests.length);
-                                        return   FadeInUp(
+                                          print(offersProvider
+                                              .newRequests.length);
+                                          return FadeInUp(
                                             child: OfferTile.request(
-                                                offersProvider
-                                                    .newRequests[i]),
+                                                offersProvider.newRequests[i]),
                                           );
                                         })
                                     : NotFoundWidget.offers(),
@@ -211,16 +211,19 @@ class _RequestsTabState extends State<RequestsTab> {
                                                     .pending.length,
                                                 itemBuilder: (cnxt, i) {
                                                   return FadeInUp(
-                                                    duration: Duration(milliseconds: 200),
+                                                      duration: Duration(
+                                                          milliseconds: 200),
                                                       child: PendingRequestTile(
-                                                    pendingOffer: offersProvider
-                                                        .pending[i],
-                                                    extendOffer: () {
-                                                      extendOfferForTwoDays(
-                                                          offersProvider
-                                                              .pending[i].id);
-                                                    },
-                                                  ));
+                                                        pendingOffer:
+                                                            offersProvider
+                                                                .pending[i],
+                                                        extendOffer: () {
+                                                          extendOfferForTwoDays(
+                                                              offersProvider
+                                                                  .pending[i]
+                                                                  .id);
+                                                        },
+                                                      ));
                                                   // OfferTile.pending(offersProvider.pending[i]);
                                                 },
                                                 separatorBuilder:
@@ -306,6 +309,7 @@ class _RequestsTabState extends State<RequestsTab> {
         .then((value) {
       EasyLoading.dismiss();
       if (value) {
+        refreshPendingRequests();
         showDialog(
             context: context,
             builder: (context) {
@@ -322,12 +326,14 @@ class _RequestsTabState extends State<RequestsTab> {
     });
   }
 
-  extendAllOffers(){
+  extendAllOffers() {
     EasyLoading.show();
-    Provider.of<OffersProvider>(context, listen: false).extendAllOffers().then((value) {
-
+    Provider.of<OffersProvider>(context, listen: false)
+        .extendAllOffers()
+        .then((value) {
       EasyLoading.dismiss();
       if (value) {
+        refreshPendingRequests();
         showDialog(
             context: context,
             builder: (context) {
@@ -343,5 +349,4 @@ class _RequestsTabState extends State<RequestsTab> {
       }
     });
   }
-
 }
