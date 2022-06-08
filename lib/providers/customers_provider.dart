@@ -11,11 +11,60 @@ class CustomersProvider extends ChangeNotifier {
 
   CustomersProvider(this.context);
 
+
+
+
   CustomersService _catalogService = new CustomersService();
+
+
+  String searchType = 'buyerName';
+  int searchTypeCheck = 0;
+
+
+  final _search = TextEditingController();
+  TextEditingController get search => _search;
 
   List<SoldOffer> _customersList = [];
 
   List<SoldOffer> get customersList => _customersList;
+
+  List<SoldOffer> _displayedCustomersList = [];
+
+  List<SoldOffer> get displayedCustomersList => _displayedCustomersList;
+
+
+
+  void setSearchType(String type){
+    searchType = type;
+
+
+    if(type == 'buyerName') {
+      searchTypeCheck = 0;
+    }else if(type =='sellerName' ) {
+      searchTypeCheck = 1;
+    }
+
+    notifyListeners();
+  }
+
+  void searchInTeam(String searchWord) {
+    if (searchWord.isEmpty) {
+      _displayedCustomersList.clear();
+    }
+
+    if(searchType == 'buyerName' ) {
+      _displayedCustomersList = _customersList
+          .where((element) => element.buyer!.fullName.contains(searchWord))
+          .toList();
+    }else if(searchType == 'sellerName' ) {
+      _displayedCustomersList = _customersList
+          .where((element) => element.seller!.sellerName!.contains(searchWord))
+          .toList();
+    }
+
+    notifyListeners();
+  }
+
 
   bool _isLoading = false;
 
@@ -56,7 +105,9 @@ class CustomersProvider extends ChangeNotifier {
               decoded["body"]["soldOffers"].map((x) => SoldOffer.fromJson(x)));
           // _customersList.clear();
           _customersList = customersListRequest;
+          _displayedCustomersList = customersListRequest;
           _customersList.sort((a, b) => a.offerPrice!.compareTo(b.offerPrice!));
+          _displayedCustomersList.sort((a, b) => a.offerPrice!.compareTo(b.offerPrice!));
           print('customers length :  ${customersListRequest.length}');
           notifyListeners();
           return Future.value(true);

@@ -57,14 +57,65 @@ class _CustomersTabState extends State<CustomersTab> {
               Expanded(
                 child: SearchBar(
                   height: RevmoTheme.SEARCH_BAR_HEIGHT,
-                  searchCallback: null,
-                  textEditingController: TextEditingController(),
+                  searchCallback: () {
+                    Provider.of<CustomersProvider>(context, listen: false)
+                        .searchInTeam(customerProvider.search.text);
+                    print(customerProvider.search.text);
+                  },
+                  textEditingController: customerProvider.search,
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(left: 5, right: 1),
                 child: RevmoIconButton(
-                  callback: null,
+                  callback: () {
+                    showModalBottomSheet<bool>(
+                        barrierColor: RevmoColors.backgroundDim,
+                        backgroundColor: Colors.transparent,
+                        elevation: 12.0,
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (context) => Container(
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            padding: EdgeInsets.all(20),
+                            margin: EdgeInsets.only(top: 40),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    topRight: Radius.circular(10))),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                              Text('Search By ',style: TextStyle(color: RevmoColors.darkBlue, fontWeight: FontWeight.bold, fontSize: 20),),
+                                ListTile(
+                                  onTap: (){
+                               customerProvider.setSearchType('buyerName');
+                               Navigator.pop(context);
+
+                                  },
+                                  leading:
+                                customerProvider.searchTypeCheck == 0 ?
+                                Icon(Icons.check, color: RevmoColors.originalBlue,) : SizedBox(),
+                                title: Text('Buyer Name',style: TextStyle(color: RevmoColors.darkBlue,  fontSize: 16),),
+
+                                ),
+
+                                ListTile(
+                                  onTap: (){
+                                    customerProvider.setSearchType('sellerName');
+                                    Navigator.pop(context);
+
+                                  },
+                                  leading:
+                                  customerProvider.searchTypeCheck == 1 ?
+                                  Icon(Icons.check, color: RevmoColors.originalBlue,) : SizedBox(),
+                                  title: Text('Seller Name',style: TextStyle(color: RevmoColors.darkBlue,  fontSize: 16),),
+
+                                ),
+                              ],
+                            ),),);
+                  },
                   width: RevmoTheme.SEARCH_BAR_HEIGHT,
                   color: RevmoColors.petrol,
                   iconWidget:
@@ -98,7 +149,7 @@ class _CustomersTabState extends State<CustomersTab> {
                       'Oops.. Something went wrong !',
                       style: TextStyle(color: Colors.grey),
                     ));
-                  } else if (customerProvider.customersList.isEmpty) {
+                  } else if (customerProvider.displayedCustomersList.isEmpty) {
                     return FadeInUp(
                       child: Center(
                         child: NotFoundWidget.customers(),
@@ -125,7 +176,7 @@ class _CustomersTabState extends State<CustomersTab> {
                   } else {
                     return ListView.separated(
                       shrinkWrap: true,
-                      itemCount: customerProvider.customersList.length,
+                      itemCount: customerProvider.displayedCustomersList.length,
                       itemBuilder: (context, index) => FadeInUp(
                         duration: Duration(milliseconds: 300),
                         child: InkWell(
@@ -135,12 +186,12 @@ class _CustomersTabState extends State<CustomersTab> {
                                 MaterialPageRoute(
                                     builder: (context) => CustomersDetails(
                                           customer: customerProvider
-                                              .customersList[index],
+                                              .displayedCustomersList[index],
                                         )));
                           },
                           child: CustomersListTile(
                             customerSoldOffer:
-                                customerProvider.customersList[index],
+                                customerProvider.displayedCustomersList[index],
                           ),
                         ),
                       ),
