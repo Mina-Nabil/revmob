@@ -2,7 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
-import 'package:revmo/providers/offers_provider.dart';
+import 'package:revmo/providers/Seller/offers_provider.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

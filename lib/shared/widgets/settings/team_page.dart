@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:revmo/providers/account_provider.dart';
+import 'package:revmo/providers/Seller/account_provider.dart';
 import 'package:revmo/shared/widgets/settings/no_sellers_found.dart';
 import 'package:revmo/shared/widgets/settings/user_tile.dart';
 

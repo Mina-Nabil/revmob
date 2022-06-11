@@ -7,7 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/environment/server.dart';
-import 'package:revmo/providers/account_provider.dart';
+import 'package:revmo/providers/Seller/account_provider.dart';
 import 'package:revmo/screens/auth/congratz_newaccount_screen.dart';
 import 'package:revmo/screens/auth/login_screen.dart';
 import 'package:revmo/screens/auth/pre_login_screen.dart';

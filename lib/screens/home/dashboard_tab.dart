@@ -1,12 +1,13 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:revmo/providers/account_provider.dart';
+import 'package:revmo/providers/Seller/account_provider.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/Configurations/Extensions/extensions.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../providers/catalog_provider.dart';
+import '../../providers/Seller/catalog_provider.dart';
 import '../../shared/widgets/catalog/catalog_tile.dart';
 
 import 'package:revmo/shared/widgets/UIwidgets/ui_widgets.dart';
@@ -291,7 +292,7 @@ class RecentlyAdded extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10), color: Colors.white),
       child: Stack(
-        overflow: Overflow.visible,
+        clipBehavior: Clip.none,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -329,6 +330,15 @@ class RecentlyAdded extends StatelessWidget {
               ),
             ],
           ),
+          AppLocalizations.of(context)! == 'ar' ?
+          Positioned(
+            left: -50,
+            top: -40,
+            child: SizedBox(
+                height: 150,
+                child: Image.network(
+                    'https://photo-cdn2.icons8.com/0TME86H9ZQjywq3joWm2_gvnckM7VOujJWzbW1BC758/rs:fit:1575:1072/czM6Ly9pY29uczgu/bW9vc2UtcHJvZC5h/c3NldHMvYXNzZXRz/L2VkaXRvci9vYmpl/Y3QvNjgyL2IzYWJk/ZDcyLWI1OTEtNDgz/OC05MWM5LTRlMjRj/MjJhNDI1OS5wbmc.png')),
+          ) :
           Positioned(
             right: -50,
             top: -40,
@@ -418,7 +428,7 @@ class WelcomeContainer extends StatelessWidget {
           style: TextStyle(fontSize: 18),
           children: <InlineSpan>[
             TextSpan(
-              text: name,
+              text: name + ' !',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             )
           ])),

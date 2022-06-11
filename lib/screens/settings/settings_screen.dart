@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/environment/paths.dart';
-import 'package:revmo/providers/account_provider.dart';
+import 'package:revmo/providers/Seller/account_provider.dart';
 import 'package:revmo/screens/home/home_screen.dart';
 import 'package:revmo/screens/offers/offers_history.dart';
 import 'package:revmo/screens/settings/account_screen.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/models/accounts/seller.dart';
-import 'package:revmo/providers/account_provider.dart';
+import 'package:revmo/providers/Seller/account_provider.dart';
 import 'package:revmo/screens/auth/pre_login_screen.dart';
 import 'package:revmo/screens/home/home_screen.dart';
 import 'package:revmo/shared/colors.dart';
@@ -10,6 +10,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:revmo/shared/widgets/misc/main_button.dart';
 import 'package:revmo/shared/widgets/misc/revmo_text_field.dart';
 import 'package:form_validator/form_validator.dart';
+
+import '../../../BuyerApp/Home/home_view.dart';
 
 class SignInForm extends StatefulWidget {
   final double _formPadding = 25;
@@ -72,7 +74,11 @@ class _SignInFormState extends State<SignInForm> {
                     AppLocalizations.of(context)!.forgotPasswordMsg.toUpperCase(),
                     style: TextStyle(color: RevmoColors.white),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+                      return HomeViewBuyer();
+                    }),(route) => false);
+                  },
                 ),
                 RevmoTheme.getCaption(AppLocalizations.of(context)!.noAccountQ, 2),
                 Center(
@@ -95,6 +101,8 @@ class _SignInFormState extends State<SignInForm> {
 
   submitForm() async {
     disableForm();
+
+
     if (_formState.currentState!.validate()) {
       Seller? loggedInUser = await Provider.of<AccountProvider>(context, listen: false)
           .login(context, _identifierController.text, _passwordController.text);
@@ -111,7 +119,12 @@ class _SignInFormState extends State<SignInForm> {
       }
     } else {
       enableForm();
+
     }
+
+
+
+
   }
 
   enableForm() {

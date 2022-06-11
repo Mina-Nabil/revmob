@@ -4,7 +4,7 @@ import 'package:revmo/shared/theme.dart';
 import 'package:revmo/shared/widgets/misc/revmo_expandable_info_card.dart';
 
 import '../../../models/cars/car.dart';
-import '../../../providers/catalog_provider.dart';
+import '../../../providers/Seller/catalog_provider.dart';
 import '../../colors.dart';
 import '../misc/car_info_grid.dart';
 

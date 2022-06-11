@@ -1,11 +1,13 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_select_items/flutter_multi_select_items.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:revmo/providers/customers_provider.dart';
+import 'package:revmo/providers/Seller/customers_provider.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 import '../../environment/paths.dart';
 import '../../shared/theme.dart';
@@ -55,62 +57,62 @@ class _CustomersTabState extends State<CustomersTab> {
             style: TextStyle(fontSize: 20),
           ),
         ),
-        SizedBox(
+        // ElevatedButton(onPressed: (){
+        //   print(customerProvider.maxCarPrice);
+        // }, child: Text('fetch')),
+         SizedBox(
           height: 20,
         ),
-        customerProvider.isConnected == false ?
-
-          SizedBox.shrink():
-        Container(
-            height: RevmoTheme.SEARCH_BAR_HEIGHT,
-            margin: EdgeInsets.only(bottom: 20),
-            child:
-            Row(
-              children: [
-                Expanded(
-                  child: SearchBar(
-                    height: RevmoTheme.SEARCH_BAR_HEIGHT,
-                    searchCallback: () {
-                      Provider.of<CustomersProvider>(context, listen: false)
-                          .searchInTeam(
-                          customerProvider.search.text.toLowerCase());
-                      print(customerProvider.search.text);
-                    },
-                    textEditingController: customerProvider.search,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 5, right: 1),
-                  child: RevmoIconButton(
-                    callback: () {
-                      showModalBottomSheet<bool>(
-                          barrierColor: RevmoColors.backgroundDim,
-                          backgroundColor: Colors.transparent,
-                          elevation: 10.0,
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (context) => BottomSheetWidget());
-                    },
-                    width: RevmoTheme.SEARCH_BAR_HEIGHT,
-                    color: RevmoColors.petrol,
-                    iconWidget:
-                    SvgPicture.asset(Paths.sortSVG, color: Colors.white),
-                    iconPadding: 10,
-                  ),
-                ),
-                Container(
-                    margin: EdgeInsets.only(left: 5),
-                    child: RevmoIconButton(
-                      callback: null,
-                      width: RevmoTheme.SEARCH_BAR_HEIGHT,
-                      color: RevmoColors.originalBlue,
-                      iconWidget:
-                      SvgPicture.asset(Paths.filtersSVG, color: Colors.white),
-                      iconPadding: 10,
-                    )),
-              ],
-            )
-        ),
+        customerProvider.isConnected == false
+            ? SizedBox.shrink()
+            : Container(
+                height: RevmoTheme.SEARCH_BAR_HEIGHT,
+                margin: EdgeInsets.only(bottom: 20),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: SearchBar(
+                        height: RevmoTheme.SEARCH_BAR_HEIGHT,
+                        searchCallback: () {
+                          Provider.of<CustomersProvider>(context, listen: false)
+                              .searchInTeam(
+                                  customerProvider.search.text.toLowerCase());
+                          print(customerProvider.search.text);
+                        },
+                        textEditingController: customerProvider.search,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 5, right: 1),
+                      child: RevmoIconButton(
+                        callback: () {
+                          showModalBottomSheet<bool>(
+                              barrierColor: RevmoColors.backgroundDim,
+                              backgroundColor: Colors.transparent,
+                              elevation: 10.0,
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) => FilterBottomSheet());
+                        },
+                        width: RevmoTheme.SEARCH_BAR_HEIGHT,
+                        color: RevmoColors.petrol,
+                        iconWidget: SvgPicture.asset(Paths.sortSVG,
+                            color: Colors.white),
+                        iconPadding: 10,
+                      ),
+                    ),
+                    Container(
+                        margin: EdgeInsets.only(left: 5),
+                        child: RevmoIconButton(
+                          callback: null,
+                          width: RevmoTheme.SEARCH_BAR_HEIGHT,
+                          color: RevmoColors.originalBlue,
+                          iconWidget: SvgPicture.asset(Paths.filtersSVG,
+                              color: Colors.white),
+                          iconPadding: 10,
+                        )),
+                  ],
+                )),
         customerProvider.isConnected == false
             ? Expanded(
                 child: Center(
@@ -118,24 +120,27 @@ class _CustomersTabState extends State<CustomersTab> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Lottie.asset('assets/images/disconnect.json',
-                        repeat: true, height: 200, frameRate: FrameRate.composition),
-                   const SizedBox(
+                        repeat: true,
+                        height: 200,
+                        frameRate: FrameRate.composition),
+                    const SizedBox(
                       height: 5,
                     ),
                     const Text(
                       "Oops! Can't move forward",
                       style: TextStyle(
-                          color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
                     ),
-                    const  SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    const   Text(
+                    const Text(
                       "It seems your Internet is slow or not working !",
-                      style: TextStyle(
-                          color: Colors.white, fontSize: 16),
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
-                    const    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     ElevatedButton(
@@ -226,8 +231,7 @@ class _CustomersTabState extends State<CustomersTab> {
                           itemCount: 3,
                           itemBuilder: (context, index) => FadeInUp(
                               duration: Duration(milliseconds: 300),
-                              // child: CustomTileLoadingWidget()),
-                              child: Text('hell')),
+                              child: CustomTileLoadingWidget()),
                           separatorBuilder: (BuildContext context, int index) {
                             return SizedBox(
                               height: 20,
@@ -246,6 +250,156 @@ class _CustomersTabState extends State<CustomersTab> {
   Future fetchCustomers() async {
     await Provider.of<CustomersProvider>(context, listen: false)
         .fetchCustomersNetworkLayer();
+  }
+}
+
+class FilterBottomSheet extends StatefulWidget {
+  @override
+  _FilterBottomSheetState createState() => _FilterBottomSheetState();
+}
+
+class _FilterBottomSheetState extends State<FilterBottomSheet> {
+  @override
+  Widget build(BuildContext context) {
+    final customerProvider = Provider.of<CustomersProvider>(context);
+    double _values = 100.0;
+double maxPriceWidget = customerProvider.maxCarPrice;
+double minPriceWidget = customerProvider.minCarPrice;
+
+
+    return Container(
+        height: MediaQuery.of(context).size.height * 0.9,
+        padding: EdgeInsets.all(20),
+        margin: EdgeInsets.only(top: 40),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+        child: SingleChildScrollView(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Filters ',
+              style: TextStyle(
+                  color: RevmoColors.darkBlue,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              'Brand',
+              style: TextStyle(
+                  color: RevmoColors.originalBlue,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            MultiSelectContainer(
+                wrapSettings: const WrapSettings(runSpacing: 10),
+                items: List.generate(3, (index) {
+                  final data = customerProvider.displayedCustomersList[index];
+                  return MultiSelectCard(
+                      value: data.car,
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            height: 20,
+                            child: Image.network(data.car!.model.brand.logoURL),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            data.car!.model.brand.name,
+                            style: TextStyle(
+                                color: RevmoColors.darkBlue,
+                                fontWeight: FontWeight.bold),
+                          ),
+
+                        ],
+                      ),
+                      splashColor: RevmoColors.originalBlue,
+                      highlightColor: RevmoColors.originalBlue,
+                      contentPadding: EdgeInsets.only(
+                          left: 10, right: 10, top: 5, bottom: 5),
+                      decorations: MultiSelectItemDecorations(
+                          decoration: BoxDecoration(
+                              border: Border.all(width: 0.2),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5)),
+                          selectedDecoration: BoxDecoration(
+                              color: Color(0xff003157).withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(5)),
+                          disabledDecoration: BoxDecoration(
+                              color: Colors.grey,
+                              border: Border.all(color: Colors.grey[500]!),
+                              borderRadius: BorderRadius.circular(5))),
+                      textStyles: MultiSelectItemTextStyles(
+                        textStyle: TextStyle(
+                            color: RevmoColors.darkBlue,
+                            fontWeight: FontWeight.bold),
+                        selectedTextStyle: const TextStyle(
+                            color: RevmoColors.darkBlue,
+                            fontWeight: FontWeight.bold),
+                      ));
+                }),
+                onChange: (allSelectedItems, selectedItem) {}),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              'Price',
+              style: TextStyle(
+                  color: RevmoColors.originalBlue,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
+            ),
+
+
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                FittedBox(
+                    child: RevmoTheme.getBody((customerProvider.minCarPrice / 1000).round().toString() + "k", 1,
+                        color: RevmoColors.darkerBlue)),
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: SliderTheme(
+                    data: SliderThemeData(
+                      activeTrackColor: RevmoColors.originalBlue,
+                      trackHeight: 0.25,
+                      inactiveTrackColor: RevmoColors.grey,
+                      valueIndicatorColor: RevmoColors.originalBlue,
+                    ),
+                    child: RangeSlider(
+                      min: minPriceWidget,
+                      max: maxPriceWidget,
+                      values: new RangeValues(minPriceWidget, maxPriceWidget),
+                      onChanged: (values) {
+                        setState(() {
+                          minPriceWidget = (values.start / 1000).roundToDouble() * 1000;
+                          maxPriceWidget = (values.end / 1000).roundToDouble() * 1000;
+                        });
+
+                      },
+                    ),
+                  ),
+                ),
+                FittedBox(
+                    child: RevmoTheme.getBody((customerProvider.maxCarPrice ).round().toString() , 1,
+                        color: RevmoColors.darkerBlue)),
+              ],
+            ),
+
+
+          ],
+        )));
   }
 }
 

@@ -40,6 +40,7 @@ class Paths {
   static const String groupLargeSVG = "assets/icons/groupLarge.svg";
   static const String chatSVG = "assets/icons/chat.svg";
   static const String noCustomersSVG = "assets/icons/noCustomers.svg";
+  static const String dashboardSpeed = "assets/icons/dashboardSpeed.svg";
 
   //nav SVGs
   static const String navCar = "assets/icons/navCar.svg";

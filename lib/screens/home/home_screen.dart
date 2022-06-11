@@ -3,9 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/environment/paths.dart';
-import 'package:revmo/providers/brands_provider.dart';
-import 'package:revmo/providers/catalog_provider.dart';
-import 'package:revmo/providers/models_provider.dart';
 import 'package:revmo/screens/catalog/catalog_tab.dart';
 import 'package:revmo/screens/home/customers_tab.dart';
 import 'package:revmo/screens/home/dashboard_tab.dart';
@@ -17,8 +14,11 @@ import 'package:revmo/shared/widgets/home/tabs_nav.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../providers/customers_provider.dart';
-import '../../providers/offers_provider.dart';
+import '../../providers/Seller/brands_provider.dart';
+import '../../providers/Seller/catalog_provider.dart';
+import '../../providers/Seller/customers_provider.dart';
+import '../../providers/Seller/models_provider.dart';
+import '../../providers/Seller/offers_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String ROUTE_NAME = "/home";
@@ -88,18 +88,18 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               ],
               child: Scaffold(
                 backgroundColor: RevmoColors.darkBlue,
-                
+
                 body: SafeArea(
                     child: Container(
                         child: Stack(
-                  children: [
-                    OffStageTab((_selectedIndex == 0),  CatalogTab.screenName, _navigatorKeys[CatalogTab.screenName]),
-                    OffStageTab((_selectedIndex == 1), RequestsTab.screenName, _navigatorKeys[RequestsTab.screenName]),
-                    OffStageTab((_selectedIndex == 2), DashboardTab.screenName, _navigatorKeys[DashboardTab.screenName]),
-                    OffStageTab((_selectedIndex == 3), CustomersTab.screenName, _navigatorKeys[CustomersTab.screenName]),
-                    OffStageTab((_selectedIndex == 4), NotificationsTab.screenName, _navigatorKeys[NotificationsTab.screenName]),
-                  ],
-                ))),
+                          children: [
+                            OffStageTab((_selectedIndex == 0),  CatalogTab.screenName, _navigatorKeys[CatalogTab.screenName]),
+                            OffStageTab((_selectedIndex == 1), RequestsTab.screenName, _navigatorKeys[RequestsTab.screenName]),
+                            OffStageTab((_selectedIndex == 2), DashboardTab.screenName, _navigatorKeys[DashboardTab.screenName]),
+                            OffStageTab((_selectedIndex == 3), CustomersTab.screenName, _navigatorKeys[CustomersTab.screenName]),
+                            OffStageTab((_selectedIndex == 4), NotificationsTab.screenName, _navigatorKeys[NotificationsTab.screenName]),
+                          ],
+                        ))),
                 appBar: RevmoAppBar(
                   addLogout: true,
                   showMenuIcon: true,

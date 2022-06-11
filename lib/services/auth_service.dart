@@ -8,7 +8,7 @@ import 'package:revmo/main.dart';
 import 'package:revmo/models/accounts/seller.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:revmo/providers/account_provider.dart';
+import 'package:revmo/providers/Seller/account_provider.dart';
 
 class AuthService {
   static final ServerHandler server = getIt.get<ServerHandler>();

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:revmo/models/cars/car.dart';
 import 'package:revmo/models/cars/catalog.dart';
 import 'package:revmo/models/cars/model_color.dart';
-import 'package:revmo/providers/catalog_provider.dart';
+import 'package:revmo/providers/Seller/catalog_provider.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:revmo/shared/widgets/catalog/car_selection_detailed_page.dart';

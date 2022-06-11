@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:revmo/providers/brands_provider.dart';
+import 'package:revmo/providers/Seller/brands_provider.dart';
 import 'package:revmo/shared/widgets/catalog/brand_tile.dart';
 
 class BrandsGrid extends StatefulWidget {

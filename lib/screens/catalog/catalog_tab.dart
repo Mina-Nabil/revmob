@@ -6,7 +6,7 @@ import 'package:revmo/models/cars/car.dart';
 import 'package:revmo/models/cars/brand.dart';
 import 'package:revmo/models/cars/model.dart';
 import 'package:revmo/models/cars/model_color.dart';
-import 'package:revmo/providers/catalog_provider.dart';
+import 'package:revmo/providers/Seller/catalog_provider.dart';
 import 'package:revmo/screens/home/home_screen.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';

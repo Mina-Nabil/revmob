@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/models/accounts/join_request.dart';
 import 'package:revmo/models/accounts/seller.dart';
-import 'package:revmo/providers/account_provider.dart';
+import 'package:revmo/providers/Seller/account_provider.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:revmo/shared/widgets/misc/danger_button.dart';

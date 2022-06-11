@@ -16,7 +16,7 @@ import 'package:revmo/shared/widgets/misc/revmo_image_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:revmo/shared/widgets/settings/user_image.dart';
 
-import '../../../providers/offers_provider.dart';
+import '../../../providers/Seller/offers_provider.dart';
 
 class OfferTile extends StatelessWidget {
   final OfferRequest? request;

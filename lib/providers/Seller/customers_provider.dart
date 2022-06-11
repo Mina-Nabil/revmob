@@ -4,8 +4,8 @@ import 'package:dio/dio.dart' as dio;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../models/Customers/CUSTOMERS_MODDEL_MODEL.dart';
-import '../services/customers_service.dart';
+import '../../models/Customers/CUSTOMERS_MODDEL_MODEL.dart';
+import '../../services/customers_service.dart';
 import 'package:revmo/shared/theme.dart';
 
 class CustomersProvider extends ChangeNotifier {
@@ -15,7 +15,7 @@ class CustomersProvider extends ChangeNotifier {
 
   bool isConnected = true;
 
-  CustomersService _catalogService = new CustomersService();
+  CustomersService _customersService = new CustomersService();
 
   final _search = TextEditingController();
 
@@ -29,6 +29,7 @@ class CustomersProvider extends ChangeNotifier {
 
   List<SoldOffer> get displayedCustomersList => _displayedCustomersList;
 
+
   bool _isLoading = false;
 
   bool get isLoading => _isLoading;
@@ -38,21 +39,42 @@ class CustomersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+
+
+  double get minCarPrice {
+    double minPrice = double.maxFinite;
+    _customersList.forEach((car) {
+      if (car.offerPrice!.toDouble() < minPrice) minPrice = car.offerPrice!.toDouble();
+    });
+    return minPrice==double.maxFinite ? 0 : minPrice;
+  }
+
+ set maxCarPrice(double){
+    maxCarPrice = double;
+    notifyListeners();
+  }
+
+
+  double get maxCarPrice {
+    double maxPrice = double.minPositive;
+    _customersList.forEach((car) {
+      if (car.offerPrice!.toDouble() > maxPrice) maxPrice = car.offerPrice!.toDouble();
+    });
+    return maxPrice==double.minPositive ? 0 : maxPrice;
+  }
 ///////////////////////Fetching Data//////////////////////
 
   Future fetchCustomersNetworkLayer() async {
     try {
-      // checkInternetConnection();
       setSortByIndex(10);
       setLoading(true);
-      dio.Response response = await _catalogService.getCustomersNetworkLayer();
+      dio.Response response = await _customersService.getCustomersNetworkLayer();
       isConnected = true;
 
       setLoading(false);
 
       List<SoldOffer> customersListRequest = List<SoldOffer>.from(response
-          .data["body"]["soldOffers"]
-          .map((x) => SoldOffer.fromJson(x)));
+          .data["body"]["soldOffers"].map((x) => SoldOffer.fromJson(x)));
       _customersList = customersListRequest;
       _displayedCustomersList = customersListRequest;
       _customersList.sort((a, b) => a.offerPrice!.compareTo(b.offerPrice!));
@@ -63,12 +85,12 @@ class CustomersProvider extends ChangeNotifier {
       notifyListeners();
     } on dio.DioError catch (e) {
       print('----------$e');
-      if (e.response?.statusCode == null) {
+      if (e.response?.statusCode == null || e.response?.data == null) {
         isConnected = false;
         notifyListeners();
         // RevmoTheme.showRevmoSnackbar(context, 'No internet Connection');
       } else {
-        // RevmoTheme.showRevmoSnackbar(context, 'SomeThing Went Wrong');
+        RevmoTheme.showRevmoSnackbar(context, 'SomeThing Went Wrong');
       }
     }
   }

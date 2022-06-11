@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../models/cars/revmo_image.dart';
 import '../../../../models/offers/offer.dart';
-import '../../../../providers/offers_provider.dart';
 import '../../../colors.dart';
 import '../../../theme.dart';
 import '../../catalog/brand_logo.dart';
@@ -13,7 +11,6 @@ import '../../misc/date_row.dart';
 import '../../misc/main_button.dart';
 import '../../misc/revmo_image_widget.dart';
 import '../../settings/user_image.dart';
-import '../../UIwidgets/success_message.dart';
 
 class PendingRequestTile extends StatelessWidget {
   const PendingRequestTile({
@@ -35,7 +32,7 @@ class PendingRequestTile extends StatelessWidget {
     var formatter = NumberFormat();
 
     return Stack(
-      alignment: Alignment.topRight,
+      alignment: AppLocalizations.of(context) == 'en' ? Alignment.topRight : Alignment.topLeft,
       children: [
         Container(
           padding: EdgeInsets.all(10),

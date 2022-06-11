@@ -7,7 +7,7 @@ import 'package:revmo/environment/api_response.dart';
 import 'package:revmo/models/accounts/seller.dart';
 import 'package:revmo/models/offers/offer.dart';
 import 'package:revmo/models/offers/offer_request.dart';
-import 'package:revmo/providers/account_provider.dart';
+import 'package:revmo/providers/Seller/account_provider.dart';
 import 'package:revmo/services/offers_service.dart';
 import 'package:revmo/shared/theme.dart';
 
