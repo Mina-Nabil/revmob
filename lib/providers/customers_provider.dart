@@ -1,5 +1,7 @@
-import 'dart:convert';
+import 'dart:io';
 
+import 'package:dio/dio.dart' as dio;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../models/Customers/CUSTOMERS_MODDEL_MODEL.dart';
@@ -11,17 +13,12 @@ class CustomersProvider extends ChangeNotifier {
 
   CustomersProvider(this.context);
 
-
-
+  bool isConnected = true;
 
   CustomersService _catalogService = new CustomersService();
 
-
-  String searchType = 'buyerName';
-  int searchTypeCheck = 0;
-
-
   final _search = TextEditingController();
+
   TextEditingController get search => _search;
 
   List<SoldOffer> _customersList = [];
@@ -32,47 +29,48 @@ class CustomersProvider extends ChangeNotifier {
 
   List<SoldOffer> get displayedCustomersList => _displayedCustomersList;
 
-
-
-  void setSearchType(String type){
-    searchType = type;
-
-
-    if(type == 'buyerName') {
-      searchTypeCheck = 0;
-    }else if(type =='sellerName' ) {
-      searchTypeCheck = 1;
-    }
-
-    notifyListeners();
-  }
-
-  void searchInTeam(String searchWord) {
-    if (searchWord.isEmpty) {
-      _displayedCustomersList.clear();
-    }
-
-    if(searchType == 'buyerName' ) {
-      _displayedCustomersList = _customersList
-          .where((element) => element.buyer!.fullName.contains(searchWord))
-          .toList();
-    }else if(searchType == 'sellerName' ) {
-      _displayedCustomersList = _customersList
-          .where((element) => element.seller!.sellerName!.contains(searchWord))
-          .toList();
-    }
-
-    notifyListeners();
-  }
-
-
   bool _isLoading = false;
 
   bool get isLoading => _isLoading;
 
-  setLoading(bool status){
+  setLoading(bool status) {
     _isLoading = status;
     notifyListeners();
+  }
+
+///////////////////////Fetching Data//////////////////////
+
+  Future fetchCustomersNetworkLayer() async {
+    try {
+      // checkInternetConnection();
+      setSortByIndex(10);
+      setLoading(true);
+      dio.Response response = await _catalogService.getCustomersNetworkLayer();
+      isConnected = true;
+
+      setLoading(false);
+
+      List<SoldOffer> customersListRequest = List<SoldOffer>.from(response
+          .data["body"]["soldOffers"]
+          .map((x) => SoldOffer.fromJson(x)));
+      _customersList = customersListRequest;
+      _displayedCustomersList = customersListRequest;
+      _customersList.sort((a, b) => a.offerPrice!.compareTo(b.offerPrice!));
+      _displayedCustomersList
+          .sort((a, b) => a.offerPrice!.compareTo(b.offerPrice!));
+
+      print('customers length :  ${customersListRequest.length}');
+      notifyListeners();
+    } on dio.DioError catch (e) {
+      print('----------$e');
+      if (e.response?.statusCode == null) {
+        isConnected = false;
+        notifyListeners();
+        // RevmoTheme.showRevmoSnackbar(context, 'No internet Connection');
+      } else {
+        // RevmoTheme.showRevmoSnackbar(context, 'SomeThing Went Wrong');
+      }
+    }
   }
 
   Future? _customersFuture;
@@ -80,53 +78,83 @@ class CustomersProvider extends ChangeNotifier {
   Future? get customersFuture => _customersFuture;
 
   setFuture() {
-    _customersFuture = fetchCustomers();
+    // _customersFuture = fetchCustomers();
+    _customersFuture = fetchCustomersNetworkLayer();
     notifyListeners();
   }
 
-  Future fetchCustomers() async {
-    try {
-      setLoading(true);
-      return await _catalogService.getCustomers().then((value) {
-        var decoded = jsonDecode(value.body);
-        setLoading(false);
-        if (value.statusCode == 200 && decoded["status"] == true) {
-          var decoded = jsonDecode(value.body);
+  //--------------- End ---------------
 
-          print('Body---------------------------');
-          print(value.body);
-          print('-----------------------------------');
-          print('message: ' + decoded['message']);
-          print('-----------------------------------');
-          print('status: ' + decoded['status'].toString());
-
-          /////////////////////////////////////////
-          List<SoldOffer> customersListRequest = List<SoldOffer>.from(
-              decoded["body"]["soldOffers"].map((x) => SoldOffer.fromJson(x)));
-          // _customersList.clear();
-          _customersList = customersListRequest;
-          _displayedCustomersList = customersListRequest;
-          _customersList.sort((a, b) => a.offerPrice!.compareTo(b.offerPrice!));
-          _displayedCustomersList.sort((a, b) => a.offerPrice!.compareTo(b.offerPrice!));
-          print('customers length :  ${customersListRequest.length}');
-          notifyListeners();
-          return Future.value(true);
-        } else {
-          print('---------------------------');
-          print('status code---------------------------');
-          print(value.statusCode);
-          print('error');
-          print('Body---------------------------');
-          print(value.body);
-          RevmoTheme.showRevmoSnackbar(context, 'Something Went Wrong');
-          // return Future.value(false);
-        }
-      });
-    } catch (e) {
-      setLoading(false);
-      print(e);
-
-      // return Future.value(false);
+//////////////////////Search ///////////////
+  void searchInTeam(String searchWord) {
+    if (searchWord.isEmpty) {
+      _displayedCustomersList.clear();
     }
+    _displayedCustomersList = _customersList
+        .where((element) =>
+            element.buyer!.fullName.contains(searchWord) ||
+            element.seller!.sellerName!.contains(searchWord))
+        .toList();
+
+    notifyListeners();
   }
+
+  //--------------- End ---------------
+
+  ////////////////////Sorting/////////////////////////
+  int sortTypeCheck = 10;
+  int sortPriceIndex = 5;
+
+  setSortByIndex(int) {
+    sortTypeCheck = int;
+    sortPriceIndex = 5;
+
+    notifyListeners();
+  }
+
+  setSortPriceByIndex(int) {
+    sortPriceIndex = int;
+    sortTypeCheck = 10;
+    notifyListeners();
+  }
+
+  sortByCreationDate() {
+    _displayedCustomersList
+        .sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
+    print('sorted to creation date');
+
+    notifyListeners();
+  }
+
+  sortByExpiryDate() {
+    _displayedCustomersList
+        .sort((a, b) => a.offerExpiryDate!.compareTo(b.offerExpiryDate!));
+    print('sorted to expiry date');
+
+    notifyListeners();
+  }
+
+  sortByPrice(bool highToLow) {
+    if (highToLow == true) {
+      _displayedCustomersList
+          .sort((a, b) => b.offerPrice!.compareTo(a.offerPrice!));
+      print('sorted to high to low');
+    } else {
+      _displayedCustomersList
+          .sort((a, b) => a.offerPrice!.compareTo(b.offerPrice!));
+      print('sorted by low to high');
+    }
+    notifyListeners();
+  }
+
+  resetSortBy() {
+    setSortByIndex(10);
+    _displayedCustomersList
+        .sort((a, b) => a.offerPrice!.compareTo(b.offerPrice!));
+    print('reset list to original');
+    notifyListeners();
+  }
+
+//--------------- End ---------------
+
 }

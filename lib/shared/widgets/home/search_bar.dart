@@ -31,7 +31,7 @@ class SearchBar extends StatelessWidget {
             ? (input) async {
                 if (!_isUserWriting) {
                   _isUserWriting = true;
-                  await Future.delayed(Duration(seconds: 1));
+                  await Future.delayed(Duration(milliseconds: 300));
                   _searchFunction!();
                   _isUserWriting = false;
                 }

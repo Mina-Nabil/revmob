@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:revmo/Configurations/Extensions/capitalize_extension.dart';
 
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
@@ -49,7 +50,7 @@ class Details extends StatelessWidget {
         children: [
           DetailText(
             title: "Name",
-            info: buyer.fullName,
+            info: buyer.fullName.toTitleCase(),
           ),
           DetailText(
             title: "National ID",

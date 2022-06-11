@@ -162,7 +162,7 @@ class Buyer {
 
   factory Buyer.fromJson(Map<String, dynamic> json) => Buyer(
     id: json["id"],
-    buyerName: json["BUYR_NAME"],
+    buyerName: json["BUYR_NAME"].toString().toLowerCase(),
     buyerMail: json["BUYR_MAIL"] ?? "No Email",
     buyerMob1: json["BUYR_MOB1"] ?? '',
     buyerBday: DateTime.parse(json["BUYR_BDAY"]),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
+import 'package:revmo/Configurations/Extensions/capitalize_extension.dart';
 
 import '../../../models/Customers/CUSTOMERS_MODDEL_MODEL.dart';
 import '../../colors.dart';
@@ -16,7 +17,6 @@ class CustomersListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var formatter = NumberFormat();
-
     return Container(
       // margin: EdgeInsets.only(bottom: 20),
       // height: 162,
@@ -57,7 +57,7 @@ class CustomersListTile extends StatelessWidget {
                         padding: EdgeInsets.only(bottom: 10),
                         child: Text(
                           // 'Buyer Name'
-                          customerSoldOffer.buyer!.fullName,
+                          customerSoldOffer.buyer!.fullName.toTitleCase(),
                           style: TextStyle(color: RevmoColors.darkBlue),
                         ),
                       ),
@@ -86,7 +86,7 @@ class CustomersListTile extends StatelessWidget {
                             width: 100,
                             child: Text(
                               // 'seller name',
-                              customerSoldOffer.seller!.sellerName!,
+                              customerSoldOffer.seller!.sellerName!.toTitleCase(),
                               style: TextStyle(color: RevmoColors.darkBlue),
                             ),
                           ),
@@ -105,6 +105,7 @@ class CustomersListTile extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+
                           SizedBox(
                             height: 100,
                               child: Image.network(customerSoldOffer.car!.model.imageUrl)),
@@ -119,6 +120,25 @@ class CustomersListTile extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20),
                           ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text('Expiry Date :',style: TextStyle(color: RevmoColors.darkBlue,fontSize: 12),),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  // '2010/10/10',
+                                  DateFormat('dd-MM-yyyy').format( customerSoldOffer.offerExpiryDate ?? DateTime.now()).toString(),
+                                  style: TextStyle(
+                                      color: RevmoColors.darkBlue,
+                                      fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -127,7 +147,7 @@ class CustomersListTile extends StatelessWidget {
               ],
             ),
           ),
-          _BottomDateRating(ratingOne: 2, ratingTwo: 3,date: customerSoldOffer.offerStartDate,)
+          _BottomDateRating(ratingOne: 2, ratingTwo: 3,date: customerSoldOffer.offerStartDate, expiryDate: customerSoldOffer.offerExpiryDate,)
         ],
       ),
     );
@@ -136,9 +156,10 @@ class CustomersListTile extends StatelessWidget {
 
 class _BottomDateRating extends StatelessWidget {
   const _BottomDateRating({
-    Key? key, required this.date, required this.ratingOne, required this.ratingTwo,
+    Key? key, required this.date, required this.ratingOne, required this.ratingTwo, this.expiryDate,
   }) : super(key: key);
 final DateTime? date;
+final DateTime? expiryDate;
 final int ratingOne;
 final int ratingTwo;
   @override
@@ -168,7 +189,7 @@ final int ratingTwo;
                 style: TextStyle(
                     color: RevmoColors.darkBlue,
                     fontSize: 12),
-              )
+              ),
             ],
           ),
           Row(
@@ -204,6 +225,7 @@ final int ratingTwo;
                   )
                 ],
               ),
+
               SizedBox(
                 width: 10,
               ),

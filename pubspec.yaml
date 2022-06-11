@@ -49,6 +49,9 @@ dependencies:
   animate_do: ^2.0.0
   flutter_easyloading: ^3.0.3
   lottie: ^1.2.1
+  dio: ^4.0.6
+  syncfusion_flutter_sliders: ^20.1.59
+  filter_list: ^1.0.1
 
 
 

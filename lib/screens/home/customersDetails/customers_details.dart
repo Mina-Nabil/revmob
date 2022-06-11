@@ -7,7 +7,7 @@ import 'package:revmo/shared/widgets/UIwidgets/initial_name_widget.dart';
 import '../../../shared/widgets/Customers/customers_page.dart';
 import '../../../shared/widgets/Customers/revmo_customer_deal_card.dart';
 import '../../../shared/widgets/home/revmo_appbar.dart';
-
+import 'package:revmo/Configurations/Extensions/capitalize_extension.dart';
 class CustomersDetails extends StatefulWidget {
 
 final SoldOffer customer;
@@ -33,7 +33,7 @@ class _CustomersDetailsState extends State<CustomersDetails> {
                   width: 10,
                 ),
                 Text(
-                  widget.customer.buyer!.buyerName ?? '',
+                  widget.customer.buyer!.buyerName!.toTitleCase(),
                   style: TextStyle(fontSize: 20),
                 ),
               ],
