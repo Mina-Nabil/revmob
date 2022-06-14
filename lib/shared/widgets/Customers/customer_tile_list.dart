@@ -5,7 +5,8 @@ import 'package:revmo/Configurations/Extensions/capitalize_extension.dart';
 
 import '../../../models/Customers/CUSTOMERS_MODDEL_MODEL.dart';
 import '../../colors.dart';
-import '../../theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import '../UIwidgets/initial_name_widget.dart';
 
 class CustomersListTile extends StatelessWidget {
@@ -114,30 +115,30 @@ class CustomersListTile extends StatelessWidget {
                           ),
 
                           Text(
-                            '${ formatter.format( customerSoldOffer.offerPrice).toString()} EGP',
+                            '${ formatter.format( customerSoldOffer.offerPrice).toString()} ${AppLocalizations.of(context)!.egp}',
                             style: TextStyle(
                                 color: RevmoColors.darkBlue,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20),
                           ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text('Expiry Date :',style: TextStyle(color: RevmoColors.darkBlue,fontSize: 12),),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  // '2010/10/10',
-                                  DateFormat('dd-MM-yyyy').format( customerSoldOffer.offerExpiryDate ?? DateTime.now()).toString(),
-                                  style: TextStyle(
-                                      color: RevmoColors.darkBlue,
-                                      fontSize: 12),
-                                ),
-                              ],
-                            ),
+                          SizedBox(
+                            height: 6,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('${AppLocalizations.of(context)!.expiryDate } :',style: TextStyle(color: RevmoColors.darkBlue,fontSize: 12),),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                // '2010/10/10',
+                                DateFormat('dd-MM-yyyy').format( customerSoldOffer.offerExpiryDate ?? DateTime.now()).toString(),
+                                style: TextStyle(
+                                    color: RevmoColors.darkBlue,
+                                    fontSize: 12),
+                              ),
+                            ],
                           ),
                         ],
                       ),

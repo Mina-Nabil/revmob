@@ -21,7 +21,11 @@ class DashboardTab extends StatefulWidget {
   _DashboardTabState createState() => _DashboardTabState();
 }
 
+
 class _DashboardTabState extends State<DashboardTab> {
+ @override
+
+
   @override
   Widget build(BuildContext context) {
     final account = Provider.of<AccountProvider>(context, listen: false);
@@ -73,7 +77,7 @@ class _DashboardTabState extends State<DashboardTab> {
               ),
 
               TitleHeader(
-                title: 'Top Sales',
+                title: AppLocalizations.of(context)!.topSales,
               ),
               TargetSalesBox(
                 soldCarsCount: account.user?.carsSoldCount.toString(),
@@ -81,16 +85,16 @@ class _DashboardTabState extends State<DashboardTab> {
                 sellersCount: '6',
               ),
               TitleHeader(
-                title: 'Recently Added',
+                title: AppLocalizations.of(context)!.recentlyAdded,
               ),
               RecentlyAdded(
                 name: 'Mitsubishi Outlander, 2021',
-                price: '540,000 EGP',
+                price: '540,000 ${AppLocalizations.of(context)!.egCurrency}',
                 imgUrl:
-                    'https://photo-cdn2.icons8.com/0TME86H9ZQjywq3joWm2_gvnckM7VOujJWzbW1BC758/rs:fit:1575:1072/czM6Ly9pY29uczgu/bW9vc2UtcHJvZC5h/c3NldHMvYXNzZXRz/L2VkaXRvci9vYmpl/Y3QvNjgyL2IzYWJk/ZDcyLWI1OTEtNDgz/OC05MWM5LTRlMjRj/MjJhNDI1OS5wbmc.png',
+                    'https://pngimg.com/uploads/mitsubishi/mitsubishi_PNG185.png',
               ),
               TitleHeader(
-                title: 'Top Sales',
+                title: AppLocalizations.of(context)!.topSales,
               ),
               SizedBox(
                 height: 160,
@@ -104,10 +108,9 @@ class _DashboardTabState extends State<DashboardTab> {
                           // margin: EdgeInsets.only(left: 10,right: 10),
                           child: CatalogTile(
                               catalog.filteredCatalog[index],
-                              catalog.catalog
-                                  .getCarColors(catalog.filteredCatalog[index]))),
+                              catalog.catalog.getCarColors(
+                                  catalog.filteredCatalog[index]))),
                     );
-
                   },
                   separatorBuilder: (BuildContext context, int index) {
                     return SizedBox(
@@ -117,7 +120,7 @@ class _DashboardTabState extends State<DashboardTab> {
                 ),
               ),
               TitleHeader(
-                title: 'Recent',
+                title: AppLocalizations.of(context)!.recent,
               ),
               SizedBox(
                 height: 330,
@@ -131,7 +134,7 @@ class _DashboardTabState extends State<DashboardTab> {
                         logoUrl: catalog.catalog.models[index].brand.logoURL,
                         name: catalog.catalog.models[index].fullName,
                         brand: catalog.catalog.models[index].type.name,
-                        price: '500,000 Egp',
+                        price: '500,000 ${AppLocalizations.of(context)!.egp}',
                         seller: 'Aly Mahmoud',
                         onTap: () {
                           print(catalog.catalog.models[index].fullName);
@@ -154,8 +157,6 @@ class _DashboardTabState extends State<DashboardTab> {
         ));
   }
 }
-
-
 
 class RecentCarsContainer extends StatelessWidget {
   const RecentCarsContainer({
@@ -203,11 +204,11 @@ class RecentCarsContainer extends StatelessWidget {
           ),
           logoUrl != null
               ? SizedBox(
-            height: 30,
-                child: Image.network(
+                  height: 30,
+                  child: Image.network(
                     logoUrl!,
                   ),
-              )
+                )
               : SizedBox.shrink(),
           SizedBox(
             height: 5,
@@ -261,7 +262,7 @@ class RecentCarsContainer extends StatelessWidget {
               onTap: onTap,
               child: Center(
                   child: Text(
-                'Check Deal',
+                AppLocalizations.of(context)!.details,
                 style: TextStyle(color: Color(0xff003157)),
               )),
             ),
@@ -297,10 +298,10 @@ class RecentlyAdded extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(
-                Icons.car_rental_sharp,
-                color: Colors.red,
-              ),
+              SizedBox(
+                  height: 30,
+                  child: Image.network(
+                      'https://img.icons8.com/color/344/mitsubishi.png')),
               SizedBox(
                 height: 5,
               ),
@@ -315,7 +316,7 @@ class RecentlyAdded extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                'Starting Price',
+                AppLocalizations.of(context)!.startingPrice,
                 style: TextStyle(color: Color(0xff003157), fontSize: 15),
               ),
               SizedBox(
@@ -330,23 +331,23 @@ class RecentlyAdded extends StatelessWidget {
               ),
             ],
           ),
-          AppLocalizations.of(context)! == 'ar' ?
-          Positioned(
-            left: -50,
-            top: -40,
-            child: SizedBox(
-                height: 150,
-                child: Image.network(
-                    'https://photo-cdn2.icons8.com/0TME86H9ZQjywq3joWm2_gvnckM7VOujJWzbW1BC758/rs:fit:1575:1072/czM6Ly9pY29uczgu/bW9vc2UtcHJvZC5h/c3NldHMvYXNzZXRz/L2VkaXRvci9vYmpl/Y3QvNjgyL2IzYWJk/ZDcyLWI1OTEtNDgz/OC05MWM5LTRlMjRj/MjJhNDI1OS5wbmc.png')),
-          ) :
-          Positioned(
-            right: -50,
-            top: -40,
-            child: SizedBox(
-                height: 150,
-                child: Image.network(
-                    'https://photo-cdn2.icons8.com/0TME86H9ZQjywq3joWm2_gvnckM7VOujJWzbW1BC758/rs:fit:1575:1072/czM6Ly9pY29uczgu/bW9vc2UtcHJvZC5h/c3NldHMvYXNzZXRz/L2VkaXRvci9vYmpl/Y3QvNjgyL2IzYWJk/ZDcyLWI1OTEtNDgz/OC05MWM5LTRlMjRj/MjJhNDI1OS5wbmc.png')),
-          )
+          AppLocalizations.of(context)!.localeName == 'ar'
+              ? Positioned(
+                  left: -80,
+                  top: -70,
+                  child: SizedBox(
+                    height: 210,
+                    child: Image.network(imgUrl!),
+                  ),
+                )
+              : Positioned(
+                  right: -80,
+                  top: -70,
+                  child: SizedBox(
+                    height: 210,
+                    child: Image.network(imgUrl!),
+                  ),
+                )
         ],
       ),
     );
@@ -424,7 +425,7 @@ class WelcomeContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Text.rich(TextSpan(
-          text: 'Hello, ',
+          text: '${AppLocalizations.of(context)!.hello}, ',
           style: TextStyle(fontSize: 18),
           children: <InlineSpan>[
             TextSpan(

@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/Configurations/Extensions/extensions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotificationsTab extends StatefulWidget {
   static const screenName = "notificationsTab";
@@ -11,23 +12,23 @@ class NotificationsTab extends StatefulWidget {
 }
 
 class _NotificationsTabState extends State<NotificationsTab> {
-
   Future refreshMyNotification() async {
     print('refreshing');
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: RevmoColors.darkBlue,
         body: RefreshIndicator(
-          onRefresh:refreshMyNotification,
+          onRefresh: refreshMyNotification,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   child: Text(
-                    "Notifications",
+                    AppLocalizations.of(context)!.notifications,
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
@@ -68,10 +69,10 @@ class _NotificationsTabState extends State<NotificationsTab> {
                     ),
                     separatorBuilder: (BuildContext context, int index) =>
                         FadeInUp(
-                          child: Divider(
-                      color: Colors.grey,
+                      child: Divider(
+                        color: Colors.grey,
+                      ),
                     ),
-                        ),
                   ),
                 ),
                 SizedBox(

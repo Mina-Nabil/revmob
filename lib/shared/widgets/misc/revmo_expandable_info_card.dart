@@ -82,8 +82,9 @@ class _RevmoExpandableInfoCardState extends State<RevmoExpandableInfoCard> with 
             onTap: toggleBox,
             child: Container(
               height: widget.minHeight,
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              padding:   const EdgeInsets.all(8),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   RotationTransition(
                     turns: Tween(begin: _tweenBegin, end: _tweenEnd).animate(_controller),

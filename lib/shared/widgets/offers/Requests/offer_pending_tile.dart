@@ -15,7 +15,8 @@ import '../../settings/user_image.dart';
 class PendingRequestTile extends StatelessWidget {
   const PendingRequestTile({
     Key? key,
-    required this.pendingOffer, required this.extendOffer,
+    required this.pendingOffer,
+    required this.extendOffer,
   }) : super(key: key);
   final Offer pendingOffer;
   final VoidCallback extendOffer;
@@ -24,7 +25,6 @@ class PendingRequestTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
 
-
     var toDay = DateTime.parse(DateTime.now().toString());
     var fromDate = DateTime.parse(pendingOffer.expiryDate.toString());
     Duration diff = fromDate.difference(toDay);
@@ -32,7 +32,9 @@ class PendingRequestTile extends StatelessWidget {
     var formatter = NumberFormat();
 
     return Stack(
-      alignment: AppLocalizations.of(context) == 'en' ? Alignment.topRight : Alignment.topLeft,
+      alignment: AppLocalizations.of(context)!.localeName == 'en'
+          ? Alignment.topRight
+          : Alignment.topLeft,
       children: [
         Container(
           padding: EdgeInsets.all(10),
@@ -84,23 +86,17 @@ class PendingRequestTile extends StatelessWidget {
                         const SizedBox(
                           height: 16,
                         ),
-
-                        diff.inDays <= 3 ?
-                        Text(
-                          'Expires in ${diff.inDays} Days',
-                          style:
-
-                          TextStyle(color:   Colors.red),
-                        ) :
-                        Text(
-                          'Expires in ${diff.inDays} Days',
-                          style:
-
-                          TextStyle(color:   Color(0xff26AEE4)),
-                        )
-                        ,
+                        diff.inDays <= 3
+                            ? Text(
+                                '${AppLocalizations.of(context)!.expiresIn} ${diff.inDays} ${AppLocalizations.of(context)!.days}',
+                                style: TextStyle(color: Colors.red),
+                              )
+                            : Text(
+                                '${AppLocalizations.of(context)!.expiresIn} ${diff.inDays} ${AppLocalizations.of(context)!.days}',
+                                style: TextStyle(color: Color(0xff26AEE4)),
+                              ),
                         Container(
-                          alignment: Alignment.bottomRight,
+                          alignment:AppLocalizations.of(context)!.localeName == "en" ?  Alignment.bottomRight : Alignment.bottomLeft,
                           child: RevmoCarImageWidget(
                             revmoImage: RevmoCarImage(
                                 imageURL: pendingOffer.car.model.imageUrl,
@@ -114,10 +110,8 @@ class PendingRequestTile extends StatelessWidget {
                           height: 3,
                         ),
                         Text(
-                          formatter
-                                  .format(pendingOffer.price)
-                                  .toString() +
-                              ' EGP',
+                          formatter.format(pendingOffer.price).toString() +
+                              ' ${AppLocalizations.of(context)!.egp}',
                           style: TextStyle(
                               fontSize: 20,
                               color: RevmoColors.darkBlue,
@@ -133,28 +127,20 @@ class PendingRequestTile extends StatelessWidget {
                 children: [
                   MainButton(
                       width: mediaQuery.size.width * 0.5,
-                      text: 'EXTEND offer FOR 2 DAYS',
-                      // AppLocalizations.of(
-                      //         context)!
-                      //     .createOffer,
-                      callBack:
-                        extendOffer
-                        // print('extend offer for 2 days ');
+                      text: AppLocalizations.of(context)!.extendOfferFor2days,
+                      callBack: extendOffer
+                      // print('extend offer for 2 days ');
                       ),
                   MainButton(
                       color: Colors.transparent,
                       width: mediaQuery.size.width * 0.2,
-
-                      text: 'cancel offer',
+                      text: AppLocalizations.of(context)!.cancelOffer,
                       textColor: Color(0xff26AEE4),
-                      // AppLocalizations.of(
-                      //         context)!
-                      //     .createOffer,
                       callBack: () {
                         print('Cancel offer');
                       }),
                 ],
-              )
+              ),
             ],
           ),
         ),
@@ -172,9 +158,5 @@ class PendingRequestTile extends StatelessWidget {
         ),
       ],
     );
-
   }
-
-
 }
-

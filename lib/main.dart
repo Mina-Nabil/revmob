@@ -27,6 +27,8 @@ GetIt getIt = GetIt.instance;
 
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   getIt.registerLazySingleton<ServerHandler>(() => new ServerHandler());
 
   HttpOverrides.global = MyHttpOverrides();

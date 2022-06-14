@@ -67,6 +67,79 @@
     "@yourTeam": {
       "description": "Team Word"
     },
+    "hello": "Hello",
+        "@hello": {
+          "description": "hello member"
+    },
+    "topSales": "Top Sales",
+           "@topSales": {
+             "description": "top sales word"
+           },
+    "recentlyAdded": "Recently Added",
+           "@recentlyAdded": {
+            "description": "recentlyAdded word"
+    },
+     "egp": "EGP",
+               "@egp": {
+                "description": "egp word"
+     },
+       "badInternet": "It seems your Internet is slow or not working !",
+                 "@badInternet": {
+                  "description": "bad Internet"
+     },
+       "again": "Try Again",
+                 "@again": {
+                 "description": "try again"
+          },
+     "recent": "Recent",
+               "@recent": {
+                "description": "recent word"
+        },
+         "sortBy": "Sort By",
+                       "@sortBy": {
+                        "description": "sort by word"
+                },
+                   "creationDate": "Creation Date",
+                                       "@creationDate": {
+                                        "description": "creation Date"
+                                },
+  "expiryDate": "Expiry Date",
+    "@expiryDate": {
+    "description": "expiry Date"
+      },
+       "priceHighToLow": "Price high to low",
+          "@expiryDate": {
+          "description": "expiry Date"
+            },
+       "priceLowToHigh": "Price low to high",
+                 "@expiryDate": {
+                 "description": "expiry Date"
+                   },
+  "extendAllOffers2days": "Extend all offers for 2 days",
+                   "@extendAllOffers2days": {
+                   "description": "extendAllOffers2days word"
+                     },
+"cancelOffer": "Cancel Offer",
+"@cancelOffer": {
+"description": "cancel offer word"
+ },
+"extendOfferFor2days": "Extend Offer For 2 Days",
+"@extendOfferFor2days": {
+"description": "extend offer 2 days"
+ },
+"expiresIn": "Expires in",
+"@expiresIn": {
+"description": "expiresIn   days"
+ },
+"days": "Days",
+"@days": {
+"description": "days"
+ },
+ "startingPrice": "Starting Price",
+ "@startingPrice": {
+ "description": "days"
+  },
+
     "addToSalesTeam": "Add To The Team",
     "@addToSalesTeam": {
       "description": "Team Word"

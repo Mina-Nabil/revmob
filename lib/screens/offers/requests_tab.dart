@@ -185,20 +185,35 @@ class _RequestsTabState extends State<RequestsTab> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.end,
                                           children: [
+                                            AppLocalizations.of(
+                                                context)!.localeName == "en" ?
                                             FadeInRight(
                                               child: MainButton(
                                                   width: 200,
                                                   text:
-                                                      'EXTEND ALL OFFERS FOR 2 DAYS',
-                                                  // AppLocalizations.of(
-                                                  //         context)!
-                                                  //     .createOffer,
+                                                      // 'EXTEND ALL OFFERS FOR 2 DAYS',
+                                                  AppLocalizations.of(
+                                                          context)!
+                                                      .extendAllOffers2days,
+                                                  callBack: () {
+                                                    extendAllOffers();
+                                                  }),
+                                            ):
+                                            FadeInLeft(
+                                              child: MainButton(
+                                                  width: 200,
+                                                  text:
+                                                  // 'EXTEND ALL OFFERS FOR 2 DAYS',
+                                                  AppLocalizations.of(
+                                                      context)!
+                                                      .extendAllOffers2days,
                                                   callBack: () {
                                                     extendAllOffers();
                                                   }),
                                             ),
                                             SizedBox(
                                               height: 10,
+
                                             ),
                                             Expanded(
                                               child: ListView.separated(
@@ -210,10 +225,12 @@ class _RequestsTabState extends State<RequestsTab> {
                                                 itemCount: offersProvider
                                                     .pending.length,
                                                 itemBuilder: (cnxt, i) {
+                                                  print(offersProvider.retrievedPendingBrands.elementAt(0));
                                                   return FadeInUp(
                                                       duration: Duration(
                                                           milliseconds: 200),
-                                                      child: PendingRequestTile(
+                                                      child:
+                                                      PendingRequestTile(
                                                         pendingOffer:
                                                             offersProvider
                                                                 .pending[i],
@@ -223,7 +240,9 @@ class _RequestsTabState extends State<RequestsTab> {
                                                                   .pending[i]
                                                                   .id);
                                                         },
-                                                      ));
+                                                      )
+
+                                                  );
                                                   // OfferTile.pending(offersProvider.pending[i]);
                                                 },
                                                 separatorBuilder:

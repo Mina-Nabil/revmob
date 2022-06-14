@@ -2,13 +2,11 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_select_items/flutter_multi_select_items.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/providers/Seller/customers_provider.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
-
+import '../../BuyerApp/Dashboard/dashboard_tab_view.dart';
 import '../../environment/paths.dart';
 import '../../shared/theme.dart';
 import '../../shared/widgets/Customers/LoadingShimmers/customer_tile_loading_widget.dart';
@@ -53,13 +51,10 @@ class _CustomersTabState extends State<CustomersTab> {
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Container(
           child: Text(
-            "Customers",
+            AppLocalizations.of(context)!.customers,
             style: TextStyle(fontSize: 20),
           ),
         ),
-        // ElevatedButton(onPressed: (){
-        //   print(customerProvider.maxCarPrice);
-        // }, child: Text('fetch')),
          SizedBox(
           height: 20,
         ),
@@ -92,7 +87,7 @@ class _CustomersTabState extends State<CustomersTab> {
                               elevation: 10.0,
                               isScrollControlled: true,
                               context: context,
-                              builder: (context) => FilterBottomSheet());
+                              builder: (context) => BottomSheetWidget());
                         },
                         width: RevmoTheme.SEARCH_BAR_HEIGHT,
                         color: RevmoColors.petrol,
@@ -119,10 +114,10 @@ class _CustomersTabState extends State<CustomersTab> {
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Lottie.asset('assets/images/disconnect.json',
-                        repeat: true,
-                        height: 200,
-                        frameRate: FrameRate.composition),
+                    // Lottie.asset('assets/images/disconnect.json',
+                    //     repeat: true,
+                    //     height: 200,
+                    //     frameRate: FrameRate.composition),
                     const SizedBox(
                       height: 5,
                     ),
@@ -136,8 +131,8 @@ class _CustomersTabState extends State<CustomersTab> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const Text(
-                      "It seems your Internet is slow or not working !",
+                     Text(
+                      AppLocalizations.of(context)!.badInternet,
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                     const SizedBox(
@@ -147,7 +142,7 @@ class _CustomersTabState extends State<CustomersTab> {
                         onPressed: () {
                           customerProvider.fetchCustomersNetworkLayer();
                         },
-                        child: Text('Try Again'))
+                        child: Text( AppLocalizations.of(context)!.again,),)
                   ],
                 )),
               )
@@ -203,12 +198,13 @@ class _CustomersTabState extends State<CustomersTab> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              CustomersDetails(
-                                                customer: customerProvider
-                                                        .displayedCustomersList[
-                                                    index],
-                                              )));
+                                          builder: (context) =>Profile()
+                                        // CustomersDetails(
+                                        //         customer: customerProvider
+                                        //                 .displayedCustomersList[
+                                        //             index],
+                                        //       )
+                                      ));
                                 },
                                 child: CustomersListTile(
                                   customerSoldOffer: customerProvider
@@ -280,7 +276,7 @@ double minPriceWidget = customerProvider.minCarPrice;
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Filters ',
+                AppLocalizations.of(context)!.filters,
               style: TextStyle(
                   color: RevmoColors.darkBlue,
                   fontWeight: FontWeight.bold,
@@ -290,7 +286,7 @@ double minPriceWidget = customerProvider.minCarPrice;
               height: 20,
             ),
             Text(
-              'Brand',
+              AppLocalizations.of(context)!.brands,
               style: TextStyle(
                   color: RevmoColors.originalBlue,
                   fontWeight: FontWeight.bold,
@@ -353,7 +349,7 @@ double minPriceWidget = customerProvider.minCarPrice;
               height: 20,
             ),
             Text(
-              'Price',
+              AppLocalizations.of(context)!.price,
               style: TextStyle(
                   color: RevmoColors.originalBlue,
                   fontWeight: FontWeight.bold,
@@ -432,7 +428,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
-              'Sort By ',
+              AppLocalizations.of(context)!.sortBy,
               style: TextStyle(
                   color: RevmoColors.darkBlue,
                   fontWeight: FontWeight.bold,
@@ -455,7 +451,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                       width: 22,
                     ),
               title: Text(
-                'Creation Date',
+                AppLocalizations.of(context)!.creationDate,
                 style: TextStyle(color: RevmoColors.darkBlue, fontSize: 16),
               ),
             ),
@@ -479,7 +475,8 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                       width: 22,
                     ),
               title: Text(
-                'Expiry Date',
+                AppLocalizations.of(context)!.expiryDate,
+
                 style: TextStyle(color: RevmoColors.darkBlue, fontSize: 16),
               ),
             ),
@@ -506,7 +503,8 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                           width: 18,
                         ),
                   title: Text(
-                    'Price High to Low',
+                    AppLocalizations.of(context)!.priceHighToLow,
+
                     style: TextStyle(color: RevmoColors.darkBlue, fontSize: 14),
                   ),
                 ),
@@ -526,7 +524,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                           width: 18,
                         ),
                   title: Text(
-                    'Price Low to High',
+                    AppLocalizations.of(context)!.priceLowToHigh,
                     style: TextStyle(color: RevmoColors.darkBlue, fontSize: 14),
                   ),
                 ),
@@ -534,7 +532,8 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
               leading: SizedBox.shrink(),
               tilePadding: EdgeInsets.zero,
               title: Text(
-                'Price',
+                AppLocalizations.of(context)!.price,
+
                 style: TextStyle(color: RevmoColors.darkBlue, fontSize: 16),
               ),
               initiallyExpanded: false,

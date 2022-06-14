@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
@@ -10,6 +11,8 @@ import 'package:revmo/models/offers/offer_request.dart';
 import 'package:revmo/providers/Seller/account_provider.dart';
 import 'package:revmo/services/offers_service.dart';
 import 'package:revmo/shared/theme.dart';
+
+import '../../models/cars/brand.dart';
 
 class OffersProvider extends ChangeNotifier {
   final BuildContext context;
@@ -32,6 +35,13 @@ class OffersProvider extends ChangeNotifier {
 
   List<Offer> get expired => _expired;
 
+  HashSet<Brand> _retreivedNewRequestBrands = new HashSet<Brand>();
+
+  HashSet<Brand> get retrievedNewBrands => _retreivedNewRequestBrands;
+
+  HashSet<Brand> _retreivedPendingRequestBrands = new HashSet<Brand>();
+
+  HashSet<Brand> get retrievedPendingBrands => _retreivedPendingRequestBrands;
 
   removeIndexWithIdNew(int id) {
     print(id);
@@ -86,6 +96,10 @@ class OffersProvider extends ChangeNotifier {
       if (response.body != null && response.body is List<OfferRequest>) {
         _new.clear();
         _new = response.body!;
+        _new.forEach((request) {
+          _retreivedNewRequestBrands.add(request.car.model.brand);
+        });
+        print(_retreivedNewRequestBrands);
         notifyListeners();
       } else {
         RevmoTheme.showRevmoSnackbar(context, response.msg);
@@ -101,6 +115,13 @@ class OffersProvider extends ChangeNotifier {
         _pending.clear();
         _pending = response.body!;
         _pending.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
+        _pending.forEach((request) {
+          _retreivedPendingRequestBrands.add(request.car.model.brand);
+        });
+
+        print(_pending.length);
+
+        print(_retreivedPendingRequestBrands);
         notifyListeners();
       } else {
         RevmoTheme.showRevmoSnackbar(context, response.msg);
