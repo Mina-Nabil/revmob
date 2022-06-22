@@ -45,7 +45,7 @@ class _RevmoAppBarState extends State<RevmoAppBar> {
     return AppBar(
       backgroundColor: RevmoColors.darkBlue,
       elevation: 0.0,
-      centerTitle: false,
+      centerTitle: true,
       titleSpacing: 0,
       title: widget.title != null ? Column(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -7,7 +7,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../environment/paths.dart';
 import '../../../shared/colors.dart';
 import '../../providers/Buyer/home_provider.dart';
-import '../../shared/widgets/home/revmo_appbar.dart';
 import '../../shared/widgets/misc/revmo_icon_only_button.dart';
 import '../Dashboard/dashboard_tab_view.dart';
 

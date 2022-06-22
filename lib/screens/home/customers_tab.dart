@@ -99,7 +99,15 @@ class _CustomersTabState extends State<CustomersTab> {
                     Container(
                         margin: EdgeInsets.only(left: 5),
                         child: RevmoIconButton(
-                          callback: null,
+                          callback: (){
+                            showModalBottomSheet<bool>(
+                                barrierColor: RevmoColors.backgroundDim,
+                                backgroundColor: Colors.transparent,
+                                elevation: 10.0,
+                                isScrollControlled: true,
+                                context: context,
+                                builder: (context) => FilterBottomSheet());
+                          },
                           width: RevmoTheme.SEARCH_BAR_HEIGHT,
                           color: RevmoColors.originalBlue,
                           iconWidget: SvgPicture.asset(Paths.filtersSVG,
@@ -198,12 +206,12 @@ class _CustomersTabState extends State<CustomersTab> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>Profile()
-                                        // CustomersDetails(
-                                        //         customer: customerProvider
-                                        //                 .displayedCustomersList[
-                                        //             index],
-                                        //       )
+                                          // builder: (context) =>Profile()
+                                        builder : (context) => CustomersDetails(
+                                                customer: customerProvider
+                                                        .displayedCustomersList[
+                                                    index],
+                                              )
                                       ));
                                 },
                                 child: CustomersListTile(
@@ -264,7 +272,7 @@ double minPriceWidget = customerProvider.minCarPrice;
 
 
     return Container(
-        height: MediaQuery.of(context).size.height * 0.9,
+        height: MediaQuery.of(context).size.height * 0.4,
         padding: EdgeInsets.all(20),
         margin: EdgeInsets.only(top: 40),
         decoration: BoxDecoration(
@@ -296,22 +304,24 @@ double minPriceWidget = customerProvider.minCarPrice;
               height: 10,
             ),
             MultiSelectContainer(
+              maxSelectableCount: 1,
+              controller:customerProvider.multiSelectController ,
                 wrapSettings: const WrapSettings(runSpacing: 10),
-                items: List.generate(3, (index) {
-                  final data = customerProvider.displayedCustomersList[index];
+                items: List.generate(customerProvider.retrievedBrandsList.length, (index) {
+                  final data = customerProvider.retrievedBrandsList.elementAt(index);
                   return MultiSelectCard(
-                      value: data.car,
+                      value: data,
                       child: Row(
                         children: [
                           SizedBox(
                             height: 20,
-                            child: Image.network(data.car!.model.brand.logoURL),
+                            child: Image.network(data.logoURL),
                           ),
                           SizedBox(
                             width: 10,
                           ),
                           Text(
-                            data.car!.model.brand.name,
+                            data.name,
                             style: TextStyle(
                                 color: RevmoColors.darkBlue,
                                 fontWeight: FontWeight.bold),
@@ -344,7 +354,14 @@ double minPriceWidget = customerProvider.minCarPrice;
                             fontWeight: FontWeight.bold),
                       ));
                 }),
-                onChange: (allSelectedItems, selectedItem) {}),
+                onMaximumSelected: (allSelectedItems, selectedItem) {
+                print('the limit has been reached');
+                  // CustomSnackBar.showInSnackBar('The limit has been reached', context);
+                },
+                onChange: (allSelectedItems, selectedItem) {
+                  customerProvider.setBrandFilterName('selectedItem.toString()');
+                  customerProvider.setBrandFilter();
+                }),
             const SizedBox(
               height: 20,
             ),
@@ -355,9 +372,6 @@ double minPriceWidget = customerProvider.minCarPrice;
                   fontWeight: FontWeight.bold,
                   fontSize: 16),
             ),
-
-
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -392,7 +406,25 @@ double minPriceWidget = customerProvider.minCarPrice;
                         color: RevmoColors.darkerBlue)),
               ],
             ),
+            const SizedBox(
+              height: 30,
+            ),
+            SecondaryButton(
+              text: AppLocalizations.of(context)!.reset,
+              callBack: () {
+                customerProvider.resetFilters();
 
+
+              },
+              textColor: RevmoColors.originalBlue,
+            ),
+            SecondaryButton(
+              text: AppLocalizations.of(context)!.cancel,
+              callBack: () {
+                Navigator.pop(context);
+              },
+              textColor: RevmoColors.originalBlue,
+            ),
 
           ],
         )));

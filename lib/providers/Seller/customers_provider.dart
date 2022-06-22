@@ -1,10 +1,13 @@
+import 'dart:collection';
 import 'dart:io';
 
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_select_items/flutter_multi_select_items.dart';
 
 import '../../models/Customers/CUSTOMERS_MODDEL_MODEL.dart';
+import '../../models/cars/brand.dart';
 import '../../services/customers_service.dart';
 import 'package:revmo/shared/theme.dart';
 
@@ -29,6 +32,9 @@ class CustomersProvider extends ChangeNotifier {
 
   List<SoldOffer> get displayedCustomersList => _displayedCustomersList;
 
+  HashSet<Brand> _retrievedBrandsList = new HashSet<Brand>();
+
+  HashSet<Brand> get retrievedBrandsList => _retrievedBrandsList;
 
   bool _isLoading = false;
 
@@ -39,47 +45,55 @@ class CustomersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   double get minCarPrice {
     double minPrice = double.maxFinite;
     _customersList.forEach((car) {
-      if (car.offerPrice!.toDouble() < minPrice) minPrice = car.offerPrice!.toDouble();
+      if (car.offerPrice!.toDouble() < minPrice)
+        minPrice = car.offerPrice!.toDouble();
     });
-    return minPrice==double.maxFinite ? 0 : minPrice;
+    return minPrice == double.maxFinite ? 0 : minPrice;
   }
 
- set maxCarPrice(double){
+  set maxCarPrice(double) {
     maxCarPrice = double;
     notifyListeners();
   }
 
-
   double get maxCarPrice {
     double maxPrice = double.minPositive;
     _customersList.forEach((car) {
-      if (car.offerPrice!.toDouble() > maxPrice) maxPrice = car.offerPrice!.toDouble();
+      if (car.offerPrice!.toDouble() > maxPrice)
+        maxPrice = car.offerPrice!.toDouble();
     });
-    return maxPrice==double.minPositive ? 0 : maxPrice;
+    return maxPrice == double.minPositive ? 0 : maxPrice;
   }
+
 ///////////////////////Fetching Data//////////////////////
 
   Future fetchCustomersNetworkLayer() async {
     try {
       setSortByIndex(10);
       setLoading(true);
-      dio.Response response = await _customersService.getCustomersNetworkLayer();
+      dio.Response response =
+          await _customersService.getCustomersNetworkLayer();
       isConnected = true;
 
       setLoading(false);
 
       List<SoldOffer> customersListRequest = List<SoldOffer>.from(response
-          .data["body"]["soldOffers"].map((x) => SoldOffer.fromJson(x)));
+          .data["body"]["soldOffers"]
+          .map((x) => SoldOffer.fromJson(x)));
       _customersList = customersListRequest;
       _displayedCustomersList = customersListRequest;
       _customersList.sort((a, b) => a.offerPrice!.compareTo(b.offerPrice!));
       _displayedCustomersList
           .sort((a, b) => a.offerPrice!.compareTo(b.offerPrice!));
+
+      _customersList.forEach((request) {
+        _retrievedBrandsList.add(request.car!.model.brand);
+      });
+
+      print(_retrievedBrandsList);
 
       print('customers length :  ${customersListRequest.length}');
       notifyListeners();
@@ -107,7 +121,7 @@ class CustomersProvider extends ChangeNotifier {
 
   //--------------- End ---------------
 
-//////////////////////Search ///////////////
+  ////////////////////Search ///////////////
   void searchInTeam(String searchWord) {
     if (searchWord.isEmpty) {
       _displayedCustomersList.clear();
@@ -120,6 +134,33 @@ class CustomersProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  //--------------- End ---------------
+
+  //////////////////// Filter //////////////////
+  String? _brandFilter;
+   MultiSelectController<Brand> _multiSelectController = MultiSelectController();
+  MultiSelectController<Brand>  get multiSelectController => _multiSelectController;
+
+  setBrandFilterName(String name){
+    _brandFilter = name;
+    notifyListeners();
+  }
+  setBrandFilter() {
+    _displayedCustomersList = _customersList.where((element) {
+      return element.car!.model.brand.name.contains(_brandFilter!);
+    }).toList();
+    print(_displayedCustomersList.length);
+    notifyListeners();
+  }
+
+  resetFilters(){
+    _displayedCustomersList = _customersList;
+    notifyListeners();
+  }
+
+
+
 
   //--------------- End ---------------
 

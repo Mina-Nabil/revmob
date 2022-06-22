@@ -169,8 +169,8 @@ class _RequestsTabState extends State<RequestsTab> {
                                         itemCount:
                                             offersProvider.newRequests.length,
                                         itemBuilder: (cnxt, i) {
-                                          print(offersProvider
-                                              .newRequests.length);
+                                          // print(offersProvider
+                                          //     .newRequests.length);
                                           return FadeInUp(
                                             child: OfferTile.request(
                                                 offersProvider.newRequests[i]),

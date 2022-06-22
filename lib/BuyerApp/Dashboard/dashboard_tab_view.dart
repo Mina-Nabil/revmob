@@ -46,9 +46,8 @@ class MyView extends HookView<DashboardViewModel> {
                   //   pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   // );
                   vmodel.customerProvider.loadPendingOffers();
-// vmodel.increase();
+                  // vmodel.increase();
                   // vmodel.customerProvider.setAppBar();
-
                 }, child: Text('hide')),
 
                 Text(vmodel.counter.toString(), style: TextStyle(color: Colors.black),),
