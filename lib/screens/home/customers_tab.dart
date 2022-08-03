@@ -305,10 +305,10 @@ double minPriceWidget = customerProvider.minCarPrice;
             ),
             MultiSelectContainer(
               maxSelectableCount: 1,
-              controller:customerProvider.multiSelectController ,
+              controller:customerProvider.multiSelectController,
                 wrapSettings: const WrapSettings(runSpacing: 10),
-                items: List.generate(customerProvider.retrievedBrandsList.length, (index) {
-                  final data = customerProvider.retrievedBrandsList.elementAt(index);
+                items: List.generate(customerProvider.catalog.brands.length, (index) {
+                  final data = customerProvider.catalog.brands[index];
                   return MultiSelectCard(
                       value: data,
                       child: Row(
@@ -359,7 +359,7 @@ double minPriceWidget = customerProvider.minCarPrice;
                   // CustomSnackBar.showInSnackBar('The limit has been reached', context);
                 },
                 onChange: (allSelectedItems, selectedItem) {
-                  customerProvider.setBrandFilterName('selectedItem.toString()');
+                  customerProvider.setBrandFilterName(selectedItem.toString());
                   customerProvider.setBrandFilter();
                 }),
             const SizedBox(

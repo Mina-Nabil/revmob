@@ -1,5 +1,7 @@
 import 'dart:collection';
 
+import 'package:revmo/models/Customers/CUSTOMERS_MODDEL_MODEL.dart';
+
 import 'brand.dart';
 import 'car.dart';
 import 'car_list.dart';
@@ -12,6 +14,7 @@ class Catalog {
   HashSet<Brand> _brands = new HashSet<Brand>();
   HashSet<CarModel> _models = new HashSet<CarModel>();
   HashMap<Car, List<ModelColor>> _carColors = new HashMap<Car, List<ModelColor>>();
+  HashMap<Car, List<ColorCustom>> _colorCustom = new HashMap<Car, List<ColorCustom>>();
   HashMap<Car, OfferDefaults> _carOfferInfo = new HashMap<Car, OfferDefaults>();
 
   //data getters
@@ -233,6 +236,16 @@ class Catalog {
     } else
       return false;
   }
+
+  bool addColorCustom(Car c, ColorCustom color) {
+    if (_carList.contains(c)) {
+      if (!_colorCustom.containsKey(c)) _colorCustom[c] = [];
+      _colorCustom[c]!.add(color);
+      return true;
+    } else
+      return false;
+  }
+
 
   bool hasCarColor(Car car, ModelColor color) {
     if (_carList.contains(car) && _carColors.containsKey(car)) {
