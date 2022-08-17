@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:revmo/environment/api_response.dart';
 import 'package:revmo/models/accounts/join_request.dart';
@@ -5,6 +7,7 @@ import 'package:revmo/models/accounts/showroom.dart';
 import 'package:revmo/models/accounts/seller.dart';
 import 'package:revmo/services/account_service.dart';
 import 'package:revmo/services/auth_service.dart';
+import 'package:revmo/services/fcm_token.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 
@@ -30,6 +33,8 @@ class AccountProvider extends ChangeNotifier {
           ? _showroomInvitations!.map((jr) => jr.showroom).toList()
           : null;
 
+
+  final FcmToken _fcmToken = FcmToken();
   Future<Seller?> login(context, String email, String password) async {
     clearUser();
     var response = await AuthService.login(context, identifier: email, password: password);
@@ -93,6 +98,22 @@ class AccountProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+
+  Future setFcmToken(String token) async {
+    try {
+
+      return _fcmToken.setToken(token).then((value) {
+        if(value.data["status"]) {
+          print('fcm token done');
+        }else{
+          print('fcm token failure');
+        }
+      });
+
+    } catch (e) {
+      return Future.value(false);
+    }
+  }
   Future loadSellerRequestsAndInvitations(context) async {
     ApiResponse<List<JoinRequest>?> response = await AccountService.getSellerInvitationsAndRequests(context);
     if (response.status == true) {

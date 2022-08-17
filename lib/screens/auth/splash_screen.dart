@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/models/accounts/seller.dart';
@@ -38,6 +39,10 @@ class _SplashScreenState extends State<SplashScreen> {
     }));
     Seller? seller = Provider.of<AccountProvider>(context, listen: false).user;
     if (seller != null && seller.hasShowroom) {
+      FirebaseMessaging.instance.getToken().then((value) async {
+        debugPrint("getToken FCM $value");
+        await Provider.of<AccountProvider>(context, listen: false).setFcmToken(value!);
+      });
       Navigator.of(context).pushReplacementNamed(HomeScreen.ROUTE_NAME);
     } else {
       Navigator.of(context).pushReplacementNamed(PreLoginScreen.ROUTE_NAME);

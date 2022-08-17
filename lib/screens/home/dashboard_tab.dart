@@ -93,62 +93,62 @@ class _DashboardTabState extends State<DashboardTab> {
                 imgUrl:
                     'https://pngimg.com/uploads/mitsubishi/mitsubishi_PNG185.png',
               ),
-              TitleHeader(
-                title: AppLocalizations.of(context)!.topSales,
-              ),
-              SizedBox(
-                height: 160,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: catalog.filteredCatalog.length,
-                  itemBuilder: (context, index) {
-                    return FadeInLeft(
-                      child: Container(
-                          width: 336,
-                          // margin: EdgeInsets.only(left: 10,right: 10),
-                          child: CatalogTile(
-                              catalog.filteredCatalog[index],
-                              catalog.catalog.getCarColors(
-                                  catalog.filteredCatalog[index]))),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(
-                      width: 20,
-                    );
-                  },
-                ),
-              ),
-              TitleHeader(
-                title: AppLocalizations.of(context)!.recent,
-              ),
-              SizedBox(
-                height: 330,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 2,
-                  itemBuilder: (context, index) {
-                    return FadeInRight(
-                      child: RecentCarsContainer(
-                        imgUrl: catalog.catalog.models[index].imageUrl,
-                        logoUrl: catalog.catalog.models[index].brand.logoURL,
-                        name: catalog.catalog.models[index].fullName,
-                        brand: catalog.catalog.models[index].type.name,
-                        price: '500,000 ${AppLocalizations.of(context)!.egp}',
-                        seller: 'Aly Mahmoud',
-                        onTap: () {
-                          print(catalog.catalog.models[index].fullName);
-                        },
-                      ),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(
-                      width: 20,
-                    );
-                  },
-                ),
-              ),
+              // TitleHeader(
+              //   title: AppLocalizations.of(context)!.topSales,
+              // ),
+              // SizedBox(
+              //   height: 160,
+              //   child: ListView.separated(
+              //     scrollDirection: Axis.horizontal,
+              //     itemCount: catalog.filteredCatalog.length,
+              //     itemBuilder: (context, index) {
+              //       return FadeInLeft(
+              //         child: Container(
+              //             width: 336,
+              //             // margin: EdgeInsets.only(left: 10,right: 10),
+              //             child: CatalogTile(
+              //                 catalog.filteredCatalog[index],
+              //                 catalog.catalog.getCarColors(
+              //                     catalog.filteredCatalog[index]))),
+              //       );
+              //     },
+              //     separatorBuilder: (BuildContext context, int index) {
+              //       return SizedBox(
+              //         width: 20,
+              //       );
+              //     },
+              //   ),
+              // ),
+              // TitleHeader(
+              //   title: AppLocalizations.of(context)!.recent,
+              // ),
+              // SizedBox(
+              //   height: 330,
+              //   child: ListView.separated(
+              //     scrollDirection: Axis.horizontal,
+              //     itemCount: 2,
+              //     itemBuilder: (context, index) {
+              //       return FadeInRight(
+              //         child: RecentCarsContainer(
+              //           imgUrl: catalog.catalog.models[index].imageUrl,
+              //           logoUrl: catalog.catalog.models[index].brand.logoURL,
+              //           name: catalog.catalog.models[index].fullName,
+              //           brand: catalog.catalog.models[index].type.name,
+              //           price: '500,000 ${AppLocalizations.of(context)!.egp}',
+              //           seller: 'Aly Mahmoud',
+              //           onTap: () {
+              //             print(catalog.catalog.models[index].fullName);
+              //           },
+              //         ),
+              //       );
+              //     },
+              //     separatorBuilder: (BuildContext context, int index) {
+              //       return SizedBox(
+              //         width: 20,
+              //       );
+              //     },
+              //   ),
+              // ),
               SizedBox(
                 height: 50,
               ),

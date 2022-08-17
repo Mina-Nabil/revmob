@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -26,8 +28,9 @@ import 'fixes/http_overrides.dart';
 GetIt getIt = GetIt.instance;
 
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
   getIt.registerLazySingleton<ServerHandler>(() => new ServerHandler());
 
@@ -37,8 +40,48 @@ void main() {
 
 }
 
-class RevmoSellerApp extends StatelessWidget {
-  // This widget is the root of your application.
+
+class RevmoSellerApp extends StatefulWidget {
+  const RevmoSellerApp({Key? key}) : super(key: key);
+
+  @override
+  State<RevmoSellerApp> createState() => _RevmoSellerAppState();
+}
+
+class _RevmoSellerAppState extends State<RevmoSellerApp> {
+  firebaseSub() async {
+    if (Platform.isIOS) {
+      FirebaseMessaging.instance.requestPermission(
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+        sound: true,
+      );
+    }
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    FirebaseMessaging.instance.getToken().then((value) {
+      debugPrint("getToken FCM $value");
+    });
+    FirebaseMessaging.onMessage.listen((message) {
+      debugPrint(message.data.toString());
+    });
+    // FirebaseMessaging.onMessageOpenedApp.listen((message) {
+    //   debugPrint(message.data.toString());
+    // });
+  }
+  @override
+  void initState() {
+    firebaseSub();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -93,7 +136,7 @@ class RevmoSellerApp extends StatelessWidget {
                     return PageTransition(child: JoinShowroomScreen(), type: PageTransitionType.fade);
                 }
               },
-            builder:  EasyLoading.init(
+              builder:  EasyLoading.init(
                 builder: (context, child) => MediaQuery(
                   data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
                   child: child ?? const Scaffold(),
@@ -103,3 +146,4 @@ class RevmoSellerApp extends StatelessWidget {
             )));
   }
 }
+

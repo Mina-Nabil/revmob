@@ -32,9 +32,28 @@ class CustomersProvider extends ChangeNotifier {
 
   List<SoldOffer> get displayedCustomersList => _displayedCustomersList;
 
-  HashSet<Brand> _retrievedBrandsList = new HashSet<Brand>();
 
-  HashSet<Brand> get retrievedBrandsList => _retrievedBrandsList;
+  //ma3rodin fo2
+  List<Brand> _retrievedBrandsList = [];
+  List<Brand> get retrievedBrandsList => _retrievedBrandsList;
+
+
+  //el han7ot fihom el selected
+  List<Brand> _listOfSelectedBrands = [];
+  List<Brand> get listOfSelectedBrands => _listOfSelectedBrands;
+
+
+  // List<>
+  //
+  // getModelList(Brand brand){
+  //
+  //
+  //
+  // }
+
+
+
+
 
   bool _isLoading = false;
 
@@ -51,7 +70,7 @@ class CustomersProvider extends ChangeNotifier {
       if (car.offerPrice!.toDouble() < minPrice)
         minPrice = car.offerPrice!.toDouble();
     });
-    return minPrice == double.maxFinite ? 0 : minPrice;
+    return minPrice;
   }
 
   set maxCarPrice(double) {
@@ -65,7 +84,7 @@ class CustomersProvider extends ChangeNotifier {
       if (car.offerPrice!.toDouble() > maxPrice)
         maxPrice = car.offerPrice!.toDouble();
     });
-    return maxPrice == double.minPositive ? 0 : maxPrice;
+    return maxPrice;
   }
 
 ///////////////////////Fetching Data//////////////////////
@@ -102,7 +121,6 @@ class CustomersProvider extends ChangeNotifier {
       if (e.response?.statusCode == null || e.response?.data == null) {
         isConnected = false;
         notifyListeners();
-        // RevmoTheme.showRevmoSnackbar(context, 'No internet Connection');
       } else {
         RevmoTheme.showRevmoSnackbar(context, 'SomeThing Went Wrong');
       }
@@ -158,6 +176,8 @@ class CustomersProvider extends ChangeNotifier {
     _displayedCustomersList = _customersList;
     notifyListeners();
   }
+
+
 
 
 

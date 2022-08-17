@@ -18,7 +18,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SettingsScreen extends StatelessWidget {
   static const ROUTE_NAME = "/settings";
   const SettingsScreen();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,6 +61,18 @@ class SettingsScreen extends StatelessWidget {
                 text: AppLocalizations.of(context)!.contactUs,
                 icon: Paths.chatSVG,
                 onTap: () => Navigator.of(context).push(PageTransition(child: ContactusScreen(), type: PageTransitionType.rightToLeft)),
+              ),
+              SettingsTile(
+                text: AppLocalizations.of(context)!.logout,
+                icon: Paths.logOutSVG,
+                onTap: () {
+
+                  // AppLocalizations.of(context)!.localeName = "ar";
+
+
+
+        }
+                ,
               ),
             ],
           ),

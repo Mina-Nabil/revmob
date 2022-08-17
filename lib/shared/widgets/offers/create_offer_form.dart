@@ -81,10 +81,13 @@ class _NewOfferFormState extends State<NewOfferForm> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        UserImage(
-                          widget.request.buyer,
-                          userImageDiameter,
-                          fallbackTiInitials: true,
+                        ClipRRect(
+                          borderRadius:BorderRadius.circular(20),
+                          child: UserImage(
+                            widget.request.buyer,
+                            userImageDiameter,
+                            fallbackTiInitials: true,
+                          ),
                         ),
                         SizedBox(
                           width: 4,
@@ -473,10 +476,11 @@ class _NewOfferFormState extends State<NewOfferForm> {
               _isLoan.value,
               _commentController.text,
               _isDefaultOffer.value)
-          .then((value) {
+          .then((value) async {
         EasyLoading.dismiss();
+      await  Provider.of<OffersProvider>(context,listen: false).loadPendingOffers();
 
-        if (value) {
+        if (value)  {
           Navigator.pop(context, widget.request.id);
           showDialog(
               context: context,
