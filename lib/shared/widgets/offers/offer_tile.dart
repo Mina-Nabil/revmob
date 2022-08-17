@@ -83,10 +83,13 @@ class OfferTile extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        UserImage(
-                          (_isRequest) ? request!.buyer : offer!.buyer,
-                          userImageDiameter,
-                          fallbackTiInitials: true,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: UserImage(
+                            (_isRequest) ? request!.buyer : offer!.buyer,
+                            userImageDiameter,
+                            fallbackTiInitials: true,
+                          ),
                         ),
                         SizedBox(
                           width: 4,

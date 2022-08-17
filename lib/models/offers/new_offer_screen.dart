@@ -13,6 +13,7 @@ class NewOfferScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: RevmoAppBar(
+        centerTitle: false,
         title: AppLocalizations.of(context)!.newOffer,
         subtitle: offerRequest.formatedID,
       ),

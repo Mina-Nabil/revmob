@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:revmo/providers/Seller/customers_provider.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../BuyerApp/Dashboard/dashboard_tab_view.dart';
 import '../../environment/paths.dart';
 import '../../shared/theme.dart';
 import '../../shared/widgets/Customers/LoadingShimmers/customer_tile_loading_widget.dart';
@@ -32,8 +31,6 @@ class _CustomersTabState extends State<CustomersTab> {
     Future.delayed(Duration(milliseconds: 800), () {
       Provider.of<CustomersProvider>(context, listen: false).setFuture();
     });
-    // Provider.of<CustomersProvider>(context, listen: false)
-    //     .checkInternetConnection();
     super.initState();
   }
 
@@ -55,7 +52,7 @@ class _CustomersTabState extends State<CustomersTab> {
             style: TextStyle(fontSize: 20),
           ),
         ),
-         SizedBox(
+        SizedBox(
           height: 20,
         ),
         customerProvider.isConnected == false
@@ -99,7 +96,7 @@ class _CustomersTabState extends State<CustomersTab> {
                     Container(
                         margin: EdgeInsets.only(left: 5),
                         child: RevmoIconButton(
-                          callback: (){
+                          callback: () {
                             showModalBottomSheet<bool>(
                                 barrierColor: RevmoColors.backgroundDim,
                                 backgroundColor: Colors.transparent,
@@ -139,7 +136,7 @@ class _CustomersTabState extends State<CustomersTab> {
                     const SizedBox(
                       height: 10,
                     ),
-                     Text(
+                    Text(
                       AppLocalizations.of(context)!.badInternet,
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
@@ -147,10 +144,13 @@ class _CustomersTabState extends State<CustomersTab> {
                       height: 10,
                     ),
                     ElevatedButton(
-                        onPressed: () {
-                          customerProvider.fetchCustomersNetworkLayer();
-                        },
-                        child: Text( AppLocalizations.of(context)!.again,),)
+                      onPressed: () {
+                        customerProvider.fetchCustomersNetworkLayer();
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.again,
+                      ),
+                    )
                   ],
                 )),
               )
@@ -207,12 +207,12 @@ class _CustomersTabState extends State<CustomersTab> {
                                       context,
                                       MaterialPageRoute(
                                           // builder: (context) =>Profile()
-                                        builder : (context) => CustomersDetails(
+                                          builder: (context) =>
+                                              CustomersDetails(
                                                 customer: customerProvider
                                                         .displayedCustomersList[
                                                     index],
-                                              )
-                                      ));
+                                              )));
                                 },
                                 child: CustomersListTile(
                                   customerSoldOffer: customerProvider
@@ -267,24 +267,27 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   Widget build(BuildContext context) {
     final customerProvider = Provider.of<CustomersProvider>(context);
     double _values = 100.0;
-double maxPriceWidget = customerProvider.maxCarPrice;
-double minPriceWidget = customerProvider.minCarPrice;
+    double maxPriceWidget = customerProvider.maxCarPrice;
+    double minPriceWidget = customerProvider.minCarPrice;
 
-
+// print(customerProvider.displayedCustomersList[1].car!.model.name);
     return Container(
         height: MediaQuery.of(context).size.height * 0.4,
         padding: EdgeInsets.all(20),
         margin: EdgeInsets.only(top: 40),
         decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
+        ),
         child: SingleChildScrollView(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-                AppLocalizations.of(context)!.filters,
+              AppLocalizations.of(context)!.filters,
               style: TextStyle(
                   color: RevmoColors.darkBlue,
                   fontWeight: FontWeight.bold,
@@ -304,11 +307,17 @@ double minPriceWidget = customerProvider.minCarPrice;
               height: 10,
             ),
             MultiSelectContainer(
-              maxSelectableCount: 1,
-              controller:customerProvider.multiSelectController,
+                maxSelectableCount: 1,
+                controller: customerProvider.multiSelectController,
                 wrapSettings: const WrapSettings(runSpacing: 10),
-                items: List.generate(customerProvider.catalog.brands.length, (index) {
-                  final data = customerProvider.catalog.brands[index];
+                items: List.generate(
+                    customerProvider.retrievedBrandsList
+                        .toSet()
+                        .toList()
+                        .length, (index) {
+                  final data = customerProvider.retrievedBrandsList
+                      .toSet()
+                      .toList()[index];
                   return MultiSelectCard(
                       value: data,
                       child: Row(
@@ -326,7 +335,6 @@ double minPriceWidget = customerProvider.minCarPrice;
                                 color: RevmoColors.darkBlue,
                                 fontWeight: FontWeight.bold),
                           ),
-
                         ],
                       ),
                       splashColor: RevmoColors.originalBlue,
@@ -355,7 +363,7 @@ double minPriceWidget = customerProvider.minCarPrice;
                       ));
                 }),
                 onMaximumSelected: (allSelectedItems, selectedItem) {
-                print('the limit has been reached');
+                  print('the limit has been reached');
                   // CustomSnackBar.showInSnackBar('The limit has been reached', context);
                 },
                 onChange: (allSelectedItems, selectedItem) {
@@ -376,7 +384,12 @@ double minPriceWidget = customerProvider.minCarPrice;
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 FittedBox(
-                    child: RevmoTheme.getBody((customerProvider.minCarPrice / 1000).round().toString() + "k", 1,
+                    child: RevmoTheme.getBody(
+                        (customerProvider.minCarPrice / 1000)
+                                .round()
+                                .toString() +
+                            "k",
+                        1,
                         color: RevmoColors.darkerBlue)),
                 Flexible(
                   fit: FlexFit.tight,
@@ -393,16 +406,18 @@ double minPriceWidget = customerProvider.minCarPrice;
                       values: new RangeValues(minPriceWidget, maxPriceWidget),
                       onChanged: (values) {
                         setState(() {
-                          minPriceWidget = (values.start / 1000).roundToDouble() * 1000;
-                          maxPriceWidget = (values.end / 1000).roundToDouble() * 1000;
+                          minPriceWidget =
+                              (values.start / 1000).roundToDouble() * 1000;
+                          maxPriceWidget =
+                              (values.end / 1000).roundToDouble() * 1000;
                         });
-
                       },
                     ),
                   ),
                 ),
                 FittedBox(
-                    child: RevmoTheme.getBody((customerProvider.maxCarPrice ).round().toString() , 1,
+                    child: RevmoTheme.getBody(
+                        (customerProvider.maxCarPrice).round().toString(), 1,
                         color: RevmoColors.darkerBlue)),
               ],
             ),
@@ -413,8 +428,6 @@ double minPriceWidget = customerProvider.minCarPrice;
               text: AppLocalizations.of(context)!.reset,
               callBack: () {
                 customerProvider.resetFilters();
-
-
               },
               textColor: RevmoColors.originalBlue,
             ),
@@ -425,7 +438,6 @@ double minPriceWidget = customerProvider.minCarPrice;
               },
               textColor: RevmoColors.originalBlue,
             ),
-
           ],
         )));
   }
@@ -508,7 +520,6 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                     ),
               title: Text(
                 AppLocalizations.of(context)!.expiryDate,
-
                 style: TextStyle(color: RevmoColors.darkBlue, fontSize: 16),
               ),
             ),
@@ -536,7 +547,6 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                         ),
                   title: Text(
                     AppLocalizations.of(context)!.priceHighToLow,
-
                     style: TextStyle(color: RevmoColors.darkBlue, fontSize: 14),
                   ),
                 ),
@@ -565,7 +575,6 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
               tilePadding: EdgeInsets.zero,
               title: Text(
                 AppLocalizations.of(context)!.price,
-
                 style: TextStyle(color: RevmoColors.darkBlue, fontSize: 16),
               ),
               initiallyExpanded: false,

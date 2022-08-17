@@ -16,12 +16,15 @@ class RevmoAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Iterable<PopupMenuItem<String>> _buttonsToAdd;
   final String? title;
   final String? subtitle;
+ final  bool centerTitle;
+
   RevmoAppBar(
       {Iterable<PopupMenuItem<String>> buttonsToAdd = const [],
       bool addLogout = false,
       bool addSettings = false,
       bool showMenuIcon = false,
-      this.title, 
+      this. centerTitle = true,
+      this.title,
       this.subtitle})
       : preferredSize = Size.fromHeight(kToolbarHeight),
         this._showMenuIcon = showMenuIcon,
@@ -45,21 +48,23 @@ class _RevmoAppBarState extends State<RevmoAppBar> {
     return AppBar(
       backgroundColor: RevmoColors.darkBlue,
       elevation: 0.0,
-      centerTitle: true,
+      centerTitle: widget.centerTitle,
       titleSpacing: 0,
-      title: widget.title != null ? Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          RevmoTheme.getTitle(widget.title!),
-          if(widget.subtitle!=null)
-          ...[
-            SizedBox(height: 5,),
-            RevmoTheme.getCaption(widget.subtitle!, 0)
-          ]
-        ],
-      ) : null,
-      
+      title: widget.title != null
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                RevmoTheme.getTitle(widget.title!),
+                if (widget.subtitle != null) ...[
+                  SizedBox(
+                    height: 5,
+                  ),
+                  RevmoTheme.getCaption(widget.subtitle!, 0)
+                ]
+              ],
+            )
+          : null,
       actions: [
         if (widget._showMenuIcon)
           Container(
@@ -69,7 +74,11 @@ class _RevmoAppBarState extends State<RevmoAppBar> {
               callback: () => showMenu(
                   context: context,
                   color: RevmoColors.darkGrey,
-                  position: RelativeRect.fromLTRB(MediaQuery.of(context).size.width, kToolbarHeight, 40.0, 0),
+                  position: RelativeRect.fromLTRB(
+                      MediaQuery.of(context).size.width,
+                      kToolbarHeight,
+                      40.0,
+                      0),
                   items: [
                     if (widget._addSettings)
                       PopupMenuItem<String>(
@@ -79,10 +88,13 @@ class _RevmoAppBarState extends State<RevmoAppBar> {
                               Icons.settings,
                               color: Colors.white,
                             ),
-                            title: new FittedBox(child: Text(AppLocalizations.of(context)!.settings))),
+                            title: new FittedBox(
+                                child: Text(
+                                    AppLocalizations.of(context)!.settings))),
                         onTap: () async {
                           await Future.delayed(Duration.zero);
-                          Navigator.of(context).pushNamed(SettingsScreen.ROUTE_NAME);
+                          Navigator.of(context)
+                              .pushNamed(SettingsScreen.ROUTE_NAME);
                         },
                       ),
                     if (widget._addLogout)
@@ -93,10 +105,13 @@ class _RevmoAppBarState extends State<RevmoAppBar> {
                               Icons.logout,
                               color: Colors.white,
                             ),
-                            title: new FittedBox(child: Text(AppLocalizations.of(context)!.logout))),
+                            title: new FittedBox(
+                                child: Text(
+                                    AppLocalizations.of(context)!.logout))),
                         onTap: () async {
                           await AuthService.logOut(context);
-                          Navigator.of(context).popAndPushNamed(PreLoginScreen.ROUTE_NAME);
+                          Navigator.of(context)
+                              .popAndPushNamed(PreLoginScreen.ROUTE_NAME);
                         },
                       ),
                   ]..addAll(widget._buttonsToAdd)),

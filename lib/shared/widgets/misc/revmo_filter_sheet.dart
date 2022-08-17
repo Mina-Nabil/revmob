@@ -26,7 +26,6 @@ class RevmoFiltersSheet extends StatefulWidget {
   final ValueNotifier<HashSet<Car>> catgFilters;
   final ValueNotifier<double> minPrice;
   final ValueNotifier<double> maxPrice;
-
   const RevmoFiltersSheet(
       this.catalog, this.brandFilters, this.modelFilters, this.catgFilters, this.colorFilters, this.minPrice, this.maxPrice);
 

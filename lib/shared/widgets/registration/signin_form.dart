@@ -11,7 +11,6 @@ import 'package:revmo/shared/widgets/misc/main_button.dart';
 import 'package:revmo/shared/widgets/misc/revmo_text_field.dart';
 import 'package:form_validator/form_validator.dart';
 
-import '../../../BuyerApp/Home/home_view.dart';
 
 class SignInForm extends StatefulWidget {
   final double _formPadding = 25;
@@ -75,9 +74,7 @@ class _SignInFormState extends State<SignInForm> {
                     style: TextStyle(color: RevmoColors.white),
                   ),
                   onPressed: () {
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                      return HomeViewBuyer();
-                    }),(route) => false);
+
                   },
                 ),
                 RevmoTheme.getCaption(AppLocalizations.of(context)!.noAccountQ, 2),

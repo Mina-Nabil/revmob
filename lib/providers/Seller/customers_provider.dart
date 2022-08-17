@@ -8,9 +8,6 @@ import 'package:flutter_multi_select_items/flutter_multi_select_items.dart';
 
 import '../../models/Customers/CUSTOMERS_MODDEL_MODEL.dart';
 import '../../models/cars/brand.dart';
-import '../../models/cars/car.dart';
-import '../../models/cars/catalog.dart';
-import '../../models/cars/model_color.dart';
 import '../../services/customers_service.dart';
 import 'package:revmo/shared/theme.dart';
 
@@ -35,12 +32,28 @@ class CustomersProvider extends ChangeNotifier {
 
   List<SoldOffer> get displayedCustomersList => _displayedCustomersList;
 
-  HashSet<Brand> _retrievedBrandsList = new HashSet<Brand>();
 
-  HashSet<Brand> get retrievedBrandsList => _retrievedBrandsList;
+  //ma3rodin fo2
+  List<Brand> _retrievedBrandsList = [];
+  List<Brand> get retrievedBrandsList => _retrievedBrandsList;
 
-  Catalog _catalog = Catalog();
-  Catalog get catalog => _catalog;
+
+  //el han7ot fihom el selected
+  List<Brand> _listOfSelectedBrands = [];
+  List<Brand> get listOfSelectedBrands => _listOfSelectedBrands;
+
+
+  // List<>
+  //
+  // getModelList(Brand brand){
+  //
+  //
+  //
+  // }
+
+
+
+
 
   bool _isLoading = false;
 
@@ -57,7 +70,7 @@ class CustomersProvider extends ChangeNotifier {
       if (car.offerPrice!.toDouble() < minPrice)
         minPrice = car.offerPrice!.toDouble();
     });
-    return minPrice == double.maxFinite ? 0 : minPrice;
+    return minPrice;
   }
 
   set maxCarPrice(double) {
@@ -71,30 +84,10 @@ class CustomersProvider extends ChangeNotifier {
       if (car.offerPrice!.toDouble() > maxPrice)
         maxPrice = car.offerPrice!.toDouble();
     });
-    return maxPrice == double.minPositive ? 0 : maxPrice;
+    return maxPrice;
   }
 
 ///////////////////////Fetching Data//////////////////////
-
-  Catalog _parseCatalog(Map<String, dynamic> decoded) {
-    Catalog tmp = new Catalog();
-    decoded["body"]["soldOffers"].forEach((catalogEntry) {
-      Car tmpCar = Car.fromJson(catalogEntry["car"]);
-      tmp.addCar(tmpCar);
-      tmp.filterCars();
-      tmp.filterBrands();
-      tmp.filterModels();
-      if (catalogEntry.containsKey("colors") &&
-          catalogEntry["colors"] is Iterable<dynamic>) {
-        catalogEntry["colors"].forEach((catalogColorJson) {
-          ColorCustom tmpColor = ColorCustom.fromJson(catalogColorJson);
-          tmp.addColorCustom(tmpCar, tmpColor);
-        });
-      }
-    });
-
-    return tmp;
-  }
 
   Future fetchCustomersNetworkLayer() async {
     try {
@@ -111,10 +104,6 @@ class CustomersProvider extends ChangeNotifier {
           .map((x) => SoldOffer.fromJson(x)));
       _customersList = customersListRequest;
       _displayedCustomersList = customersListRequest;
-      var catalog = _parseCatalog(response.data);
-      _catalog = catalog;
-      // print(catalog.length);
-
       _customersList.sort((a, b) => a.offerPrice!.compareTo(b.offerPrice!));
       _displayedCustomersList
           .sort((a, b) => a.offerPrice!.compareTo(b.offerPrice!));
@@ -123,7 +112,7 @@ class CustomersProvider extends ChangeNotifier {
         _retrievedBrandsList.add(request.car!.model.brand);
       });
 
-      // print(_retrievedBrandsList);
+      print(_retrievedBrandsList);
 
       print('customers length :  ${customersListRequest.length}');
       notifyListeners();
@@ -132,7 +121,6 @@ class CustomersProvider extends ChangeNotifier {
       if (e.response?.statusCode == null || e.response?.data == null) {
         isConnected = false;
         notifyListeners();
-        // RevmoTheme.showRevmoSnackbar(context, 'No internet Connection');
       } else {
         RevmoTheme.showRevmoSnackbar(context, 'SomeThing Went Wrong');
       }
@@ -169,16 +157,13 @@ class CustomersProvider extends ChangeNotifier {
 
   //////////////////// Filter //////////////////
   String? _brandFilter;
-  MultiSelectController<Brand> _multiSelectController = MultiSelectController();
+   MultiSelectController<Brand> _multiSelectController = MultiSelectController();
+  MultiSelectController<Brand>  get multiSelectController => _multiSelectController;
 
-  MultiSelectController<Brand> get multiSelectController =>
-      _multiSelectController;
-
-  setBrandFilterName(String name) {
+  setBrandFilterName(String name){
     _brandFilter = name;
     notifyListeners();
   }
-
   setBrandFilter() {
     _displayedCustomersList = _customersList.where((element) {
       return element.car!.model.brand.name.contains(_brandFilter!);
@@ -187,10 +172,15 @@ class CustomersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  resetFilters() {
+  resetFilters(){
     _displayedCustomersList = _customersList;
     notifyListeners();
   }
+
+
+
+
+
 
   //--------------- End ---------------
 

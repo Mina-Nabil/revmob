@@ -30,7 +30,6 @@ class PendingRequestTile extends StatelessWidget {
     Duration diff = fromDate.difference(toDay);
 
     var formatter = NumberFormat();
-
     return Stack(
       alignment: AppLocalizations.of(context)!.localeName == 'en'
           ? Alignment.topRight
@@ -47,10 +46,13 @@ class PendingRequestTile extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  UserImage(
-                    pendingOffer.buyer,
-                    30,
-                    fallbackTiInitials: true,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: UserImage(
+                      pendingOffer.buyer,
+                      30,
+                      fallbackTiInitials: true,
+                    ),
                   ),
                   SizedBox(
                     width: 4,
@@ -96,7 +98,10 @@ class PendingRequestTile extends StatelessWidget {
                                 style: TextStyle(color: Color(0xff26AEE4)),
                               ),
                         Container(
-                          alignment:AppLocalizations.of(context)!.localeName == "en" ?  Alignment.bottomRight : Alignment.bottomLeft,
+                          alignment:
+                              AppLocalizations.of(context)!.localeName == "en"
+                                  ? Alignment.bottomRight
+                                  : Alignment.bottomLeft,
                           child: RevmoCarImageWidget(
                             revmoImage: RevmoCarImage(
                                 imageURL: pendingOffer.car.model.imageUrl,
