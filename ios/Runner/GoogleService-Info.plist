@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>648362080700-vhop8lp1vhb3p79pvglq12natousm0q7.apps.googleusercontent.com</string>
+	<string>648362080700-c5srrjo0f53cgl8aaoo1ntddi6psslni.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.648362080700-vhop8lp1vhb3p79pvglq12natousm0q7</string>
+	<string>com.googleusercontent.apps.648362080700-c5srrjo0f53cgl8aaoo1ntddi6psslni</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBpT1nkHn48V4MTEXWrtXmBf7XyqWXuJrc</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>app.msquare.revmo</string>
+	<string>app.msquare.revmoSeller</string>
 	<key>PROJECT_ID</key>
 	<string>revmo-9ff00</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:648362080700:ios:06651e0cb5aba6b26f13b9</string>
+	<string>1:648362080700:ios:7a3ea14ab267dd226f13b9</string>
 </dict>
 </plist>

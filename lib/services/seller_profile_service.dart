@@ -42,7 +42,7 @@ class SellerProfileService {
         var responseData = await response.stream.toBytes();
         var responseString = String.fromCharCodes(responseData);
         dynamic decodedResponse = jsonDecode(responseString);
-
+print(decodedResponse);
         if (decodedResponse is Map<String, dynamic> &&
             decodedResponse["status"] == true &&
             decodedResponse.containsKey("body") &&
@@ -55,6 +55,10 @@ class SellerProfileService {
               errors: decodedResponse["body"]["errors"] ?? null);
         }
       } else {
+        var responseData = await response.stream.toBytes();
+        var responseString = String.fromCharCodes(responseData);
+        dynamic decodedResponse = jsonDecode(responseString);
+        print(decodedResponse);
         return new ApiResponse(false, null, AppLocalizations.of(context)!.serverIssue);
       }
     } catch (e, stack) {

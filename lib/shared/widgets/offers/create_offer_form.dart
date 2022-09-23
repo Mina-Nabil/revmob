@@ -496,6 +496,7 @@ class _NewOfferFormState extends State<NewOfferForm> {
           EasyLoading.dismiss();
           RevmoTheme.showRevmoSnackbar(context, 'Something went wrong');
         }
+        print('hereeeee');
         print(value);
       });
       // EasyLoading.dismiss();

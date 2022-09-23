@@ -24,6 +24,7 @@ import 'package:revmo/shared/theme.dart';
 import 'package:get_it/get_it.dart';
 import 'Configurations/Extensions/loading_service.dart';
 import 'fixes/http_overrides.dart';
+import 'services/firebase_notification.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -49,37 +50,10 @@ class RevmoSellerApp extends StatefulWidget {
 }
 
 class _RevmoSellerAppState extends State<RevmoSellerApp> {
-  firebaseSub() async {
-    if (Platform.isIOS) {
-      FirebaseMessaging.instance.requestPermission(
-        alert: true,
-        announcement: false,
-        badge: true,
-        carPlay: false,
-        criticalAlert: false,
-        provisional: false,
-        sound: true,
-      );
-    }
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-    FirebaseMessaging.instance.getToken().then((value) {
-      debugPrint("getToken FCM $value");
-    });
-    FirebaseMessaging.onMessage.listen((message) {
-      debugPrint(message.data.toString());
-    });
-    // FirebaseMessaging.onMessageOpenedApp.listen((message) {
-    //   debugPrint(message.data.toString());
-    // });
-  }
+  FirebaseCustomNotification pushNotification = FirebaseCustomNotification();
   @override
   void initState() {
-    firebaseSub();
+    pushNotification.firebaseSub();
     super.initState();
   }
   @override

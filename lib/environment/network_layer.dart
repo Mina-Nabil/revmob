@@ -22,8 +22,8 @@ class NetworkLayer {
   NetworkLayer._() {
     unAuthDio.options.baseUrl = _baseURL;
     authDio.options.baseUrl = _baseURL;
-    unAuthDio.options.connectTimeout = 6000;
-    authDio.options.connectTimeout = 6000;
+    unAuthDio.options.connectTimeout = 60000;
+    authDio.options.connectTimeout = 60000;
     initializeInterceptors();
   }
 

@@ -36,7 +36,7 @@ class LoginScreen extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [RevmoColors.darkBlue, RevmoColors.darkerBlue])),
-            constraints: BoxConstraints(maxWidth: RevmoTheme.FORMS_MAX_WIDTH),
+            // constraints: BoxConstraints(maxWidth: RevmoTheme.FORMS_MAX_WIDTH),
             child: SignInForm()),
       ),
     );

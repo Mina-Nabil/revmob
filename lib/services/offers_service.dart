@@ -53,17 +53,24 @@ class OffersService {
     var decoded = jsonDecode(request.body);
 
     if (request.statusCode == 200 && decoded["status"] == true) {
+      print('condition 1');
       print(request.body);
-      print(
-          '--data ${requestID.toString() + '--Price : \n' + price.toString() + '--DownPayment :\n' + downPayment.toString() + '--isLoan :\n' + isLoan.toString() + '--\n' + startDate + '--\n' + expiryDate + '--\n' + comment!}');
+      // print(
+      //     '--data ${requestID.toString() + '--Price : \n' + price.toString() + '--DownPayment :\n' + downPayment.toString() + '--isLoan :\n' + isLoan.toString() + '--\n' + startDate + '--\n' + expiryDate + '--\n' + comment!}');
       if (_checkOfferResponse(decoded)) {
-        return ApiResponse(true, Offer.fromJson(decoded["body"]["offer"]),
-            AppLocalizations.of(context)!.serverIssue);
+        print('condition 2');
+
+        return ApiResponse(true, Offer.fromJson(decoded["body"]["offer"]), "success");
       }
+
     } else {
+      print('condition 3');
+
       RevmoTheme.showRevmoSnackbar(context, request.body);
       print(request.body);
     }
+    print('condition 4');
+
     return ApiResponse(false, null, AppLocalizations.of(context)!.serverIssue);
   }
 
