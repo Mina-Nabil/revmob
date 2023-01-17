@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:intl/intl.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/models/cars/revmo_image.dart';
 import 'package:revmo/models/offers/offer_request.dart';
@@ -45,6 +46,7 @@ class _NewOfferFormState extends State<NewOfferForm> {
   TextEditingController _startDateController = new TextEditingController();
   TextEditingController _expiryDateController = new TextEditingController();
   ValueNotifier<List<int>> _selectedColors = new ValueNotifier([]);
+  List<int> _selectedColorss = [];
   ValueNotifier<bool> _isDefaultOffer = new ValueNotifier(false);
   ValueNotifier<bool> _isLoan = new ValueNotifier(false);
 
@@ -82,7 +84,7 @@ class _NewOfferFormState extends State<NewOfferForm> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ClipRRect(
-                          borderRadius:BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(20),
                           child: UserImage(
                             widget.request.buyer,
                             userImageDiameter,
@@ -248,20 +250,56 @@ class _NewOfferFormState extends State<NewOfferForm> {
         //   }
         // }),
         //colors multiselect
-        RevmoMultiSelect(
-          items: {
-            for (var color in widget.request.colors) color.id: color.name
-          },
-          title: AppLocalizations.of(context)!.colors,
-          hint: AppLocalizations.of(context)!.pickColors,
-          selectedItems: _selectedColors,
-          darkMode: false,
-          validator: (selectedItems) {
-            if (selectedItems == null || selectedItems.length == 0) {
-              return AppLocalizations.of(context)!.fieldReqMsg;
-            }
+        Container(
+            alignment: Alignment.topLeft,
+            margin:
+                EdgeInsets.symmetric(vertical: RevmoTheme.FIELDS_VER_MARGIN),
+            child: RevmoTheme.getTextFieldLabel(
+                AppLocalizations.of(context)!.colors,
+                color: RevmoColors.darkBlue)),
+
+
+        MultiSelectChipField(
+          items: widget.request.colors
+        .map((e) => MultiSelectItem(e.id, e.toString()))
+        .toList(),
+          // initialValue: [_animals[4], _animals[7], _animals[9]],
+          // title: Text("Animals"),
+          // headerColor: Colors.blue.withOpacity(0.5),
+          // decoration: BoxDecoration(
+          //   border: Border.all(color: Colors.blue[700], width: 1.8),
+          // ),
+          selectedChipColor: Colors.blue.withOpacity(0.5),
+          selectedTextStyle: TextStyle(color: Colors.blue[800]),
+          onTap: (values) {
+            //_selectedAnimals4 = values;
           },
         ),
+        // MultiSelectChipDisplay(
+        //   items: widget.request.colors
+        //       .map((e) => MultiSelectItem(e.id, e.toString()))
+        //       .toList(),
+        //   onTap: (value) {
+        //     print(value);
+        //     setState(() {
+        //       _selectedColors.value.remove(value);
+        //     });
+        //   },
+        // ),
+        // RevmoMultiSelect(
+        //   items: {
+        //     for (var color in widget.request.colors) color.id: color.name
+        //   },
+        //   title: AppLocalizations.of(context)!.colors,
+        //   hint: AppLocalizations.of(context)!.pickColors,
+        //   selectedItems: _selectedColors,
+        //   darkMode: false,
+        //   validator: (selectedItems) {
+        //     if (selectedItems == null || selectedItems.length == 0) {
+        //       return AppLocalizations.of(context)!.fieldReqMsg;
+        //     }
+        //   },
+        // ),
         //dates row
         Row(
           children: [
@@ -306,7 +344,7 @@ class _NewOfferFormState extends State<NewOfferForm> {
         RevmoCheckboxRow(
             AppLocalizations.of(context)!.setAsDefaultOffer, _isDefaultOffer),
       ],
-    );
+    ).setOnlyPadding(context,top: 0,bottom: 0,left: 0.02,right: 0.02);
   }
 
   Widget mainPage2(
@@ -446,7 +484,7 @@ class _NewOfferFormState extends State<NewOfferForm> {
               )
             : SizedBox.shrink(),
       ],
-    );
+    ).setOnlyPadding(context,top: 0,bottom: 0,left: 0.02,right: 0.02);
   }
 
   jumpToPage(int? pageNumber) async {
@@ -478,9 +516,10 @@ class _NewOfferFormState extends State<NewOfferForm> {
               _isDefaultOffer.value)
           .then((value) async {
         EasyLoading.dismiss();
-      await  Provider.of<OffersProvider>(context,listen: false).loadPendingOffers();
+        await Provider.of<OffersProvider>(context, listen: false)
+            .loadPendingOffers();
 
-        if (value)  {
+        if (value) {
           Navigator.pop(context, widget.request.id);
           showDialog(
               context: context,

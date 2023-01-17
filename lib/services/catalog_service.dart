@@ -16,23 +16,35 @@ class CatalogService {
 
   Future<ApiResponse<Catalog?>> getSellerCatalog(BuildContext context) async {
     var request = await http.get(_server.catalogURI, headers: _server.headers);
+    print(request.body);
     if (request.statusCode == 200) {
       var decoded = jsonDecode(utf8.decode(request.bodyBytes));
       if (_validateCatalogResponse(decoded)) {
         Catalog catalog = new Catalog();
         try {
+          print('condition 1');
           catalog = _parseCatalog(decoded);
           return new ApiResponse<Catalog?>(true, catalog, "Tmaaam");
         } catch (e) {
+          print('condition 2');
           return new ApiResponse<Catalog?>(false, null, "Tmaaam");
         }
       } else {
+        print('condition 3');
+
         print(request);
+        return ApiResponse(false, null, AppLocalizations.of(context)!.serverIssue);
+
       }
     } else {
+      print('condition 4');
+
       print("hna:" + request.toString());
+      return ApiResponse(false, null, AppLocalizations.of(context)!.serverIssue);
+
     }
-    return ApiResponse(false, null, AppLocalizations.of(context)!.serverIssue);
+
+    // return ApiResponse(false, null, AppLocalizations.of(context)!.serverIssue);
   }
 
   Future<ApiResponse<Catalog?>> addToSellerCatalog(BuildContext context, Catalog catalog) async {
