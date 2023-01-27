@@ -225,7 +225,6 @@ class _RequestsTabState extends State<RequestsTab> {
                                                 itemCount: offersProvider
                                                     .pending.length,
                                                 itemBuilder: (cnxt, i) {
-                                                  print(offersProvider.retrievedPendingBrands.elementAt(0));
                                                   return FadeInUp(
                                                       duration: Duration(
                                                           milliseconds: 200),
@@ -299,7 +298,9 @@ class _RequestsTabState extends State<RequestsTab> {
 
   sortRequests() {}
 
-  setFilters() {}
+  setFilters() {
+
+  }
 
   Future refreshNewRequests() async {
     await Provider.of<OffersProvider>(context, listen: false)

@@ -85,6 +85,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  currency_text_input_formatter:
+    dependency: "direct main"
+    description:
+      name: currency_text_input_formatter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.8"
   device_info_plus:
     dependency: "direct main"
     description:
@@ -134,6 +141,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.6"
+  expandable_page_view:
+    dependency: "direct main"
+    description:
+      name: expandable_page_view
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.17"
   fake_async:
     dependency: transitive
     description:
@@ -308,6 +322,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.1"
+  iconsax:
+    dependency: "direct main"
+    description:
+      name: iconsax
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.8"
   image_cropper:
     dependency: "direct main"
     description:
@@ -643,5 +664,5 @@ packages:
     source: hosted
     version: "5.3.1"
 sdks:
-  dart: ">=2.17.0-0 <3.0.0"
-  flutter: ">=2.10.0"
+  dart: ">=2.17.0 <3.0.0"
+  flutter: ">=3.0.0"

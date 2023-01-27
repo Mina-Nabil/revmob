@@ -20,35 +20,60 @@ class OffersProvider extends ChangeNotifier {
   OffersProvider(this.context);
 
   List<OfferRequest> _new = [];
-
   List<OfferRequest> get newRequests => _new;
+  List<OfferRequest> _displayedNew = [];
+  List<OfferRequest> get displayedNew => _displayedNew;
 
   List<Offer> _pending = [];
-
   List<Offer> get pending => _pending;
+  List<Offer> _displayedPending = [];
+  List<Offer> get displayedPending => _displayedPending;
 
   List<Offer> _approved = [];
-
   List<Offer> get approved => _approved;
+  List<Offer> _displayedApproved = [];
+  List<Offer> get displayedApproved => _displayedApproved;
 
   List<Offer> _expired = [];
-
   List<Offer> get expired => _expired;
+  List<Offer> _displayedExpired = [];
+  List<Offer> get displayedExpired => _displayedExpired;
 
-  HashSet<Brand> _retreivedNewRequestBrands = new HashSet<Brand>();
 
-  HashSet<Brand> get retrievedNewBrands => _retreivedNewRequestBrands;
 
-  HashSet<Brand> _retreivedPendingRequestBrands = new HashSet<Brand>();
 
-  HashSet<Brand> get retrievedPendingBrands => _retreivedPendingRequestBrands;
+  OffersService _service = OffersService();
+  Future<bool> submitOfferNetworkLayer(
+      OfferRequest offerRequest,
+      double price,
+      double minDownpayment,
+      List<int> offeredColorsIDs,
+      String start,
+      String end,
+      bool isLoan,
+      [String? comment,
+      bool setAsDefault = false]) async{
+    try {
+      return await _service.networkLayerSubmitOffer(    offerRequest.id,
+          price,
+          minDownpayment,
+          isLoan,
+          start,
+          end,
+          offeredColorsIDs,
+          comment).then((value) {
+            if(value.statusCode == 200) {
+              return Future.value(true);
+            }else {
+              print(value.statusCode);
+              return Future.value(false);
+            }
+      });
 
-  removeIndexWithIdNew(int id) {
-    print(id);
-    print( 'this is length before ' + '${_new.isEmpty}');
-       _new.removeWhere((element) => element.id == id);
-    print( 'this is length' + '${_new.length}');
-    notifyListeners();
+    } catch (e) {
+      return Future.value(false);
+
+    }
   }
 
   Future<dynamic> submitOffer(
@@ -65,23 +90,21 @@ class OffersProvider extends ChangeNotifier {
         Provider.of<AccountProvider>(context, listen: false).user;
     if (_offerIssuer != null) {
       ApiResponse offerSubmissionResponse = await OffersService.submitNewOffer(
-              context,
-              offerRequest.id,
-              price,
-              minDownpayment,
-              isLoan,
-              start,
-              end,
-              offeredColorsIDs,
-              comment);
-      if(offerSubmissionResponse.status == true ) {
+          context,
+          offerRequest.id,
+          price,
+          minDownpayment,
+          isLoan,
+          start,
+          end,
+          offeredColorsIDs,
+          comment);
+      if (offerSubmissionResponse.status == true) {
         return Future.value(true);
-      }else {
+      } else {
         RevmoTheme.showRevmoSnackbar(context, offerSubmissionResponse.msg);
         return Future.value(false);
-
       }
-
     } else {
       RevmoTheme.showRevmoSnackbar(context, 'Something went wrong ...');
 
@@ -96,10 +119,6 @@ class OffersProvider extends ChangeNotifier {
       if (response.body != null && response.body is List<OfferRequest>) {
         _new.clear();
         _new = response.body!;
-        _new.forEach((request) {
-          _retreivedNewRequestBrands.add(request.car.model.brand);
-        });
-        print(_retreivedNewRequestBrands);
         notifyListeners();
       } else {
         RevmoTheme.showRevmoSnackbar(context, response.msg);
@@ -115,13 +134,7 @@ class OffersProvider extends ChangeNotifier {
         _pending.clear();
         _pending = response.body!;
         _pending.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
-        _pending.forEach((request) {
-          _retreivedPendingRequestBrands.add(request.car.model.brand);
-        });
-
         print(_pending.length);
-
-        print(_retreivedPendingRequestBrands);
         notifyListeners();
       } else {
         RevmoTheme.showRevmoSnackbar(context, response.msg);
@@ -157,23 +170,22 @@ class OffersProvider extends ChangeNotifier {
     }
   }
 
-
   Future<bool> extendOffer(int id) {
     try {
       return OffersService().extendOffer(id).then((value) {
         var decoded = jsonDecode(value.body);
 
-        if(value.statusCode == 200 && decoded["status"] == true){
+        if (value.statusCode == 200 && decoded["status"] == true) {
           print('Body---------------------------');
           print(value.body);
           print('-----------------------------------');
-          print('message: '+decoded['message']);
+          print('message: ' + decoded['message']);
           print('-----------------------------------');
-          print('Expiration Date: '+decoded['body']['offer']['OFFR_EXPR_DATE']);
+          print(
+              'Expiration Date: ' + decoded['body']['offer']['OFFR_EXPR_DATE']);
           print('offer $id Extended succesfuly');
           return Future.value(true);
-
-        }else {
+        } else {
           print('offer $id not extended ');
           print('---------------------------');
           print('status code---------------------------');
@@ -181,54 +193,55 @@ class OffersProvider extends ChangeNotifier {
           print('Body---------------------------');
 
           print(value.body);
-          RevmoTheme.showRevmoSnackbar(context, decoded['message'] ?? 'Something Went Wrong');
+          RevmoTheme.showRevmoSnackbar(
+              context, decoded['message'] ?? 'Something Went Wrong');
 
           return Future.value(false);
-
         }
       });
-
-    }on HttpException catch (error) {
+    } on HttpException catch (error) {
       print(error);
       RevmoTheme.showRevmoSnackbar(context, 'Something Went Wrong');
 
       return Future.value(false);
-
     }
   }
-
 
   Future<bool> extendAllOffers() {
     try {
       return OffersService().extendAllOffers().then((value) {
         var decoded = jsonDecode(value.body);
-        if(value.statusCode == 200 && decoded["status"] == true ){
+        if (value.statusCode == 200 && decoded["status"] == true) {
           print('Body---------------------------');
           print(value.body);
           print('-----------------------------------');
-          print('message: '+ decoded['message']);
+          print('message: ' + decoded['message']);
           print('-----------------------------------');
           return Future.value(true);
-        }else {
+        } else {
           print('---------------------------');
           print('status code---------------------------');
           print(value.statusCode);
           print('Body---------------------------');
-          print(value.body );
-          print('message: '+ decoded['message']);
+          print(value.body);
+          print('message: ' + decoded['message']);
           print('-----------------------------------');
-          RevmoTheme.showRevmoSnackbar(context, decoded['message'] ?? 'Something Went Wrong');
+          RevmoTheme.showRevmoSnackbar(
+              context, decoded['message'] ?? 'Something Went Wrong');
           return Future.value(false);
-
         }
       });
-
-    }on HttpException catch (error) {
+    } on HttpException catch (error) {
       print(error);
       return Future.value(false);
-
     }
   }
-
+  removeIndexWithIdNew(int id) {
+    print(id);
+    print('this is length before ' + '${_new.isEmpty}');
+    _new.removeWhere((element) => element.id == id);
+    print('this is length' + '${_new.length}');
+    notifyListeners();
+  }
 
 }

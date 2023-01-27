@@ -1,6 +1,9 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
+
 
 class RevmoTextField extends StatefulWidget {
   final double _fieldMargin = 10;
@@ -18,6 +21,7 @@ class RevmoTextField extends StatefulWidget {
   final TextInputType keyboardType;
   final Function()? onEditingComplete;
   final bool darkMode;
+  final bool inputFormatter;
 
   const RevmoTextField(
       {required this.controller,
@@ -30,6 +34,7 @@ class RevmoTextField extends StatefulWidget {
       this.fieldKey,
       this.maxLines = 1,
       this.validateOnChange = false,
+      this.inputFormatter = false,
       this.darkMode = true,
       this.keyboardType = TextInputType.text,
       this.onEditingComplete});
@@ -67,6 +72,10 @@ class _RevmoTextFieldState extends State<RevmoTextField> {
                 child: TextFormField(
                   key: widget.fieldKey,
                   validator: widget.validator,
+                  inputFormatters:widget.inputFormatter ? [
+                  // NumberFormat()
+                    // CurrencyTextInputFormatter(name: "",customPattern: NumberFormat())
+                  ] :null,
                   obscureText: isObscureState,
                   onChanged: (widget.validateOnChange)
                       ? (_) {

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:revmo/environment/api_response.dart';
 import 'package:revmo/environment/server.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:revmo/models/offers/offer.dart';
 import 'package:revmo/models/offers/offer_request.dart';
 
+import '../environment/network_layer.dart';
 import '../shared/theme.dart';
 
 class OffersService {
@@ -28,6 +30,32 @@ class OffersService {
   }
 
 ////////////////////////////////////////////////////
+  final NetworkLayer _networkLayer = NetworkLayer();
+
+  Future<Response> networkLayerSubmitOffer(
+      int requestID,
+      double price,
+      double downPayment,
+      bool isLoan,
+      String startDate,
+      String expiryDate,
+      List<int> colorIDs,
+      [String? comment]) {
+    return _networkLayer.authDio.post('/api/seller/submit/offer',   data: {
+      "requestID": requestID.toString(),
+      "price": price.toString(),
+      "downPayment": downPayment.toString(),
+      "isLoan": isLoan ? '0' : '1',
+      "startDate": startDate,
+      "expiryDate": expiryDate,
+      // "options": {2:11},
+      "comment": comment ?? null
+    }..addAll(_parseColorIDsJsonArray(colorIDs)));
+  }
+
+
+
+
 
   static Future<ApiResponse<Offer>> submitNewOffer(
       BuildContext context,
@@ -39,6 +67,7 @@ class OffersService {
       String expiryDate,
       List<int> colorIDs,
       [String? comment]) async {
+    print("condition 1");
     var request = await http.post(_server.submitOfferURI,
         headers: _server.headers,
         body: {
@@ -48,9 +77,15 @@ class OffersService {
           "isLoan": isLoan ? '0' : '1',
           "startDate": startDate,
           "expiryDate": expiryDate,
+          // "options": {11: 4, 3: 1, 2: 1, 6: 3, 15: 7, 4: 2, 5: 2, 13: 5},
           "comment": comment ?? null
         }..addAll(_parseColorIDsJsonArray(colorIDs)));
+    print("condition 2");
+
     var decoded = jsonDecode(request.body);
+    print("condition 3");
+
+    print(decoded);
 
     if (request.statusCode == 200 && decoded["status"] == true) {
       print('condition 1');
@@ -60,9 +95,9 @@ class OffersService {
       if (_checkOfferResponse(decoded)) {
         print('condition 2');
 
-        return ApiResponse(true, Offer.fromJson(decoded["body"]["offer"]), "success");
+        return ApiResponse(
+            true, Offer.fromJson(decoded["body"]["offer"]), "success");
       }
-
     } else {
       print('condition 3');
 

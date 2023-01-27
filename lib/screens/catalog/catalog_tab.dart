@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:revmo/Configurations/Extensions/extensions.dart';
 import 'package:revmo/models/cars/car.dart';
 import 'package:revmo/models/cars/brand.dart';
 import 'package:revmo/models/cars/model.dart';
@@ -88,7 +89,7 @@ class _CatalogTabState extends State<CatalogTab> {
     return Scaffold(
       backgroundColor: RevmoColors.darkBlue,
       body: Container(
-        padding: HomeScreen.HORIZONTAL_PADDING,
+        // padding: HomeScreen.HORIZONTAL_PADDING,
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Column(
@@ -174,7 +175,7 @@ class _CatalogTabState extends State<CatalogTab> {
               ),
             )
           ],
-        ),
+        ).setPageHorizontalPadding(context),
       ),
     );
   }

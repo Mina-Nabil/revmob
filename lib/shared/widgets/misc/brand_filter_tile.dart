@@ -9,7 +9,8 @@ class BrandFilterTile extends StatelessWidget {
   final Brand brand;
   final bool isSelected;
 
-  const BrandFilterTile({required this.brand, required this.onTap, required this.isSelected});
+  const BrandFilterTile(
+      {required this.brand, required this.onTap, required this.isSelected});
 
   final double _width = 70;
   final double _height = 25;
@@ -21,16 +22,19 @@ class BrandFilterTile extends StatelessWidget {
       child: Container(
         height: _height,
         width: _width,
-        padding: EdgeInsets.symmetric(vertical: 5),
+        padding: EdgeInsets.all(3),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(5)),
             color: (isSelected) ? RevmoColors.grey.withAlpha(50) : Colors.white,
-            border: (isSelected) ? null : Border.all(color: RevmoColors.grey, width: 0.5)),
+            border: (isSelected)
+                ? null
+                : Border.all(color: RevmoColors.grey, width: 0.5)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Flexible(
-              fit: FlexFit.tight,
+            Expanded(
+              flex: 1,
+              // fit: FlexFit.tight,
               child: Center(
                 child: Image.network(
                   brand.logoURL,
@@ -42,9 +46,17 @@ class BrandFilterTile extends StatelessWidget {
                 ),
               ),
             ),
-            Flexible(
-              
-              child: FittedBox(child: RevmoTheme.getBody(brand.name, 1, color: RevmoColors.darkBlue)))
+            SizedBox(
+              width: 2,
+            ),
+            Expanded(
+                flex: 2,
+                child: FittedBox(
+                    child: RevmoTheme.getBody(brand.name, 1,
+                        color: RevmoColors.darkBlue))),
+            SizedBox(
+              width: 3,
+            )
           ],
         ),
       ),

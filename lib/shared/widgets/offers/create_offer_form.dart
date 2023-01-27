@@ -1,7 +1,8 @@
-import 'package:animate_do/animate_do.dart';
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:form_validator/form_validator.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:provider/provider.dart';
@@ -52,6 +53,16 @@ class _NewOfferFormState extends State<NewOfferForm> {
 
   GlobalKey<FormState> _createFormKey = new GlobalKey<FormState>();
 
+  // List<ModelColor> colo = [
+  //   ModelColor(),
+  // ];
+  // addColors(){
+  //   widget.request.colors.add(ModelColor(
+  //
+  //   ));
+
+  // }
+
   @override
   void initState() {
     _selectedColors.value = widget.request.colors.map((e) => e.id).toList();
@@ -60,6 +71,8 @@ class _NewOfferFormState extends State<NewOfferForm> {
     });
     super.initState();
   }
+
+  bool colorValidator = false;
 
   @override
   Widget build(BuildContext context) {
@@ -164,13 +177,13 @@ class _NewOfferFormState extends State<NewOfferForm> {
                     height: 12,
                   ),
                   SizedBox(
-                    width: mediaQuery.size.width,
-                    height: currentPage == 0
-                        ? 714
-                        : _commentController.text.isEmpty
-                            ? 300
-                            : 422,
-                    child: PageView(
+                    // width: mediaQuery.size.width,
+                    // height: currentPage == 0
+                    //     ? 714
+                    //     : _commentController.text.isEmpty
+                    //         ? 300
+                    //         : 422,
+                    child: ExpandablePageView(
                       physics: const NeverScrollableScrollPhysics(),
                       controller: _pageController,
                       children: [mainPage1(context), mainPage2(context)],
@@ -179,6 +192,9 @@ class _NewOfferFormState extends State<NewOfferForm> {
                 ],
               ),
             ),
+          ),
+          SizedBox(
+            height: 10,
           ),
           MainButton(
               text: currentPage == 0
@@ -193,6 +209,9 @@ class _NewOfferFormState extends State<NewOfferForm> {
                   submitOffer();
                 }
               }),
+          SizedBox(
+            height: 40,
+          )
         ],
       ).setPageHorizontalPadding(context),
     );
@@ -250,31 +269,31 @@ class _NewOfferFormState extends State<NewOfferForm> {
         //   }
         // }),
         //colors multiselect
-        Container(
-            alignment: Alignment.topLeft,
-            margin:
-                EdgeInsets.symmetric(vertical: RevmoTheme.FIELDS_VER_MARGIN),
-            child: RevmoTheme.getTextFieldLabel(
-                AppLocalizations.of(context)!.colors,
-                color: RevmoColors.darkBlue)),
-
-
-        MultiSelectChipField(
-          items: widget.request.colors
-        .map((e) => MultiSelectItem(e.id, e.toString()))
-        .toList(),
-          // initialValue: [_animals[4], _animals[7], _animals[9]],
-          // title: Text("Animals"),
-          // headerColor: Colors.blue.withOpacity(0.5),
-          // decoration: BoxDecoration(
-          //   border: Border.all(color: Colors.blue[700], width: 1.8),
-          // ),
-          selectedChipColor: Colors.blue.withOpacity(0.5),
-          selectedTextStyle: TextStyle(color: Colors.blue[800]),
-          onTap: (values) {
-            //_selectedAnimals4 = values;
-          },
-        ),
+        // Container(
+        //     alignment: Alignment.topLeft,
+        //     margin:
+        //         EdgeInsets.symmetric(vertical: RevmoTheme.FIELDS_VER_MARGIN),
+        //     child: RevmoTheme.getTextFieldLabel(
+        //         AppLocalizations.of(context)!.colors,
+        //         color: RevmoColors.darkBlue)),
+        //
+        //
+        // MultiSelectChipField(
+        //   items: widget.request.colors
+        // .map((e) => MultiSelectItem(e.id, e.toString()))
+        // .toList(),
+        //   // initialValue: [_animals[4], _animals[7], _animals[9]],
+        //   // title: Text("Animals"),
+        //   // headerColor: Colors.blue.withOpacity(0.5),
+        //   // decoration: BoxDecoration(
+        //   //   border: Border.all(color: Colors.blue[700], width: 1.8),
+        //   // ),
+        //   selectedChipColor: Colors.blue.withOpacity(0.5),
+        //   selectedTextStyle: TextStyle(color: Colors.blue[800]),
+        //   onTap: (values) {
+        //     //_selectedAnimals4 = values;
+        //   },
+        // ),
         // MultiSelectChipDisplay(
         //   items: widget.request.colors
         //       .map((e) => MultiSelectItem(e.id, e.toString()))
@@ -285,8 +304,26 @@ class _NewOfferFormState extends State<NewOfferForm> {
         //       _selectedColors.value.remove(value);
         //     });
         //   },
-        // ),
-        // RevmoMultiSelect(
+        // ),,
+
+        ExpandedField(
+          validatorColor: colorValidator,
+          selectedItems: _selectedColors,
+          validator: (selectedItems) {
+            print(selectedItems);
+            if (selectedItems == null || selectedItems.length == 0) {
+              setState(() {
+                colorValidator = true;
+                print(colorValidator);
+              });
+              return AppLocalizations.of(context)!.fieldReqMsg;
+            }
+          },
+          items: {
+            for (var color in widget.request.colors) color.id: color.name
+          },
+        ),
+        // RevmoMultiSelectt(
         //   items: {
         //     for (var color in widget.request.colors) color.id: color.name
         //   },
@@ -344,7 +381,7 @@ class _NewOfferFormState extends State<NewOfferForm> {
         RevmoCheckboxRow(
             AppLocalizations.of(context)!.setAsDefaultOffer, _isDefaultOffer),
       ],
-    ).setOnlyPadding(context,top: 0,bottom: 0,left: 0.02,right: 0.02);
+    ).setOnlyPadding(context, top: 0, bottom: 0, left: 0.02, right: 0.02);
   }
 
   Widget mainPage2(
@@ -484,7 +521,7 @@ class _NewOfferFormState extends State<NewOfferForm> {
               )
             : SizedBox.shrink(),
       ],
-    ).setOnlyPadding(context,top: 0,bottom: 0,left: 0.02,right: 0.02);
+    ).setOnlyPadding(context, top: 0, bottom: 0, left: 0.02, right: 0.02);
   }
 
   jumpToPage(int? pageNumber) async {
@@ -501,8 +538,9 @@ class _NewOfferFormState extends State<NewOfferForm> {
 
     if (_createFormKey.currentState!.validate()) {
       EasyLoading.show();
+      print(_selectedColors.value);
       Provider.of<OffersProvider>(context, listen: false)
-          .submitOffer(
+          .submitOfferNetworkLayer(
               widget.request,
               double.parse(_priceController.text),
               double.parse(_minDownpaymentController.text),
@@ -553,5 +591,186 @@ class _NewOfferFormState extends State<NewOfferForm> {
     _expiryDateController.dispose();
     _isDefaultOffer.dispose();
     super.dispose();
+  }
+}
+
+class ExpandedField<T> extends StatefulWidget {
+  final ValueNotifier<List<int>> selectedItems;
+  final Map<int, T> items;
+  final String? Function(List<T?>?)? validator;
+  bool validatorColor;
+
+   ExpandedField(
+      {Key? key,
+      required this.selectedItems,
+      required  this.validatorColor,
+      required this.items,
+      this.validator})
+      : super(key: key);
+
+  @override
+  State<ExpandedField> createState() => _ExpandedFieldState();
+}
+
+class _ExpandedFieldState extends State<ExpandedField> {
+  bool expanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    var mediaQuery = MediaQuery.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+
+        Container(
+            alignment: Alignment.topLeft,
+            margin:
+                EdgeInsets.symmetric(vertical: RevmoTheme.FIELDS_VER_MARGIN),
+            child: RevmoTheme.getTextFieldLabel(
+                AppLocalizations.of(context)!.colors,
+                color: RevmoColors.darkBlue)),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              expanded = !expanded;
+            });
+          },
+          child: AnimatedContainer(
+            padding: EdgeInsets.all(10),
+            duration: Duration(milliseconds: 300),
+            margin: EdgeInsets.only(bottom: 10),
+            height: expanded == true
+                ? mediaQuery.size.height * 0.07
+                : mediaQuery.size.height * 0.18,
+            width: mediaQuery.size.width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(color: RevmoColors.darkGrey, width: .35),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 14,
+                ),
+                // !expanded ? SizedBox.shrink() :
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.pickColors,
+                      style: RevmoTheme.getBodyStyle(1,
+                          color: RevmoColors.darkBlue),
+                    ),
+                    !expanded
+                        ? Icon(
+                            Iconsax.arrow_up_15,
+                            color: RevmoColors.darkBlue,
+                          )
+                        : Icon(
+                            Iconsax.arrow_down5,
+                            color: RevmoColors.darkBlue,
+                          ),
+                  ],
+                ),
+                expanded
+                    ? SizedBox.shrink()
+                    : ValueListenableBuilder<List<int>>(
+                        valueListenable: widget.selectedItems,
+                        builder: (context, updatedItems, _) {
+                          print(updatedItems);
+                          return MultiSelectChipField(
+                            items: widget.items.entries
+                                .map((e) =>
+                                    MultiSelectItem(e.key, e.value.toString()))
+                                .toList(),
+                            showHeader: false,
+                            // decoration: BoxDecoration(
+                            //     color: Colors.white,
+                            //     borderRadius: BorderRadius.all(Radius.circular(3)),
+                            //     border: Border.fromBorderSide( const BorderSide(
+                            //         color: RevmoColors.darkGrey, width: .25))),
+                            initialValue: updatedItems,
+                            validator: widget.validator,
+                            title: RevmoTheme.getBody("", 1),
+                            itemBuilder: chipBuilder,
+                            textStyle: RevmoTheme.getBodyStyle(1,
+                                color: RevmoColors.darkBlue),
+                          );
+                        }),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget chipBuilder(
+      MultiSelectItem<int?> selectItem, FormFieldState<List<int?>> formState) {
+    bool isSelected = (formState.value != null) &&
+        (formState.value!.contains(selectItem.value));
+    toggleItem() {
+      if (isSelected) {
+        setState(() {
+          formState.value!.remove(selectItem.value);
+        });
+      } else {
+        setState(() {
+          formState.value!.add(selectItem.value);
+        });
+      }
+    }
+
+    return InkWell(
+      onTap: toggleItem,
+      child: Row(
+        children: [
+          Container(
+            width: 70,
+            height: 30,
+            // duration: const Duration(milliseconds: 200),
+            alignment: Alignment.center,
+            constraints: BoxConstraints(maxWidth: 100, maxHeight: 30),
+            // margin: EdgeInsets.all(10),
+            // padding: EdgeInsets.all(15),
+            decoration: BoxDecoration(
+                // border: Border.all(color:isSelected? const Color(0xff167A5D):  RevmoColors.darkGrey, width: .25),
+                // boxShadow: isSelected
+                //     ? [
+                //         BoxShadow(color: Colors.grey[500]!, offset: const Offset(4, 4), blurRadius: 15, spreadRadius: 1),
+                //         BoxShadow(color: Colors.white, offset: const Offset(-4, -4), blurRadius: 15, spreadRadius: 1),
+                //       ]
+                //     : null,
+                // color: isSelected ? const Color(0xff167A5D) : Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            child: RevmoTheme.getBody(selectItem.label, 1,
+                color: RevmoColors.darkBlue),
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 500),
+            width: 20,
+            height: 20,
+            decoration: BoxDecoration(
+                color:
+                    isSelected ? const Color(0xff167A5D) : Colors.transparent,
+                border: isSelected
+                    ? Border.all(color: Colors.transparent)
+                    : Border.all(color: Colors.grey.shade400),
+                borderRadius: BorderRadius.circular(3)),
+            child: Center(
+              child: Icon(
+                Icons.check,
+                color: isSelected == false ? Colors.grey : Colors.white,
+                size: 15,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

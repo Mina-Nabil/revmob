@@ -8,6 +8,7 @@ import 'package:revmo/screens/home/home_screen.dart';
 import 'package:revmo/screens/offers/offers_history.dart';
 import 'package:revmo/screens/settings/account_screen.dart';
 import 'package:revmo/screens/settings/contactus_screen.dart';
+import 'package:revmo/screens/settings/subscriptions_screen.dart';
 import 'package:revmo/screens/settings/team_screen.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/widgets/home/revmo_appbar.dart';
@@ -38,6 +39,12 @@ class SettingsScreen extends StatelessWidget {
                 icon: Paths.speedoLargeSVG,
                 onTap: () => Navigator.of(context).pushAndRemoveUntil(
                     PageTransition(child: HomeScreen(), type: PageTransitionType.rightToLeft), ModalRoute.withName('/')),
+              ),
+              SettingsTile(
+                text: "Subscriptions",
+                icon: Paths.speedoLargeSVG,
+                onTap: () =>  Navigator.of(context).push(PageTransition(child: SubscriptionScreen(), type: PageTransitionType.rightToLeft)),
+
               ),
               SettingsTile(
                 text: AppLocalizations.of(context)!.offersHistory,

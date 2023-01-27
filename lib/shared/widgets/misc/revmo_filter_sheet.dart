@@ -156,6 +156,7 @@ class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
                             children: widget.catalog.brands
                                 .map((e) => Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3.5),
+                                      // padding: const EdgeInsets.all(3),
                                       child: BrandFilterTile(
                                         onTap: () => toggleBrand(e),
                                         brand: e,

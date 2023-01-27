@@ -65,7 +65,7 @@ class CustomersProvider extends ChangeNotifier {
   }
 
   double get minCarPrice {
-    double minPrice = double.maxFinite;
+    double minPrice = double.minPositive;
     _customersList.forEach((car) {
       if (car.offerPrice!.toDouble() < minPrice)
         minPrice = car.offerPrice!.toDouble();
@@ -79,7 +79,7 @@ class CustomersProvider extends ChangeNotifier {
   }
 
   double get maxCarPrice {
-    double maxPrice = double.minPositive;
+    double maxPrice = double.maxFinite;
     _customersList.forEach((car) {
       if (car.offerPrice!.toDouble() > maxPrice)
         maxPrice = car.offerPrice!.toDouble();

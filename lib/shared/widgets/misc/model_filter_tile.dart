@@ -21,7 +21,7 @@ class CarModelFilterTile extends StatelessWidget {
       child: Container(
         height: _height,
         width: _width,
-        padding: EdgeInsets.symmetric(vertical: _padding),
+        padding: EdgeInsets.all(3),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(5)),
             color: (isSelected) ? RevmoColors.grey.withAlpha(50) : Colors.white,
@@ -29,18 +29,26 @@ class CarModelFilterTile extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Flexible(
-              fit: FlexFit.tight,
-              child: Image.network(
-                model.brand.logoURL,
-                fit: BoxFit.fitHeight,
-                errorBuilder: (_, __, ___) => RevmoImagePlaceholder(
-                  height: _height,
-                  width: _width,
+            Expanded(
+          flex: 2,
+          // fit: FlexFit.tight,
+              child: Center(
+                child: Image.network(
+                  model.brand.logoURL,
+                  fit: BoxFit.fitHeight,
+                  errorBuilder: (_, __, ___) => RevmoImagePlaceholder(
+                    height: _height,
+                    width: _width,
+                  ),
                 ),
               ),
             ),
-            Flexible(child: FittedBox(child: RevmoTheme.getBody(model.name, 1, color: RevmoColors.darkBlue)))
+            SizedBox(width: 2,),
+
+            Expanded(
+                flex: 2,
+                child: FittedBox(child: RevmoTheme.getBody(model.name, 1, color: RevmoColors.darkBlue))),
+         SizedBox(width: 3,),
           ],
         ),
       ),

@@ -79,6 +79,7 @@ class _CustomersTabState extends State<CustomersTab> {
                       child: RevmoIconButton(
                         callback: () {
                           showModalBottomSheet<bool>(
+                              // useRootNavigator:true,
                               barrierColor: RevmoColors.backgroundDim,
                               backgroundColor: Colors.transparent,
                               elevation: 10.0,
@@ -93,24 +94,27 @@ class _CustomersTabState extends State<CustomersTab> {
                         iconPadding: 10,
                       ),
                     ),
-                    Container(
-                        margin: EdgeInsets.only(left: 5),
-                        child: RevmoIconButton(
-                          callback: () {
-                            showModalBottomSheet<bool>(
-                                barrierColor: RevmoColors.backgroundDim,
-                                backgroundColor: Colors.transparent,
-                                elevation: 10.0,
-                                isScrollControlled: true,
-                                context: context,
-                                builder: (context) => FilterBottomSheet());
-                          },
-                          width: RevmoTheme.SEARCH_BAR_HEIGHT,
-                          color: RevmoColors.originalBlue,
-                          iconWidget: SvgPicture.asset(Paths.filtersSVG,
-                              color: Colors.white),
-                          iconPadding: 10,
-                        )),
+                    IgnorePointer(
+                      ignoring: true,
+                      child: Container(
+                          margin: EdgeInsets.only(left: 5),
+                          child: RevmoIconButton(
+                            callback: () {
+                              // showModalBottomSheet<bool>(
+                              //     barrierColor: RevmoColors.backgroundDim,
+                              //     backgroundColor: Colors.transparent,
+                              //     elevation: 10.0,
+                              //     isScrollControlled: true,
+                              //     context: context,
+                              //     builder: (context) => FilterBottomSheet());
+                            },
+                            width: RevmoTheme.SEARCH_BAR_HEIGHT,
+                            color: RevmoColors.originalBlue.withOpacity(0.5),
+                            iconWidget: SvgPicture.asset(Paths.filtersSVG,
+                                color: Colors.white.withOpacity(0.5)),
+                            iconPadding: 10,
+                          )),
+                    ),
                   ],
                 )),
         customerProvider.isConnected == false
@@ -402,7 +406,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     ),
                     child: RangeSlider(
                       min: minPriceWidget,
-                      max: maxPriceWidget,
+                      max: maxPriceWidget<0?0:maxPriceWidget,
                       values: new RangeValues(minPriceWidget, maxPriceWidget),
                       onChanged: (values) {
                         setState(() {

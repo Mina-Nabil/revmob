@@ -104,7 +104,7 @@ class _RevmoDateFieldState extends State<RevmoDateField> {
                           showTitleActions: true,
                           pickerModel: RevmoDatePicker(currentTime: DateTime.now()),
                           theme: DatePickerTheme(
-                              headerColor: RevmoColors.greyishBlue,
+                              headerColor: Colors.white,
                               backgroundColor: RevmoColors.white,
                               itemStyle: TextStyle(color: RevmoColors.darkBlue, fontWeight: FontWeight.bold, fontSize: 18),
                               doneStyle: TextStyle(color: RevmoColors.darkBlue, fontSize: 16)), onChanged: (date) {
