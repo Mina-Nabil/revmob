@@ -70,13 +70,36 @@ class AccountProvider extends ChangeNotifier {
   Future<bool> loadCurrentPlan() async {
     try {
       return _service.getCurrentPlan().then((value) {
-        if (value.statusCode == 200 ) {
-          var response = Plans.fromJson(value.data["body"]["plan"]);
-          subscribtion = response;
+        if (value.statusCode == 200) {
+          var subscribtionn = Plans.fromJson(value.data["body"]["plan"]);
+          subscribtion = subscribtionn;
+          // subscribtion = Plans(
+          //   id: 2,
+          //   name: "Pro Plan",
+          //   monthlyPrice: 500,
+          //   annualPrice: 500,
+          //   adminsLimit: 10,
+          //   usersLimit: 10,
+          //   modelsLimit: 10,
+          //   offersLimit: 70,
+          //   servicesLimit: 100,
+          //   facilityPayment: 100,
+          //   emailSupport: 1,
+          //   chatSupport: 1,
+          //   phoneSupport: 1,
+          //   dashboardAccess: 1,
+          //   order: 1,
+          // );
           print('this is subscribtion ${subscribtion}');
 
           var current = CurrentPlan.fromJson(value.data["body"]["current"]);
           currentPlan = current;
+          // currentPlan = CurrentPlan(
+          //   users: 5,
+          //   admins: 5,
+          //   offers: 60,
+          //   models: 5,
+          // );
           print('this is current ${currentPlan}');
           notifyListeners();
           return Future.value(true);

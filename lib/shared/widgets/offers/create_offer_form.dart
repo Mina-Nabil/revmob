@@ -176,18 +176,10 @@ class _NewOfferFormState extends State<NewOfferForm> {
                   SizedBox(
                     height: 12,
                   ),
-                  SizedBox(
-                    // width: mediaQuery.size.width,
-                    // height: currentPage == 0
-                    //     ? 714
-                    //     : _commentController.text.isEmpty
-                    //         ? 300
-                    //         : 422,
-                    child: ExpandablePageView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: _pageController,
-                      children: [mainPage1(context), mainPage2(context)],
-                    ),
+                  ExpandablePageView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    controller: _pageController,
+                    children: [mainPage1(context), mainPage2(context)],
                   ),
                 ],
               ),
@@ -304,25 +296,38 @@ class _NewOfferFormState extends State<NewOfferForm> {
         //       _selectedColors.value.remove(value);
         //     });
         //   },
-        // ),,
-
-        ExpandedField(
-          validatorColor: colorValidator,
-          selectedItems: _selectedColors,
-          validator: (selectedItems) {
-            print(selectedItems);
-            if (selectedItems == null || selectedItems.length == 0) {
-              setState(() {
-                colorValidator = true;
-                print(colorValidator);
-              });
-              return AppLocalizations.of(context)!.fieldReqMsg;
-            }
-          },
+        // ),
+        RevmoMultiSelectt(
           items: {
             for (var color in widget.request.colors) color.id: color.name
           },
+          title: AppLocalizations.of(context)!.colors,
+          hint: AppLocalizations.of(context)!.pickColors,
+          selectedItems: _selectedColors,
+          darkMode: false,
+          validator: (selectedItems) {
+            if (selectedItems == null || selectedItems.length == 0) {
+              return AppLocalizations.of(context)!.fieldReqMsg;
+            }
+          },
         ),
+        // ExpandedField(
+        //   validatorColor: colorValidator,
+        //   selectedItems: _selectedColors,
+        //   validator: (selectedItems) {
+        //     print(selectedItems);
+        //     if (selectedItems == null || selectedItems.length == 0) {
+        //       setState(() {
+        //         colorValidator = true;
+        //         print(colorValidator);
+        //       });
+        //       return AppLocalizations.of(context)!.fieldReqMsg;
+        //     }
+        //   },
+        //   items: {
+        //     for (var color in widget.request.colors) color.id: color.name
+        //   },
+        // ),
         // RevmoMultiSelectt(
         //   items: {
         //     for (var color in widget.request.colors) color.id: color.name

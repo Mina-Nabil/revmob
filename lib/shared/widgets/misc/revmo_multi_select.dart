@@ -83,13 +83,13 @@ class _RevmoMultiSelecttState extends State<RevmoMultiSelectt> {
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
+      child: GestureDetector(
+        onTap: toggleItem,
+        child: Row(
+          children: [
 
 
-          GestureDetector(
-            onTap: toggleItem,
-            child: Container(
+            Container(
               width:70,
               height: 30,
               // duration: const Duration(milliseconds: 200),
@@ -98,49 +98,49 @@ constraints: BoxConstraints(maxWidth: 100,maxHeight: 30),
               // margin: EdgeInsets.all(10),
               // padding: EdgeInsets.all(15),
               decoration: BoxDecoration(
-                  // border: Border.all(color:isSelected? const Color(0xff167A5D):  RevmoColors.darkGrey, width: .25),
-                  // boxShadow: isSelected
-                  //     ? [
-                  //         BoxShadow(color: Colors.grey[500]!, offset: const Offset(4, 4), blurRadius: 15, spreadRadius: 1),
-                  //         BoxShadow(color: Colors.white, offset: const Offset(-4, -4), blurRadius: 15, spreadRadius: 1),
-                  //       ]
-                  //     : null,
+                  border: Border.all(color:isSelected? const Color(0xff167A5D):  RevmoColors.darkGrey, width: .25),
+                  boxShadow: isSelected
+                      ? [
+                          BoxShadow(color: Colors.grey[500]!, offset: const Offset(4, 4), blurRadius: 15, spreadRadius: 1),
+                          BoxShadow(color: Colors.white, offset: const Offset(-4, -4), blurRadius: 15, spreadRadius: 1),
+                        ]
+                      : null,
                   color: isSelected ? const Color(0xff167A5D) : Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(10))),
               child: RevmoTheme.getBody(selectItem.label, 1,
                   color:isSelected ?  Colors.white: RevmoColors.darkBlue),
             ),
-          ),
-          SizedBox(width: 5,),
+            SizedBox(width: 5,),
 
-          AnimatedContainer(
-            duration:
-            const Duration(milliseconds: 500),
-            width: 20,
-            height: 20,
-            decoration: BoxDecoration(
-                color: isSelected
-                    ? const Color(0xff167A5D)
-                    : Colors.transparent,
-                border: isSelected
-                    ? Border.all(
-                    color: Colors.transparent)
-                    : Border.all(
-                    color: Colors.grey.shade400),
-                borderRadius:
-                BorderRadius.circular(3)),
-            child: Center(
-              child: Icon(
-                Icons.check,
-                color: isSelected ==
-                    false
-                    ? Colors.grey
-                    : Colors.white,
-                size: 15,
+            AnimatedContainer(
+              duration:
+              const Duration(milliseconds: 500),
+              width: 20,
+              height: 20,
+              decoration: BoxDecoration(
+                  color: isSelected
+                      ? const Color(0xff167A5D)
+                      : Colors.transparent,
+                  border: isSelected
+                      ? Border.all(
+                      color: Colors.transparent)
+                      : Border.all(
+                      color: Colors.grey.shade400),
+                  borderRadius:
+                  BorderRadius.circular(3)),
+              child: Center(
+                child: Icon(
+                  Icons.check,
+                  color: isSelected ==
+                      false
+                      ? Colors.grey
+                      : Colors.white,
+                  size: 15,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
