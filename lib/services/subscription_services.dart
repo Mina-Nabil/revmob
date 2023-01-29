@@ -10,6 +10,9 @@ class SubscriptionService {
     return  _networkLayer.authDio.get('/api/seller/plans');
   }
 
+  Future<Response> getCurrentPlan() {
+    return  _networkLayer.authDio.get('/api/seller/limits');
+  }
 
 
 }

@@ -1,16 +1,20 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/providers/Seller/account_provider.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/Configurations/Extensions/extensions.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:revmo/shared/widgets/UIwidgets/skeleton_loading.dart';
 
 import '../../providers/Seller/catalog_provider.dart';
 import '../../shared/widgets/catalog/catalog_tile.dart';
 
 import 'package:revmo/shared/widgets/UIwidgets/ui_widgets.dart';
+
+import '../settings/subscriptions_screen.dart';
 
 class DashboardTab extends StatefulWidget {
   static const String screenName = "DashboardTab";
@@ -21,15 +25,13 @@ class DashboardTab extends StatefulWidget {
   _DashboardTabState createState() => _DashboardTabState();
 }
 
-
 class _DashboardTabState extends State<DashboardTab> {
- @override
-
-
+  @override
   @override
   Widget build(BuildContext context) {
     final account = Provider.of<AccountProvider>(context, listen: false);
     final catalog = Provider.of<CatalogProvider>(context);
+    var mediaQuery = MediaQuery.of(context);
     return Scaffold(
         backgroundColor: RevmoColors.darkBlue,
         body: SingleChildScrollView(
@@ -75,15 +77,106 @@ class _DashboardTabState extends State<DashboardTab> {
                   ),
                 ],
               ),
+              SizedBox(
+                height: 20,
+              ),
 
-              TitleHeader(
-                title: AppLocalizations.of(context)!.topSales,
-              ),
-              TargetSalesBox(
-                soldCarsCount: account.user?.carsSoldCount.toString(),
-                achievedTarget: account.user?.salesTotal.toString(),
-                sellersCount: '6',
-              ),
+              // TitleHeader(
+              //   title: AppLocalizations.of(context)!.topSales,
+              // ),
+              account.currentPlan == null
+                  ? SizedBox.shrink()
+                  : Container(
+                      padding: EdgeInsets.all(10),
+                      width: mediaQuery.size.width,
+                      // height: 250,
+                      decoration: BoxDecoration(
+                          color: Color(0xff08243d),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          TitleHeader(
+                            title:
+                                "Current Subscription Plan\n (${account.subscribtion!.name})",
+                            alignCenter: true,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              SubscriptionPlan(
+                                selected: false,
+                                title: "Offers Limit",
+                                icon: Icon(
+                                  Iconsax.money_time5,
+                                  color: RevmoColors.white,
+                                ),
+                                info:
+                                    "${account.currentPlan!.offers.toString()}/${account.subscribtion!.offersLimit.toString()}",
+                              ),
+                              SubscriptionPlan(
+                                selected: false,
+                                title: "Users Limit",
+                                icon: Icon(
+                                  Iconsax.people5,
+                                  color: RevmoColors.white,
+                                ),
+                                info:
+                                    "${account.currentPlan!.users.toString()}/${account.subscribtion!.usersLimit.toString()}",
+                              ),
+                              SubscriptionPlan(
+                                selected: false,
+                                title: "Models Limit",
+                                icon: Icon(
+                                  Iconsax.car5,
+                                  color: RevmoColors.white,
+                                ),
+                                info:
+                                    "${account.currentPlan!.models.toString()}/${account.subscribtion!.modelsLimit.toString()}",
+                              ),
+                            ],
+                          ),
+
+                          // SizedBox(
+                          //   height: 200,
+                          // ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          //   children: [
+                          //     Column(
+                          //       children: [
+                          //         Text('Total sold cars'),
+                          //         // Text(account.user?.carsSoldCount.toString() ?? '0'),
+                          //         Text('0'),
+                          //       ],
+                          //     ),
+                          //     Column(
+                          //       children: [
+                          //         Text('Achieved target'),
+                          //         Text('${'0'}  %'),
+                          //         // Text('${account.user?.salesTotal.toString()} %'),
+                          //       ],
+                          //     ),
+                          //     Column(
+                          //       children: [
+                          //         Text('No. of sellers'),
+                          //         Text(''),
+                          //       ],
+                          //     ),
+                          //   ],
+                          // ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
+                    ),
+
+              // TargetSalesBox(
+              //              soldCarsCount: account.user?.carsSoldCount.toString(),
+              //              achievedTarget: account.user?.salesTotal.toString(),
+              //              sellersCount: '6',
+              //            ),
               TitleHeader(
                 title: AppLocalizations.of(context)!.recentlyAdded,
               ),
@@ -93,62 +186,87 @@ class _DashboardTabState extends State<DashboardTab> {
                 imgUrl:
                     'https://pngimg.com/uploads/mitsubishi/mitsubishi_PNG185.png',
               ),
-              // TitleHeader(
-              //   title: AppLocalizations.of(context)!.topSales,
-              // ),
-              // SizedBox(
-              //   height: 160,
-              //   child: ListView.separated(
-              //     scrollDirection: Axis.horizontal,
-              //     itemCount: catalog.filteredCatalog.length,
-              //     itemBuilder: (context, index) {
-              //       return FadeInLeft(
-              //         child: Container(
-              //             width: 336,
-              //             // margin: EdgeInsets.only(left: 10,right: 10),
-              //             child: CatalogTile(
-              //                 catalog.filteredCatalog[index],
-              //                 catalog.catalog.getCarColors(
-              //                     catalog.filteredCatalog[index]))),
-              //       );
-              //     },
-              //     separatorBuilder: (BuildContext context, int index) {
-              //       return SizedBox(
-              //         width: 20,
-              //       );
-              //     },
-              //   ),
-              // ),
-              // TitleHeader(
-              //   title: AppLocalizations.of(context)!.recent,
-              // ),
-              // SizedBox(
-              //   height: 330,
-              //   child: ListView.separated(
-              //     scrollDirection: Axis.horizontal,
-              //     itemCount: 2,
-              //     itemBuilder: (context, index) {
-              //       return FadeInRight(
-              //         child: RecentCarsContainer(
-              //           imgUrl: catalog.catalog.models[index].imageUrl,
-              //           logoUrl: catalog.catalog.models[index].brand.logoURL,
-              //           name: catalog.catalog.models[index].fullName,
-              //           brand: catalog.catalog.models[index].type.name,
-              //           price: '500,000 ${AppLocalizations.of(context)!.egp}',
-              //           seller: 'Aly Mahmoud',
-              //           onTap: () {
-              //             print(catalog.catalog.models[index].fullName);
-              //           },
-              //         ),
-              //       );
-              //     },
-              //     separatorBuilder: (BuildContext context, int index) {
-              //       return SizedBox(
-              //         width: 20,
-              //       );
-              //     },
-              //   ),
-              // ),
+              TitleHeader(
+                title: AppLocalizations.of(context)!.topSales,
+              ),
+              SizedBox(
+                height: 160,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: catalog.filteredCatalog.length,
+                  itemBuilder: (context, index) {
+                    return FadeInLeft(
+                      child: Container(
+                          width: 336,
+                          // margin: EdgeInsets.only(left: 10,right: 10),
+                          child: CatalogTile(
+                              catalog.filteredCatalog[index],
+                              catalog.catalog.getCarColors(
+                                  catalog.filteredCatalog[index]))),
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(
+                      width: 20,
+                    );
+                  },
+                ),
+              ),
+              TitleHeader(
+                title: AppLocalizations.of(context)!.recent,
+              ),
+
+              if (catalog.catalog.models.isEmpty)
+                SizedBox(
+                  height: 330,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 2,
+                    itemBuilder: (context, index) {
+                      return SkeletonLoading(
+                          child: Container(
+                        width: 180,
+                        decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.9),
+                            borderRadius: BorderRadius.circular(10)),
+                      ));
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(
+                        width: 20,
+                      );
+                    },
+                  ),
+                ),
+
+              if (catalog.catalog.models.isNotEmpty)
+                SizedBox(
+                  height: 330,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 2,
+                    itemBuilder: (context, index) {
+                      return FadeInRight(
+                        child: RecentCarsContainer(
+                          imgUrl: catalog.catalog.models[0].imageUrl,
+                          logoUrl: catalog.catalog.models[0].brand.logoURL,
+                          name: catalog.catalog.models[0].fullName,
+                          brand: catalog.catalog.models[0].type.name,
+                          price: '500,000 ${AppLocalizations.of(context)!.egp}',
+                          seller: 'Aly Mahmoud',
+                          onTap: () {
+                            print(catalog.catalog.models[0].fullName);
+                          },
+                        ),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(
+                        width: 20,
+                      );
+                    },
+                  ),
+                ),
               SizedBox(
                 height: 50,
               ),
@@ -433,6 +551,68 @@ class WelcomeContainer extends StatelessWidget {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             )
           ])),
+    );
+  }
+}
+
+class SubscriptionPlan extends StatelessWidget {
+  const SubscriptionPlan(
+      {Key? key,
+      required this.selected,
+      required this.title,
+      required this.info,
+      this.widget,
+      this.icon})
+      : super(key: key);
+
+  final bool selected;
+  final String title;
+  final String info;
+  final Widget? widget;
+  final Widget? icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 15),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            children: [
+              if (icon != null) icon!,
+              if (icon != null)
+                SizedBox(
+                  width: 4,
+                ),
+              Text(
+                title,
+                style: TextStyle(
+                    color: selected ? RevmoColors.darkBlue : Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
+              ),
+            ],
+          ),
+          widget != null
+              ? widget!
+              : info == "-1"
+                  ? Icon(
+                      Iconsax.unlimited,
+                      color: RevmoColors.darkBlue,
+                    )
+                  : Text(
+                      info,
+                      // "${subscriptions![index]
+                      //      .annualPrice!
+                      //      .toString()} EGP",
+                      style: TextStyle(
+                          color: selected ? RevmoColors.darkBlue : Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    ),
+        ],
+      ),
     );
   }
 }

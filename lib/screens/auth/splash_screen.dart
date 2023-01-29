@@ -11,7 +11,8 @@ import 'package:revmo/shared/theme.dart';
 
 class SplashScreen extends StatefulWidget {
   static const String ROUTE_NAME = "/splash";
-  static const Duration fadeDuration = const Duration(milliseconds: 3000); //milliseconds
+  static const Duration fadeDuration =
+      const Duration(milliseconds: 3000); //milliseconds
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -34,14 +35,20 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void checkLoggedIn() async {
-    await (Provider.of<AccountProvider>(context, listen: false).loadUser(context, forceReload: true).onError((error, stackTrace) {
-      RevmoTheme.showRevmoSnackbar(context, AppLocalizations.of(context)!.checkConnection + "!");
+    await (Provider.of<AccountProvider>(context, listen: false)
+        .loadUser(context, forceReload: true)
+        .onError((error, stackTrace) {
+      RevmoTheme.showRevmoSnackbar(
+          context, AppLocalizations.of(context)!.checkConnection + "!");
     }));
     Seller? seller = Provider.of<AccountProvider>(context, listen: false).user;
     if (seller != null && seller.hasShowroom) {
+      await (Provider.of<AccountProvider>(context, listen: false)
+          .loadCurrentPlan());
       FirebaseMessaging.instance.getToken().then((value) async {
         debugPrint("getToken FCM $value");
-        await Provider.of<AccountProvider>(context, listen: false).setFcmToken(value!);
+        await Provider.of<AccountProvider>(context, listen: false)
+            .setFcmToken(value!);
       });
       Navigator.of(context).pushReplacementNamed(HomeScreen.ROUTE_NAME);
     } else {
@@ -52,22 +59,27 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     double logoWidth = MediaQuery.of(context).size.width > 500 ? 200 : 150;
-
+    var mediaQuery = MediaQuery.of(context);
     return Scaffold(
       body: Stack(alignment: AlignmentDirectional.center, children: [
         Container(
-            width: MediaQuery.of(context).size.width,
-            child: Image.asset(
-              Paths.splashImage,
-              fit: BoxFit.fitWidth,
-            )),
+          width: mediaQuery.size.width,
+          height: mediaQuery.size.height,
+          child: Image.asset(
+            Paths.splashImage,
+            fit: BoxFit.cover,
+          ),
+        ),
         AnimatedOpacity(
           opacity: _visible ? 1.0 : 0.0,
           duration: SplashScreen.fadeDuration,
           child: Container(
               alignment: Alignment.center,
               width: logoWidth,
-              child: Image(image: AssetImage(Paths.splashLogo), width: logoWidth, fit: BoxFit.fitWidth)),
+              child: Image(
+                  image: AssetImage(Paths.splashLogo),
+                  width: logoWidth,
+                  fit: BoxFit.fitWidth),),
         ),
       ]),
     );
