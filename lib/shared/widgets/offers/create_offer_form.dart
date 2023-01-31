@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -26,8 +28,12 @@ import 'package:revmo/shared/widgets/misc/revmo_text_field.dart';
 import 'package:revmo/shared/widgets/settings/user_image.dart';
 import 'package:revmo/Configurations/Extensions/extensions.dart';
 
+import '../../../models/cars/available_options.dart';
 import '../Customers/detail_text.dart';
+import '../UIwidgets/checkBox_revmo.dart';
+import '../UIwidgets/custom_cachedNetwork.dart';
 import '../UIwidgets/success_message.dart';
+import '../misc/revmo_checkbox.dart';
 
 class NewOfferForm extends StatefulWidget {
   final OfferRequest request;
@@ -53,15 +59,40 @@ class _NewOfferFormState extends State<NewOfferForm> {
 
   GlobalKey<FormState> _createFormKey = new GlobalKey<FormState>();
 
-  // List<ModelColor> colo = [
-  //   ModelColor(),
-  // ];
-  // addColors(){
-  //   widget.request.colors.add(ModelColor(
-  //
-  //   ));
+  HashMap<String, HashSet<String>> selectedOptionMap =
+      HashMap<String, HashSet<String>>();
 
-  // }
+  addMapOptions(Option option) {
+    print("adding");
+    if (!selectedOptionMap.containsKey(option.adopAdjtId.toString())) {
+      selectedOptionMap[option.adopAdjtId.toString()] = HashSet<String>();
+    }
+    selectedOptionMap[option.adopAdjtId!.toString()]?.add(option.id.toString());
+  }
+
+  removeMapOptions(Option option) {
+    print("removing");
+    selectedOptionMap[option.adopAdjtId!.toString()]
+        ?.remove(option.id.toString());
+  }
+
+  isOptionAvailable(Option option) {
+    print("is Avail");
+    return selectedOptionMap.containsKey(option.adopAdjtId.toString()) &&
+        (selectedOptionMap[option.adopAdjtId.toString()]
+                ?.contains(option.id.toString()) ??
+            false);
+  }
+
+  mapOptionsIDs(HashMap<String, HashSet<String>> selected) {
+    Map selectedIDs = Map<String, String>();
+    selected.forEach((catgID, selectedOptions) {
+      selectedOptions.forEach((element) {
+        selectedIDs[element] = catgID;
+      });
+    });
+    return selectedIDs;
+  }
 
   @override
   void initState() {
@@ -195,8 +226,15 @@ class _NewOfferFormState extends State<NewOfferForm> {
               callBack: () {
                 if (currentPage == 0 &&
                     _createFormKey.currentState!.validate()) {
-                  print('this is page 0');
-                  jumpToPage(1);
+                  if (widget.request
+                          .validateSelectedOptions(selectedOptionMap) ==
+                      false) {
+                    RevmoTheme.showRevmoSnackbar(context, 'Please select car options');
+                    print("select options");
+                  } else {
+                    print('this is page 0');
+                    jumpToPage(1);
+                  }
                 } else {
                   submitOffer();
                 }
@@ -311,6 +349,177 @@ class _NewOfferFormState extends State<NewOfferForm> {
             }
           },
         ),
+
+        SizedBox(
+          child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
+              itemBuilder: (context, indexx) {
+                return Container(
+                    margin:
+                        const EdgeInsets.only(bottom: 20.0, left: 0, right: 0),
+                    // padding: const EdgeInsets.only(left: 20, right: 20),
+                    alignment: Alignment.topCenter,
+                    child: ExpandedField(
+                      title: widget.request.availableOptions[indexx].adjtName!,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 10,
+                          ),
+                          widget.request.availableOptions.isNotEmpty
+                              ? SizedBox(
+                                  height: 170,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      var option = widget
+                                          .request
+                                          .availableOptions[indexx]
+                                          .options![index];
+
+                                      return InkWell(
+                                        onTap: () {
+                                          if (isOptionAvailable(option)) {
+                                            print('condition1');
+                                            setState(() {
+                                              removeMapOptions(option);
+                                            });
+                                            print(selectedOptionMap.length);
+                                          } else {
+                                            print('condition2');
+                                            setState(() {
+                                              addMapOptions(option);
+                                            });
+                                            print(selectedOptionMap.length);
+                                          }
+                                        },
+                                        child: _selectWidget(
+                                            selected: isOptionAvailable(option),
+                                            imgUrl: widget
+                                                .request
+                                                .availableOptions[indexx]
+                                                .options![index]
+                                                .imageUrl,
+                                            // widget.colors[index].imageUrl!,
+                                            title: widget
+                                                .request
+                                                .availableOptions[indexx]
+                                                .options![index]
+                                                .adopName!),
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) {
+                                      return SizedBox(
+                                        width: 10,
+                                      );
+                                    },
+                                    itemCount: widget
+                                        .request
+                                        .availableOptions[indexx]
+                                        .options!
+                                        .length,
+                                  ),
+                                )
+                              : SizedBox(
+                                  height: 80,
+                                  child: Center(
+                                      child: Text(
+                                    "no Data",
+                                    style: const TextStyle(
+                                        color: RevmoColors.darkBlue),
+                                  ))),
+                        ],
+                      ),
+                    )
+                    // child: RevmoExpandableInfoCard(
+                    //   body: Column(
+                    //     children: [
+                    //       widget.car.availableOptions!.isNotEmpty
+                    //           ? GridView.builder(
+                    //           padding: const EdgeInsets.only(
+                    //               top: 20,
+                    //               bottom: 20,
+                    //               left: 20,
+                    //               right: 20),
+                    //           shrinkWrap: true,
+                    //           physics:
+                    //           const NeverScrollableScrollPhysics(),
+                    //           gridDelegate:
+                    //           const SliverGridDelegateWithFixedCrossAxisCount(
+                    //               crossAxisCount: 2,
+                    //               crossAxisSpacing: 10,
+                    //               mainAxisSpacing: 10
+                    //             //
+                    //           ),
+                    //           itemCount: widget
+                    //               .car
+                    //               .availableOptions![indexx]
+                    //               .options!
+                    //               .length,
+                    //           itemBuilder: (BuildContext ctx, index) {
+                    //             var option = widget
+                    //                 .car
+                    //                 .availableOptions![indexx]
+                    //                 .options![index];
+                    //             return GestureDetector(
+                    //               onTap: () {
+                    //
+                    //                 if (isOptionAvailable(option)) {
+                    //                   print('condition1');
+                    //                   setState(() {
+                    //                     removeMapOptions(option);
+                    //                   });
+                    //                   print(selectedOptionMap.length);
+                    //                 } else {
+                    //                   print('condition2');
+                    //                   setState(() {
+                    //                     addMapOptions(option);
+                    //                   });
+                    //                   print(selectedOptionMap.length);
+                    //                 }
+                    //               },
+                    //               child: _selectWidget(
+                    //                   selected: isOptionAvailable(option) ,
+                    //                   imgUrl: widget
+                    //                       .car
+                    //                       .availableOptions![indexx]
+                    //                       .options![index]
+                    //                       .imageUrl,
+                    //                   // widget.colors[index].imageUrl!,
+                    //                   title: widget
+                    //                       .car
+                    //                       .availableOptions![indexx]
+                    //                       .options![index]
+                    //                       .adopName!),
+                    //             );
+                    //           })
+                    //           : SizedBox(
+                    //           height: 80,
+                    //           child: Center(
+                    //               child: Text(
+                    //                 "global.noColorAv".tr(),
+                    //                 style: const TextStyle(
+                    //                     color: RevmoColors.darkBlue),
+                    //               ))),
+                    //     ],
+                    //   ),
+                    //   title: widget.car.availableOptions![indexx].adjtName!,
+                    //   initialStateExpanded: false,
+                    //   minHeight: RevmoTheme.DETAILS_BOXES_MIN,
+                    //   maxHeight:  widget
+                    //       .car
+                    //       .availableOptions![indexx]
+                    //       .options!
+                    //       .length  < 3 ?  250 : 370,
+                    // )
+
+                    );
+              },
+              itemCount: widget.request.availableOptions.length),
+        ),
+
         // ExpandedField(
         //   validatorColor: colorValidator,
         //   selectedItems: _selectedColors,
@@ -555,6 +764,7 @@ class _NewOfferFormState extends State<NewOfferForm> {
               _startDateController.text,
               _expiryDateController.text,
               _isLoan.value,
+              mapOptionsIDs(selectedOptionMap),
               _commentController.text,
               _isDefaultOffer.value)
           .then((value) async {
@@ -599,19 +809,15 @@ class _NewOfferFormState extends State<NewOfferForm> {
   }
 }
 
-class ExpandedField<T> extends StatefulWidget {
-  final ValueNotifier<List<int>> selectedItems;
-  final Map<int, T> items;
-  final String? Function(List<T?>?)? validator;
-  bool validatorColor;
+class ExpandedField extends StatefulWidget {
+  final Widget child;
+  final String title;
 
-   ExpandedField(
-      {Key? key,
-      required this.selectedItems,
-      required  this.validatorColor,
-      required this.items,
-      this.validator})
-      : super(key: key);
+  ExpandedField({
+    Key? key,
+    required this.child,
+    required this.title,
+  }) : super(key: key);
 
   @override
   State<ExpandedField> createState() => _ExpandedFieldState();
@@ -625,14 +831,13 @@ class _ExpandedFieldState extends State<ExpandedField> {
     var mediaQuery = MediaQuery.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-
         Container(
             alignment: Alignment.topLeft,
             margin:
                 EdgeInsets.symmetric(vertical: RevmoTheme.FIELDS_VER_MARGIN),
-            child: RevmoTheme.getTextFieldLabel(
-                AppLocalizations.of(context)!.colors,
+            child: RevmoTheme.getTextFieldLabel(widget.title,
                 color: RevmoColors.darkBlue)),
         GestureDetector(
           onTap: () {
@@ -643,10 +848,10 @@ class _ExpandedFieldState extends State<ExpandedField> {
           child: AnimatedContainer(
             padding: EdgeInsets.all(10),
             duration: Duration(milliseconds: 300),
-            margin: EdgeInsets.only(bottom: 10),
-            height: expanded == true
-                ? mediaQuery.size.height * 0.07
-                : mediaQuery.size.height * 0.18,
+            // margin: EdgeInsets.only(bottom: 10),
+            // height: expanded == true
+            //     ? mediaQuery.size.height * 0.07
+            //     : mediaQuery.size.height * 0.18,
             width: mediaQuery.size.width,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
@@ -656,14 +861,14 @@ class _ExpandedFieldState extends State<ExpandedField> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 14,
+                  height: 10,
                 ),
                 // !expanded ? SizedBox.shrink() :
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      AppLocalizations.of(context)!.pickColors,
+                      "Pick ${widget.title}",
                       style: RevmoTheme.getBodyStyle(1,
                           color: RevmoColors.darkBlue),
                     ),
@@ -678,31 +883,10 @@ class _ExpandedFieldState extends State<ExpandedField> {
                           ),
                   ],
                 ),
-                expanded
-                    ? SizedBox.shrink()
-                    : ValueListenableBuilder<List<int>>(
-                        valueListenable: widget.selectedItems,
-                        builder: (context, updatedItems, _) {
-                          print(updatedItems);
-                          return MultiSelectChipField(
-                            items: widget.items.entries
-                                .map((e) =>
-                                    MultiSelectItem(e.key, e.value.toString()))
-                                .toList(),
-                            showHeader: false,
-                            // decoration: BoxDecoration(
-                            //     color: Colors.white,
-                            //     borderRadius: BorderRadius.all(Radius.circular(3)),
-                            //     border: Border.fromBorderSide( const BorderSide(
-                            //         color: RevmoColors.darkGrey, width: .25))),
-                            initialValue: updatedItems,
-                            validator: widget.validator,
-                            title: RevmoTheme.getBody("", 1),
-                            itemBuilder: chipBuilder,
-                            textStyle: RevmoTheme.getBodyStyle(1,
-                                color: RevmoColors.darkBlue),
-                          );
-                        }),
+                SizedBox(
+                  height: 14,
+                ),
+                expanded ? SizedBox.shrink() : widget.child,
               ],
             ),
           ),
@@ -710,72 +894,62 @@ class _ExpandedFieldState extends State<ExpandedField> {
       ],
     );
   }
+}
 
-  Widget chipBuilder(
-      MultiSelectItem<int?> selectItem, FormFieldState<List<int?>> formState) {
-    bool isSelected = (formState.value != null) &&
-        (formState.value!.contains(selectItem.value));
-    toggleItem() {
-      if (isSelected) {
-        setState(() {
-          formState.value!.remove(selectItem.value);
-        });
-      } else {
-        setState(() {
-          formState.value!.add(selectItem.value);
-        });
-      }
-    }
+class _selectWidget extends StatelessWidget {
+  _selectWidget(
+      {Key? key,
+      required this.title,
+      required this.imgUrl,
+      required this.selected})
+      : super(key: key);
+  String? imgUrl;
+  String title;
+  bool selected;
 
-    return InkWell(
-      onTap: toggleItem,
-      child: Row(
-        children: [
-          Container(
-            width: 70,
-            height: 30,
-            // duration: const Duration(milliseconds: 200),
-            alignment: Alignment.center,
-            constraints: BoxConstraints(maxWidth: 100, maxHeight: 30),
-            // margin: EdgeInsets.all(10),
-            // padding: EdgeInsets.all(15),
-            decoration: BoxDecoration(
-                // border: Border.all(color:isSelected? const Color(0xff167A5D):  RevmoColors.darkGrey, width: .25),
-                // boxShadow: isSelected
-                //     ? [
-                //         BoxShadow(color: Colors.grey[500]!, offset: const Offset(4, 4), blurRadius: 15, spreadRadius: 1),
-                //         BoxShadow(color: Colors.white, offset: const Offset(-4, -4), blurRadius: 15, spreadRadius: 1),
-                //       ]
-                //     : null,
-                // color: isSelected ? const Color(0xff167A5D) : Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            child: RevmoTheme.getBody(selectItem.label, 1,
-                color: RevmoColors.darkBlue),
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 500),
-            width: 20,
-            height: 20,
-            decoration: BoxDecoration(
-                color:
-                    isSelected ? const Color(0xff167A5D) : Colors.transparent,
-                border: isSelected
-                    ? Border.all(color: Colors.transparent)
-                    : Border.all(color: Colors.grey.shade400),
-                borderRadius: BorderRadius.circular(3)),
-            child: Center(
-              child: Icon(
-                Icons.check,
-                color: isSelected == false ? Colors.grey : Colors.white,
-                size: 15,
+  @override
+  Widget build(BuildContext context) {
+    var mediaQuery = MediaQuery.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        // imgUrl == null
+        //     ? Lottie.asset('assets/images/gear_loading.json',
+        //     height: mediaQuery.size.height * 0.1,
+        //     frameRate: FrameRate.composition,
+        //     repeat: true)
+        //     :
+
+        imgUrl != null
+            ? SizedBox(
+                height: mediaQuery.size.height * 0.1,
+                child: Image.network(imgUrl!),
+              )
+            : SizedBox(
+                height: mediaQuery.size.height * 0.1,
               ),
+        const SizedBox(
+          height: 10,
+        ),
+        SizedBox(
+          width: mediaQuery.size.width * 0.25,
+          child: Text(
+            title,
+            style: const TextStyle(
+              color: RevmoColors.darkBlue,
+              fontSize: 10,
             ),
+            textAlign: TextAlign.center,
           ),
-        ],
-      ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        CheckBoxMickeyRevmo(
+          initialValue: selected,
+        )
+      ],
     );
   }
 }

@@ -39,7 +39,8 @@ class OffersService {
       bool isLoan,
       String startDate,
       String expiryDate,
-      List<int> colorIDs,
+   Map<String,String> options,
+  List<int> colorIDs,
       [String? comment]) {
     return _networkLayer.authDio.post('/api/seller/submit/offer',   data: {
       "requestID": requestID.toString(),
@@ -48,7 +49,7 @@ class OffersService {
       "isLoan": isLoan ? '0' : '1',
       "startDate": startDate,
       "expiryDate": expiryDate,
-      // "options": {2:11},
+      "options":options,
       "comment": comment ?? null
     }..addAll(_parseColorIDsJsonArray(colorIDs)));
   }

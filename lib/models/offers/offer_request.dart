@@ -1,6 +1,10 @@
+import 'dart:collection';
+
 import 'package:revmo/models/accounts/buyer.dart';
 import 'package:revmo/models/cars/car.dart';
 import 'package:revmo/models/cars/model_color.dart';
+
+import '../cars/available_options.dart';
 
 enum PaymentType { CASH, LOAN }
 
@@ -23,12 +27,17 @@ class OfferRequest {
   String? _comment;
   PaymentType _paymentType;
   DateTime _creationDate;
+  List<AvailableOption> _availableOptions;
 
   OfferRequest.fromJson(json)
       : _id = json[API_id_Key],
         _buyer = Buyer.fromJson(json[API_buyer_Key]),
         _car = Car.fromJson(json[API_car_Key]),
         _comment = json[API_comment_Key],
+        _availableOptions = json["available_options"] == null
+            ? []
+            : List<AvailableOption>.from(json["available_options"]
+            .map((x) => AvailableOption.fromJson(x))),
         _paymentType = json[API_paymentType_Key] == API_paymentType_loan_value ? PaymentType.LOAN : PaymentType.CASH,
         _creationDate = DateTime.tryParse(json[API_createdAt_Key]) ?? DateTime.now(),
         _colors = [] {
@@ -49,4 +58,13 @@ class OfferRequest {
   DateTime get createdDate => _creationDate;
   String get formatedDate =>
       _creationDate.day.toString() + "/" + _creationDate.month.toString() + "/" + _creationDate.year.toString();
+  List<AvailableOption> get availableOptions => _availableOptions;
+
+  bool validateSelectedOptions(HashMap<String, HashSet<String>> selectedSet){
+    int selectedItems = 0;
+    selectedSet.forEach((category, selectedOptions) {
+      if(selectedOptions.isNotEmpty) selectedItems++;
+    });
+    return selectedItems == (availableOptions.length ?? 0);
+  }
 }

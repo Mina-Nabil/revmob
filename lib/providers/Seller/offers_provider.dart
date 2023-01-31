@@ -50,7 +50,7 @@ class OffersProvider extends ChangeNotifier {
       List<int> offeredColorsIDs,
       String start,
       String end,
-      bool isLoan,
+      bool isLoan,Map<String,String> options,
       [String? comment,
       bool setAsDefault = false]) async{
     try {
@@ -60,6 +60,7 @@ class OffersProvider extends ChangeNotifier {
           isLoan,
           start,
           end,
+          options,
           offeredColorsIDs,
           comment).then((value) {
             if(value.statusCode == 200) {

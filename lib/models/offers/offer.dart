@@ -4,6 +4,8 @@ import 'package:revmo/models/accounts/seller.dart';
 import 'package:revmo/models/cars/car.dart';
 import 'package:revmo/models/cars/model_color.dart';
 
+import '../cars/available_options.dart';
+
 enum OfferState { New, Accepted, Expired, Declined }
 
 class Offer {
@@ -43,12 +45,17 @@ class Offer {
   String? _buyerComment;
   DateTime? _buyerResponseDate;
   List<ModelColor> _colors;
+  List<AvailableOption> _availableOptions;
 
   Offer.fromJson(json)
       : _id = json[API_id_Key],
         _seller = Seller.fromJson(json[API_seller_Key]),
         _buyer = Buyer.fromJson(json[API_buyer_Key]),
         _car = Car.fromJson(json[API_car_Key]),
+        _availableOptions = json["available_options"] == null
+            ? []
+            : List<AvailableOption>.from(json["available_options"]
+                .map((x) => AvailableOption.fromJson(x))),
         _state = (json[API_car_Key] == API_state_Accepted_Value)
             ? OfferState.Accepted
             : (json[API_car_Key] == API_state_New_Value)
@@ -59,35 +66,68 @@ class Offer {
         _isLoan = json[API_isLoan_Key] == "1",
         _price = json[API_price_Key],
         _downPayment = json[API_downPayment_Key],
-        _startDate = DateTime.tryParse(json[API_startDate_Key]) ?? DateTime.now(),
-        _expiryDate = DateTime.tryParse(json[API_expiryDate_Key]) ?? DateTime.now(),
+        _startDate =
+            DateTime.tryParse(json[API_startDate_Key]) ?? DateTime.now(),
+        _expiryDate =
+            DateTime.tryParse(json[API_expiryDate_Key]) ?? DateTime.now(),
         _sellerComment = json[API_sellerComment_Key],
         _buyerComment = json[API_buyerComment_Key],
-        _buyerResponseDate = DateTime.tryParse(json[API_responseDate_Key]?? DateTime.now().toString()),
+        _buyerResponseDate = DateTime.tryParse(
+            json[API_responseDate_Key] ?? DateTime.now().toString()),
         _colors = [] {
-    if (json[API_colors_Key] != null && json[API_colors_Key] is Iterable<String>) {
+    if (json[API_colors_Key] != null &&
+        json[API_colors_Key] is Iterable<String>) {
       json[API_colors_Key].forEach((c) {
         _colors.add(ModelColor.fromJson(c));
       });
     }
   }
+
+  // availableOptions: json["available_options"] == null ? null : List<AvailableOption>.from(json["available_options"].map((x) => AvailableOption.fromJson(x))),
+
   int get id => _id;
+
   String get formattedID => "#" + _id.toString().padLeft(6, '0');
+
   Seller get seller => _seller;
+
   Buyer get buyer => _buyer;
+
   Car get car => _car;
+
   bool get isLoan => _isLoan;
+
   OfferState get state => _state;
+
   int get price => _price;
+
   int get downPayment => _downPayment;
+
   DateTime get issuingDate => _startDate;
+
   String get formatedIssuingDate =>
-      _startDate.day.toString() + "/" + _startDate.month.toString() + "/" + _startDate.year.toString();
+      _startDate.day.toString() +
+      "/" +
+      _startDate.month.toString() +
+      "/" +
+      _startDate.year.toString();
+
   DateTime get expiryDate => _expiryDate;
+
   String get formatedExpiryDate =>
-      _expiryDate.day.toString() + "/" + _expiryDate.month.toString() + "/" + _expiryDate.year.toString();
+      _expiryDate.day.toString() +
+      "/" +
+      _expiryDate.month.toString() +
+      "/" +
+      _expiryDate.year.toString();
+
   String? get sellerComment => _sellerComment;
+
   String? get buyerComment => _buyerComment;
+
   DateTime? get buyerResponseDate => _buyerResponseDate;
+
   List<ModelColor> get colors => _colors;
+
+  List<AvailableOption> get availableOptions => _availableOptions;
 }
