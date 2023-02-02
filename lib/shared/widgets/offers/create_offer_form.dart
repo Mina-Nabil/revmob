@@ -337,7 +337,7 @@ class _NewOfferFormState extends State<NewOfferForm> {
         // ),
         RevmoMultiSelectt(
           items: {
-            for (var color in widget.request.colors) color.id: color.name
+            for (var color in widget.request.colors) color.id : color.name
           },
           title: AppLocalizations.of(context)!.colors,
           hint: AppLocalizations.of(context)!.pickColors,

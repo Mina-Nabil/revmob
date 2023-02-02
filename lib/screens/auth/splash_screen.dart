@@ -31,6 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
     });
     Future.delayed(SplashScreen.fadeDuration).then((_) {
       checkLoggedIn();
+      // Navigator.of(context).pushReplacementNamed(PreLoginScreen.ROUTE_NAME);
     });
   }
 

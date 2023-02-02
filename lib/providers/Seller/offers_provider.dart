@@ -20,29 +20,58 @@ class OffersProvider extends ChangeNotifier {
   OffersProvider(this.context);
 
   List<OfferRequest> _new = [];
+
   List<OfferRequest> get newRequests => _new;
   List<OfferRequest> _displayedNew = [];
+
   List<OfferRequest> get displayedNew => _displayedNew;
 
   List<Offer> _pending = [];
+
   List<Offer> get pending => _pending;
   List<Offer> _displayedPending = [];
+
   List<Offer> get displayedPending => _displayedPending;
 
   List<Offer> _approved = [];
+
   List<Offer> get approved => _approved;
   List<Offer> _displayedApproved = [];
+
   List<Offer> get displayedApproved => _displayedApproved;
 
   List<Offer> _expired = [];
+
   List<Offer> get expired => _expired;
   List<Offer> _displayedExpired = [];
+
   List<Offer> get displayedExpired => _displayedExpired;
 
-
-
+   searchInRequests(String searchWord, int id) {
+    if (id == 0) {
+      _displayedNew = _new.where((element) {
+        print(element.car.carName);
+        return element.car.carName.contains(searchWord);
+      }).toList();
+    } else if (id == 1) {
+      _displayedPending = _pending.where((element) {
+        print(element.car.carName);
+        return element.car.carName.toLowerCase().contains(searchWord.toLowerCase());
+      }).toList();
+    } else if (id == 2) {
+      _displayedApproved = _approved.where((element) {
+        return element.car.carName.contains(searchWord);
+      }).toList();
+    } else if (id == 3) {
+      _displayedExpired = _expired.where((element) {
+        return element.car.carName.contains(searchWord);
+      }).toList();
+    }
+    notifyListeners();
+  }
 
   OffersService _service = OffersService();
+
   Future<bool> submitOfferNetworkLayer(
       OfferRequest offerRequest,
       double price,
@@ -50,30 +79,24 @@ class OffersProvider extends ChangeNotifier {
       List<int> offeredColorsIDs,
       String start,
       String end,
-      bool isLoan,Map<String,String> options,
+      bool isLoan,
+      Map<String, String> options,
       [String? comment,
-      bool setAsDefault = false]) async{
+      bool setAsDefault = false]) async {
     try {
-      return await _service.networkLayerSubmitOffer(    offerRequest.id,
-          price,
-          minDownpayment,
-          isLoan,
-          start,
-          end,
-          options,
-          offeredColorsIDs,
-          comment).then((value) {
-            if(value.statusCode == 200) {
-              return Future.value(true);
-            }else {
-              print(value.statusCode);
-              return Future.value(false);
-            }
+      return await _service
+          .networkLayerSubmitOffer(offerRequest.id, price, minDownpayment,
+              isLoan, start, end, options, offeredColorsIDs, comment)
+          .then((value) {
+        if (value.statusCode == 200) {
+          return Future.value(true);
+        } else {
+          print(value.statusCode);
+          return Future.value(false);
+        }
       });
-
     } catch (e) {
       return Future.value(false);
-
     }
   }
 
@@ -120,6 +143,7 @@ class OffersProvider extends ChangeNotifier {
       if (response.body != null && response.body is List<OfferRequest>) {
         _new.clear();
         _new = response.body!;
+        _displayedNew =response.body!;
         notifyListeners();
       } else {
         RevmoTheme.showRevmoSnackbar(context, response.msg);
@@ -135,6 +159,8 @@ class OffersProvider extends ChangeNotifier {
         _pending.clear();
         _pending = response.body!;
         _pending.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
+        _displayedPending =response.body!;
+        _displayedPending.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
         print(_pending.length);
         notifyListeners();
       } else {
@@ -237,6 +263,7 @@ class OffersProvider extends ChangeNotifier {
       return Future.value(false);
     }
   }
+
   removeIndexWithIdNew(int id) {
     print(id);
     print('this is length before ' + '${_new.isEmpty}');
@@ -244,5 +271,4 @@ class OffersProvider extends ChangeNotifier {
     print('this is length' + '${_new.length}');
     notifyListeners();
   }
-
 }

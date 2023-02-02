@@ -85,6 +85,7 @@ class _RevmoMultiSelecttState extends State<RevmoMultiSelectt> {
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: toggleItem,
+
         child: Row(
           children: [
 

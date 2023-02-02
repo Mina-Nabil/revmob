@@ -65,14 +65,15 @@ class AccountProvider extends ChangeNotifier {
   }
 
   CurrentPlan? currentPlan;
-  Plans? subscribtion;
+  Plans? plans;
+  Subscription? subscription;
 
   Future<bool> loadCurrentPlan() async {
     try {
       return _service.getCurrentPlan().then((value) {
         if (value.statusCode == 200) {
-          var subscribtionn = Plans.fromJson(value.data["body"]["plan"]);
-          subscribtion = subscribtionn;
+          var plan = Plans.fromJson(value.data["body"]["plan"]);
+          plans = plan;
           // subscribtion = Plans(
           //   id: 2,
           //   name: "Pro Plan",
@@ -90,7 +91,7 @@ class AccountProvider extends ChangeNotifier {
           //   dashboardAccess: 1,
           //   order: 1,
           // );
-          print('this is subscribtion ${subscribtion}');
+          // print('this is plan ${plans}');
 
           var current = CurrentPlan.fromJson(value.data["body"]["current"]);
           currentPlan = current;

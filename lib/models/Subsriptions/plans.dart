@@ -69,3 +69,47 @@ class CurrentPlan {
 
 
 }
+
+
+class Subscription {
+  int? planId;
+  String? state;
+  String? type;
+  String? expiryDate;
+  int? sellerId;
+  String? range;
+  int? showroomId;
+  String? updatedAt;
+  String? createdAt;
+  int? id;
+  Plans? plan;
+
+  Subscription(
+      {this.planId,
+        this.state,
+        this.type,
+        this.expiryDate,
+        this.sellerId,
+        this.range,
+        this.showroomId,
+        this.updatedAt,
+        this.createdAt,
+        this.id,
+        this.plan});
+
+  Subscription.fromJson(Map<String, dynamic> json) {
+    planId = json['plan_id'];
+    state = json['state'];
+    type = json['type'];
+    expiryDate = json['expiry_date'];
+    sellerId = json['seller_id'];
+    range = json['range'];
+    showroomId = json['showroom_id'];
+    updatedAt = json['updated_at'];
+    createdAt = json['created_at'];
+    id = json['id'];
+    plan = json['plan'] != null ? new Plans.fromJson(json['plan']) : null;
+  }
+
+
+}

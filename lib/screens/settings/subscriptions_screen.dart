@@ -122,15 +122,15 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            provider.subscribtion == null
+            provider.plans == null
                 ? noInternetWidget(
                     onPressed: () async {
                       await Provider.of<AccountProvider>(context, listen: false)
                           .loadCurrentPlan();
                     },
                   )
-                : provider.subscribtion!.id == 2 ||
-                        provider.subscribtion!.id == 3
+                : provider.plans!.id == 2 ||
+                        provider.plans!.id == 3
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -152,14 +152,14 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "${provider.subscribtion!.name!} is activated",
+                                      "${provider.plans!.name!} is activated",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 20,
                                           fontWeight: FontWeight.w800),
                                     ),
 
-                                    provider.subscribtion!.name == "Business PLan" ?
+                                    provider.plans!.name == "Business PLan" ?
                                     Lottie.asset(
                                         "assets/images/premium.json",
                                         height: 50,) :     Lottie.asset("assets/images/pro.json",
@@ -167,7 +167,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                   ],
                                 ),
                                 Text(
-                                  "${AppLocalizations.of(context)!.egCurrency} ${provider.subscribtion!.monthlyPrice!}/per month",
+                                  "${AppLocalizations.of(context)!.egCurrency} ${provider.plans!.monthlyPrice!}/per month",
                                   style: TextStyle(
                                       color: Colors.white.withOpacity(0.8),
                                       fontSize: 16,
@@ -260,7 +260,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                 children: <InlineSpan>[
                                   TextSpan(
                                     text:
-                                        " / ${provider.subscribtion!.offersLimit}"
+                                        " / ${provider.plans!.offersLimit}"
                                             .toString(),
                                     style: TextStyle(
                                         fontSize: 33,
@@ -280,7 +280,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                 children: <InlineSpan>[
                                   TextSpan(
                                     text:
-                                        " / ${provider.subscribtion!.usersLimit}"
+                                        " / ${provider.plans!.usersLimit}"
                                             .toString(),
                                     style: TextStyle(
                                         fontSize: 33,
@@ -295,7 +295,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                             ),
                             trailing: checkBox(
                                 selected:
-                                    provider.subscribtion!.emailSupport == 0
+                                    provider.plans!.emailSupport == 0
                                         ? false
                                         : true),
                           ),
@@ -306,7 +306,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                             ),
                             trailing: checkBox(
                                 selected:
-                                    provider.subscribtion!.emailSupport == 0
+                                    provider.plans!.emailSupport == 0
                                         ? false
                                         : true),
                           ),
@@ -317,7 +317,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                             ),
                             trailing: checkBox(
                                 selected:
-                                    provider.subscribtion!.phoneSupport == 0
+                                    provider.plans!.phoneSupport == 0
                                         ? false
                                         : true),
                           ),
@@ -355,7 +355,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                       color: Colors.white,
                                     ),
                                     Text(
-                                      "${AppLocalizations.of(context)!.egCurrency} ${provider.subscribtion!.monthlyPrice!}/per month",
+                                      "${AppLocalizations.of(context)!.egCurrency} ${provider.plans!.monthlyPrice!}/per month",
                                       style: TextStyle(fontSize: 18),
                                     ),
                                     SizedBox(

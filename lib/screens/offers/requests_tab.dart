@@ -85,8 +85,8 @@ class _RequestsTabState extends State<RequestsTab> {
                   RevmoDefaultHeader(
                     searchCallback: searchRequests,
                     searchTextController: _searchTextController,
-                    hideFilterbutton: false,
-                    hideSortbutton: false,
+                    hideFilterbutton: true,
+                    hideSortbutton: true,
                     filterCallback: setFilters,
                     sortCallback: sortRequests,
                   ),
@@ -161,26 +161,26 @@ class _RequestsTabState extends State<RequestsTab> {
                             children: [
                               RefreshIndicator(
                                 onRefresh: refreshNewRequests,
-                                child: offersProvider.newRequests.length > 0
+                                child: offersProvider.displayedNew.length > 0
                                     ? ListView.builder(
                                         padding:
                                             EdgeInsets.symmetric(horizontal: 5),
                                         shrinkWrap: true,
                                         itemCount:
-                                            offersProvider.newRequests.length,
+                                            offersProvider.displayedNew.length,
                                         itemBuilder: (cnxt, i) {
                                           // print(offersProvider
                                           //     .newRequests.length);
                                           return FadeInUp(
                                             child: OfferTile.request(
-                                                offersProvider.newRequests[i]),
+                                                offersProvider.displayedNew[i]),
                                           );
                                         })
                                     : NotFoundWidget.offers(),
                               ),
                               RefreshIndicator(
                                   onRefresh: refreshPendingRequests,
-                                  child: offersProvider.pending.length > 0
+                                  child: offersProvider.displayedPending.length > 0
                                       ? Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.end,
@@ -223,7 +223,7 @@ class _RequestsTabState extends State<RequestsTab> {
                                                 //     NeverScrollableScrollPhysics(),
                                                 shrinkWrap: true,
                                                 itemCount: offersProvider
-                                                    .pending.length,
+                                                    .displayedPending.length,
                                                 itemBuilder: (cnxt, i) {
                                                   return FadeInUp(
                                                       duration: Duration(
@@ -232,11 +232,11 @@ class _RequestsTabState extends State<RequestsTab> {
                                                       PendingRequestTile(
                                                         pendingOffer:
                                                             offersProvider
-                                                                .pending[i],
+                                                                .displayedPending[i],
                                                         extendOffer: () {
                                                           extendOfferForTwoDays(
                                                               offersProvider
-                                                                  .pending[i]
+                                                                  .displayedPending[i]
                                                                   .id);
                                                         },
                                                       )
@@ -275,7 +275,7 @@ class _RequestsTabState extends State<RequestsTab> {
                               ),
                               RefreshIndicator(
                                   onRefresh: refreshExpiredRequests,
-                                  child: offersProvider.approved.length > 0
+                                  child: offersProvider.expired.length > 0
                                       ? ListView.builder(
                                           padding: EdgeInsets.symmetric(
                                               horizontal: 5),
@@ -294,12 +294,14 @@ class _RequestsTabState extends State<RequestsTab> {
             ).setPageHorizontalPadding(context)));
   }
 
-  searchRequests() {}
+  searchRequests() {
+    print(currentPage);
+     Provider.of<OffersProvider>(context, listen: false).searchInRequests(_searchTextController.text, currentPage);
+  }
 
   sortRequests() {}
 
   setFilters() {
-
   }
 
   Future refreshNewRequests() async {

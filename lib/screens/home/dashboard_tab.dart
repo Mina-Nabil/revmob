@@ -98,7 +98,7 @@ class _DashboardTabState extends State<DashboardTab> {
                         children: [
                           TitleHeader(
                             title:
-                                "Current Subscription Plan\n (${account.subscribtion!.name})",
+                                "Current Subscription Plan\n (${account.plans!.name})",
                             alignCenter: true,
                           ),
                           Row(
@@ -112,7 +112,7 @@ class _DashboardTabState extends State<DashboardTab> {
                                   color: RevmoColors.white,
                                 ),
                                 info:
-                                    "${account.currentPlan!.offers.toString()}/${account.subscribtion!.offersLimit.toString()}",
+                                    "${account.currentPlan!.offers.toString()}/${account.plans!.offersLimit.toString()}",
                               ),
                               SubscriptionPlan(
                                 selected: false,
@@ -122,7 +122,7 @@ class _DashboardTabState extends State<DashboardTab> {
                                   color: RevmoColors.white,
                                 ),
                                 info:
-                                    "${account.currentPlan!.users.toString()}/${account.subscribtion!.usersLimit.toString()}",
+                                    "${account.currentPlan!.users.toString()}/${account.plans!.usersLimit.toString()}",
                               ),
                               SubscriptionPlan(
                                 selected: false,
@@ -132,7 +132,7 @@ class _DashboardTabState extends State<DashboardTab> {
                                   color: RevmoColors.white,
                                 ),
                                 info:
-                                    "${account.currentPlan!.models.toString()}/${account.subscribtion!.modelsLimit.toString()}",
+                                    "${account.currentPlan!.models.toString()}/${account.plans!.modelsLimit.toString()}",
                               ),
                             ],
                           ),

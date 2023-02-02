@@ -50,8 +50,9 @@ class OffersService {
       "startDate": startDate,
       "expiryDate": expiryDate,
       "options":options,
+      "colors": colorIDs,
       "comment": comment ?? null
-    }..addAll(_parseColorIDsJsonArray(colorIDs)));
+    });
   }
 
 
@@ -176,7 +177,7 @@ class OffersService {
     int i = 0;
     Map<String, String> ret = new Map<String, String>();
     _colorsList.forEach(
-        (color) => ret["colors[" + (i++).toString() + "]"] = color.toString());
+        (color) => ret["colors"] = color.toString());
     return ret;
   }
 
