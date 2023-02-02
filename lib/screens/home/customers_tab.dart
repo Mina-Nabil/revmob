@@ -94,27 +94,27 @@ class _CustomersTabState extends State<CustomersTab> {
                         iconPadding: 10,
                       ),
                     ),
-                    IgnorePointer(
-                      ignoring: true,
-                      child: Container(
-                          margin: EdgeInsets.only(left: 5),
-                          child: RevmoIconButton(
-                            callback: () {
-                              // showModalBottomSheet<bool>(
-                              //     barrierColor: RevmoColors.backgroundDim,
-                              //     backgroundColor: Colors.transparent,
-                              //     elevation: 10.0,
-                              //     isScrollControlled: true,
-                              //     context: context,
-                              //     builder: (context) => FilterBottomSheet());
-                            },
-                            width: RevmoTheme.SEARCH_BAR_HEIGHT,
-                            color: RevmoColors.originalBlue.withOpacity(0.5),
-                            iconWidget: SvgPicture.asset(Paths.filtersSVG,
-                                color: Colors.white.withOpacity(0.5)),
-                            iconPadding: 10,
-                          )),
-                    ),
+                    // IgnorePointer(
+                    //   ignoring: true,
+                    //   child: Container(
+                    //       margin: EdgeInsets.only(left: 5),
+                    //       child: RevmoIconButton(
+                    //         callback: () {
+                    //           // showModalBottomSheet<bool>(
+                    //           //     barrierColor: RevmoColors.backgroundDim,
+                    //           //     backgroundColor: Colors.transparent,
+                    //           //     elevation: 10.0,
+                    //           //     isScrollControlled: true,
+                    //           //     context: context,
+                    //           //     builder: (context) => FilterBottomSheet());
+                    //         },
+                    //         width: RevmoTheme.SEARCH_BAR_HEIGHT,
+                    //         color: RevmoColors.originalBlue.withOpacity(0.5),
+                    //         iconWidget: SvgPicture.asset(Paths.filtersSVG,
+                    //             color: Colors.white.withOpacity(0.5)),
+                    //         iconPadding: 10,
+                    //       )),
+                    // ),
                   ],
                 )),
         customerProvider.isConnected == false
