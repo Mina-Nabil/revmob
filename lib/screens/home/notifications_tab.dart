@@ -4,6 +4,8 @@ import 'package:revmo/shared/colors.dart';
 import 'package:revmo/Configurations/Extensions/extensions.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../services/notification_service.dart';
+
 class NotificationsTab extends StatefulWidget {
   static const screenName = "notificationsTab";
 
@@ -12,8 +14,44 @@ class NotificationsTab extends StatefulWidget {
 }
 
 class _NotificationsTabState extends State<NotificationsTab> {
+  Future? _notificationFuture;
+  Future? get notificationFuture => _notificationFuture;
+
+
   Future refreshMyNotification() async {
     print('refreshing');
+  } 
+
+  NotificationService _service =NotificationService();
+  Future<bool> getNotification() async {
+    try {
+      return await _service.getNotification().then((value) {
+        if (value.statusCode == 200) {
+          // List<Plans> plansResponse = List<Plans>.from(
+          //     value.data["body"]["plans"].map((x) => Plans.fromJson(x)));
+          // setState(() {
+          //   subscriptions = plansResponse;
+          // });
+          return Future.value(true);
+        } else {
+          // setState(() {
+          //   subscriptions = [];
+          // });
+          return Future.value(false);
+        }
+      });
+    } catch (e) {
+      // setState(() {
+      //   subscriptions = [];
+      // });
+      return Future.value(false);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
   }
 
   @override

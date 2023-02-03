@@ -27,7 +27,6 @@ class DashboardTab extends StatefulWidget {
 
 class _DashboardTabState extends State<DashboardTab> {
   @override
-  @override
   Widget build(BuildContext context) {
     final account = Provider.of<AccountProvider>(context, listen: false);
     final catalog = Provider.of<CatalogProvider>(context);
