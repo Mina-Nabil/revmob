@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "648362080700",
+    "project_id": "revmo-9ff00",
+    "storage_bucket": "revmo-9ff00.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648362080700:android:5922afbcca0dd5806f13b9",
+        "android_client_info": {
+          "package_name": "com.example.revmo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "648362080700-mjoe7bamo1fih0mleo1l3cvpvh3lr8ht.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-pdZPLmqOu-FagJ0fh0MqGEIiaw9qL28"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "648362080700-mjoe7bamo1fih0mleo1l3cvpvh3lr8ht.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "648362080700-c5srrjo0f53cgl8aaoo1ntddi6psslni.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.msquare.revmoSeller"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

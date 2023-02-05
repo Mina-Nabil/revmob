@@ -55,7 +55,9 @@ class OffersService {
     });
   }
 
-
+Future<Response> networkLayerGetPendingOffers(){
+    return _networkLayer.authDio.get("/api/seller/offers/pending");
+}
 
 
 

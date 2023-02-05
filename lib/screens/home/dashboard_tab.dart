@@ -14,8 +14,6 @@ import '../../shared/widgets/catalog/catalog_tile.dart';
 
 import 'package:revmo/shared/widgets/UIwidgets/ui_widgets.dart';
 
-import '../settings/subscriptions_screen.dart';
-
 class DashboardTab extends StatefulWidget {
   static const String screenName = "DashboardTab";
 

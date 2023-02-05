@@ -145,7 +145,8 @@ class _NewOfferFormState extends State<NewOfferForm> {
                             children: [
                               Container(
                                 height: userImageDiameter,
-                                alignment: Alignment.centerLeft,
+                                alignment:            AppLocalizations.of(context)!.localeName == "en"
+?                                Alignment.centerLeft: Alignment.centerRight,
                                 child: RevmoTheme.getBody(
                                     widget.request.buyer.fullName, 1,
                                     color: RevmoColors.lightPetrol),
@@ -176,6 +177,7 @@ class _NewOfferFormState extends State<NewOfferForm> {
                         Flexible(
                           flex: 120,
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
                                 height: 7,
@@ -769,8 +771,9 @@ class _NewOfferFormState extends State<NewOfferForm> {
               _isDefaultOffer.value)
           .then((value) async {
         EasyLoading.dismiss();
-        await Provider.of<OffersProvider>(context, listen: false)
-            .loadPendingOffers();
+        // await Provider.of<OffersProvider>(context, listen: false)
+        //     .loadPendingOffers();
+        refreshPendingRequests();
 
         if (value) {
           Navigator.pop(context, widget.request.id);
@@ -794,6 +797,9 @@ class _NewOfferFormState extends State<NewOfferForm> {
       // EasyLoading.dismiss();
 
     }
+  }
+  Future refreshPendingRequests() async {
+    await Provider.of<OffersProvider>(context, listen: false).loadPendingOffersNetworkLayer();
   }
 
   @override

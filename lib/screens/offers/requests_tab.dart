@@ -63,17 +63,23 @@ class _RequestsTabState extends State<RequestsTab> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //tab title
                 ...[
                   SizedBox(
                     height: 5,
                   ),
+                  // Container(
+                  //   width: double.infinity,
+                  //   child: RevmoTheme.getSemiBold(
+                  //       AppLocalizations.of(context)!.requests, 3),
+                  // ),
                   Container(
-                    width: double.infinity,
-                    child: RevmoTheme.getSemiBold(
-                        AppLocalizations.of(context)!.requests, 3),
+                    child: Text(
+                      AppLocalizations.of(context)!.requests,
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
@@ -248,7 +254,7 @@ class _RequestsTabState extends State<RequestsTab> {
                                                     (BuildContext context,
                                                         int index) {
                                                   return SizedBox(
-                                                    height: 10,
+                                                    height: 15,
                                                   );
                                                 },
                                               ),
@@ -311,7 +317,7 @@ class _RequestsTabState extends State<RequestsTab> {
 
   Future refreshPendingRequests() async {
     await Provider.of<OffersProvider>(context, listen: false)
-        .loadPendingOffers(forceReload: true);
+        .loadPendingOffersNetworkLayer();
   }
 
   Future refreshApprovedRequests() async {

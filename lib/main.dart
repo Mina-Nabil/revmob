@@ -93,7 +93,6 @@ class _RevmoSellerAppState extends State<RevmoSellerApp> {
                 switch (settings.name) {
                   case HomeScreen.ROUTE_NAME:
                     return PageTransition(child: HomeScreen(), type: PageTransitionType.fade);
-
                   case LoginScreen.ROUTE_NAME:
                     return PageTransition(child: LoginScreen(), type: PageTransitionType.fade);
                   case NewAccountCongratzScreen.ROUTE_NAME:

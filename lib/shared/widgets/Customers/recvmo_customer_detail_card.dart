@@ -64,10 +64,10 @@ class Details extends StatelessWidget {
             title: "Mobile No",
             info: buyer.buyerMob1!,
           ),
-          DetailText(
-            title: "Address",
-            info: 'Omar Ibn Elkhattab street',
-          ),
+          // DetailText(
+          //   title: "Address",
+          //   info: buyer.,
+          // ),
           DetailText(
             title: "Date of birth",
             info: DateFormat('dd-MM-yyyy').format(buyer.buyerBday!).toString(),

@@ -32,6 +32,7 @@ class SingleNavigationTabContainer extends StatelessWidget {
             child: Text(
               tabText,
               style: TextStyle(
+                fontSize: 12,
                 color: isSelected ? RevmoColors.navbarColorSelectedIcon : RevmoColors.unSelectedTab,
               ),
             ),

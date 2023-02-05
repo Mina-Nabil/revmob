@@ -89,6 +89,7 @@ class OffersProvider extends ChangeNotifier {
               isLoan, start, end, options, offeredColorsIDs, comment)
           .then((value) {
         if (value.statusCode == 200) {
+          // loadPendingOffers(forceReload: true);
           return Future.value(true);
         } else {
           print(value.statusCode);
@@ -148,6 +149,30 @@ class OffersProvider extends ChangeNotifier {
       } else {
         RevmoTheme.showRevmoSnackbar(context, response.msg);
       }
+    }
+  }
+
+  Future<bool> loadPendingOffersNetworkLayer() async {
+    try {
+      return await _service
+          .networkLayerGetPendingOffers()
+          .then((value) {
+        if (value.statusCode == 200) {
+          List<Offer> response = List<Offer>.from(value.data["body"]["offers"].map((x) => Offer.fromJson(x)));
+          _pending.clear();
+          _pending = response;
+          _pending.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
+          _displayedPending =response;
+          _displayedPending.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
+          notifyListeners();
+          return Future.value(true);
+        } else {
+          print(value.statusCode);
+          return Future.value(false);
+        }
+      });
+    } catch (e) {
+      return Future.value(false);
     }
   }
 

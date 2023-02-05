@@ -112,6 +112,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   addSettings: true,
                 ),
                 bottomNavigationBar: Container(
+                  // height: MediaQuery.of(context).size.height * 0.07,
                   padding: Platform.isIOS ? EdgeInsets.only(bottom: 15) : EdgeInsets.zero,
                   decoration: BoxDecoration(
                       color: RevmoColors.navbarColorBG,
@@ -119,6 +120,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   child: TabBar(
                     indicatorColor: Colors.transparent,
                     padding: EdgeInsets.only(bottom: 8),
+
+                    enableFeedback: true,
                     controller: _tabController,
                     onTap: _selectTab,
                     tabs: [
