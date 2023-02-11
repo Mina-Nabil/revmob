@@ -289,6 +289,28 @@ class OffersProvider extends ChangeNotifier {
     }
   }
 
+  Future<bool> cancelPendingOffer(int id) {
+    try {
+      return OffersService().networkLayerCancelPendingOffers(id).then((value) {
+        if (value.statusCode == 200) {
+          return Future.value(true);
+        } else {
+
+          RevmoTheme.showRevmoSnackbar(
+              context,'Something Went Wrong');
+
+          return Future.value(false);
+        }
+      });
+    } on HttpException catch (error) {
+      print(error);
+      RevmoTheme.showRevmoSnackbar(context, 'Something Went Wrong');
+
+      return Future.value(false);
+    }
+  }
+
+
   removeIndexWithIdNew(int id) {
     print(id);
     print('this is length before ' + '${_new.isEmpty}');

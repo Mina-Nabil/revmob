@@ -16,15 +16,12 @@ class SuccessMessage extends StatelessWidget {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       backgroundColor: Colors.white,
-      // actions: [
-      //   ElevatedButton(onPressed: (){
-      //     Navigator.pop(context);
-      //   }, child: Text('dismiss'))
-      // ],
       content: Container(
-        height: 150,
+        // height: 150,
         child:
-        Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+        Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisSize: MainAxisSize.min,
+            children: [
           Lottie.asset('assets/images/checked.json',
               repeat: false, height: 100, frameRate: FrameRate.max),
           FadeIn(

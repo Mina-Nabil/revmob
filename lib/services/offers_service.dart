@@ -32,6 +32,12 @@ class OffersService {
 ////////////////////////////////////////////////////
   final NetworkLayer _networkLayer = NetworkLayer();
 
+
+  Future<Response> networkLayerCancelPendingOffers(int id){
+    return _networkLayer.authDio.post("/api/seller/cancel/offer", data: {"offerID":id.toString()});
+  }
+
+
   Future<Response> networkLayerSubmitOffer(
       int requestID,
       double price,

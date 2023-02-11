@@ -17,9 +17,11 @@ class PendingRequestTile extends StatelessWidget {
     Key? key,
     required this.pendingOffer,
     required this.extendOffer,
+    required this.cancelOffer,
   }) : super(key: key);
   final Offer pendingOffer;
   final VoidCallback extendOffer;
+  final VoidCallback cancelOffer;
 
   @override
   Widget build(BuildContext context) {
@@ -141,9 +143,13 @@ class PendingRequestTile extends StatelessWidget {
                       width: mediaQuery.size.width * 0.2,
                       text: AppLocalizations.of(context)!.cancelOffer,
                       textColor: Color(0xff26AEE4),
-                      callBack: () {
-                        print('Cancel offer');
-                      }),
+                      callBack:(){
+                        cancelOffer();
+
+                      }
+                      // cancelOffer
+
+                  ),
                 ],
               ),
             ],

@@ -186,47 +186,47 @@ class _RequestsTabState extends State<RequestsTab> {
                               ),
                               RefreshIndicator(
                                   onRefresh: refreshPendingRequests,
-                                  child: offersProvider.displayedPending.length > 0
+                                  child: offersProvider
+                                              .displayedPending.length >
+                                          0
                                       ? Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.end,
                                           children: [
-                                            AppLocalizations.of(
-                                                context)!.localeName == "en" ?
-                                            FadeInRight(
-                                              child: MainButton(
-                                                  width: 200,
-                                                  text:
-                                                      // 'EXTEND ALL OFFERS FOR 2 DAYS',
-                                                  AppLocalizations.of(
-                                                          context)!
-                                                      .extendAllOffers2days,
-                                                  callBack: () {
-                                                    extendAllOffers();
-                                                  }),
-                                            ):
-                                            FadeInLeft(
-                                              child: MainButton(
-                                                  width: 200,
-                                                  text:
-                                                  // 'EXTEND ALL OFFERS FOR 2 DAYS',
-                                                  AppLocalizations.of(
-                                                      context)!
-                                                      .extendAllOffers2days,
-                                                  callBack: () {
-                                                    extendAllOffers();
-                                                  }),
-                                            ),
+                                            AppLocalizations.of(context)!
+                                                        .localeName ==
+                                                    "en"
+                                                ? FadeInRight(
+                                                    child: MainButton(
+                                                        width: 200,
+                                                        text:
+                                                            // 'EXTEND ALL OFFERS FOR 2 DAYS',
+                                                            AppLocalizations.of(
+                                                                    context)!
+                                                                .extendAllOffers2days,
+                                                        callBack: () {
+                                                          extendAllOffers();
+                                                        }),
+                                                  )
+                                                : FadeInLeft(
+                                                    child: MainButton(
+                                                        width: 200,
+                                                        text:
+                                                            // 'EXTEND ALL OFFERS FOR 2 DAYS',
+                                                            AppLocalizations.of(
+                                                                    context)!
+                                                                .extendAllOffers2days,
+                                                        callBack: () {
+                                                          extendAllOffers();
+                                                        }),
+                                                  ),
                                             SizedBox(
                                               height: 10,
-
                                             ),
                                             Expanded(
                                               child: ListView.separated(
                                                 padding: EdgeInsets.symmetric(
                                                     horizontal: 5),
-                                                // physics:
-                                                //     NeverScrollableScrollPhysics(),
                                                 shrinkWrap: true,
                                                 itemCount: offersProvider
                                                     .displayedPending.length,
@@ -234,20 +234,27 @@ class _RequestsTabState extends State<RequestsTab> {
                                                   return FadeInUp(
                                                       duration: Duration(
                                                           milliseconds: 200),
-                                                      child:
-                                                      PendingRequestTile(
-                                                        pendingOffer:
-                                                            offersProvider
-                                                                .displayedPending[i],
+                                                      child: PendingRequestTile(
+                                                        cancelOffer: () {
+                                                          print(offersProvider
+                                                              .displayedPending[
+                                                                  i]
+                                                              .id);
+                                                          cancelPendingOffer(offersProvider
+                                                              .displayedPending[
+                                                          i]
+                                                              .id);
+                                                        },
+                                                        pendingOffer: offersProvider
+                                                            .displayedPending[i],
                                                         extendOffer: () {
                                                           extendOfferForTwoDays(
                                                               offersProvider
-                                                                  .displayedPending[i]
+                                                                  .displayedPending[
+                                                                      i]
                                                                   .id);
                                                         },
-                                                      )
-
-                                                  );
+                                                      ));
                                                   // OfferTile.pending(offersProvider.pending[i]);
                                                 },
                                                 separatorBuilder:
@@ -302,13 +309,13 @@ class _RequestsTabState extends State<RequestsTab> {
 
   searchRequests() {
     print(currentPage);
-     Provider.of<OffersProvider>(context, listen: false).searchInRequests(_searchTextController.text, currentPage);
+    Provider.of<OffersProvider>(context, listen: false)
+        .searchInRequests(_searchTextController.text, currentPage);
   }
 
   sortRequests() {}
 
-  setFilters() {
-  }
+  setFilters() {}
 
   Future refreshNewRequests() async {
     await Provider.of<OffersProvider>(context, listen: false)
@@ -328,6 +335,30 @@ class _RequestsTabState extends State<RequestsTab> {
   Future refreshExpiredRequests() async {
     await Provider.of<OffersProvider>(context, listen: false)
         .loadExpiredOffers(forceReload: true);
+  }
+
+  cancelPendingOffer(int id) {
+    EasyLoading.show();
+    Provider.of<OffersProvider>(context, listen: false)
+        .cancelPendingOffer(id)
+        .then((value) {
+      EasyLoading.dismiss();
+      if (value) {
+        refreshPendingRequests();
+        showDialog(
+            context: context,
+            builder: (context) {
+              Future.delayed(const Duration(seconds: 2), () {
+                Navigator.of(context).pop(true);
+              });
+              return SuccessMessage(
+                message: 'Offer $id Canceled Successfully',
+              );
+            });
+      } else {
+        EasyLoading.dismiss();
+      }
+    });
   }
 
   extendOfferForTwoDays(int id) {

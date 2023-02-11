@@ -9,6 +9,7 @@ import 'package:revmo/models/accounts/seller.dart';
 import 'package:revmo/services/account_service.dart';
 import 'package:revmo/services/auth_service.dart';
 import 'package:revmo/services/fcm_token.dart';
+import 'package:revmo/services/notification_service.dart';
 import 'package:revmo/services/subscription_services.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
@@ -388,4 +389,7 @@ class AccountProvider extends ChangeNotifier {
       }
     }
   }
+
+
+
 }

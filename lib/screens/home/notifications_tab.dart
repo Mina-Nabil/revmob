@@ -1,8 +1,12 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:revmo/models/Notification/notification_model.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/Configurations/Extensions/extensions.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart' as smart;
 
 import '../../services/notification_service.dart';
 
@@ -14,42 +18,86 @@ class NotificationsTab extends StatefulWidget {
 }
 
 class _NotificationsTabState extends State<NotificationsTab> {
-  Future? _notificationFuture;
-  Future? get notificationFuture => _notificationFuture;
+  NotificationService _service = NotificationService();
 
+  Future? _notificationFuture;
+
+  Future? get notificationFuture => _notificationFuture;
 
   Future refreshMyNotification() async {
     print('refreshing');
-  } 
+  }
 
-  NotificationService _service =NotificationService();
-  Future<bool> getNotification() async {
+  List<NotificationModel> _notificationList = [];
+
+  List<NotificationModel> get notificationList => _notificationList;
+
+  int currentPageHistory = 1;
+  final smartRefresh = smart.RefreshController();
+
+  Future<dynamic> getNotification() async {
     try {
       return await _service.getNotification().then((value) {
         if (value.statusCode == 200) {
-          // List<Plans> plansResponse = List<Plans>.from(
-          //     value.data["body"]["plans"].map((x) => Plans.fromJson(x)));
-          // setState(() {
-          //   subscriptions = plansResponse;
-          // });
+          _notificationList.clear();
+          setState(() {
+            currentPageHistory = 1;
+          });
+          List<NotificationModel> response = List<NotificationModel>.from(
+              value.data["data"].map((x) => NotificationModel.fromJson(x)));
+          setState(() {
+            _notificationList = response;
+          });
+          setState(() {
+            currentPageHistory++;
+            smartRefresh.refreshCompleted();
+          });
+
           return Future.value(true);
         } else {
-          // setState(() {
-          //   subscriptions = [];
-          // });
+          smartRefresh.refreshCompleted();
+
           return Future.value(false);
         }
       });
     } catch (e) {
-      // setState(() {
-      //   subscriptions = [];
-      // });
+      smartRefresh.refreshCompleted();
+
+      return Future.value(false);
+    }
+  }
+
+  Future<bool> fetchNextPage() async {
+    try {
+      return await _service.getNextPage(currentPageHistory).then((value) {
+        if (value.statusCode == 200) {
+          List<NotificationModel> responsePaginated =
+              List<NotificationModel>.from(
+                  value.data["data"].map((x) => NotificationModel.fromJson(x)));
+          if (responsePaginated.isEmpty) {
+          } else {
+            setState(() {
+              currentPageHistory++;
+              _notificationList.addAll(responsePaginated);
+            });
+          }
+          smartRefresh.loadComplete();
+          return Future.value(true);
+        } else {
+          smartRefresh.loadComplete();
+          return Future.value(false);
+        }
+      });
+    } catch (e) {
       return Future.value(false);
     }
   }
 
   @override
   void initState() {
+    setState(() {
+      _notificationFuture = getNotification();
+    });
     // TODO: implement initState
     super.initState();
   }
@@ -58,67 +106,112 @@ class _NotificationsTabState extends State<NotificationsTab> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: RevmoColors.darkBlue,
-        body: RefreshIndicator(
-          onRefresh: refreshMyNotification,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  child: Text(
-                    AppLocalizations.of(context)!.notifications,
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white),
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.only(top: 10),
-                    itemCount: 10,
-                    itemBuilder: (context, index) => FadeInUp(
-                      child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: Color(0xff07C5FA).withOpacity(0.2),
-                            child: Icon(
-                              Icons.notifications_outlined,
-                              color: Color(0xff26AEE4),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              child: Text(
+                AppLocalizations.of(context)!.notifications,
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Expanded(
+              child: FutureBuilder(
+                  future: notificationFuture,
+                  builder: (context, connectionState) {
+                    if (connectionState.connectionState ==
+                        ConnectionState.done) {
+                      if (notificationList.isEmpty) {
+                        return Text('no data');
+                      } else {
+                        return Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          ),
-                          title: Text(
-                            'A new request for Volvo XC90 has been added',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          trailing: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                '2 mins ago',
-                                style: TextStyle(color: Colors.grey),
+                            child: smart.SmartRefresher(
+                              controller: smartRefresh,
+                              enablePullUp: true,
+                              onLoading: () async {
+                                fetchNextPage().then((value) {
+                                  if (value) {
+                                    smartRefresh.loadComplete();
+                                  } else {
+                                    smartRefresh.loadComplete();
+                                  }
+                                });
+                              },
+                              onRefresh: () async {
+                                smartRefresh.loadComplete();
+                                HapticFeedback.lightImpact();
+                                return getNotification();
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white),
+                                child: ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                                  itemCount: notificationList.length,
+                                  itemBuilder: (context, index) => FadeInUp(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: Colors.white),
+                                      child: ListTile(
+                                          leading: CircleAvatar(
+                                            backgroundColor: Color(0xff07C5FA)
+                                                .withOpacity(0.2),
+                                            child: Icon(
+                                              Icons.notifications_outlined,
+                                              color: Color(0xff26AEE4),
+                                            ),
+                                          ),
+                                          title: Text(
+                                            notificationList[index].body!,
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                          trailing: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                DateFormat('dd-MM-yyyy').format(
+                                                    DateTime.parse(
+                                                        notificationList[index]
+                                                            .createdAt!)),
+                                                style: TextStyle(
+                                                    color: Colors.grey),
+                                              ),
+                                            ],
+                                          )),
+                                    ),
+                                  ),
+                                  separatorBuilder:
+                                      (BuildContext context, int index) =>
+                                          FadeInUp(
+                                    child: Divider(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ],
-                          )),
-                    ),
-                    separatorBuilder: (BuildContext context, int index) =>
-                        FadeInUp(
-                      child: Divider(
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 100,
-                ),
-              ],
-            ).setPageHorizontalPadding(context),
-          ),
-        ));
+                            ));
+                      }
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  }),
+            ),
+          ],
+        ).setPageHorizontalPadding(context));
   }
 }

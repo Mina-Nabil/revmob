@@ -10,4 +10,8 @@ class NotificationService {
     return  _networkLayer.authDio.get('/api/seller/notifications');
   }
 
+
+  Future<Response>  getNextPage(int currentPage) {
+    return _networkLayer.authDio.get('/api/seller/notifications?page=$currentPage');
+  }
 }
