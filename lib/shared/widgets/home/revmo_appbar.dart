@@ -71,50 +71,53 @@ class _RevmoAppBarState extends State<RevmoAppBar> {
             margin: EdgeInsets.only(right: _actionIconMargin),
             child: RevmoIconButton(
               width: _actionIconWidth,
-              callback: () => showMenu(
-                  context: context,
-                  color: RevmoColors.darkGrey,
-                  position: RelativeRect.fromLTRB(
-                      MediaQuery.of(context).size.width,
-                      kToolbarHeight,
-                      40.0,
-                      0),
-                  items: [
-                    if (widget._addSettings)
-                      PopupMenuItem<String>(
-                        child: ListTile(
-                            dense: true,
-                            leading: Icon(
-                              Icons.settings,
-                              color: Colors.white,
-                            ),
-                            title: new FittedBox(
-                                child: Text(
-                                    AppLocalizations.of(context)!.settings))),
-                        onTap: () async {
-                          await Future.delayed(Duration.zero);
-                          Navigator.of(context)
-                              .pushNamed(SettingsScreen.ROUTE_NAME);
-                        },
-                      ),
-                    if (widget._addLogout)
-                      PopupMenuItem<String>(
-                        child: ListTile(
-                            dense: true,
-                            leading: Icon(
-                              Icons.logout,
-                              color: Colors.white,
-                            ),
-                            title: new FittedBox(
-                                child: Text(
-                                    AppLocalizations.of(context)!.logout))),
-                        onTap: () async {
-                          await AuthService.logOut(context);
-                          Navigator.of(context)
-                              .popAndPushNamed(PreLoginScreen.ROUTE_NAME);
-                        },
-                      ),
-                  ]..addAll(widget._buttonsToAdd)),
+              callback: () => Navigator.of(context)
+                  .pushNamed(SettingsScreen.ROUTE_NAME),
+
+                  // showMenu(
+                  // context: context,
+                  // color: RevmoColors.darkGrey,
+                  // position: RelativeRect.fromLTRB(
+                  //     MediaQuery.of(context).size.width,
+                  //     kToolbarHeight,
+                  //     40.0,
+                  //     0),
+                  // items: [
+                  //   if (widget._addSettings)
+                  //     PopupMenuItem<String>(
+                  //       child: ListTile(
+                  //           dense: true,
+                  //           leading: Icon(
+                  //             Icons.settings,
+                  //             color: Colors.white,
+                  //           ),
+                  //           title: new FittedBox(
+                  //               child: Text(
+                  //                   AppLocalizations.of(context)!.settings))),
+                  //       onTap: () async {
+                  //         await Future.delayed(Duration.zero);
+                  //         Navigator.of(context)
+                  //             .pushNamed(SettingsScreen.ROUTE_NAME);
+                  //       },
+                  //     ),
+                  //   if (widget._addLogout)
+                  //     PopupMenuItem<String>(
+                  //       child: ListTile(
+                  //           dense: true,
+                  //           leading: Icon(
+                  //             Icons.logout,
+                  //             color: Colors.white,
+                  //           ),
+                  //           title: new FittedBox(
+                  //               child: Text(
+                  //                   AppLocalizations.of(context)!.logout))),
+                  //       onTap: () async {
+                  //         await AuthService.logOut(context);
+                  //         Navigator.of(context)
+                  //             .popAndPushNamed(PreLoginScreen.ROUTE_NAME);
+                  //       },
+                  //     ),
+                  // ]..addAll(widget._buttonsToAdd)),
               iconWidget: SvgPicture.asset(
                 Paths.menuSVG,
                 fit: BoxFit.fill,
