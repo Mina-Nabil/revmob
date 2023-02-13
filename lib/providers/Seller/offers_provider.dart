@@ -47,57 +47,67 @@ class OffersProvider extends ChangeNotifier {
 
   List<Offer> get displayedExpired => _displayedExpired;
 
-   searchInRequests(String searchWord, int id) {
-    if (id == 0) {
-      _displayedNew = _new.where((element) {
-        print(element.car.carName);
-        return element.car.carName.contains(searchWord);
-      }).toList();
-    } else if (id == 1) {
-      _displayedPending = _pending.where((element) {
-        print(element.car.carName);
-        return element.car.carName.toLowerCase().contains(searchWord.toLowerCase());
-      }).toList();
-    } else if (id == 2) {
-      _displayedApproved = _approved.where((element) {
-        return element.car.carName.contains(searchWord);
-      }).toList();
-    } else if (id == 3) {
-      _displayedExpired = _expired.where((element) {
-        return element.car.carName.contains(searchWord);
-      }).toList();
-    }
-    notifyListeners();
-  }
-
   OffersService _service = OffersService();
 
-  Future<bool> submitOfferNetworkLayer(
-      OfferRequest offerRequest,
-      double price,
-      double minDownpayment,
-      List<int> offeredColorsIDs,
-      String start,
-      String end,
-      bool isLoan,
-      Map<String, String> options,
-      [String? comment,
-      bool setAsDefault = false]) async {
-    try {
-      return await _service
-          .networkLayerSubmitOffer(offerRequest.id, price, minDownpayment,
-              isLoan, start, end, options, offeredColorsIDs, comment)
-          .then((value) {
-        if (value.statusCode == 200) {
-          // loadPendingOffers(forceReload: true);
-          return Future.value(true);
-        } else {
-          print(value.statusCode);
-          return Future.value(false);
-        }
-      });
-    } catch (e) {
-      return Future.value(false);
+  ///OLD NETWORK LAYER CHANGING WITH TIME
+  loadOfferRequests({forceReload = false}) async {
+    if (_new.isEmpty || forceReload) {
+      ApiResponse<List<OfferRequest>?> response =
+          await OffersService.getAvailableOfferRequests(context);
+      if (response.body != null && response.body is List<OfferRequest>) {
+        _new.clear();
+        _new = response.body!;
+        _displayedNew = response.body!;
+        notifyListeners();
+      } else {
+        RevmoTheme.showRevmoSnackbar(context, response.msg);
+      }
+    }
+  }
+
+  loadPendingOffers({forceReload = false}) async {
+    if (_pending.isEmpty || forceReload) {
+      ApiResponse<List<Offer>?> response =
+          await OffersService.getPendingOffers(context);
+      if (response.body != null && response.body is List<Offer>) {
+        _pending.clear();
+        _pending = response.body!;
+        _pending.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
+        _displayedPending = response.body!;
+        _displayedPending.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
+        print(_pending.length);
+        notifyListeners();
+      } else {
+        RevmoTheme.showRevmoSnackbar(context, response.msg);
+      }
+    }
+  }
+
+  loadApprovedOffers({forceReload = false}) async {
+    if (_approved.isEmpty || forceReload) {
+      ApiResponse<List<Offer>?> response =
+          await OffersService.getApprovedOffers(context);
+      if (response.body != null && response.body is List<Offer>) {
+        _approved.clear();
+        _approved = response.body!;
+        notifyListeners();
+      } else {
+        RevmoTheme.showRevmoSnackbar(context, response.msg);
+      }
+    }
+  }
+
+  loadExpiredOffers({forceReload = false}) async {
+    if (_expired.isEmpty || forceReload) {
+      ApiResponse<List<Offer>?> response =
+          await OffersService.getExpiredOffers(context);
+      if (response.body != null && response.body is List<Offer>) {
+        _expired.clear();
+        _expired = response.body!;
+        notifyListeners();
+      } else {
+        RevmoTheme.showRevmoSnackbar(context, response.msg);
+      }
     }
   }
 
@@ -137,33 +147,22 @@ class OffersProvider extends ChangeNotifier {
     }
   }
 
-  loadOfferRequests({forceReload = false}) async {
-    if (_new.isEmpty || forceReload) {
-      ApiResponse<List<OfferRequest>?> response =
-          await OffersService.getAvailableOfferRequests(context);
-      if (response.body != null && response.body is List<OfferRequest>) {
-        _new.clear();
-        _new = response.body!;
-        _displayedNew =response.body!;
-        notifyListeners();
-      } else {
-        RevmoTheme.showRevmoSnackbar(context, response.msg);
-      }
-    }
-  }
+  ///NEW NETWORK LAYER TRYING TO MAXIMISE USING IT
+  ///
+  ///
 
+  /// FETCHING DATA
   Future<bool> loadPendingOffersNetworkLayer() async {
     try {
-      return await _service
-          .networkLayerGetPendingOffers()
-          .then((value) {
+      return await _service.networkLayerGetPendingOffers().then((value) {
         if (value.statusCode == 200) {
-          List<Offer> response = List<Offer>.from(value.data["body"]["offers"].map((x) => Offer.fromJson(x)));
+          List<Offer> response = List<Offer>.from(
+              value.data["body"]["offers"].map((x) => Offer.fromJson(x)));
           _pending.clear();
           _pending = response;
           _pending.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
-          _displayedPending =response;
-          _displayedPending.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
+          _displayedPending = _pending;
+
           notifyListeners();
           return Future.value(true);
         } else {
@@ -176,52 +175,52 @@ class OffersProvider extends ChangeNotifier {
     }
   }
 
-  loadPendingOffers({forceReload = false}) async {
-    if (_pending.isEmpty || forceReload) {
-      ApiResponse<List<Offer>?> response =
-          await OffersService.getPendingOffers(context);
-      if (response.body != null && response.body is List<Offer>) {
-        _pending.clear();
-        _pending = response.body!;
-        _pending.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
-        _displayedPending =response.body!;
-        _displayedPending.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
-        print(_pending.length);
-        notifyListeners();
-      } else {
-        RevmoTheme.showRevmoSnackbar(context, response.msg);
-      }
+  Future<bool> loadApprovedOffersNetworkLayer() async {
+    try {
+      return await _service.networkLayerGetApprovedOffers().then((value) {
+        if (value.statusCode == 200) {
+          List<Offer> response = List<Offer>.from(
+              value.data["body"]["offers"].map((x) => Offer.fromJson(x)));
+          _approved.clear();
+          _approved = response;
+          // _approved.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
+          _displayedApproved = _approved;
+
+          notifyListeners();
+          return Future.value(true);
+        } else {
+          print(value.statusCode);
+          return Future.value(false);
+        }
+      });
+    } catch (e) {
+      return Future.value(false);
     }
   }
 
-  loadApprovedOffers({forceReload = false}) async {
-    if (_approved.isEmpty || forceReload) {
-      ApiResponse<List<Offer>?> response =
-          await OffersService.getApprovedOffers(context);
-      if (response.body != null && response.body is List<Offer>) {
-        _approved.clear();
-        _approved = response.body!;
-        notifyListeners();
-      } else {
-        RevmoTheme.showRevmoSnackbar(context, response.msg);
-      }
+  Future<bool> loadExpiredOffersNetworkLayer() async {
+    try {
+      return await _service.networkLayerGetExpiredOffers().then((value) {
+        if (value.statusCode == 200) {
+          List<Offer> response = List<Offer>.from(
+              value.data["body"]["offers"].map((x) => Offer.fromJson(x)));
+          _expired.clear();
+          _expired = response;
+          _expired.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
+          _displayedExpired = _expired;
+          notifyListeners();
+          return Future.value(true);
+        } else {
+          print(value.statusCode);
+          return Future.value(false);
+        }
+      });
+    } catch (e) {
+      return Future.value(false);
     }
   }
 
-  loadExpiredOffers({forceReload = false}) async {
-    if (_expired.isEmpty || forceReload) {
-      ApiResponse<List<Offer>?> response =
-          await OffersService.getExpiredOffers(context);
-      if (response.body != null && response.body is List<Offer>) {
-        _expired.clear();
-        _expired = response.body!;
-        notifyListeners();
-      } else {
-        RevmoTheme.showRevmoSnackbar(context, response.msg);
-      }
-    }
-  }
-
+  /// INTERACTIONS
   Future<bool> extendOffer(int id) {
     try {
       return OffersService().extendOffer(id).then((value) {
@@ -295,9 +294,7 @@ class OffersProvider extends ChangeNotifier {
         if (value.statusCode == 200) {
           return Future.value(true);
         } else {
-
-          RevmoTheme.showRevmoSnackbar(
-              context,'Something Went Wrong');
+          RevmoTheme.showRevmoSnackbar(context, 'Something Went Wrong');
 
           return Future.value(false);
         }
@@ -310,12 +307,67 @@ class OffersProvider extends ChangeNotifier {
     }
   }
 
+  ///SUBMIT OFFER
+  Future<bool> submitOfferNetworkLayer(
+      OfferRequest offerRequest,
+      double price,
+      double minDownpayment,
+      List<int> offeredColorsIDs,
+      String start,
+      String end,
+      bool isLoan,
+      Map<String, String> options,
+      [String? comment,
+      bool setAsDefault = false]) async {
+    try {
+      return await _service
+          .networkLayerSubmitOffer(offerRequest.id, price, minDownpayment,
+              isLoan, start, end, options, offeredColorsIDs, comment)
+          .then((value) {
+        if (value.statusCode == 200) {
+          // loadPendingOffers(forceReload: true);
+          return Future.value(true);
+        } else {
+          print(value.statusCode);
+          return Future.value(false);
+        }
+      });
+    } catch (e) {
+      return Future.value(false);
+    }
+  }
 
   removeIndexWithIdNew(int id) {
     print(id);
     print('this is length before ' + '${_new.isEmpty}');
     _new.removeWhere((element) => element.id == id);
     print('this is length' + '${_new.length}');
+    notifyListeners();
+  }
+
+  ///SEARCH FEATURE
+  searchInRequests(String searchWord, int id) {
+    if (id == 0) {
+      _displayedNew = _new.where((element) {
+        print(element.car.carName);
+        return element.car.carName.contains(searchWord);
+      }).toList();
+    } else if (id == 1) {
+      _displayedPending = _pending.where((element) {
+        print(element.car.carName);
+        return element.car.carName
+            .toLowerCase()
+            .contains(searchWord.toLowerCase());
+      }).toList();
+    } else if (id == 2) {
+      _displayedApproved = _approved.where((element) {
+        return element.car.carName.contains(searchWord);
+      }).toList();
+    } else if (id == 3) {
+      _displayedExpired = _expired.where((element) {
+        return element.car.carName.contains(searchWord);
+      }).toList();
+    }
     notifyListeners();
   }
 }

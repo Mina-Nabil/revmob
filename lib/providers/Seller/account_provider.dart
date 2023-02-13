@@ -96,13 +96,13 @@ class AccountProvider extends ChangeNotifier {
 
           var current = CurrentPlan.fromJson(value.data["body"]["current"]);
           currentPlan = current;
+          // currentPlan!.offers = current.offers;
           // currentPlan = CurrentPlan(
           //   users: 5,
           //   admins: 5,
           //   offers: 60,
           //   models: 5,
           // );
-          print('this is current ${currentPlan}');
           notifyListeners();
           return Future.value(true);
         } else {

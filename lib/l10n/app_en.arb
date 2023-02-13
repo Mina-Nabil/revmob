@@ -7,6 +7,14 @@
     "@newRequests": {
       "description": "New offer page title"
     },
+    "offerDetail": "Offer Detail",
+        "@offerDetail": {
+          "description": "get offer details"
+    },
+     "renewOffer": "Renew Offer",
+            "@renewOffer": {
+              "description": "renew expired offer"
+        },
     "newRequests": "New",
     "@newRequests": {
       "description": "New requests title"

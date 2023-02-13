@@ -142,524 +142,245 @@ class _HomeScreenState extends State<HomeScreen>
                           color: Color(0xff051224),
                           elevation: 16.0,
                           clipper: TabClipper(
-                            radius: 38.0,
+                            radius: 40.0,
                           ),
-                          child: Container(
-                            // height: MediaQuery.of(context).size.height * 0.07,
-                            height: Platform.isIOS
-                                ? MediaQuery.of(context).size.height * 0.092
-                                : MediaQuery.of(context).size.height * 0.082,
-                            // padding: const EdgeInsets.only(top: 10),
-                            alignment: Alignment.topCenter,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                MaterialButton(
-                                  padding: EdgeInsets.zero,
-                                  minWidth:
-                                      MediaQuery.of(context).size.width * 0.2,
-                                  onPressed: () {
-                                    Platform.isAndroid
-                                        ? debugPrint('')
-                                        : HapticFeedback.lightImpact();
-                                    SystemSound.play(
-                                      SystemSoundType.click,
-                                    );
-                                    _selectTab(0);
-                                  },
-                                  child: SingleNavigationTabContainer(
-                                      Paths.navCar,
-                                      AppLocalizations.of(context)!.myCatalog,
-                                      _selectedIndex == 0),
-                                ),
-                                MaterialButton(
-                                  padding: EdgeInsets.zero,
-                                  minWidth:
-                                      MediaQuery.of(context).size.width * 0.2,
-                                  onPressed: () {
-                                    Platform.isAndroid
-                                        ? debugPrint('')
-                                        : HapticFeedback.lightImpact();
-                                    SystemSound.play(
-                                      SystemSoundType.click,
-                                    );
-                                    _selectTab(1);
-                                  },
-                                  child: SingleNavigationTabContainer(
-                                      Paths.navRequests,
-                                      AppLocalizations.of(context)!.requests,
-                                      _selectedIndex == 1),
-                                ),
-                                // MaterialButton(
-                                //   padding: EdgeInsets.zero,
-                                //   minWidth: MediaQuery.of(context).size.width * 0.2,
-                                //   onPressed: () {
-                                //     Platform.isAndroid
-                                //         ? debugPrint('')
-                                //         : HapticFeedback.lightImpact();
-                                //     SystemSound.play(
-                                //       SystemSoundType.click,
-                                //     );
-                                //     _selectTab(2);
-                                //   },
-                                //   child: SingleNavigationTabContainer(
-                                //       Paths.rimsSVG,
-                                //       AppLocalizations.of(context)!.dashboard,
-                                //       _selectedIndex == 2),
-                                // ),
-                                // Align(
-                                //   alignment: Alignment.topCenter,
-                                //   child: Container(
-                                //     // width: 50,
-                                //     decoration: BoxDecoration(boxShadow: [
-                                //       BoxShadow(
-                                //         color: Colors.red,
-                                //         spreadRadius: 5,
-                                //         blurRadius: 7,
-                                //         offset: const Offset(
-                                //             0, 3), // changes position of shadow
-                                //       ),
-                                //     ], shape: BoxShape.circle),
-                                //     child: MaterialButton(
-                                //         padding: EdgeInsets.zero,
-                                //         minWidth:
-                                //             MediaQuery.of(context).size.width *
-                                //                 0.2,
-                                //         onPressed: () {
-                                //           Platform.isAndroid
-                                //               ? debugPrint('')
-                                //               : HapticFeedback.lightImpact();
-                                //           SystemSound.play(
-                                //             SystemSoundType.click,
-                                //           );
-                                //           _selectTab(2);
-                                //         },
-                                //         child: Column(
-                                //           children: [
-                                //             _selectedIndex == 2
-                                //                 ? ElasticIn(
-                                //                     child: CircleAvatar(
-                                //                       radius: 20,
-                                //                       child: SvgPicture.asset(
-                                //                           Paths.rimsSVG,
-                                //                           height: 40,
-                                //                           color: RevmoColors
-                                //                               .navbarColorSelectedIcon),
-                                //                     ),
-                                //                   )
-                                //                 : CircleAvatar(
-                                //                     radius: 20,
-                                //                     child: SvgPicture.asset(
-                                //                         Paths.rimsSVG,
-                                //                         height: 40,
-                                //                         color: RevmoColors
-                                //                             .unSelectedTab),
-                                //                   ),
-                                //             SizedBox(
-                                //               height: 10,
-                                //             ),
-                                //             Container(
-                                //               child: FittedBox(
-                                //                 child: Text(
-                                //                   AppLocalizations.of(context)!
-                                //                       .dashboard,
-                                //                   style: TextStyle(
-                                //                     fontSize: 12,
-                                //                     color: _selectedIndex == 2
-                                //                         ? RevmoColors
-                                //                             .navbarColorSelectedIcon
-                                //                         : RevmoColors
-                                //                             .unSelectedTab,
-                                //                   ),
-                                //                 ),
-                                //               ),
-                                //             )
-                                //           ],
-                                //         )),
-                                //   ),
-                                // ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: Container(
+                              color: const Color(0xff051224),
+                              // height: MediaQuery.of(context).size.height * 0.07,
+                              height: Platform.isIOS
+                                  ? MediaQuery.of(context).size.height * 0.093
+                                  : MediaQuery.of(context).size.height * 0.082,
+                              // padding: const EdgeInsets.only(top: 10),
+                              alignment: Alignment.topCenter,
+                              child: Material(
+                                color: Colors.transparent,
 
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.2,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    InkWell(
+                                      splashColor: Colors.white.withOpacity(0.1),
+                                      highlightColor: Colors.grey.withOpacity(0.1),
+                                      onTap: () {
+                                        Platform.isAndroid
+                                            ? debugPrint('')
+                                            : HapticFeedback.lightImpact();
+                                        SystemSound.play(
+                                          SystemSoundType.click,
+                                        );
+                                        _selectTab(0);
+                                      },
+                                      child: SingleNavigationTabContainer(
+                                          Paths.navCar,
+                                          AppLocalizations.of(context)!.myCatalog,
+                                          _selectedIndex == 0),
+                                    ),
+                                    InkWell(
+                                      // padding: EdgeInsets.zero,
+                                      // minWidth:
+                                      //     MediaQuery.of(context).size.width * 0.2,
+                                      onTap: () {
+                                        Platform.isAndroid
+                                            ? debugPrint('')
+                                            : HapticFeedback.lightImpact();
+                                        SystemSound.play(
+                                          SystemSoundType.click,
+                                        );
+                                        _selectTab(1);
+                                      },
+                                      child: SingleNavigationTabContainer(
+                                          Paths.navRequests,
+                                          AppLocalizations.of(context)!.requests,
+                                          _selectedIndex == 1),
+                                    ),
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width * 0.2,
+                                    ),
+                                    InkWell(
+                                      // padding: EdgeInsets.zero,
+                                      // minWidth:
+                                      //     MediaQuery.of(context).size.width * 0.2,
+                                      onTap: () {
+                                        Platform.isAndroid
+                                            ? debugPrint('')
+                                            : HapticFeedback.lightImpact();
+                                        SystemSound.play(
+                                          SystemSoundType.click,
+                                        );
+                                        _selectTab(3);
+                                      },
+                                      child: SingleNavigationTabContainer(
+                                          Paths.navCustomers,
+                                          AppLocalizations.of(context)!.customers,
+                                          _selectedIndex == 3),
+                                    ),
+                                    InkWell(
+                                      // padding: EdgeInsets.zero,
+                                      // minWidth:
+                                      //     MediaQuery.of(context).size.width * 0.2,
+                                      onTap: () {
+                                        Platform.isAndroid
+                                            ? debugPrint('')
+                                            : HapticFeedback.lightImpact();
+                                        SystemSound.play(
+                                          SystemSoundType.click,
+                                        );
+                                        _selectTab(4);
+                                      },
+                                      child: SingleNavigationTabContainer(
+                                          Paths.navNotifications,
+                                          AppLocalizations.of(context)!
+                                              .notifications,
+                                          _selectedIndex == 4),
+                                    ),
+                                  ],
                                 ),
-                                MaterialButton(
-                                  padding: EdgeInsets.zero,
-                                  minWidth:
-                                      MediaQuery.of(context).size.width * 0.2,
-                                  onPressed: () {
-                                    Platform.isAndroid
-                                        ? debugPrint('')
-                                        : HapticFeedback.lightImpact();
-                                    SystemSound.play(
-                                      SystemSoundType.click,
-                                    );
-                                    _selectTab(3);
-                                  },
-                                  child: SingleNavigationTabContainer(
-                                      Paths.navCustomers,
-                                      AppLocalizations.of(context)!.customers,
-                                      _selectedIndex == 3),
-                                ),
-                                MaterialButton(
-                                  padding: EdgeInsets.zero,
-                                  minWidth:
-                                      MediaQuery.of(context).size.width * 0.2,
-                                  onPressed: () {
-                                    Platform.isAndroid
-                                        ? debugPrint('')
-                                        : HapticFeedback.lightImpact();
-                                    SystemSound.play(
-                                      SystemSoundType.click,
-                                    );
-                                    _selectTab(4);
-                                  },
-                                  child: SingleNavigationTabContainer(
-                                      Paths.navNotifications,
-                                      AppLocalizations.of(context)!
-                                          .notifications,
-                                      _selectedIndex == 4),
-                                ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
                       ),
                       Positioned(
-                          top: -6,
+                          top: -20,
                           child: SizedBox(
                             // width: 38 * 2.0,
                             height: Platform.isIOS
                                 ? MediaQuery.of(context).size.height * 0.092
                                 : MediaQuery.of(context).size.height * 0.082,
-                            child: Container(
-                              alignment: Alignment.topCenter,
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.red,
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: const Offset(
-                                        0, 3), // changes position of shadow
-                                  ),
-                                ],
-                                shape: BoxShape.circle,
-                                color: Colors.transparent,
-                              ),
-                              child: Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                    splashColor: Colors.white.withOpacity(0.1),
-                                    highlightColor: Colors.transparent,
-                                    focusColor: Colors.transparent,
-                                    onTap: () {
-                                      Platform.isAndroid
-                                          ? debugPrint('')
-                                          : HapticFeedback.lightImpact();
-                                      SystemSound.play(
-                                        SystemSoundType.click,
-                                      );
-                                      _selectTab(2);
-                                    },
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                            child: GestureDetector(
+                                onTap: () {
+                                  Platform.isAndroid
+                                      ? debugPrint('')
+                                      : HapticFeedback.lightImpact();
+                                  SystemSound.play(
+                                    SystemSoundType.click,
+                                  );
+                                  _selectTab(2);
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    _selectedIndex == 2
+                                        ? Stack(
+                                      clipBehavior: Clip.none,
+                                      alignment: AlignmentDirectional.topCenter,
+
                                       children: [
-                                        _selectedIndex == 2
-                                            ? ElasticIn(
-                                                child: CircleAvatar(
-                                                  radius: 20,
-                                                  child: SvgPicture.asset(
-                                                      Paths.rimsSVG,
-                                                      height: 40,
-                                                      color: RevmoColors
-                                                          .navbarColorSelectedIcon),
+                                            Container(
+                                      padding:EdgeInsets.all(12),
+                                      height: 60,
+                                                width: 60,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Color(0xff051224),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.black.withOpacity(0.3),
+                                                      spreadRadius: 2,
+                                                      // blurRadius: 1
+                                                    )
+                                                  ]
                                                 ),
-                                              )
-                                            : CircleAvatar(
-                                                radius: 20,
-                                                child: SvgPicture.asset(
-                                                    Paths.rimsSVG,
-                                                    height: 40,
-                                                    color: RevmoColors
-                                                        .unSelectedTab),
                                               ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Container(
-                                          child: FittedBox(
-                                            child: Text(
-                                              AppLocalizations.of(context)!
-                                                  .dashboard,
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: _selectedIndex == 2
-                                                    ? RevmoColors
-                                                        .navbarColorSelectedIcon
-                                                    : RevmoColors.unSelectedTab,
-                                              ),
+                                            Positioned(
+                                              right: 13,
+                                              child: SvgPicture.asset(
+                                                  "assets/icons/speedo.svg",
+                                                  fit: BoxFit.cover,
+                                                  height: 35,
+                                                  color: RevmoColors
+                                                      .navbarColorSelectedIcon),
                                             ),
-                                          ),
+                                          ],
                                         )
+                                        : Stack(
+                                      clipBehavior: Clip.none,
+                                      alignment: AlignmentDirectional.topCenter,
+
+                                      children: [
+                                        Container(
+                                          padding:EdgeInsets.all(12),
+                                          height: 60,
+                                          width: 60,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black.withOpacity(0.3),
+                                                  spreadRadius: 2,
+                                                  // blurRadius: 1
+                                                )
+                                              ],
+                                            color: Color(0xff051224),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          right: 13,
+                                          child: SvgPicture.asset(
+                                              "assets/icons/speedo.svg",
+                                              fit: BoxFit.cover,
+                                              height: 35,
+                                              color: RevmoColors
+                                                  .unSelectedTab),
+                                        ),
                                       ],
-                                    )),
-                              ),
-                            ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Container(
+                                      child: FittedBox(
+                                        child: Text(
+                                          AppLocalizations.of(context)!
+                                              .dashboard,
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: _selectedIndex == 2
+                                                ? RevmoColors
+                                                    .navbarColorSelectedIcon
+                                                : RevmoColors.unSelectedTab,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+
+                                    // CircleAvatar(
+                                    //         radius: 30,
+                                    //         backgroundColor: Color(0xff051224),
+                                    //         child: SvgPicture.asset(
+                                    //             "assets/icons/speedo.svg",
+                                    //             height: 30,
+                                    //             color:
+                                    //                 RevmoColors.unSelectedTab),
+                                    //       ),
+
+                                    // SizedBox(
+                                    //   height: 10,
+                                    // ),
+                                    // Container(
+                                    //   child: FittedBox(
+                                    //     child: Text(
+                                    //       AppLocalizations.of(context)!
+                                    //           .dashboard,
+                                    //       style: TextStyle(
+                                    //         fontSize: 12,
+                                    //         color: _selectedIndex == 2
+                                    //             ? RevmoColors
+                                    //                 .navbarColorSelectedIcon
+                                    //             : RevmoColors.unSelectedTab,
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // )
+                                  ],
+                                )),
                           )),
                     ],
-                  )
-
-                  // BottomNavigationBar(
-                  //   // indicatorColor: Colors.transparent,
-                  //   // padding: EdgeInsets.only(bottom: 8),
-                  //   enableFeedback: true,
-                  //   // controller: _tabController,
-                  //   onTap: _selectTab,
-                  //   tabs: [
-                  //     MaterialButton(
-                  //       padding: EdgeInsets.zero,
-                  //       minWidth: MediaQuery.of(context).size.width * 0.2,
-                  //       onPressed: () {_selectTab(0);
-                  //       },
-                  //       child: SingleNavigationTabContainer(
-                  //           Paths.navCar,
-                  //           AppLocalizations.of(context)!.myCatalog,
-                  //           _selectedIndex == 0),
-                  //     ),
-                  //     SingleNavigationTabContainer(
-                  //         Paths.navRequests,
-                  //         AppLocalizations.of(context)!.requests,
-                  //         _selectedIndex == 1),
-                  //     SingleNavigationTabContainer(
-                  //         Paths.rimsSVG,
-                  //         AppLocalizations.of(context)!.dashboard,
-                  //         _selectedIndex == 2),
-                  //     SingleNavigationTabContainer(
-                  //         Paths.navCustomers,
-                  //         AppLocalizations.of(context)!.customers,
-                  //         _selectedIndex == 3),
-                  //     SingleNavigationTabContainer(
-                  //         Paths.navNotifications,
-                  //         AppLocalizations.of(context)!.notifications,
-                  //         _selectedIndex == 4),
-                  //   ],
-                  // ),,))
-
-                  // Tween<double>(begin: 0.0, end: 1.0)
-                  //     .animate(CurvedAnimation(
-                  // parent: animationController!,
-                  // curve: Curves.fastOutSlowIn))
-                  //     .value *
-                  // 38.0),
-
-                  // Container(
-                  //     // height: MediaQuery.of(context).size.height * 0.07,
-                  //     height: Platform.isIOS
-                  //         ? MediaQuery.of(context).size.height * 0.092
-                  //         : MediaQuery.of(context).size.height * 0.082,
-                  //     // padding: const EdgeInsets.only(top: 10),
-                  //     alignment: Alignment.topCenter,
-                  //     decoration: BoxDecoration(
-                  //       color: Color(0xff051224),
-                  //       // border: Border(
-                  //       //     top: BorderSide(
-                  //       //         width: 0.25, color: RevmoColors.navbarBorder))
-                  //     ),
-                  //     child: Row(
-                  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //       children: [
-                  //         MaterialButton(
-                  //           padding: EdgeInsets.zero,
-                  //           minWidth: MediaQuery.of(context).size.width * 0.2,
-                  //           onPressed: () {
-                  //             Platform.isAndroid
-                  //                 ? debugPrint('')
-                  //                 : HapticFeedback.lightImpact();
-                  //             SystemSound.play(
-                  //               SystemSoundType.click,
-                  //             );
-                  //             _selectTab(0);
-                  //           },
-                  //           child: SingleNavigationTabContainer(
-                  //               Paths.navCar,
-                  //               AppLocalizations.of(context)!.myCatalog,
-                  //               _selectedIndex == 0),
-                  //         ),
-                  //         MaterialButton(
-                  //           padding: EdgeInsets.zero,
-                  //           minWidth: MediaQuery.of(context).size.width * 0.2,
-                  //           onPressed: () {
-                  //             Platform.isAndroid
-                  //                 ? debugPrint('')
-                  //                 : HapticFeedback.lightImpact();
-                  //             SystemSound.play(
-                  //               SystemSoundType.click,
-                  //             );
-                  //             _selectTab(1);
-                  //           },
-                  //           child: SingleNavigationTabContainer(
-                  //               Paths.navRequests,
-                  //               AppLocalizations.of(context)!.requests,
-                  //               _selectedIndex == 1),
-                  //         ),
-                  //         // MaterialButton(
-                  //         //   padding: EdgeInsets.zero,
-                  //         //   minWidth: MediaQuery.of(context).size.width * 0.2,
-                  //         //   onPressed: () {
-                  //         //     Platform.isAndroid
-                  //         //         ? debugPrint('')
-                  //         //         : HapticFeedback.lightImpact();
-                  //         //     SystemSound.play(
-                  //         //       SystemSoundType.click,
-                  //         //     );
-                  //         //     _selectTab(2);
-                  //         //   },
-                  //         //   child: SingleNavigationTabContainer(
-                  //         //       Paths.rimsSVG,
-                  //         //       AppLocalizations.of(context)!.dashboard,
-                  //         //       _selectedIndex == 2),
-                  //         // ),
-                  //         Align(
-                  //           alignment: Alignment.topCenter,
-                  //           child: Container(
-                  //             // width: 50,
-                  //             decoration: BoxDecoration(boxShadow: [
-                  //               BoxShadow(
-                  //                 color: Colors.red,
-                  //                 spreadRadius: 5,
-                  //                 blurRadius: 7,
-                  //                 offset: const Offset(
-                  //                     0, 3), // changes position of shadow
-                  //               ),
-                  //             ], shape: BoxShape.circle),
-                  //             child: MaterialButton(
-                  //                 padding: EdgeInsets.zero,
-                  //                 minWidth:
-                  //                     MediaQuery.of(context).size.width * 0.2,
-                  //                 onPressed: () {
-                  //                   Platform.isAndroid
-                  //                       ? debugPrint('')
-                  //                       : HapticFeedback.lightImpact();
-                  //                   SystemSound.play(
-                  //                     SystemSoundType.click,
-                  //                   );
-                  //                   _selectTab(2);
-                  //                 },
-                  //                 child: Column(
-                  //                   children: [
-                  //                     _selectedIndex == 2
-                  //                         ? ElasticIn(
-                  //                             child: CircleAvatar(
-                  //                               radius: 20,
-                  //                               child: SvgPicture.asset(
-                  //                                   Paths.rimsSVG,
-                  //                                   height: 40,
-                  //                                   color: RevmoColors
-                  //                                       .navbarColorSelectedIcon),
-                  //                             ),
-                  //                           )
-                  //                         : CircleAvatar(
-                  //                             radius: 20,
-                  //                             child: SvgPicture.asset(
-                  //                                 Paths.rimsSVG,
-                  //                                 height: 40,
-                  //                                 color: RevmoColors
-                  //                                     .unSelectedTab),
-                  //                           ),
-                  //                     SizedBox(height: 10,),
-                  //                     Container(
-                  //                       child: FittedBox(
-                  //                         child: Text(
-                  //                           AppLocalizations.of(context)!.dashboard,                                          style: TextStyle(
-                  //                             fontSize: 12,
-                  //                             color: _selectedIndex == 2
-                  //                                 ? RevmoColors
-                  //                                     .navbarColorSelectedIcon
-                  //                                 : RevmoColors.unSelectedTab,
-                  //                           ),
-                  //                         ),
-                  //                       ),
-                  //                     )
-                  //                   ],
-                  //                 )),
-                  //           ),
-                  //         ),
-                  //         MaterialButton(
-                  //           padding: EdgeInsets.zero,
-                  //           minWidth: MediaQuery.of(context).size.width * 0.2,
-                  //           onPressed: () {
-                  //             Platform.isAndroid
-                  //                 ? debugPrint('')
-                  //                 : HapticFeedback.lightImpact();
-                  //             SystemSound.play(
-                  //               SystemSoundType.click,
-                  //             );
-                  //             _selectTab(3);
-                  //           },
-                  //           child: SingleNavigationTabContainer(
-                  //               Paths.navCustomers,
-                  //               AppLocalizations.of(context)!.customers,
-                  //               _selectedIndex == 3),
-                  //         ),
-                  //         MaterialButton(
-                  //           padding: EdgeInsets.zero,
-                  //           minWidth: MediaQuery.of(context).size.width * 0.2,
-                  //           onPressed: () {
-                  //             Platform.isAndroid
-                  //                 ? debugPrint('')
-                  //                 : HapticFeedback.lightImpact();
-                  //             SystemSound.play(
-                  //               SystemSoundType.click,
-                  //             );
-                  //             _selectTab(4);
-                  //           },
-                  //           child: SingleNavigationTabContainer(
-                  //               Paths.navNotifications,
-                  //               AppLocalizations.of(context)!.notifications,
-                  //               _selectedIndex == 4),
-                  //         ),
-                  //       ],
-                  //     )
-                  //
-                  //     // BottomNavigationBar(
-                  //     //   // indicatorColor: Colors.transparent,
-                  //     //   // padding: EdgeInsets.only(bottom: 8),
-                  //     //   enableFeedback: true,
-                  //     //   // controller: _tabController,
-                  //     //   onTap: _selectTab,
-                  //     //   tabs: [
-                  //     //     MaterialButton(
-                  //     //       padding: EdgeInsets.zero,
-                  //     //       minWidth: MediaQuery.of(context).size.width * 0.2,
-                  //     //       onPressed: () {_selectTab(0);
-                  //     //       },
-                  //     //       child: SingleNavigationTabContainer(
-                  //     //           Paths.navCar,
-                  //     //           AppLocalizations.of(context)!.myCatalog,
-                  //     //           _selectedIndex == 0),
-                  //     //     ),
-                  //     //     SingleNavigationTabContainer(
-                  //     //         Paths.navRequests,
-                  //     //         AppLocalizations.of(context)!.requests,
-                  //     //         _selectedIndex == 1),
-                  //     //     SingleNavigationTabContainer(
-                  //     //         Paths.rimsSVG,
-                  //     //         AppLocalizations.of(context)!.dashboard,
-                  //     //         _selectedIndex == 2),
-                  //     //     SingleNavigationTabContainer(
-                  //     //         Paths.navCustomers,
-                  //     //         AppLocalizations.of(context)!.customers,
-                  //     //         _selectedIndex == 3),
-                  //     //     SingleNavigationTabContainer(
-                  //     //         Paths.navNotifications,
-                  //     //         AppLocalizations.of(context)!.notifications,
-                  //     //         _selectedIndex == 4),
-                  //     //   ],
-                  //     // ),
-                  //     ),
-                  ),
+                  )),
             )));
   }
 
@@ -703,13 +424,13 @@ class TabClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     final Path path = Path();
 
-    final double v = radius * 2;
+    final double v = radius * 2.5;
     path.lineTo(0, 0);
     // path.arcTo(Rect.fromLTWH(0, 0, radius, radius), degreeToRadians(180),
     //     degreeToRadians(90), false);
     path.arcTo(
         Rect.fromLTWH(
-            ((size.width / 2) - v / 2) - radius + v * 0.04, 0, radius, radius),
+            ((size.width / 2) - v / 2) - radius + v * 0.03, 0, radius, radius),
         degreeToRadians(270),
         degreeToRadians(70),
         false);

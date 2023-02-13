@@ -105,6 +105,7 @@ class _SignInFormState extends State<SignInForm> {
       Seller? loggedInUser = await Provider.of<AccountProvider>(context, listen: false)
           .login(context, _identifierController.text, _passwordController.text);
       if (loggedInUser is Seller) {
+        await Provider.of<AccountProvider>(context, listen: false).loadCurrentPlan();
         FirebaseMessaging.instance.getToken().then((value) async {
           debugPrint("getToken FCM $value");
           await Provider.of<AccountProvider>(context, listen: false)

@@ -13,17 +13,23 @@ class DateRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      // crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SvgPicture.asset(
           Paths.calendarSVG,
           color: RevmoColors.darkBlue,
-          height: 10,
+          height: 13,
         ),
         SizedBox(
           width: 3,
         ),
-        RevmoTheme.getCaption(date.day.toString() + "/" + date.month.toString() + "/" + date.year.toString(), 1,
+        RevmoTheme.getCaption(
+            date.day.toString() +
+                "/" +
+                date.month.toString() +
+                "/" +
+                date.year.toString(),
+            1,
             color: RevmoColors.lightPetrol)
       ],
     );

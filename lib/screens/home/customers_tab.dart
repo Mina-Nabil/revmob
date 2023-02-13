@@ -201,6 +201,7 @@ class _CustomersTabState extends State<CustomersTab> {
                         } else {
                           return ListView.separated(
                             shrinkWrap: true,
+                            padding: const EdgeInsets.only(bottom: 30),
                             itemCount:
                                 customerProvider.displayedCustomersList.length,
                             itemBuilder: (context, index) => FadeInUp(
@@ -250,7 +251,7 @@ class _CustomersTabState extends State<CustomersTab> {
                     },
                   ),
                 ),
-              )
+              ),
       ]).setPageHorizontalPadding(context),
     );
   }

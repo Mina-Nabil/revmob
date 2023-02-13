@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/providers/Seller/account_provider.dart';
@@ -9,10 +10,14 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:revmo/shared/widgets/UIwidgets/skeleton_loading.dart';
 
+import '../../environment/paths.dart';
 import '../../providers/Seller/catalog_provider.dart';
+import '../../shared/theme.dart';
 import '../../shared/widgets/catalog/catalog_tile.dart';
 
 import 'package:revmo/shared/widgets/UIwidgets/ui_widgets.dart';
+
+import '../../shared/widgets/misc/date_row.dart';
 
 class DashboardTab extends StatefulWidget {
   static const String screenName = "DashboardTab";
@@ -27,216 +32,277 @@ class _DashboardTabState extends State<DashboardTab> {
   @override
   Widget build(BuildContext context) {
     final account = Provider.of<AccountProvider>(context, listen: false);
-    final catalog = Provider.of<CatalogProvider>(context);
     var mediaQuery = MediaQuery.of(context);
     return Scaffold(
         backgroundColor: RevmoColors.darkBlue,
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              WelcomeContainer(name: account.user?.fullName ?? ''),
-              const SizedBox(
-                height: 15,
-              ),
+        body: RefreshIndicator(
+          onRefresh: () async {
+            await account.loadCurrentPlan();
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                WelcomeContainer(name: account.user?.fullName ?? ''),
+                const SizedBox(
+                  height: 15,
+                ),
 
-              //TODO waiting for apis
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      RatingBarIndicator(
-                        rating: 3,
-                        itemBuilder: (context, index) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        itemCount: 5,
-                        itemSize: 15.0,
-                        unratedColor: Colors.amber.withAlpha(50),
-                        direction: Axis.horizontal,
-                      ),
-                      Text(
-                        ' |  3.0',
-                        style: TextStyle(fontSize: 10),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.timelapse_outlined),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text('Very Responsive')
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-
-              // TitleHeader(
-              //   title: AppLocalizations.of(context)!.topSales,
-              // ),
-              account.currentPlan == null
-                  ? SizedBox.shrink()
-                  : Container(
-                      padding: EdgeInsets.all(10),
-                      width: mediaQuery.size.width,
-                      // height: 250,
-                      decoration: BoxDecoration(
-                          color: Color(0xff08243d),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          TitleHeader(
-                            title:
-                                "Current Subscription Plan\n (${account.plans!.name})",
-                            alignCenter: true,
+                //TODO waiting for apis
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        RatingBarIndicator(
+                          rating: 3,
+                          itemBuilder: (context, index) => Icon(
+                            Icons.star,
+                            color: Colors.amber,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          itemCount: 5,
+                          itemSize: 15.0,
+                          unratedColor: Colors.amber.withAlpha(50),
+                          direction: Axis.horizontal,
+                        ),
+                        Text(
+                          ' |  3.0',
+                          style: TextStyle(fontSize: 10),
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.timelapse_outlined),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text('Very Responsive')
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+
+                // TitleHeader(
+                //   title: AppLocalizations.of(context)!.topSales,
+                // ),
+                account.currentPlan == null
+                    ? SizedBox.shrink()
+                    : Consumer<AccountProvider>(
+                        builder: (context, providerAcc, __) {
+                          return Container(
+                            padding: EdgeInsets.all(10),
+                            width: mediaQuery.size.width,
+                            // height: 250,
+                            decoration: BoxDecoration(
+                                color: Color(0xff08243d),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                TitleHeader(
+                                  title:
+                                      "Current Subscription Plan\n (${providerAcc.plans!.name})",
+                                  alignCenter: true,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    SubscriptionPlan(
+                                      selected: false,
+                                      title: "Offers Limit",
+                                      icon: Icon(
+                                        Iconsax.money_time5,
+                                        color: RevmoColors.white,
+                                      ),
+                                      info:
+                                          "${providerAcc.currentPlan!.offers.toString()}/${providerAcc.plans!.offersLimit.toString()}",
+                                    ),
+                                    SubscriptionPlan(
+                                      selected: false,
+                                      title: "Users Limit",
+                                      icon: Icon(
+                                        Iconsax.people5,
+                                        color: RevmoColors.white,
+                                      ),
+                                      info:
+                                          "${providerAcc.currentPlan!.users.toString()}/${providerAcc.plans!.usersLimit.toString()}",
+                                    ),
+                                    SubscriptionPlan(
+                                      selected: false,
+                                      title: "Models Limit",
+                                      icon: Icon(
+                                        Iconsax.car5,
+                                        color: RevmoColors.white,
+                                      ),
+                                      info:
+                                          "${providerAcc.currentPlan!.models.toString()}/${providerAcc.plans!.modelsLimit.toString()}",
+                                    ),
+                                  ],
+                                ),
+
+                                // SizedBox(
+                                //   height: 200,
+                                // ),
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                //   children: [
+                                //     Column(
+                                //       children: [
+                                //         Text('Total sold cars'),
+                                //         // Text(account.user?.carsSoldCount.toString() ?? '0'),
+                                //         Text('0'),
+                                //       ],
+                                //     ),
+                                //     Column(
+                                //       children: [
+                                //         Text('Achieved target'),
+                                //         Text('${'0'}  %'),
+                                //         // Text('${account.user?.salesTotal.toString()} %'),
+                                //       ],
+                                //     ),
+                                //     Column(
+                                //       children: [
+                                //         Text('No. of sellers'),
+                                //         Text(''),
+                                //       ],
+                                //     ),
+                                //   ],
+                                // ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+
+                // TargetSalesBox(
+                //              soldCarsCount: account.user?.carsSoldCount.toString(),
+                //              achievedTarget: account.user?.salesTotal.toString(),
+                //              sellersCount: '6',
+                //            ),
+                TitleHeader(
+                  title: AppLocalizations.of(context)!.recentlyAdded,
+                ),
+                RecentlyAdded(
+                  name: 'Mitsubishi Outlander, 2021',
+                  price: '540,000 ${AppLocalizations.of(context)!.egCurrency}',
+                  imgUrl:
+                      'https://pngimg.com/uploads/mitsubishi/mitsubishi_PNG185.png',
+                ),
+                TitleHeader(
+                  title: AppLocalizations.of(context)!.topSales,
+                ),
+
+                //TODO
+                FadeInLeft(
+                  child: SizedBox(
+                    height: 170,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          width: mediaQuery.size.width * 0.7,
+                          padding: EdgeInsets.all(10
+                          ),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(7)),
+                          child: Column(
                             children: [
-                              SubscriptionPlan(
-                                selected: false,
-                                title: "Offers Limit",
-                                icon: Icon(
-                                  Iconsax.money_time5,
-                                  color: RevmoColors.white,
-                                ),
-                                info:
-                                    "${account.currentPlan!.offers.toString()}/${account.plans!.offersLimit.toString()}",
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Image.network(
+                                    'https://pngimg.com/uploads/bmw/small/bmw_PNG1693.png',
+                                    scale: 1.5,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Image.network("https://pngimg.com/uploads/car_logo/small/car_logo_PNG1641.png", scale :7),
+                                      SizedBox(height: 10,),
+
+                                      FittedBox(
+                                        child: RevmoTheme.getSemiBold("BMW X6", 1, color: RevmoColors.darkBlue),
+                                      ),
+                                      FittedBox(
+                                        child: RevmoTheme.getCaption("4X4", 1,
+                                            color: RevmoColors.darkBlue, isBold: true, weight: FontWeight.w600),
+                                      ),
+                                      SizedBox(height: 10,),
+
+                                      FittedBox(
+                                        child: RevmoTheme.getCaption(AppLocalizations.of(context)!.price, 1,
+                                            color: RevmoColors.darkBlue, isBold: true, weight: FontWeight.w600),
+                                      ),
+                                      Padding(
+                                          padding: const EdgeInsets.only(right: 8.0),
+                                          child: FittedBox(
+                                              child: RichText(
+                                                text: TextSpan(
+                                                    text: "5,000,000",
+                                                    style: RevmoTheme.getSemiBoldStyle(2, color: RevmoColors.darkBlue),
+                                                    children: [
+                                                      TextSpan(
+                                                          text: " " + AppLocalizations.of(context)!.egCurrency,
+                                                          style: RevmoTheme.getSemiBoldStyle(1, color: RevmoColors.darkBlue))
+                                                    ]),
+                                              ))),
+
+
+                                    ],
+                                  )
+                                ],
                               ),
-                              SubscriptionPlan(
-                                selected: false,
-                                title: "Users Limit",
-                                icon: Icon(
-                                  Iconsax.people5,
-                                  color: RevmoColors.white,
-                                ),
-                                info:
-                                    "${account.currentPlan!.users.toString()}/${account.plans!.usersLimit.toString()}",
-                              ),
-                              SubscriptionPlan(
-                                selected: false,
-                                title: "Models Limit",
-                                icon: Icon(
-                                  Iconsax.car5,
-                                  color: RevmoColors.white,
-                                ),
-                                info:
-                                    "${account.currentPlan!.models.toString()}/${account.plans!.modelsLimit.toString()}",
+                              Container(
+                                  alignment: Alignment.center,
+                                  margin: EdgeInsets.only(left: 10, right: 2, bottom: 2),
+                                  child:Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    // crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SvgPicture.asset(
+                                        Paths.calendarSVG,
+                                        color: RevmoColors.darkBlue,
+                                        height: 13,
+                                      ),
+                                      SizedBox(
+                                        width: 3,
+                                      ),
+                                      RevmoTheme.getCaption(
+                                          "10/10/2022",
+                                          1,
+                                          color: RevmoColors.lightPetrol),
+
+                                    ],
+                                  )
                               ),
                             ],
                           ),
+                        );
 
-                          // SizedBox(
-                          //   height: 200,
-                          // ),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          //   children: [
-                          //     Column(
-                          //       children: [
-                          //         Text('Total sold cars'),
-                          //         // Text(account.user?.carsSoldCount.toString() ?? '0'),
-                          //         Text('0'),
-                          //       ],
-                          //     ),
-                          //     Column(
-                          //       children: [
-                          //         Text('Achieved target'),
-                          //         Text('${'0'}  %'),
-                          //         // Text('${account.user?.salesTotal.toString()} %'),
-                          //       ],
-                          //     ),
-                          //     Column(
-                          //       children: [
-                          //         Text('No. of sellers'),
-                          //         Text(''),
-                          //       ],
-                          //     ),
-                          //   ],
-                          // ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(
+                          width: 20,
+                        );
+                      },
                     ),
-
-              // TargetSalesBox(
-              //              soldCarsCount: account.user?.carsSoldCount.toString(),
-              //              achievedTarget: account.user?.salesTotal.toString(),
-              //              sellersCount: '6',
-              //            ),
-              TitleHeader(
-                title: AppLocalizations.of(context)!.recentlyAdded,
-              ),
-              RecentlyAdded(
-                name: 'Mitsubishi Outlander, 2021',
-                price: '540,000 ${AppLocalizations.of(context)!.egCurrency}',
-                imgUrl:
-                    'https://pngimg.com/uploads/mitsubishi/mitsubishi_PNG185.png',
-              ),
-              TitleHeader(
-                title: AppLocalizations.of(context)!.topSales,
-              ),
-              SizedBox(
-                height: 160,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: catalog.filteredCatalog.length,
-                  itemBuilder: (context, index) {
-                    return FadeInLeft(
-                      child: Container(
-                          width: 336,
-                          // margin: EdgeInsets.only(left: 10,right: 10),
-                          child: CatalogTile(
-                              catalog.filteredCatalog[index],
-                              catalog.catalog.getCarColors(
-                                  catalog.filteredCatalog[index]))),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(
-                      width: 20,
-                    );
-                  },
-                ),
-              ),
-              TitleHeader(
-                title: AppLocalizations.of(context)!.recent,
-              ),
-
-              if (catalog.catalog.models.isEmpty)
-                SizedBox(
-                  height: 330,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 2,
-                    itemBuilder: (context, index) {
-                      return SkeletonLoading(
-                          child: Container(
-                        width: 180,
-                        decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.9),
-                            borderRadius: BorderRadius.circular(10)),
-                      ));
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return SizedBox(
-                        width: 20,
-                      );
-                    },
                   ),
                 ),
 
-              if (catalog.catalog.models.isNotEmpty)
+                TitleHeader(
+                  title: AppLocalizations.of(context)!.recent,
+                ),
                 SizedBox(
                   height: 330,
                   child: ListView.separated(
@@ -245,14 +311,15 @@ class _DashboardTabState extends State<DashboardTab> {
                     itemBuilder: (context, index) {
                       return FadeInRight(
                         child: RecentCarsContainer(
-                          imgUrl: catalog.catalog.models[0].imageUrl,
-                          logoUrl: catalog.catalog.models[0].brand.logoURL,
-                          name: catalog.catalog.models[0].fullName,
-                          brand: catalog.catalog.models[0].type.name,
+                          imgUrl:
+                              "https://pngimg.com/uploads/mitsubishi/mitsubishi_PNG185.png",
+                          logoUrl:
+                              "https://img.icons8.com/color/344/mitsubishi.png",
+                          name: "Mitsubishi Outlander, 2022",
+                          brand: "4 x 4",
                           price: '500,000 ${AppLocalizations.of(context)!.egp}',
                           seller: 'Aly Mahmoud',
                           onTap: () {
-                            print(catalog.catalog.models[0].fullName);
                           },
                         ),
                       );
@@ -264,11 +331,12 @@ class _DashboardTabState extends State<DashboardTab> {
                     },
                   ),
                 ),
-              SizedBox(
-                height: 50,
-              ),
-            ],
-          ).setPageHorizontalPadding(context),
+                SizedBox(
+                  height: 50,
+                ),
+              ],
+            ).setPageHorizontalPadding(context),
+          ),
         ));
   }
 }

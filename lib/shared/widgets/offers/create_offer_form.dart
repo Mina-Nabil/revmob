@@ -29,6 +29,7 @@ import 'package:revmo/shared/widgets/settings/user_image.dart';
 import 'package:revmo/Configurations/Extensions/extensions.dart';
 
 import '../../../models/cars/available_options.dart';
+import '../../../providers/Seller/account_provider.dart';
 import '../Customers/detail_text.dart';
 import '../UIwidgets/checkBox_revmo.dart';
 import '../UIwidgets/custom_cachedNetwork.dart';
@@ -771,8 +772,8 @@ class _NewOfferFormState extends State<NewOfferForm> {
               _isDefaultOffer.value)
           .then((value) async {
         EasyLoading.dismiss();
-        // await Provider.of<OffersProvider>(context, listen: false)
-        //     .loadPendingOffers();
+        await Provider.of<AccountProvider>(context, listen: false)
+            .loadCurrentPlan();
         refreshPendingRequests();
 
         if (value) {

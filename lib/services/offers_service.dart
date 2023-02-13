@@ -65,6 +65,12 @@ Future<Response> networkLayerGetPendingOffers(){
     return _networkLayer.authDio.get("/api/seller/offers/pending");
 }
 
+  Future<Response> networkLayerGetApprovedOffers(){
+    return _networkLayer.authDio.get("/api/seller/offers/approved");
+  }
+  Future<Response> networkLayerGetExpiredOffers(){
+    return _networkLayer.authDio.get("/api/seller/offers/expired");
+  }
 
 
   static Future<ApiResponse<Offer>> submitNewOffer(

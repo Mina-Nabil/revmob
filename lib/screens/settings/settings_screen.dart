@@ -42,8 +42,7 @@ class SettingsScreen extends StatelessWidget {
               SettingsTile(
                 text: AppLocalizations.of(context)!.home,
                 icon: Paths.speedoLargeSVG,
-                onTap: () => Navigator.of(context).pushAndRemoveUntil(
-                    PageTransition(child: HomeScreen(), type: PageTransitionType.rightToLeft), ModalRoute.withName('/')),
+                onTap: () => Navigator.pop(context),
               ),
               SettingsTile(
                 text: "Subscriptions",
