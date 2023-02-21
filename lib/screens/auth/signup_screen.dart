@@ -93,7 +93,7 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
             animationController: animationController,
             formsController: new PageController(initialPage: 0),
             child: Container(
-              constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height, maxWidth: RevmoTheme.FORMS_MAX_WIDTH),
+              constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height, maxWidth: MediaQuery.of(context).size.width),
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,

@@ -34,24 +34,30 @@ class AuthService {
     final request = await http.get(server.userURI, headers: server.headers);
     if (request.statusCode == 200) {
       try {
-        Map<String, dynamic> decoded = jsonDecode(utf8.decode(request.bodyBytes));
+        Map<String, dynamic> decoded =
+            jsonDecode(utf8.decode(request.bodyBytes));
         if (decoded["status"] == true &&
             decoded.containsKey("body") &&
             decoded["body"] is Map<String, dynamic> &&
             decoded["body"].containsKey("user")) {
           return new ApiResponse(
-              true, new Seller.fromJson(decoded["body"]["user"], inTeam: true), AppLocalizations.of(context)!.loggedInMsg);
+              true,
+              new Seller.fromJson(decoded["body"]["user"], inTeam: true),
+              AppLocalizations.of(context)!.loggedInMsg);
         } else {
-          return new ApiResponse(false, null, decoded["message"], errors: decoded["body"]["errors"] ?? null);
+          return new ApiResponse(false, null, decoded["message"],
+              errors: decoded["body"]["errors"] ?? null);
         }
       } catch (e, stack) {
         print(e.toString());
         print(stack);
-        return new ApiResponse(false, null, AppLocalizations.of(context)!.serverIssue);
+        return new ApiResponse(
+            false, null, AppLocalizations.of(context)!.serverIssue);
       }
     } else {
       print(request.body);
-      return new ApiResponse(false, null, AppLocalizations.of(context)!.serverIssue);
+      return new ApiResponse(
+          false, null, AppLocalizations.of(context)!.serverIssue);
     }
   }
 
@@ -88,28 +94,41 @@ class AuthService {
         var responseData = await response.stream.toBytes();
         var responseString = String.fromCharCodes(responseData);
         dynamic decoded = jsonDecode(responseString);
+        print(decoded);
         if (decoded["status"] == true) {
+          print("condition1");
           Seller newSeller = Seller.fromJson(decoded["body"]["seller"]);
           await server.setApiToken(decoded["body"]["token"]); //userloggedIn
-          return new ApiResponse<Seller>(true, newSeller, AppLocalizations.of(context)!.sellerCreatedMsg);
+          return new ApiResponse<Seller>(
+              true, newSeller, AppLocalizations.of(context)!.sellerCreatedMsg);
         } else {
-          return new ApiResponse(false, null, decoded["message"], errors: decoded["body"]["errors"] ?? null);
+          print("condition2");
+          return new ApiResponse(false, null, decoded["message"],
+              errors: decoded["body"]["errors"] ?? null);
         }
       } catch (e, stack) {
+        print("condition3");
         print(e.toString());
         print(stack);
-        return new ApiResponse(false, null, AppLocalizations.of(context)!.serverIssue);
+        return new ApiResponse(
+            false, null, AppLocalizations.of(context)!.serverIssue);
       }
     } else {
+      print("condition4");
       print(response.stream.toString());
-      return new ApiResponse(false, null, AppLocalizations.of(context)!.serverIssue);
+      return new ApiResponse(
+          false, null, AppLocalizations.of(context)!.serverIssue);
     }
   }
 
-  static Future<ApiResponse<Seller?>> login(context, {required String identifier, required String password}) async {
-    var response = await http.post(server.loginURI,
-        headers: server.headers,
-        body: {Seller.FORM_IDENTIFIER_Key: identifier, Seller.FORM_PW_Key: password, "deviceName": await server.deviceName});
+  static Future<ApiResponse<Seller?>> login(context,
+      {required String identifier, required String password}) async {
+    var response =
+        await http.post(server.loginURI, headers: server.headers, body: {
+      Seller.FORM_IDENTIFIER_Key: identifier,
+      Seller.FORM_PW_Key: password,
+      "deviceName": await server.deviceName
+    });
 
     if (response.statusCode == 200) {
       try {
@@ -121,56 +140,69 @@ class AuthService {
             decoded["body"].containsKey("seller")) {
           Seller newSeller = Seller.fromJson(decoded["body"]["seller"]);
           server.setApiToken(decoded["body"]["apiKey"]);
-          return new ApiResponse<Seller>(true, newSeller, AppLocalizations.of(context)!.loggedInMsg);
+          return new ApiResponse<Seller>(
+              true, newSeller, AppLocalizations.of(context)!.loggedInMsg);
         } else {
-          return new ApiResponse(false, null, AppLocalizations.of(context)!.cantLogin,
-              errors: (decoded["body"] is Map<String, String> && decoded["body"].containsKey("errors"))
+          return new ApiResponse(
+              false, null, AppLocalizations.of(context)!.cantLogin,
+              errors: (decoded["body"] is Map<String, String> &&
+                      decoded["body"].containsKey("errors"))
                   ? decoded["body"]["errors"]
                   : null);
         }
       } catch (e, stack) {
         print(e.toString());
         print(stack);
-        return new ApiResponse(false, null, AppLocalizations.of(context)!.serverIssue);
+        return new ApiResponse(
+            false, null, AppLocalizations.of(context)!.serverIssue);
       }
     } else {
-      return new ApiResponse(false, null, AppLocalizations.of(context)!.serverIssue);
+      return new ApiResponse(
+          false, null, AppLocalizations.of(context)!.serverIssue);
     }
   }
 
   static Future<ApiResponse<bool>> isEmailTaken(context, email) async {
-    final request = await http.post(server.checkEmailURI, headers: server.headers, body: {
+    final request =
+        await http.post(server.checkEmailURI, headers: server.headers, body: {
       Seller.FORM_EMAIL_Key: email,
     });
     if (request.statusCode == 200) {
       try {
         var decoded = jsonDecode(request.body);
 
-        return ApiResponse<bool>(decoded["status"], decoded["body"], AppLocalizations.of(context)!.serverIssue);
+        return ApiResponse<bool>(decoded["status"], decoded["body"],
+            AppLocalizations.of(context)!.serverIssue);
       } catch (e) {
         print(e);
-        return ApiResponse(false, false, AppLocalizations.of(context)!.serverIssue);
+        return ApiResponse(
+            false, false, AppLocalizations.of(context)!.serverIssue);
       }
     } else {
-      return ApiResponse(false, false, AppLocalizations.of(context)!.serverIssue);
+      return ApiResponse(
+          false, false, AppLocalizations.of(context)!.serverIssue);
     }
   }
 
   static Future<ApiResponse<bool>> isPhoneTaken(context, phone) async {
-    final request = await http.post(server.checkPhoneURI, headers: server.headers, body: {
+    final request =
+        await http.post(server.checkPhoneURI, headers: server.headers, body: {
       "phone": phone,
     });
     if (request.statusCode == 200) {
       try {
         var decoded = jsonDecode(request.body);
 
-        return ApiResponse<bool>(decoded["status"], decoded["body"], AppLocalizations.of(context)!.serverIssue);
+        return ApiResponse<bool>(decoded["status"], decoded["body"],
+            AppLocalizations.of(context)!.serverIssue);
       } catch (e) {
         print(e);
-        return ApiResponse(false, false, AppLocalizations.of(context)!.serverIssue);
+        return ApiResponse(
+            false, false, AppLocalizations.of(context)!.serverIssue);
       }
     } else {
-      return ApiResponse(false, false, AppLocalizations.of(context)!.serverIssue);
+      return ApiResponse(
+          false, false, AppLocalizations.of(context)!.serverIssue);
     }
   }
 

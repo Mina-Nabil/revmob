@@ -14,7 +14,8 @@ class DisplayPhotoUploader extends StatefulWidget {
   final double _pickerPlaceholderWidth = 175;
   final double _cameraLogoPadding = 60;
   final ValueNotifier<File?> _selectedImage;
-  const DisplayPhotoUploader(this._selectedImage);
+
+  const DisplayPhotoUploader(this._selectedImage,);
 
   @override
   _DisplayPhotoUploaderState createState() => _DisplayPhotoUploaderState();
@@ -31,7 +32,7 @@ class _DisplayPhotoUploaderState extends State<DisplayPhotoUploader> {
           child: Container(
             height: widget._pickerPlaceholderWidth,
             decoration: BoxDecoration(
-              color: Colors.red,
+              // color: Colors.red,
               shape: BoxShape.circle,
               border: Border.all(
                 color: RevmoColors.cyan,
@@ -51,11 +52,11 @@ class _DisplayPhotoUploaderState extends State<DisplayPhotoUploader> {
                               fit: BoxFit.fill,
                             ),
                           )
-                        : Container(
-                            color: RevmoColors.lightBlue,
-                            padding: EdgeInsets.symmetric(horizontal: widget._cameraLogoPadding),
-                            child: SvgPicture.asset(Paths.cameraSVG, color: RevmoColors.cyan),
-                          ),
+                        : Icon(
+                      Icons.account_circle_rounded,
+                      size: widget._pickerPlaceholderWidth,
+                      color: const Color(0xffb7bac6),
+                    )
                   )),
                 ),
               ],
