@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:revmo/environment/api_response.dart';
@@ -43,7 +44,7 @@ class AccountProvider extends ChangeNotifier {
               : null;
 
   final FcmToken _fcmToken = FcmToken();
-  final SubscriptionService _service = SubscriptionService();
+  final UserServiceNetworkLayer _service = UserServiceNetworkLayer();
 
   Future<Seller?> login(context, String email, String password) async {
     clearUser();
@@ -63,55 +64,6 @@ class AccountProvider extends ChangeNotifier {
       }
     }
     return null;
-  }
-
-  CurrentPlan? currentPlan;
-  Plans? plans;
-  Subscription? subscription;
-
-  Future<bool> loadCurrentPlan() async {
-    try {
-      return _service.getCurrentPlan().then((value) {
-        if (value.statusCode == 200) {
-          var plan = Plans.fromJson(value.data["body"]["plan"]);
-          plans = plan;
-          // subscribtion = Plans(
-          //   id: 2,
-          //   name: "Pro Plan",
-          //   monthlyPrice: 500,
-          //   annualPrice: 500,
-          //   adminsLimit: 10,
-          //   usersLimit: 10,
-          //   modelsLimit: 10,
-          //   offersLimit: 70,
-          //   servicesLimit: 100,
-          //   facilityPayment: 100,
-          //   emailSupport: 1,
-          //   chatSupport: 1,
-          //   phoneSupport: 1,
-          //   dashboardAccess: 1,
-          //   order: 1,
-          // );
-          // print('this is plan ${plans}');
-
-          var current = CurrentPlan.fromJson(value.data["body"]["current"]);
-          currentPlan = current;
-          // currentPlan!.offers = current.offers;
-          // currentPlan = CurrentPlan(
-          //   users: 5,
-          //   admins: 5,
-          //   offers: 60,
-          //   models: 5,
-          // );
-          notifyListeners();
-          return Future.value(true);
-        } else {
-          return Future.value(false);
-        }
-      });
-    } catch (e) {
-      return Future.value(false);
-    }
   }
 
   Future loadUser(context, {bool forceReload = false}) async {
@@ -163,20 +115,6 @@ class AccountProvider extends ChangeNotifier {
       }
     }
     notifyListeners();
-  }
-
-  Future setFcmToken(String token) async {
-    try {
-      return _fcmToken.setToken(token).then((value) {
-        if (value.data["status"]) {
-          print('fcm token done');
-        } else {
-          print('fcm token failure');
-        }
-      });
-    } catch (e) {
-      return Future.value(false);
-    }
   }
 
   Future loadSellerRequestsAndInvitations(context) async {
@@ -390,6 +328,104 @@ class AccountProvider extends ChangeNotifier {
     }
   }
 
+  /// NetworkLayer functions
+  ///
 
+  CurrentPlan? currentPlan;
+  Plans? plans;
+  Subscription? subscription;
 
+  //setting fcm token
+  Future setFcmToken(String token) async {
+    try {
+      return _fcmToken.setToken(token).then((value) {
+        if (value.data["status"]) {
+          print('fcm token done');
+        } else {
+          print('fcm token failure');
+        }
+      });
+    } catch (e) {
+      return Future.value(false);
+    }
+  }
+
+//subscription func
+  Future<bool> loadCurrentPlan() async {
+    try {
+      return _service.getCurrentPlan().then((value) {
+        if (value.statusCode == 200) {
+          var plan = Plans.fromJson(value.data["body"]["plan"]);
+          plans = plan;
+          // subscribtion = Plans(
+          //   id: 2,
+          //   name: "Pro Plan",
+          //   monthlyPrice: 500,
+          //   annualPrice: 500,
+          //   adminsLimit: 10,
+          //   usersLimit: 10,
+          //   modelsLimit: 10,
+          //   offersLimit: 70,
+          //   servicesLimit: 100,
+          //   facilityPayment: 100,
+          //   emailSupport: 1,
+          //   chatSupport: 1,
+          //   phoneSupport: 1,
+          //   dashboardAccess: 1,
+          //   order: 1,
+          // );
+          // print('this is plan ${plans}');
+
+          var current = CurrentPlan.fromJson(value.data["body"]["current"]);
+          currentPlan = current;
+          // currentPlan!.offers = current.offers;
+          // currentPlan = CurrentPlan(
+          //   users: 5,
+          //   admins: 5,
+          //   offers: 60,
+          //   models: 5,
+          // );
+          notifyListeners();
+          return Future.value(true);
+        } else {
+          return Future.value(false);
+        }
+      });
+    } catch (e) {
+      return Future.value(false);
+    }
+  }
+
+  Future<bool> editProfile(String username, String mobNumber1,
+      String? mobNumber2, File? image) async {
+    try {
+      return await _service
+          .editProfile(
+              image: image,
+              username: username,
+              mobNumber1: mobNumber1,
+              mobNumber2: mobNumber2!.isEmpty ? null : mobNumber2)
+          .then((value) {
+        if (value.statusCode == 200) {
+         _currentUser =  Seller.fromJson(value.data["body"]["seller"]);
+          notifyListeners();
+          return Future.value(true);
+        } else {
+          return Future.value(false);
+        }
+      });
+    } catch (e) {
+      return Future.value(false);
+    }
+  }
+
+  Future refresshUser(context, {bool forceReload = false}) async {
+    if (forceReload || (_currentUser == null)) {
+      var response = await AuthService.getCurrentUser(context);
+      if (response.status == true) {
+        _currentUser = response.body;
+      }
+    }
+    notifyListeners();
+  }
 }

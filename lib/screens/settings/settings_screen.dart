@@ -39,11 +39,11 @@ class SettingsScreen extends StatelessWidget {
               SizedBox(
                 height: 50,
               ),
-              SettingsTile(
-                text: AppLocalizations.of(context)!.home,
-                icon: Paths.speedoLargeSVG,
-                onTap: () => Navigator.pop(context),
-              ),
+              // SettingsTile(
+              //   text: AppLocalizations.of(context)!.home,
+              //   icon: Paths.speedoLargeSVG,
+              //   onTap: () => Navigator.pop(context),
+              // ),
               SettingsTile(
                 text: "Subscriptions",
                 iconn: Icon(Iconsax.wallet_1),

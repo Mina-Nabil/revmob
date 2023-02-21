@@ -19,7 +19,7 @@ class SubscriptionScreen extends StatefulWidget {
 }
 
 class _SubscriptionScreenState extends State<SubscriptionScreen> {
-  SubscriptionService _service = SubscriptionService();
+  UserServiceNetworkLayer _service = UserServiceNetworkLayer();
 
   List<Plans>? subscriptions;
 

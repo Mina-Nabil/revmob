@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 
-
 class RevmoTextField extends StatefulWidget {
   final double _fieldMargin = 10;
 
@@ -21,12 +20,14 @@ class RevmoTextField extends StatefulWidget {
   final TextInputType keyboardType;
   final Function()? onEditingComplete;
   final bool darkMode;
+  final bool? addTitle;
   final bool inputFormatter;
 
   const RevmoTextField(
       {required this.controller,
       required this.title,
       this.hintText,
+      this.addTitle = true,
       this.validator,
       this.obscureText = false,
       this.prefixText,
@@ -60,22 +61,31 @@ class _RevmoTextFieldState extends State<RevmoTextField> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-              alignment: Alignment.topLeft,
-              margin: EdgeInsets.symmetric(vertical: widget._fieldMargin),
-              child: RevmoTheme.getTextFieldLabel(widget.title, color: (widget.darkMode) ? Colors.white : RevmoColors.darkBlue)),
+          widget.addTitle == false
+              ? SizedBox.shrink()
+              : Container(
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.symmetric(vertical: widget._fieldMargin),
+                  child: RevmoTheme.getTextFieldLabel(widget.title,
+                      color: (widget.darkMode)
+                          ? Colors.white
+                          : RevmoColors.darkBlue)),
           Stack(
             alignment: Alignment.centerRight,
             children: [
               FocusScope(
-                onFocusChange: (widget.onEditingComplete != null) ? (_) => widget.onEditingComplete!() : null,
+                onFocusChange: (widget.onEditingComplete != null)
+                    ? (_) => widget.onEditingComplete!()
+                    : null,
                 child: TextFormField(
                   key: widget.fieldKey,
                   validator: widget.validator,
-                  inputFormatters:widget.inputFormatter ? [
-                  // NumberFormat()
-                    // CurrencyTextInputFormatter(name: "",customPattern: NumberFormat())
-                  ] :null,
+                  inputFormatters: widget.inputFormatter
+                      ? [
+                          // NumberFormat()
+                          // CurrencyTextInputFormatter(name: "",customPattern: NumberFormat())
+                        ]
+                      : null,
                   obscureText: isObscureState,
                   onChanged: (widget.validateOnChange)
                       ? (_) {
@@ -84,7 +94,8 @@ class _RevmoTextFieldState extends State<RevmoTextField> {
                               : _fieldKey.currentState?.validate();
                         }
                       : widget.onChangeValidation,
-                  style: RevmoTheme.getBodyStyle(1, color: RevmoColors.darkBlue),
+                  style:
+                      RevmoTheme.getBodyStyle(1, color: RevmoColors.darkBlue),
                   decoration: InputDecoration(
                     suffixIcon: (widget.obscureText)
                         ? IconButton(
@@ -95,29 +106,45 @@ class _RevmoTextFieldState extends State<RevmoTextField> {
                             },
                             icon: Icon(
                               Icons.remove_red_eye,
-                              color: (isObscureState) ? Colors.grey : RevmoColors.darkBlue,
+                              color: (isObscureState)
+                                  ? Colors.grey
+                                  : RevmoColors.darkBlue,
                             ))
                         : null,
                     prefixText: widget.prefixText,
                     fillColor: Colors.white,
                     filled: true,
                     hintText: widget.hintText,
-                    errorStyle: TextStyle(color: (widget.darkMode) ? RevmoColors.yellow : RevmoColors.darkRed),
+                    errorStyle: TextStyle(
+                        color: (widget.darkMode)
+                            ? RevmoColors.yellow
+                            : RevmoColors.darkRed),
                     errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(3)),
-                        borderSide: BorderSide(color: (widget.darkMode) ? RevmoColors.yellow : RevmoColors.darkRed)),
+                        borderSide: BorderSide(
+                            color: (widget.darkMode)
+                                ? RevmoColors.yellow
+                                : RevmoColors.darkRed)),
                     focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(3)),
-                        borderSide: BorderSide(color: (widget.darkMode) ? RevmoColors.yellow : RevmoColors.darkRed, width: 2)),
+                        borderSide: BorderSide(
+                            color: (widget.darkMode)
+                                ? RevmoColors.yellow
+                                : RevmoColors.darkRed,
+                            width: 2)),
                     hintStyle: TextStyle(color: RevmoColors.greyishBlue),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(3)),
-                        borderSide:
-                            (widget.darkMode) ? const BorderSide() : const BorderSide(color: RevmoColors.grey, width: .25)),
+                        borderSide: (widget.darkMode)
+                            ? const BorderSide()
+                            : const BorderSide(
+                                color: RevmoColors.grey, width: .25)),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(3)),
-                        borderSide:
-                            (widget.darkMode) ? const BorderSide() : const BorderSide(color: RevmoColors.grey, width: .25)),
+                        borderSide: (widget.darkMode)
+                            ? const BorderSide()
+                            : const BorderSide(
+                                color: RevmoColors.grey, width: .25)),
                   ),
                   controller: widget.controller,
                   maxLines: widget.maxLines,

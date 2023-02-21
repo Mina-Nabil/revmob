@@ -28,7 +28,6 @@ import 'services/firebase_notification.dart';
 
 GetIt getIt = GetIt.instance;
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -38,9 +37,7 @@ void main() async {
   HttpOverrides.global = MyHttpOverrides();
   runApp(RevmoSellerApp());
   configLoading();
-
 }
-
 
 class RevmoSellerApp extends StatefulWidget {
   const RevmoSellerApp({Key? key}) : super(key: key);
@@ -51,13 +48,24 @@ class RevmoSellerApp extends StatefulWidget {
 
 class _RevmoSellerAppState extends State<RevmoSellerApp> {
   FirebaseCustomNotification pushNotification = FirebaseCustomNotification();
+
   @override
   void initState() {
     pushNotification.firebaseSub();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
+    // SystemChrome.setSystemUIOverlayStyle(
+    //   SystemUiOverlayStyle(
+    //     statusBarColor: Colors.transparent,
+    //     statusBarIconBrightness: Brightness.dark,
+    //     statusBarBrightness:
+    //         Platform.isIOS ? Brightness.light : Brightness.dark,
+    //   ),
+    // );
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: ChangeNotifierProvider<AccountProvider>(
@@ -72,7 +80,8 @@ class _RevmoSellerAppState extends State<RevmoSellerApp> {
                 buttonTheme: ButtonThemeData(
                     disabledColor: RevmoColors.greyishBlue,
                     buttonColor: RevmoColors.originalBlue,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
                     splashColor: Colors.white),
                 brightness: Brightness.dark,
                 fontFamily: RevmoTheme.FONT_GIBSON_LIGHT,
@@ -92,24 +101,36 @@ class _RevmoSellerAppState extends State<RevmoSellerApp> {
               onGenerateRoute: (settings) {
                 switch (settings.name) {
                   case HomeScreen.ROUTE_NAME:
-                    return PageTransition(child: HomeScreen(), type: PageTransitionType.fade);
+                    return PageTransition(
+                        child: HomeScreen(), type: PageTransitionType.fade);
                   case LoginScreen.ROUTE_NAME:
-                    return PageTransition(child: LoginScreen(), type: PageTransitionType.fade);
+                    return PageTransition(
+                        child: LoginScreen(), type: PageTransitionType.fade);
                   case NewAccountCongratzScreen.ROUTE_NAME:
-                    return PageTransition(child: NewAccountCongratzScreen(), type: PageTransitionType.topToBottom);
+                    return PageTransition(
+                        child: NewAccountCongratzScreen(),
+                        type: PageTransitionType.topToBottom);
                   case PreLoginScreen.ROUTE_NAME:
-                    return PageTransition(child: PreLoginScreen(), type: PageTransitionType.fade);
+                    return PageTransition(
+                        child: PreLoginScreen(), type: PageTransitionType.fade);
                   case SettingsScreen.ROUTE_NAME:
-                    return PageTransition(child: SettingsScreen(), type: PageTransitionType.rightToLeft);
+                    return PageTransition(
+                        child: SettingsScreen(),
+                        type: PageTransitionType.rightToLeft);
                   case SignUp.SELLER_ROUTE_NAME:
-                    return PageTransition(child: SignUp.seller(), type: PageTransitionType.fade);
+                    return PageTransition(
+                        child: SignUp.seller(), type: PageTransitionType.fade);
                   case SignUp.SHOWROOM_ROUTE_NAME:
-                    return PageTransition(child: SignUp.showroom(), type: PageTransitionType.fade);
+                    return PageTransition(
+                        child: SignUp.showroom(),
+                        type: PageTransitionType.fade);
                   case JoinShowroomScreen.ROUTE_NAME:
-                    return PageTransition(child: JoinShowroomScreen(), type: PageTransitionType.fade);
+                    return PageTransition(
+                        child: JoinShowroomScreen(),
+                        type: PageTransitionType.fade);
                 }
               },
-              builder:  EasyLoading.init(
+              builder: EasyLoading.init(
                 builder: (context, child) => MediaQuery(
                   data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
                   child: child ?? const Scaffold(),
@@ -119,4 +140,3 @@ class _RevmoSellerAppState extends State<RevmoSellerApp> {
             )));
   }
 }
-
