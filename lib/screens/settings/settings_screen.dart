@@ -45,7 +45,7 @@ class SettingsScreen extends StatelessWidget {
               //   onTap: () => Navigator.pop(context),
               // ),
               SettingsTile(
-                text: "Subscriptions",
+                text: AppLocalizations.of(context)!.subscriptions,
                 iconn: Icon(Iconsax.wallet_1),
                 icon: Paths.speedoLargeSVG,
                 onTap: () =>  Navigator.of(context).push(PageTransition(child: SubscriptionScreen(), type: PageTransitionType.rightToLeft)),

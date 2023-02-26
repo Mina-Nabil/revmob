@@ -116,7 +116,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text('Subscriptions'),
+        title: Text(AppLocalizations.of(context)!.subscriptions),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -129,8 +129,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                           .loadCurrentPlan();
                     },
                   )
-                : provider.plans!.id == 2 ||
-                        provider.plans!.id == 3
+                : provider.plans!.id == 2 || provider.plans!.id == 3
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -152,22 +151,23 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "${provider.plans!.name!} is activated",
+                                      "${provider.plans!.name!} ${AppLocalizations.of(context)!.isActivated}",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 20,
                                           fontWeight: FontWeight.w800),
                                     ),
-
-                                    provider.plans!.name == "Business PLan" ?
-                                    Lottie.asset(
-                                        "assets/images/premium.json",
-                                        height: 50,) :     Lottie.asset("assets/images/pro.json",
-                                        height: 40)
+                                    provider.plans!.name == "Business PLan"
+                                        ? Lottie.asset(
+                                            "assets/images/premium.json",
+                                            height: 50,
+                                          )
+                                        : Lottie.asset("assets/images/pro.json",
+                                            height: 40)
                                   ],
                                 ),
                                 Text(
-                                  "${AppLocalizations.of(context)!.egCurrency} ${provider.plans!.monthlyPrice!}/per month",
+                                  "${AppLocalizations.of(context)!.egCurrency} ${provider.plans!.monthlyPrice!} ${AppLocalizations.of(context)!.perMonth}",
                                   style: TextStyle(
                                       color: Colors.white.withOpacity(0.8),
                                       fontSize: 16,
@@ -183,7 +183,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                             height: 20,
                           ),
                           Text(
-                            "What you get",
+                            AppLocalizations.of(context)!.whatYouGet,
                             style: TextStyle(
                                 color: Colors.white.withOpacity(0.8),
                                 fontSize: 16,
@@ -203,7 +203,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                     height: 3,
                                   ),
                                   Text(
-                                    'Ultra-Fast\n Connection',
+                                    AppLocalizations.of(context)!
+                                        .ultraFastConnection,
                                     textAlign: TextAlign.center,
                                   )
                                 ],
@@ -215,7 +216,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                     height: 3,
                                   ),
                                   Text(
-                                    'Registration up\nto 10 showRooms',
+                                    AppLocalizations.of(context)!
+                                        .registrationUpTo10ShowRooms,
                                     textAlign: TextAlign.center,
                                   )
                                 ],
@@ -227,7 +229,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                     height: 3,
                                   ),
                                   Text(
-                                    'Add-free\nexperience',
+                                    AppLocalizations.of(context)!
+                                        .addFreeExperience,
                                     textAlign: TextAlign.center,
                                   )
                                 ],
@@ -239,7 +242,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                     height: 3,
                                   ),
                                   Text(
-                                    'Access up\n to 10 users',
+                                    AppLocalizations.of(context)!
+                                        .accessUpTo10Users,
                                     textAlign: TextAlign.center,
                                   )
                                 ],
@@ -250,28 +254,31 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                             height: 20,
                           ),
                           ListTile(
-                            title: Text("Offers Limit"),
-                            subtitle: Text(
-                                'this is how many offers you can\nsubmit to clients'),
+                            title:
+                                Text(AppLocalizations.of(context)!.offersLimit),
+                            subtitle: Text(AppLocalizations.of(context)!
+                                .offersLimitDescription),
                             trailing: Text.rich(TextSpan(
                                 text: provider.currentPlan!.offers.toString(),
                                 style: TextStyle(
                                     fontSize: 25, fontWeight: FontWeight.bold),
                                 children: <InlineSpan>[
                                   TextSpan(
-                                    text:
-                                        " / ${provider.plans!.offersLimit}"
-                                            .toString(),
+                                    text: " / ${provider.plans!.offersLimit}"
+                                        .toString(),
                                     style: TextStyle(
                                         fontSize: 33,
                                         fontWeight: FontWeight.bold),
                                   )
                                 ])),
                           ),
+                          AppLocalizations.of(context)!.localeName == "ar" ? SizedBox(height: 5,) : SizedBox.shrink(),
                           ListTile(
-                            title: Text("Users Limit"),
+                            title:
+                                Text(AppLocalizations.of(context)!.usersLimit),
                             subtitle: Text(
-                              'this is how many users can\naccess your account',
+                              AppLocalizations.of(context)!
+                                  .usersLimitDescription,
                             ),
                             trailing: Text.rich(TextSpan(
                                 text: provider.currentPlan!.users.toString(),
@@ -279,47 +286,55 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                     fontSize: 25, fontWeight: FontWeight.bold),
                                 children: <InlineSpan>[
                                   TextSpan(
-                                    text:
-                                        " / ${provider.plans!.usersLimit}"
-                                            .toString(),
+                                    text: " / ${provider.plans!.usersLimit}"
+                                        .toString(),
                                     style: TextStyle(
                                         fontSize: 33,
                                         fontWeight: FontWeight.bold),
                                   )
                                 ])),
                           ),
+                          AppLocalizations.of(context)!.localeName == "ar" ? SizedBox(height: 5,) : SizedBox.shrink(),
                           ListTile(
-                            title: Text("Email Support"),
+                            title: Text(
+                              AppLocalizations.of(context)!.emailSupport,
+                            ),
                             subtitle: Text(
-                              'Fast email support to help you\nwith any enquiries you have',
+                              AppLocalizations.of(context)!
+                                  .emailSupportDescription,
                             ),
                             trailing: checkBox(
-                                selected:
-                                    provider.plans!.emailSupport == 0
-                                        ? false
-                                        : true),
+                                selected: provider.plans!.emailSupport == 0
+                                    ? false
+                                    : true),
                           ),
+                          AppLocalizations.of(context)!.localeName == "ar" ? SizedBox(height: 5,) : SizedBox.shrink(),
                           ListTile(
-                            title: Text("Chat Support"),
+                            title: Text(
+                              AppLocalizations.of(context)!.chatSupport,
+                            ),
                             subtitle: Text(
-                              'Fast Chat support to help you\nwith any enquiries you have',
+                              AppLocalizations.of(context)!
+                                  .chatSupportDescription,
                             ),
                             trailing: checkBox(
-                                selected:
-                                    provider.plans!.emailSupport == 0
-                                        ? false
-                                        : true),
+                                selected: provider.plans!.emailSupport == 0
+                                    ? false
+                                    : true),
                           ),
+                          AppLocalizations.of(context)!.localeName == "ar" ? SizedBox(height: 5,) : SizedBox.shrink(),
                           ListTile(
-                            title: Text("Phone Support"),
+                            title: Text(
+                              AppLocalizations.of(context)!.phoneSupport,
+                            ),
                             subtitle: Text(
-                              'Fast Phone support to help you\nwith any enquiries you have',
+                              AppLocalizations.of(context)!
+                                  .phoneSupportDescription,
                             ),
                             trailing: checkBox(
-                                selected:
-                                    provider.plans!.phoneSupport == 0
-                                        ? false
-                                        : true),
+                                selected: provider.plans!.phoneSupport == 0
+                                    ? false
+                                    : true),
                           ),
                           SizedBox(
                             height: 10,
@@ -343,7 +358,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                       width: 10,
                                     ),
                                     Text(
-                                      "Monthly",
+                                      AppLocalizations.of(context)!.monthly,
                                       style: TextStyle(fontSize: 18),
                                     ),
                                     SizedBox(
@@ -355,7 +370,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                       color: Colors.white,
                                     ),
                                     Text(
-                                      "${AppLocalizations.of(context)!.egCurrency} ${provider.plans!.monthlyPrice!}/per month",
+                                      "${AppLocalizations.of(context)!.egCurrency}${provider.plans!.monthlyPrice!}${AppLocalizations.of(context)!.perMonth}",
                                       style: TextStyle(fontSize: 18),
                                     ),
                                     SizedBox(
@@ -377,7 +392,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                           width: mediaQuery.size.width,
                                           child: Center(
                                               child: Text(
-                                                  "Cancel Subscription")))),
+                                                  AppLocalizations.of(context)!.cancelSubscription)))),
                                 )
                               ],
                             ),

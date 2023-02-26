@@ -11,7 +11,129 @@
         "@offerDetail": {
           "description": "get offer details"
     },
-     "renewOffer": "Renew Offer",
+    "mobileNumber": "Mobile number",
+         "@mobileNumber": {
+          "description": "mobile number in account screen"
+        },
+   "companyProfile": "Company profile",
+           "@companyProfile": {
+           "description": "Company profile in account screen"
+        },
+    "fullName": "Full name",
+             "@fullName": {
+             "description": "Full name in account screen"
+          },
+
+ "account": "Account",
+             "@account": {
+             "description": "Account in account screen"
+          },
+   "editProfile": "Edit profile",
+               "@editProfile": {
+               "description": "Edit profile in editProfile screen"
+            },
+    "photo": "Photo",
+                  "@photo": {
+                  "description": "Photo in editProfile screen"
+               },
+    "fullName": "Full name",
+                 "@fullName": {
+                 "description": "Full name in editProfile screen"
+              },
+     "yourPhoneNumber": "Your phone number",
+                     "@yourPhoneNumber": {
+                     "description": "our phone number in editProfile screen"
+                  },
+      "yourSecondPhoneNumber": "Your second phone number",
+                      "@yourSecondPhoneNumber": {
+                      "description": "your second phone number in editProfile screen"
+                   },
+      "profileHasBeenEditedSuccessfully": "Profile has been edited successfully",
+                            "@profileHasBeenEditedSuccessfully": {
+                            "description": "Profile has been edited successfully in editProfile screen"
+                         },
+      "subscriptions": "Subscriptions",
+              "@mobileNumber": {
+               "description": "Subscriptions in subscription screen"
+             },
+      "whatYouGet": "What you get",
+              "@whatYouGet": {
+               "description": "What you get in subscription screen"
+             },
+      "isActivated": "is activated",
+                    "@isActivated": {
+                     "description": " plan is activated in subscription screen"
+                   },
+      "perMonth": "Per month",
+                          "@perMonth": {
+                           "description": " Per month in subscription screen"
+                         },
+     "ultraFastConnection": "Ultra-fast connection'",
+             "@ultraFastConnection": {
+              "description": "Ultra-fast connection in subscription screen"
+            },
+      "registrationUpTo10ShowRooms": "Registration up to 10 showRooms",
+              "@registrationUpTo10ShowRooms": {
+               "description": "Registration up to 10 showRooms in subscription screen"
+             },
+
+      "addFreeExperience": "Add free experience",
+                   "@addFreeExperience": {
+                    "description": "Add free experience in subscription screen"
+                  },
+      "accessUpTo10Users": "Access up to 10 users",
+                   "@accessUpTo10Users": {
+                    "description": "Access up to 10 users in subscription screen"
+                  },
+      "offersLimit": "Offer limit",
+                         "@offersLimit": {
+                          "description": "Offer limit in subscription screen"
+                        },
+      "offersLimitDescription": "Offer limit description",
+                               "@offersLimitDescription": {
+                                "description": "Offer limit description in subscription screen"
+                              },
+      "usersLimit": "Users Limit",
+             "@usersLimit": {
+                                "description": "Users Limit in subscription screen"
+                              },
+      "usersLimitDescription": "Users limit description",
+                               "@usersLimitDescription": {
+                               "description": "Users Limit description in subscription screen"
+                                    },
+      "emailSupport": "Email support",
+                      "@emailSupport": {
+                      "description": "Email Support in subscription screen"
+                                    },
+      "emailSupportDescription": "Email support description",
+                                 "@emailSupportDescription": {
+                                 "description": "Email support description in subscription screen"
+                                          },
+      "chatSupport": "Chat support",
+                     "@chatSupport": {
+                     "description": "Chat Support in subscription screen"
+                                    },
+      "chatSupportDescription": "Chat support description",
+                                           "@chatSupportDescription": {
+                                            "description": "Chat support description in subscription screen"
+                                          },
+      "phoneSupport": "Phone support",
+                      "@phoneSupport": {
+                      "description": "Phone Support in subscription screen"
+                                     },
+      "phoneSupportDescription": "Phone support description",
+                                 "@phoneSupportDescription": {
+                                 "description": "Phone support description in subscription screen"
+                                         },
+      "monthly": "Monthly",
+               "@monthly": {
+                "description": "Monthly in Subscription screen"
+              },
+      "cancelSubscription": "Cancel subscription",
+                     "@cancelSubscription": {
+                      "description": "Cancel Subscription in Subscription screen"
+                    },
+    "renewOffer": "Renew Offer",
             "@renewOffer": {
               "description": "renew expired offer"
         },

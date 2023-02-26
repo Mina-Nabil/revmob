@@ -72,7 +72,7 @@ class _EditProfileViewState extends State<EditProfileView> {
           statusBarBrightness:
               Platform.isIOS ? Brightness.light : Brightness.dark,
         ),
-        title: const Text('Edit Profile',
+        title:  Text( AppLocalizations.of(context)!.editProfile,
             style: TextStyle(
                 color: RevmoColors.darkBlue,
                 fontSize: 22,
@@ -125,7 +125,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                                 });
                                 return SuccessMessage(
                                   message:
-                                      'Profile has been edited successfully',
+                                  AppLocalizations.of(context)!.profileHasBeenEditedSuccessfully,
                                 );
                               });
                         } else {
@@ -158,9 +158,9 @@ class _EditProfileViewState extends State<EditProfileView> {
               ),
               Row(
                 children: [
-                  const Expanded(
+                   Expanded(
                       flex: 2,
-                      child: Text('Photo',
+                      child: Text( AppLocalizations.of(context)!.photo,
                           style: TextStyle(
                               color: RevmoColors.darkBlue, fontSize: 18))),
                   Expanded(
@@ -189,7 +189,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                       .build(),
                   hintText: "Enter your full name here",
                 ),
-                title: "Full Name",
+                title: AppLocalizations.of(context)!.fullName,
               ),
               EditTile(
                 child: RevmoTextField(
@@ -209,7 +209,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                       .build(),
                   hintText: "Enter your phone number here",
                 ),
-                title: "Your phone number",
+                title: AppLocalizations.of(context)!.yourPhoneNumber,
               ),
               EditTile(
                 child: RevmoTextField(
@@ -224,7 +224,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                   //     ValidationBuilder().optional = true,
                   hintText: "Enter your secondary phone number",
                 ),
-                title: "Your second phone number",
+                title: AppLocalizations.of(context)!.yourSecondPhoneNumber,
               ),
               // EditTile(
               //   child: InkWell(
