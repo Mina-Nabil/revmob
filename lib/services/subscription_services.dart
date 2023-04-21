@@ -17,13 +17,22 @@ class UserServiceNetworkLayer {
     return _networkLayer.authDio.get('/api/seller/limits');
   }
 
+  Future<Response> subscribe(String planId, String type, String days, String amount, String transactionId) {
+    return _networkLayer.authDio.post('/api/seller/subscriptions', data: {
+      "plan_id": planId,
+      "type": type,
+      "days":days,
+      "amount": amount,
+      "transaction_id": transactionId
+    });
+  }
+
   Future<Response> editProfile({
     File? image,
     required String username,
     required String mobNumber1,
     required String? mobNumber2,
-  })async  {
-
+  }) async {
     if (image != null) {
       String fileName = image.path.split('/').last;
       print(fileName);
@@ -32,7 +41,7 @@ class UserServiceNetworkLayer {
         'name': username,
         'mobNumber1': mobNumber1,
         'mobNumber2': mobNumber2,
-        "displayImage":  await MultipartFile.fromFile(
+        "displayImage": await MultipartFile.fromFile(
           image.path,
           filename: image.path.split('/').last,
           contentType: MediaType('application', 'x-tar'),
@@ -45,15 +54,17 @@ class UserServiceNetworkLayer {
           //       "Authorization" : "Bearer ${Auth.token}"
           //     }
           // ),
-          data: data
-
+          data: data);
+    } else {
+      return _networkLayer.authDio.post(
+        "/api/seller/user",
+        data: {
+          'name': username,
+          'mobNumber1': mobNumber1,
+          "displayImage": null,
+          'mobNumber2': mobNumber2,
+        },
       );
-    }else {
-    return _networkLayer.authDio.post("/api/seller/user",  data: {
-    'name': username,
-    'mobNumber1': mobNumber1,
-    "displayImage": null,
-    'mobNumber2': mobNumber2,
-    },);}
+    }
   }
 }

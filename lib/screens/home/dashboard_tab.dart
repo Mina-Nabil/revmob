@@ -2,7 +2,9 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:revmo/Configurations/Routes/PageRouteName.dart';
 import 'package:revmo/providers/Seller/account_provider.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/Configurations/Extensions/extensions.dart';
@@ -18,6 +20,8 @@ import '../../shared/widgets/catalog/catalog_tile.dart';
 import 'package:revmo/shared/widgets/UIwidgets/ui_widgets.dart';
 
 import '../../shared/widgets/misc/date_row.dart';
+import '../settings/settings_screen.dart';
+import '../settings/subscriptions_screen.dart';
 
 class DashboardTab extends StatefulWidget {
   static const String screenName = "DashboardTab";
@@ -93,90 +97,99 @@ class _DashboardTabState extends State<DashboardTab> {
                     ? SizedBox.shrink()
                     : Consumer<AccountProvider>(
                         builder: (context, providerAcc, __) {
-                          return Container(
-                            padding: EdgeInsets.all(10),
-                            width: mediaQuery.size.width,
-                            // height: 250,
-                            decoration: BoxDecoration(
-                                color: Color(0xff08243d),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                TitleHeader(
-                                  title:
-                                      "Current Subscription Plan\n (${providerAcc.plans!.name})",
-                                  alignCenter: true,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    SubscriptionPlan(
-                                      selected: false,
-                                      title: "Offers Limit",
-                                      icon: Icon(
-                                        Iconsax.money_time5,
-                                        color: RevmoColors.white,
+                          return InkWell(
+                            onTap: (){
+                              // Navigator.of(context)
+                              //     .pushNamed(PageRouteName.subscriptions);
+                              // Navigator.of(context)
+                              //     .pushNamed(SettingsScreen.ROUTE_NAME);
+                              Navigator.of(context).push(PageTransition(child: SubscriptionScreen(), type: PageTransitionType.rightToLeft));
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              width: mediaQuery.size.width,
+                              // height: 250,
+                              decoration: BoxDecoration(
+                                  color: Color(0xff08243d),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  TitleHeader(
+                                    title:
+                                        "Current Subscription Plan\n (${providerAcc.plans!.name})",
+                                    alignCenter: true,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      SubscriptionPlan(
+                                        selected: false,
+                                        title: "Offers Limit",
+                                        icon: Icon(
+                                          Iconsax.money_time5,
+                                          color: RevmoColors.white,
+                                        ),
+                                        info:
+                                            "${providerAcc.currentPlan!.offers.toString()}/${providerAcc.plans!.offersLimit.toString()}",
                                       ),
-                                      info:
-                                          "${providerAcc.currentPlan!.offers.toString()}/${providerAcc.plans!.offersLimit.toString()}",
-                                    ),
-                                    SubscriptionPlan(
-                                      selected: false,
-                                      title: "Users Limit",
-                                      icon: Icon(
-                                        Iconsax.people5,
-                                        color: RevmoColors.white,
+                                      SubscriptionPlan(
+                                        selected: false,
+                                        title: "Users Limit",
+                                        icon: Icon(
+                                          Iconsax.people5,
+                                          color: RevmoColors.white,
+                                        ),
+                                        info:
+                                            "${providerAcc.currentPlan!.users.toString()}/${providerAcc.plans!.usersLimit.toString()}",
                                       ),
-                                      info:
-                                          "${providerAcc.currentPlan!.users.toString()}/${providerAcc.plans!.usersLimit.toString()}",
-                                    ),
-                                    SubscriptionPlan(
-                                      selected: false,
-                                      title: "Models Limit",
-                                      icon: Icon(
-                                        Iconsax.car5,
-                                        color: RevmoColors.white,
+                                      SubscriptionPlan(
+                                        selected: false,
+                                        title: "Models Limit",
+                                        icon: Icon(
+                                          Iconsax.car5,
+                                          color: RevmoColors.white,
+                                        ),
+                                        info:
+                                            "${providerAcc.currentPlan!.models.toString()}/${providerAcc.plans!.modelsLimit.toString()}",
                                       ),
-                                      info:
-                                          "${providerAcc.currentPlan!.models.toString()}/${providerAcc.plans!.modelsLimit.toString()}",
-                                    ),
-                                  ],
-                                ),
+                                    ],
+                                  ),
 
-                                // SizedBox(
-                                //   height: 200,
-                                // ),
-                                // Row(
-                                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                //   children: [
-                                //     Column(
-                                //       children: [
-                                //         Text('Total sold cars'),
-                                //         // Text(account.user?.carsSoldCount.toString() ?? '0'),
-                                //         Text('0'),
-                                //       ],
-                                //     ),
-                                //     Column(
-                                //       children: [
-                                //         Text('Achieved target'),
-                                //         Text('${'0'}  %'),
-                                //         // Text('${account.user?.salesTotal.toString()} %'),
-                                //       ],
-                                //     ),
-                                //     Column(
-                                //       children: [
-                                //         Text('No. of sellers'),
-                                //         Text(''),
-                                //       ],
-                                //     ),
-                                //   ],
-                                // ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                              ],
+                                  // SizedBox(
+                                  //   height: 200,
+                                  // ),
+                                  // Row(
+                                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  //   children: [
+                                  //     Column(
+                                  //       children: [
+                                  //         Text('Total sold cars'),
+                                  //         // Text(account.user?.carsSoldCount.toString() ?? '0'),
+                                  //         Text('0'),
+                                  //       ],
+                                  //     ),
+                                  //     Column(
+                                  //       children: [
+                                  //         Text('Achieved target'),
+                                  //         Text('${'0'}  %'),
+                                  //         // Text('${account.user?.salesTotal.toString()} %'),
+                                  //       ],
+                                  //     ),
+                                  //     Column(
+                                  //       children: [
+                                  //         Text('No. of sellers'),
+                                  //         Text(''),
+                                  //       ],
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },

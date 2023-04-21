@@ -52,6 +52,23 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     }
   }
 
+  Future<bool> subscribe(String planId, String type, String days, String amount, String transactionId) async {
+    try {
+      return await _service.subscribe(planId, type, days, amount, transactionId).then((value) {
+        if (value.statusCode == 200 && value.data["message"] == "Success") {
+
+          return Future.value(true);
+        } else {
+
+          return Future.value(false);
+        }
+      });
+    } catch (e) {
+
+      return Future.value(false);
+    }
+  }
+
   List<int> ids = [];
   List<Plans> idss = [];
 
