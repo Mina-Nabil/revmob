@@ -40,7 +40,7 @@ class _AccountScreenState extends State<AccountScreen> {
         backgroundColor: Colors.transparent,
         centerTitle: true,
         elevation: 0,
-        title: RevmoTheme.getTitle('Account', color: RevmoColors.darkBlue),
+        title: RevmoTheme.getTitle(AppLocalizations.of(context)!.account, color: RevmoColors.darkBlue),
         actions: [
           IconButton(
               onPressed: () {
@@ -213,15 +213,15 @@ class _AccountScreenState extends State<AccountScreen> {
                       height: 30,
                     ),
                     _dataInfo(
-                        title: "Company Profile",
+                        title: AppLocalizations.of(context)!.companyProfile,
                         info: "https://www.google.com",
                         icon: Icon(Icons.copy_rounded)),
                     _dataInfo(
-                        title: "Full Name",
+                        title: AppLocalizations.of(context)!.fullName,
                         info: sellerProvider.user!.fullName,
                         icon: Icon(Iconsax.user)),
                     _dataInfo(
-                        title: "Mobile Num",
+                        title: AppLocalizations.of(context)!.mobileNumber,
                         info: sellerProvider.user!.mob,
                         icon: Icon(Iconsax.mobile)),
                     // sellerProvider.user!.mob2 != ""
