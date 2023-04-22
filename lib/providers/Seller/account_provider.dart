@@ -396,6 +396,25 @@ class AccountProvider extends ChangeNotifier {
     }
   }
 
+  Future<bool> subscribe(String planId, String type, String days, String amount, String transactionId) async {
+    try {
+      return await _service.subscribe(planId, type, days, amount, transactionId).then((value) {
+        if (value.statusCode == 200 && value.data["status"] == true) {
+          loadCurrentPlan();
+          return Future.value(true);
+        } else {
+          print('something went wrong');
+          return Future.value(false);
+        }
+      });
+    } catch (e) {
+
+      return Future.value(false);
+    }
+  }
+
+
+
   Future<bool> editProfile(String username, String mobNumber1,
       String? mobNumber2, File? image) async {
     try {
