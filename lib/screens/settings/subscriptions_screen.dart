@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/Configurations/Extensions/extensions.dart';
@@ -892,29 +893,30 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                               mediaQuery.size.height * 0.4,
                                                                           child:
                                                                               Column(
-                                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.start,
                                                                             children: [
                                                                               SizedBox(
                                                                                 height: 20,
                                                                               ),
-                                                                              Text("Subscribe",style: TextStyle(fontSize: 18,color: Colors.black, fontWeight: FontWeight.bold),),
-
+                                                                              Text(
+                                                                                "Subscribe",
+                                                                                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+                                                                              ),
                                                                               SizedBox(
                                                                                 height: 20,
                                                                               ),
                                                                               Material(
                                                                                 color: Colors.transparent,
                                                                                 child: InkWell(
-                                                                                  onTap: (){
-                                                                                    provider.subscribe(
-                                                                                        subscriptions![index].id!
-                                                                                            .toString(),
-                                                                                      "paid",
-                                                                                        "30", subscriptions![index].monthlyPrice.toString(),
-                                                                                        "transactionId-1").then((value) {
-                                                                                          if(value){
-                                                                                            Navigator.pop(context);
-                                                                                          }
+                                                                                  onTap: () {
+                                                                                    EasyLoading.show();
+                                                                                    provider.subscribe(subscriptions![index].id!.toString(), "paid", "30", subscriptions![index].monthlyPrice.toString(), "transactionId-1").then((value) {
+                                                                                      EasyLoading.dismiss();
+
+                                                                                      if (value) {
+                                                                                        Navigator.pop(context);
+                                                                                      }
                                                                                     });
                                                                                   },
                                                                                   child: Container(
@@ -927,27 +929,35 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                                     child: Column(
                                                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                                                       children: [
-                                                                                        Text("Subscribe to monthly plan",style: TextStyle(fontSize: 14),),
-                                                                                        Text(" ${subscriptions![index].monthlyPrice.toString()} ${AppLocalizations.of(context)!.egCurrency}",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),)
+                                                                                        Text(
+                                                                                          "Subscribe to monthly plan",
+                                                                                          style: TextStyle(fontSize: 14),
+                                                                                        ),
+                                                                                        Text(
+                                                                                          " ${subscriptions![index].monthlyPrice.toString()} ${AppLocalizations.of(context)!.egCurrency}",
+                                                                                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                                                                        )
                                                                                       ],
                                                                                     ),
                                                                                   ),
                                                                                 ),
                                                                               ),
-                                                                              Divider(color: Colors.black.withOpacity(0.3),height: 20,),
+                                                                              Divider(
+                                                                                color: Colors.black.withOpacity(0.3),
+                                                                                height: 20,
+                                                                              ),
                                                                               InkWell(
-onTap: (){
-  provider.subscribe(
-      subscriptions![index].id!
-          .toString(),
-      "paid",
-      "365", subscriptions![index].annualPrice.toString(),
-      "transactionId-2").then((value) {
-    if(value){
-      Navigator.pop(context);
-    }
-  });
-},
+                                                                                onTap: () {
+                                                                                  EasyLoading.show();
+
+                                                                                  provider.subscribe(subscriptions![index].id!.toString(), "paid", "365", subscriptions![index].annualPrice.toString(), "transactionId-2").then((value) {
+                                                                                    EasyLoading.dismiss();
+
+                                                                                    if (value) {
+                                                                                      Navigator.pop(context);
+                                                                                    }
+                                                                                  });
+                                                                                },
                                                                                 child: Container(
                                                                                   width: mediaQuery.size.width,
                                                                                   height: mediaQuery.size.height * 0.08,
@@ -958,8 +968,14 @@ onTap: (){
                                                                                   child: Column(
                                                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                                                     children: [
-                                                                                      Text("Subscribe to annual plan",style: TextStyle(fontSize: 14),),
-                                                                                      Text(" ${subscriptions![index].annualPrice.toString()} ${AppLocalizations.of(context)!.egCurrency}",style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
+                                                                                      Text(
+                                                                                        "Subscribe to annual plan",
+                                                                                        style: TextStyle(fontSize: 14),
+                                                                                      ),
+                                                                                      Text(
+                                                                                        " ${subscriptions![index].annualPrice.toString()} ${AppLocalizations.of(context)!.egCurrency}",
+                                                                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                                                                      )
                                                                                     ],
                                                                                   ),
                                                                                 ),
@@ -967,9 +983,11 @@ onTap: (){
                                                                               SizedBox(
                                                                                 height: 20,
                                                                               ),
-                                                                              TextButton(onPressed: (){
-                                                                                Navigator.pop(context);
-                                                                              }, child: Text('Back'))
+                                                                              TextButton(
+                                                                                  onPressed: () {
+                                                                                    Navigator.pop(context);
+                                                                                  },
+                                                                                  child: Text('Back'))
                                                                             ],
                                                                           ).setPageHorizontalPadding(context),
                                                                         ),
