@@ -471,7 +471,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                   ),
                                   FadeIn(
                                     child: Text(
-                                      'Upgrade to premium to unlock \nadditional features',
+                                      AppLocalizations.of(context)!.upgradetopremiumtounlockadditionalfeatures,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(fontSize: 20),
                                     ),
@@ -494,7 +494,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                               height: 3,
                                             ),
                                             Text(
-                                              'Ultra-Fast\n Connection',
+                                              AppLocalizations.of(context)!.ultraFastConnection,
                                               textAlign: TextAlign.center,
                                             )
                                           ],
@@ -506,7 +506,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                               height: 3,
                                             ),
                                             Text(
-                                              'Registration up\nto 10 showRooms',
+                                              AppLocalizations.of(context)!.registrationUpTo10ShowRooms,
                                               textAlign: TextAlign.center,
                                             )
                                           ],
@@ -518,7 +518,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                               height: 3,
                                             ),
                                             Text(
-                                              'Add-free\nexperience',
+                                              AppLocalizations.of(context)!.addFreeExperience,
                                               textAlign: TextAlign.center,
                                             )
                                           ],
@@ -530,7 +530,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                               height: 3,
                                             ),
                                             Text(
-                                              'Access up\n to 10 users',
+                                              AppLocalizations.of(context)!.ultraFastConnection,
                                               textAlign: TextAlign.center,
                                             )
                                           ],
@@ -668,7 +668,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                   .shrink()
                                                               : Center(
                                                                   child: Text(
-                                                                    "Pricing",
+                                                                    AppLocalizations.of(context)!.pricing,
                                                                     style: TextStyle(
                                                                         color: selected
                                                                             ? RevmoColors
@@ -713,7 +713,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                               fontSize: 20),
                                                                         ),
                                                                         Text(
-                                                                          "per month",
+                                                                          AppLocalizations.of(context)!.perMonth,
                                                                           style: TextStyle(
                                                                               color: selected ? RevmoColors.darkBlue : Colors.white,
                                                                               fontWeight: FontWeight.normal,
@@ -734,7 +734,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                               fontSize: 20),
                                                                         ),
                                                                         Text(
-                                                                          "per year",
+                                                                          AppLocalizations.of(context)!.perYear,
                                                                           style: TextStyle(
                                                                               color: selected ? RevmoColors.darkBlue : Colors.white,
                                                                               fontWeight: FontWeight.normal,
@@ -766,7 +766,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                           PricingContainer(
                                                             selected: selected,
                                                             title:
-                                                                "Offers Limit",
+                                                                AppLocalizations.of(context)!.offersLimit,
                                                             icon: Icon(
                                                               Iconsax
                                                                   .money_time5,
@@ -787,7 +787,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                     .usersLimit
                                                                     .toString(),
                                                             title:
-                                                                "Users Limit",
+                                                                AppLocalizations.of(context)!.usersLimit,
                                                             icon: Icon(
                                                               Iconsax.people5,
                                                               color: RevmoColors
@@ -805,7 +805,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                             selected: selected,
                                                             info: "",
                                                             title:
-                                                                "Email Support",
+                                                                AppLocalizations.of(context)!.emailSupport,
                                                             icon: Icon(
                                                               Iconsax.message5,
                                                               color: RevmoColors
@@ -827,7 +827,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                   .darkBlue,
                                                             ),
                                                             title:
-                                                                "Chat Support",
+                                                                  AppLocalizations.of(context)!.chatSupport,
                                                             widget: checkBox(
                                                                 selected:
                                                                     subscriptions![index].chatSupport ==
@@ -844,7 +844,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                   .darkBlue,
                                                             ),
                                                             title:
-                                                                "Phone Support",
+                                                                  AppLocalizations.of(context)!.phoneSupport,
                                                             widget: checkBox(
                                                                 selected:
                                                                     subscriptions![index].phoneSupport ==
@@ -900,7 +900,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                                 height: 20,
                                                                               ),
                                                                               Text(
-                                                                                "Subscribe",
+                                                                                AppLocalizations.of(context)!.subscribe,
                                                                                 style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
                                                                               ),
                                                                               SizedBox(
@@ -930,7 +930,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                                                       children: [
                                                                                         Text(
-                                                                                          "Subscribe to monthly plan",
+                                                                                          AppLocalizations.of(context)!.subscribeToMonthlyPlan,
                                                                                           style: TextStyle(fontSize: 14),
                                                                                         ),
                                                                                         Text(
@@ -969,7 +969,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                                                     children: [
                                                                                       Text(
-                                                                                        "Subscribe to annual plan",
+                                                                                       AppLocalizations.of(context)!.subscribeToAnnualPlan,
                                                                                         style: TextStyle(fontSize: 14),
                                                                                       ),
                                                                                       Text(
@@ -987,7 +987,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                                   onPressed: () {
                                                                                     Navigator.pop(context);
                                                                                   },
-                                                                                  child: Text('Back'))
+                                                                                  child: Text(AppLocalizations.of(context)!.back,))
                                                                             ],
                                                                           ).setPageHorizontalPadding(context),
                                                                         ),
@@ -1000,7 +1000,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                       //     subscriptions![index].id!.toString());
                                                                     },
                                                                     text:
-                                                                        "Subscribe now",
+                                                                        AppLocalizations.of(context)!.subscribeNow,
                                                                   ),
                                                                 ),
                                                         ],

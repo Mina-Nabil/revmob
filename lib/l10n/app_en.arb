@@ -55,7 +55,45 @@
       "subscriptions": "Subscriptions",
               "@mobileNumber": {
                "description": "Subscriptions in subscription screen"
+             }, 
+
+
+      "upgradetopremiumtounlockadditionalfeatures":   "Upgrade to premium to unlock additional features",
+              "@upgradetopremiumtounlockadditionalfeatures":{
+              "description":" Upgrade to premium to unlock additional features in subscription screen "
+      },
+       "freePlan": "Free Plan",
+              "@freePlan": {
+               "description": "Free Planin subscription screen"
+             }, 
+              "businessPlan": "Business Plan",
+              "@businessPlan": {
+               "description": "Business Planin subscription screen"
+             }, 
+           "proPlan": "Pro Plan",
+              "@proPlan": {
+               "description": "Pro Planin subscription screen"
+             },  
+              "pricing": "Pricing",
+              "@pricing": {
+               "description": "Pricing in subscription screen"
              },
+             "subscribe": "Subscribe",
+              "@subscribe": {
+               "description": "Subscribe in subscription screen"
+             }, 
+              "subscribeNow": "Subscribe Now",
+              "@subscribeNow": {
+               "description": "Subscribe Now in subscription screen"
+             },  
+              "subscribeToMonthlyPlan": "Subscribe to monthly plan",
+              "@subscribeToMonthlyPlan": {
+               "description": "Subscribe to monthly plan in subscription screen"
+             }, 
+              "subscribeToAnnualPlan": "Subscribe to annual plan",
+              "@subscribeToAnnualPlan": {
+               "description": "Subscribe to annual plan in subscription screen"
+             }, 
       "whatYouGet": "What you get",
               "@whatYouGet": {
                "description": "What you get in subscription screen"
@@ -67,6 +105,10 @@
       "perMonth": "Per month",
                           "@perMonth": {
                            "description": " Per month in subscription screen"
+                         },
+                           "perYear": "Per year",
+                          "@perYear": {
+                           "description": " Per year in subscription screen"
                          },
      "ultraFastConnection": "Ultra-fast connection'",
              "@ultraFastConnection": {
