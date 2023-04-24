@@ -61,16 +61,16 @@ class _HomeScreenState extends State<HomeScreen>
     CustomersTab.screenName: new GlobalKey<NavigatorState>(),
     NotificationsTab.screenName: new GlobalKey<NavigatorState>(),
   };
-  late final PersistentTabController _controller;
-  late final TabController _tabController;
+  // late final PersistentTabController _controller;
+  // late final TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _controller = PersistentTabController(initialIndex: 2);
-
-    _tabController =
-        TabController(length: pageKeys.length, vsync: this, initialIndex: 0);
+    // _controller = PersistentTabController(initialIndex: 2);
+    //
+    // _tabController =
+    //     TabController(length: pageKeys.length, vsync: this, initialIndex: 0);
   }
 
   @override

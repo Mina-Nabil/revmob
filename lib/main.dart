@@ -23,6 +23,7 @@ import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
 import 'package:get_it/get_it.dart';
 import 'Configurations/Extensions/loading_service.dart';
+import 'Configurations/Routes/routes.dart';
 import 'fixes/http_overrides.dart';
 import 'services/firebase_notification.dart';
 
@@ -98,7 +99,10 @@ class _RevmoSellerAppState extends State<RevmoSellerApp> {
                 Locale('en', ''), // English, no country code
                 Locale('ar', ''), // Arabic, no country code
               ],
-              onGenerateRoute: (settings) {
+              onGenerateRoute:
+              // Routes.generateRoute,
+
+                  (settings) {
                 switch (settings.name) {
                   case HomeScreen.ROUTE_NAME:
                     return PageTransition(

@@ -62,6 +62,7 @@ dependencies:
   iconsax: ^0.0.8
   expandable_page_view: ^1.0.17
   pull_to_refresh: ^2.0.0
+  modal_bottom_sheet: ^2.1.2
 
 
 

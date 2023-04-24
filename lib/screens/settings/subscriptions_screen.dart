@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/Configurations/Extensions/extensions.dart';
@@ -10,6 +11,7 @@ import '../../models/Subsriptions/plans.dart';
 import '../../providers/Seller/account_provider.dart';
 import '../../shared/colors.dart';
 import '../../shared/widgets/misc/main_button.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class SubscriptionScreen extends StatefulWidget {
   const SubscriptionScreen({Key? key}) : super(key: key);
@@ -48,6 +50,23 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       setState(() {
         subscriptions = [];
       });
+      return Future.value(false);
+    }
+  }
+
+  Future<bool> subscribe(String planId, String type, String days, String amount,
+      String transactionId) async {
+    try {
+      return await _service
+          .subscribe(planId, type, days, amount, transactionId)
+          .then((value) {
+        if (value.statusCode == 200 && value.data["message"] == "Success") {
+          return Future.value(true);
+        } else {
+          return Future.value(false);
+        }
+      });
+    } catch (e) {
       return Future.value(false);
     }
   }
@@ -272,7 +291,11 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                   )
                                 ])),
                           ),
-                          AppLocalizations.of(context)!.localeName == "ar" ? SizedBox(height: 5,) : SizedBox.shrink(),
+                          AppLocalizations.of(context)!.localeName == "ar"
+                              ? SizedBox(
+                                  height: 5,
+                                )
+                              : SizedBox.shrink(),
                           ListTile(
                             title:
                                 Text(AppLocalizations.of(context)!.usersLimit),
@@ -294,7 +317,11 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                   )
                                 ])),
                           ),
-                          AppLocalizations.of(context)!.localeName == "ar" ? SizedBox(height: 5,) : SizedBox.shrink(),
+                          AppLocalizations.of(context)!.localeName == "ar"
+                              ? SizedBox(
+                                  height: 5,
+                                )
+                              : SizedBox.shrink(),
                           ListTile(
                             title: Text(
                               AppLocalizations.of(context)!.emailSupport,
@@ -308,7 +335,11 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                     ? false
                                     : true),
                           ),
-                          AppLocalizations.of(context)!.localeName == "ar" ? SizedBox(height: 5,) : SizedBox.shrink(),
+                          AppLocalizations.of(context)!.localeName == "ar"
+                              ? SizedBox(
+                                  height: 5,
+                                )
+                              : SizedBox.shrink(),
                           ListTile(
                             title: Text(
                               AppLocalizations.of(context)!.chatSupport,
@@ -322,7 +353,11 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                     ? false
                                     : true),
                           ),
-                          AppLocalizations.of(context)!.localeName == "ar" ? SizedBox(height: 5,) : SizedBox.shrink(),
+                          AppLocalizations.of(context)!.localeName == "ar"
+                              ? SizedBox(
+                                  height: 5,
+                                )
+                              : SizedBox.shrink(),
                           ListTile(
                             title: Text(
                               AppLocalizations.of(context)!.phoneSupport,
@@ -392,7 +427,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                           width: mediaQuery.size.width,
                                           child: Center(
                                               child: Text(
-                                                  AppLocalizations.of(context)!.cancelSubscription)))),
+                                                  AppLocalizations.of(context)!
+                                                      .cancelSubscription)))),
                                 )
                               ],
                             ),
@@ -838,7 +874,131 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                     color: RevmoColors
                                                                         .originalBlue,
                                                                     callBack:
-                                                                        () {},
+                                                                        () {
+                                                                      showCupertinoModalBottomSheet(
+                                                                        expand:
+                                                                            false,
+                                                                        context:
+                                                                            context,
+                                                                        backgroundColor:
+                                                                            Colors.transparent,
+                                                                        useRootNavigator:
+                                                                            true,
+                                                                        builder:
+                                                                            (context) =>
+                                                                                Container(
+                                                                          color:
+                                                                              Colors.white,
+                                                                          height:
+                                                                              mediaQuery.size.height * 0.4,
+                                                                          child:
+                                                                              Column(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.start,
+                                                                            children: [
+                                                                              SizedBox(
+                                                                                height: 20,
+                                                                              ),
+                                                                              Text(
+                                                                                "Subscribe",
+                                                                                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+                                                                              ),
+                                                                              SizedBox(
+                                                                                height: 20,
+                                                                              ),
+                                                                              Material(
+                                                                                color: Colors.transparent,
+                                                                                child: InkWell(
+                                                                                  onTap: () {
+                                                                                    EasyLoading.show();
+                                                                                    provider.subscribe(subscriptions![index].id!.toString(), "paid", "30", subscriptions![index].monthlyPrice.toString(), "transactionId-1").then((value) {
+                                                                                      EasyLoading.dismiss();
+
+                                                                                      if (value) {
+                                                                                        Navigator.pop(context);
+                                                                                      }
+                                                                                    });
+                                                                                  },
+                                                                                  child: Container(
+                                                                                    width: mediaQuery.size.width,
+                                                                                    height: mediaQuery.size.height * 0.08,
+                                                                                    decoration: BoxDecoration(
+                                                                                      color: RevmoColors.originalBlue,
+                                                                                      borderRadius: BorderRadius.circular(15),
+                                                                                    ),
+                                                                                    child: Column(
+                                                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                                                      children: [
+                                                                                        Text(
+                                                                                          "Subscribe to monthly plan",
+                                                                                          style: TextStyle(fontSize: 14),
+                                                                                        ),
+                                                                                        Text(
+                                                                                          " ${subscriptions![index].monthlyPrice.toString()} ${AppLocalizations.of(context)!.egCurrency}",
+                                                                                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                                                                        )
+                                                                                      ],
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Divider(
+                                                                                color: Colors.black.withOpacity(0.3),
+                                                                                height: 20,
+                                                                              ),
+                                                                              InkWell(
+                                                                                onTap: () {
+                                                                                  EasyLoading.show();
+
+                                                                                  provider.subscribe(subscriptions![index].id!.toString(), "paid", "365", subscriptions![index].annualPrice.toString(), "transactionId-2").then((value) {
+                                                                                    EasyLoading.dismiss();
+
+                                                                                    if (value) {
+                                                                                      Navigator.pop(context);
+                                                                                    }
+                                                                                  });
+                                                                                },
+                                                                                child: Container(
+                                                                                  width: mediaQuery.size.width,
+                                                                                  height: mediaQuery.size.height * 0.08,
+                                                                                  decoration: BoxDecoration(
+                                                                                    color: RevmoColors.originalBlue,
+                                                                                    borderRadius: BorderRadius.circular(15),
+                                                                                  ),
+                                                                                  child: Column(
+                                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                                    children: [
+                                                                                      Text(
+                                                                                        "Subscribe to annual plan",
+                                                                                        style: TextStyle(fontSize: 14),
+                                                                                      ),
+                                                                                      Text(
+                                                                                        " ${subscriptions![index].annualPrice.toString()} ${AppLocalizations.of(context)!.egCurrency}",
+                                                                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                                                                      )
+                                                                                    ],
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              SizedBox(
+                                                                                height: 20,
+                                                                              ),
+                                                                              TextButton(
+                                                                                  onPressed: () {
+                                                                                    Navigator.pop(context);
+                                                                                  },
+                                                                                  child: Text('Back'))
+                                                                            ],
+                                                                          ).setPageHorizontalPadding(context),
+                                                                        ),
+                                                                      );
+                                                                      // provider.subscribe(
+                                                                      //     subscriptions![index].id!
+                                                                      //         .toString(),
+                                                                      //   "paid",
+                                                                      //     subscriptions![index]., subscriptions![index].id!.toString(),
+                                                                      //     subscriptions![index].id!.toString());
+                                                                    },
                                                                     text:
                                                                         "Subscribe now",
                                                                   ),
