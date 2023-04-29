@@ -1,5 +1,8 @@
 {
   "dashboard": "الرئيسيه",
+  "veryResponsive": "متجاوب جدا",
+  "currentSubscriptionPlan": "خطة الاشتراك الحالية\n ",
+  "modelsLimit": "نماذج الحد",
   "newRequests": "جديد",
   "pending": "في الانتظار",
   "approved": "تم",
