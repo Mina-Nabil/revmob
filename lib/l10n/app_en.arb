@@ -3,6 +3,18 @@
     "@dashboard": {
       "description": "The name of the dashboard screen"
     },
+    "veryResponsive": "Very Responsive",
+    "@veryResponsive": {
+      "description": "Very Responsive in  dashboard screen"
+    },
+    "currentSubscriptionPlan": "Current Subscription Plan",
+    "@currentSubscriptionPlan": {
+      "description": "Current Subscription Plan in  dashboard screen"
+    },
+     "modelsLimit": "Models limit",
+    "@modelsLimit": {
+      "description": "Models limit in  dashboard screen"
+    },
     "newOffer": "New Offer",
     "@newRequests": {
       "description": "New offer page title"

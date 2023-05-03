@@ -81,7 +81,7 @@ class _DashboardTabState extends State<DashboardTab> {
                         SizedBox(
                           width: 5,
                         ),
-                        Text('Very Responsive')
+                        Text(AppLocalizations.of(context)!.veryResponsive)
                       ],
                     ),
                   ],
@@ -117,7 +117,7 @@ class _DashboardTabState extends State<DashboardTab> {
                                 children: [
                                   TitleHeader(
                                     title:
-                                        "Current Subscription Plan\n (${providerAcc.plans!.name})",
+                                        "${AppLocalizations.of(context)!.currentSubscriptionPlan} (${providerAcc.plans!.name})",
                                     alignCenter: true,
                                   ),
                                   Row(
@@ -126,7 +126,7 @@ class _DashboardTabState extends State<DashboardTab> {
                                     children: [
                                       SubscriptionPlan(
                                         selected: false,
-                                        title: "Offers Limit",
+                                        title: AppLocalizations.of(context)!.offersLimit,
                                         icon: Icon(
                                           Iconsax.money_time5,
                                           color: RevmoColors.white,
@@ -136,7 +136,7 @@ class _DashboardTabState extends State<DashboardTab> {
                                       ),
                                       SubscriptionPlan(
                                         selected: false,
-                                        title: "Users Limit",
+                                        title: AppLocalizations.of(context)!.usersLimit,
                                         icon: Icon(
                                           Iconsax.people5,
                                           color: RevmoColors.white,
@@ -146,7 +146,7 @@ class _DashboardTabState extends State<DashboardTab> {
                                       ),
                                       SubscriptionPlan(
                                         selected: false,
-                                        title: "Models Limit",
+                                        title: AppLocalizations.of(context)!.modelsLimit,
                                         icon: Icon(
                                           Iconsax.car5,
                                           color: RevmoColors.white,
