@@ -95,6 +95,7 @@ class NetworkLayer {
         },
         onResponse:(response,handler) {
           // Do something with response data
+          print('statusCode: ${response.statusCode}');
           print('data: ${response.data}');
           if (response.statusCode == 200) {
             return handler.next(response); // continue

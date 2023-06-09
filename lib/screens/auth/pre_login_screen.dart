@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/environment/paths.dart';
 import 'package:revmo/providers/Seller/account_provider.dart';
@@ -30,16 +31,36 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
 
   @override
   initState() {
+    print('initiated');
+
     Future.delayed(Duration.zero).then((_) async {
-      await Provider.of<AccountProvider>(context, listen: false).loadUser(context, forceReload: true);
-      if (Provider.of<AccountProvider>(context, listen: false).showroom != null) {
-        Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.ROUTE_NAME, ModalRoute.withName('/'));
+      await Provider.of<AccountProvider>(context, listen: false)
+          .loadUser(context, forceReload: true);
+      if (Provider.of<AccountProvider>(context, listen: false).showroom !=
+          null) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            HomeScreen.ROUTE_NAME, ModalRoute.withName('/'));
       }
       setState(() {
         loading = false;
       });
     });
     super.initState();
+  }
+
+  refreshData() async {
+    setState(() {
+      loading = true;
+    });
+    await Provider.of<AccountProvider>(context, listen: false)
+        .loadUser(context, forceReload: true);
+    if (Provider.of<AccountProvider>(context, listen: false).showroom != null) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          HomeScreen.ROUTE_NAME, ModalRoute.withName('/'));
+    }
+    setState(() {
+      loading = false;
+    });
   }
 
   logOut() async {
@@ -50,7 +71,8 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
     if (await AuthService.logOut(context))
       Navigator.of(context).pushNamed(LoginScreen.ROUTE_NAME);
     else
-      RevmoTheme.showRevmoSnackbar(context, AppLocalizations.of(context)!.serverIssue);
+      RevmoTheme.showRevmoSnackbar(
+          context, AppLocalizations.of(context)!.serverIssue);
     setState(() {
       logOutEnabled = true;
       waitingForLogout = false;
@@ -60,6 +82,7 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(),
       body: Stack(
         alignment: Alignment.center,
         children: [
@@ -72,92 +95,151 @@ class _PreLoginScreenState extends State<PreLoginScreen> {
                 )),
             SafeArea(
                 child: Container(
-              height: MediaQuery.of(context).size.height * _mainContainerHeightRatio,
-              width: MediaQuery.of(context).size.width * _mainContainerWidthRatio,
+              height: MediaQuery.of(context).size.height *
+                  _mainContainerHeightRatio,
+              width:
+                  MediaQuery.of(context).size.width * _mainContainerWidthRatio,
               alignment: Alignment.center,
-              child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Container(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      child:
-                          RevmoTheme.getBody(AppLocalizations.of(context)!.welcomeTo, 3, isBold: true, weight: FontWeight.w600),
-                    ),
-                    Container(
-                      child: RevmoTheme.getEuroStileTitle("REVMO"),
-                      // child: SvgPicture.asset(Paths.logoSVG),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 5),
-                      child: RevmoTheme.getCaption(AppLocalizations.of(context)!.slogan, 1),
-                    ),
-                  ],
-                )),
-                Container(
-                  child: Consumer<AccountProvider>(
-                    builder: (cnxt, sellerProvider, _) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 56.0),
                         child: Column(
-                          mainAxisAlignment: (loading) ? MainAxisAlignment.start : MainAxisAlignment.end,
-                          children: (loading)
-                              ? [
-                                  Center(
-                                    child: CircularProgressIndicator(),
-                                  )
-                                ]
-                              : (sellerProvider.user != null)
-                                  ? [
-                                      MainButton(
-                                        callBack: logOut,
-                                        text: AppLocalizations.of(context)!.logout.toUpperCase(),
-                                        width: _buttonsWidth,
-                                      ),
-                                      SecondaryButton(
-                                        callBack: () {
-                                          Navigator.of(context).pushNamed(JoinShowroomScreen.ROUTE_NAME);
-                                        },
-                                        text: AppLocalizations.of(context)!.joinShowroom.toUpperCase(),
-                                        width: _buttonsWidth,
-                                      ),
-                                      SecondaryButton(
-                                        callBack: () {
-                                          Navigator.of(context).pushNamed(SignUp.SHOWROOM_ROUTE_NAME);
-                                        },
-                                        text: AppLocalizations.of(context)!.signUpShowroom.toUpperCase(),
-                                        width: _buttonsWidth,
-                                      ),
-                                    ]
-                                  : [
-                                      MainButton(
-                                        callBack: () {
-                                          Navigator.of(context).pushNamed(LoginScreen.ROUTE_NAME);
-                                        },
-                                        text: AppLocalizations.of(context)!.signIn.toUpperCase(),
-                                        width: _buttonsWidth,
-                                      ),
-                                      SecondaryButton(
-                                        callBack: () {
-                                          Navigator.of(context).pushNamed(SignUp.SELLER_ROUTE_NAME);
-                                        },
-                                        text: AppLocalizations.of(context)!.signUpSeller.toUpperCase(),
-                                        width: _buttonsWidth,
-                                      ),
-                                      SecondaryButton(
-                                        callBack: () {
-                                          Navigator.of(context).pushNamed(SignUp.SHOWROOM_ROUTE_NAME);
-                                        },
-                                        text: AppLocalizations.of(context)!.signUpShowroom.toUpperCase(),
-                                        width: _buttonsWidth,
-                                      ),
-                                    ],
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          child: RevmoTheme.getBody(
+                              AppLocalizations.of(context)!.welcomeTo, 3,
+                              isBold: true, weight: FontWeight.w600),
                         ),
-                      );
-                    },
-                  ),
-                )
-              ]),
+                        Container(
+                          child: RevmoTheme.getEuroStileTitle("REVMO"),
+                          // child: SvgPicture.asset(Paths.logoSVG),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 5),
+                          child: RevmoTheme.getCaption(
+                              AppLocalizations.of(context)!.slogan, 1),
+                        ),
+                      ],
+                    )),
+                    Container(
+                      child: Consumer<AccountProvider>(
+                        builder: (cnxt, sellerProvider, _) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 56.0),
+                            child: Column(
+                              mainAxisAlignment: (loading)
+                                  ? MainAxisAlignment.start
+                                  : MainAxisAlignment.end,
+                              children: (loading)
+                                  ? [
+                                      Center(
+                                        child: CircularProgressIndicator(),
+                                      )
+                                    ]
+                                  : (sellerProvider.user != null)
+                                      ? [
+                                          MainButton(
+                                            callBack: logOut,
+                                            text: AppLocalizations.of(context)!
+                                                .logout
+                                                .toUpperCase(),
+                                            width: _buttonsWidth,
+                                          ),
+                                          SecondaryButton(
+                                            callBack: () {
+                                              Navigator.of(context).pushNamed(
+                                                  JoinShowroomScreen
+                                                      .ROUTE_NAME);
+                                            },
+                                            text: AppLocalizations.of(context)!
+                                                .joinShowroom
+                                                .toUpperCase(),
+                                            width: _buttonsWidth,
+                                          ),
+                                          SecondaryButton(
+                                            callBack: () {
+                                              // Navigator.push(
+                                              //     context,
+                                              //     MaterialPageRoute(
+                                              //         builder: (context) =>
+                                              //             SignUp(signedUpSeller: true,)));
+
+                                              Navigator.of(context).pushNamed(
+                                                  SignUp.SHOWROOM_ROUTE_NAME);
+                                            },
+                                            text: AppLocalizations.of(context)!
+                                                .signUpShowroom
+                                                .toUpperCase(),
+                                            width: _buttonsWidth,
+                                          ),
+                                          SecondaryButton(
+                                            callBack: () async {
+                                              EasyLoading.show();
+                                              await Provider.of<
+                                                          AccountProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .loadUser(context,
+                                                      forceReload: true)
+                                                  .then((value) {
+                                                if (Provider.of<AccountProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .showroom !=
+                                                    null) {
+                                                  Navigator.of(context)
+                                                      .pushNamedAndRemoveUntil(
+                                                          HomeScreen.ROUTE_NAME,
+                                                          ModalRoute.withName(
+                                                              '/'));
+                                                }
+                                                EasyLoading.dismiss();
+                                              });
+                                            },
+                                            text: "Refresh",
+                                            width: _buttonsWidth,
+                                          ),
+                                        ]
+                                      : [
+                                          MainButton(
+                                            callBack: () {
+                                              Navigator.of(context).pushNamed(
+                                                  LoginScreen.ROUTE_NAME);
+                                            },
+                                            text: AppLocalizations.of(context)!
+                                                .signIn
+                                                .toUpperCase(),
+                                            width: _buttonsWidth,
+                                          ),
+                                          SecondaryButton(
+                                            callBack: () {
+                                              Navigator.of(context).pushNamed(
+                                                  SignUp.SELLER_ROUTE_NAME);
+                                            },
+                                            text: AppLocalizations.of(context)!
+                                                .signUpSeller
+                                                .toUpperCase(),
+                                            width: _buttonsWidth,
+                                          ),
+                                          SecondaryButton(
+                                            callBack: () {
+                                              Navigator.of(context).pushNamed(
+                                                  SignUp.SHOWROOM_ROUTE_NAME);
+                                            },
+                                            text: AppLocalizations.of(context)!
+                                                .signUpShowroom
+                                                .toUpperCase(),
+                                            width: _buttonsWidth,
+                                          ),
+                                        ],
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  ]),
             )),
           ]),
           if (waitingForLogout) RevmoTheme.getLoadingContainer(context)

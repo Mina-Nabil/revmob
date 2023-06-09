@@ -212,60 +212,28 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                             height: 20,
                           ),
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Icon(Iconsax.speedometer5),
-                                  SizedBox(
-                                    height: 3,
-                                  ),
-                                  Text(
-                                    AppLocalizations.of(context)!
-                                        .ultraFastConnection,
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
+                              OptionContainer(
+                                title:     AppLocalizations.of(context)!
+                                    .ultraFastConnection,
+                                icon: Icon(Iconsax.speedometer5),
                               ),
-                              Column(
-                                children: [
-                                  Icon(Iconsax.shop),
-                                  SizedBox(
-                                    height: 3,
-                                  ),
-                                  Text(
-                                    AppLocalizations.of(context)!
-                                        .registrationUpTo10ShowRooms,
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
+                              OptionContainer(
+                                title: AppLocalizations.of(context)!
+                                    .registrationUpTo10ShowRooms,
+                                icon: Icon(Iconsax.shop),
                               ),
-                              Column(
-                                children: [
-                                  Icon(Iconsax.lock),
-                                  SizedBox(
-                                    height: 3,
-                                  ),
-                                  Text(
-                                    AppLocalizations.of(context)!
-                                        .addFreeExperience,
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
+                              OptionContainer(
+                                title:     AppLocalizations.of(context)!
+                                    .addFreeExperience,
+                                icon:      Icon(Iconsax.lock),
                               ),
-                              Column(
-                                children: [
-                                  Icon(Iconsax.people),
-                                  SizedBox(
-                                    height: 3,
-                                  ),
-                                  Text(
-                                    AppLocalizations.of(context)!
-                                        .accessUpTo10Users,
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
+                              OptionContainer(
+                                title:    AppLocalizations.of(context)!
+                                    .ultraFastConnection,
+                                icon:       Icon(Iconsax.people),
                               ),
                             ],
                           ),
@@ -471,7 +439,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                   ),
                                   FadeIn(
                                     child: Text(
-                                      AppLocalizations.of(context)!.upgradetopremiumtounlockadditionalfeatures,
+                                      AppLocalizations.of(context)!
+                                          .upgradetopremiumtounlockadditionalfeatures,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(fontSize: 20),
                                     ),
@@ -479,63 +448,37 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  FadeInUp(
-                                    delay: Duration(milliseconds: 400),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Icon(Iconsax.speedometer5),
-                                            SizedBox(
-                                              height: 3,
-                                            ),
-                                            Text(
-                                              AppLocalizations.of(context)!.ultraFastConnection,
-                                              textAlign: TextAlign.center,
-                                            )
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            Icon(Iconsax.shop),
-                                            SizedBox(
-                                              height: 3,
-                                            ),
-                                            Text(
-                                              AppLocalizations.of(context)!.registrationUpTo10ShowRooms,
-                                              textAlign: TextAlign.center,
-                                            )
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            Icon(Iconsax.lock),
-                                            SizedBox(
-                                              height: 3,
-                                            ),
-                                            Text(
-                                              AppLocalizations.of(context)!.addFreeExperience,
-                                              textAlign: TextAlign.center,
-                                            )
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            Icon(Iconsax.people),
-                                            SizedBox(
-                                              height: 3,
-                                            ),
-                                            Text(
-                                              AppLocalizations.of(context)!.ultraFastConnection,
-                                              textAlign: TextAlign.center,
-                                            )
-                                          ],
-                                        ),
-                                      ],
+                                  SizedBox(
+                                    width: mediaQuery.size.width,
+                                    child: FadeInUp(
+                                      delay: Duration(milliseconds: 400),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          OptionContainer(
+                                            title:     AppLocalizations.of(context)!
+                                                .ultraFastConnection,
+                                            icon: Icon(Iconsax.speedometer5),
+                                          ),
+                                          OptionContainer(
+                                            title: AppLocalizations.of(context)!
+                                                .registrationUpTo10ShowRooms,
+                                            icon: Icon(Iconsax.shop),
+                                          ),
+                                          OptionContainer(
+                                            title:     AppLocalizations.of(context)!
+                                                .addFreeExperience,
+                                            icon:      Icon(Iconsax.lock),
+                                          ),
+                                          OptionContainer(
+                                            title:    AppLocalizations.of(context)!
+                                                .ultraFastConnection,
+                                            icon:       Icon(Iconsax.people),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   SizedBox(
@@ -668,7 +611,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                   .shrink()
                                                               : Center(
                                                                   child: Text(
-                                                                    AppLocalizations.of(context)!.pricing,
+                                                                    AppLocalizations.of(
+                                                                            context)!
+                                                                        .pricing,
                                                                     style: TextStyle(
                                                                         color: selected
                                                                             ? RevmoColors
@@ -713,7 +658,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                               fontSize: 20),
                                                                         ),
                                                                         Text(
-                                                                          AppLocalizations.of(context)!.perMonth,
+                                                                          AppLocalizations.of(context)!
+                                                                              .perMonth,
                                                                           style: TextStyle(
                                                                               color: selected ? RevmoColors.darkBlue : Colors.white,
                                                                               fontWeight: FontWeight.normal,
@@ -734,7 +680,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                               fontSize: 20),
                                                                         ),
                                                                         Text(
-                                                                          AppLocalizations.of(context)!.perYear,
+                                                                          AppLocalizations.of(context)!
+                                                                              .perYear,
                                                                           style: TextStyle(
                                                                               color: selected ? RevmoColors.darkBlue : Colors.white,
                                                                               fontWeight: FontWeight.normal,
@@ -765,8 +712,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                 ),
                                                           PricingContainer(
                                                             selected: selected,
-                                                            title:
-                                                                AppLocalizations.of(context)!.offersLimit,
+                                                            title: AppLocalizations
+                                                                    .of(context)!
+                                                                .offersLimit,
                                                             icon: Icon(
                                                               Iconsax
                                                                   .money_time5,
@@ -786,8 +734,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                         index]
                                                                     .usersLimit
                                                                     .toString(),
-                                                            title:
-                                                                AppLocalizations.of(context)!.usersLimit,
+                                                            title: AppLocalizations
+                                                                    .of(context)!
+                                                                .usersLimit,
                                                             icon: Icon(
                                                               Iconsax.people5,
                                                               color: RevmoColors
@@ -804,8 +753,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                           PricingContainer(
                                                             selected: selected,
                                                             info: "",
-                                                            title:
-                                                                AppLocalizations.of(context)!.emailSupport,
+                                                            title: AppLocalizations
+                                                                    .of(context)!
+                                                                .emailSupport,
                                                             icon: Icon(
                                                               Iconsax.message5,
                                                               color: RevmoColors
@@ -826,8 +776,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                               color: RevmoColors
                                                                   .darkBlue,
                                                             ),
-                                                            title:
-                                                                  AppLocalizations.of(context)!.chatSupport,
+                                                            title: AppLocalizations
+                                                                    .of(context)!
+                                                                .chatSupport,
                                                             widget: checkBox(
                                                                 selected:
                                                                     subscriptions![index].chatSupport ==
@@ -843,8 +794,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                               color: RevmoColors
                                                                   .darkBlue,
                                                             ),
-                                                            title:
-                                                                  AppLocalizations.of(context)!.phoneSupport,
+                                                            title: AppLocalizations
+                                                                    .of(context)!
+                                                                .phoneSupport,
                                                             widget: checkBox(
                                                                 selected:
                                                                     subscriptions![index].phoneSupport ==
@@ -969,7 +921,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                                                     children: [
                                                                                       Text(
-                                                                                       AppLocalizations.of(context)!.subscribeToAnnualPlan,
+                                                                                        AppLocalizations.of(context)!.subscribeToAnnualPlan,
                                                                                         style: TextStyle(fontSize: 14),
                                                                                       ),
                                                                                       Text(
@@ -987,7 +939,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                                   onPressed: () {
                                                                                     Navigator.pop(context);
                                                                                   },
-                                                                                  child: Text(AppLocalizations.of(context)!.back,))
+                                                                                  child: Text(
+                                                                                    AppLocalizations.of(context)!.back,
+                                                                                  ))
                                                                             ],
                                                                           ).setPageHorizontalPadding(context),
                                                                         ),
@@ -999,8 +953,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                       //     subscriptions![index]., subscriptions![index].id!.toString(),
                                                                       //     subscriptions![index].id!.toString());
                                                                     },
-                                                                    text:
-                                                                        AppLocalizations.of(context)!.subscribeNow,
+                                                                    text: AppLocalizations.of(
+                                                                            context)!
+                                                                        .subscribeNow,
                                                                   ),
                                                                 ),
                                                         ],
@@ -1061,6 +1016,35 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           ],
         ).setPageHorizontalPadding(context),
       ),
+    );
+  }
+}
+
+class OptionContainer extends StatelessWidget {
+  final String title;
+  final Widget icon;
+
+  const OptionContainer({Key? key, required this.title, required this.icon})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        icon,
+        // Icon(Iconsax.shop),
+        SizedBox(
+          height: 3,
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.2,
+          child: Text(
+            title,
+            // AppLocalizations.of(context)!.registrationUpTo10ShowRooms,
+            textAlign: TextAlign.center,
+          ),
+        )
+      ],
     );
   }
 }

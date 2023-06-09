@@ -335,6 +335,19 @@ class AccountProvider extends ChangeNotifier {
   Plans? plans;
   Subscription? subscription;
 
+  String? emailSignUp;
+  String? phoneNumber;
+
+  setEmailSignup(String email) {
+    emailSignUp = email;
+    notifyListeners();
+  }
+
+  setUserMobile(String number) {
+    phoneNumber = number;
+    notifyListeners();
+  }
+
   //setting fcm token
   Future setFcmToken(String token) async {
     try {
@@ -396,9 +409,12 @@ class AccountProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> subscribe(String planId, String type, String days, String amount, String transactionId) async {
+  Future<bool> subscribe(String planId, String type, String days, String amount,
+      String transactionId) async {
     try {
-      return await _service.subscribe(planId, type, days, amount, transactionId).then((value) {
+      return await _service
+          .subscribe(planId, type, days, amount, transactionId)
+          .then((value) {
         if (value.statusCode == 200 && value.data["status"] == true) {
           loadCurrentPlan();
           return Future.value(true);
@@ -408,12 +424,9 @@ class AccountProvider extends ChangeNotifier {
         }
       });
     } catch (e) {
-
       return Future.value(false);
     }
   }
-
-
 
   Future<bool> editProfile(String username, String mobNumber1,
       String? mobNumber2, File? image) async {
@@ -426,7 +439,8 @@ class AccountProvider extends ChangeNotifier {
               mobNumber2: mobNumber2!.isEmpty ? null : mobNumber2)
           .then((value) {
         if (value.statusCode == 200) {
-         _currentUser =  Seller.fromJson(value.data["body"]["seller"]);
+          _currentUser = Seller.fromJson(value.data["body"]["seller"]);
+
           notifyListeners();
           return Future.value(true);
         } else {
@@ -445,6 +459,14 @@ class AccountProvider extends ChangeNotifier {
         _currentUser = response.body;
       }
     }
+    notifyListeners();
+  }
+
+  Future refreshUserNetworkLayer(context) async {
+      var response = await AuthService().refreshUserNetworkLayer();
+      if (response.statusCode == 200) {
+        _currentUser = Seller.fromJson(response.data["body"]);
+      }
     notifyListeners();
   }
 }

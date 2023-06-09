@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/environment/api_response.dart';
+import 'package:revmo/environment/network_layer.dart';
 import 'package:revmo/environment/server.dart';
 import 'package:revmo/main.dart';
 import 'package:revmo/models/accounts/seller.dart';
@@ -35,7 +37,7 @@ class AuthService {
     if (request.statusCode == 200) {
       try {
         Map<String, dynamic> decoded =
-            jsonDecode(utf8.decode(request.bodyBytes));
+        jsonDecode(utf8.decode(request.bodyBytes));
         if (decoded["status"] == true &&
             decoded.containsKey("body") &&
             decoded["body"] is Map<String, dynamic> &&
@@ -63,10 +65,10 @@ class AuthService {
 
   static Future<ApiResponse<Seller?>> registerSeller(context,
       {required String name,
-      required String email,
-      required String mobNumber,
-      required String password,
-      File? displayImage}) async {
+        required String email,
+        required String mobNumber,
+        required String password,
+        File? displayImage}) async {
     var request = http.MultipartRequest(
       "POST",
       server.registrationURI,
@@ -88,17 +90,30 @@ class AuthService {
       request.files.add(pic);
     }
     var response = await request.send();
+    // var responseData = await response.stream.toBytes();
+    // var responseString = String.fromCharCodes(responseData);
+    // dynamic decoded = jsonDecode(responseString);
+    print(response.statusCode);
     if (response.statusCode == 200) {
       try {
-        print(response.stream.toString());
+        // print(response.stream.toString());
+        print('1');
         var responseData = await response.stream.toBytes();
+        print('2');
+
         var responseString = String.fromCharCodes(responseData);
+        print('3');
+
         dynamic decoded = jsonDecode(responseString);
+        print('4');
+
         print(decoded);
+        print('5');
+
         if (decoded["status"] == true) {
           print("condition1");
           Seller newSeller = Seller.fromJson(decoded["body"]["seller"]);
-          await server.setApiToken(decoded["body"]["token"]); //userloggedIn
+          await server.setApiToken(decoded["body"]["token"]);
           return new ApiResponse<Seller>(
               true, newSeller, AppLocalizations.of(context)!.sellerCreatedMsg);
         } else {
@@ -113,6 +128,9 @@ class AuthService {
         return new ApiResponse(
             false, null, AppLocalizations.of(context)!.serverIssue);
       }
+    } else if (response.statusCode == 422) {
+      return new ApiResponse(
+          false, null, AppLocalizations.of(context)!.emailTaken);
     } else {
       print("condition4");
       print(response.stream.toString());
@@ -124,7 +142,7 @@ class AuthService {
   static Future<ApiResponse<Seller?>> login(context,
       {required String identifier, required String password}) async {
     var response =
-        await http.post(server.loginURI, headers: server.headers, body: {
+    await http.post(server.loginURI, headers: server.headers, body: {
       Seller.FORM_IDENTIFIER_Key: identifier,
       Seller.FORM_PW_Key: password,
       "deviceName": await server.deviceName
@@ -146,7 +164,7 @@ class AuthService {
           return new ApiResponse(
               false, null, AppLocalizations.of(context)!.cantLogin,
               errors: (decoded["body"] is Map<String, String> &&
-                      decoded["body"].containsKey("errors"))
+                  decoded["body"].containsKey("errors"))
                   ? decoded["body"]["errors"]
                   : null);
         }
@@ -164,7 +182,7 @@ class AuthService {
 
   static Future<ApiResponse<bool>> isEmailTaken(context, email) async {
     final request =
-        await http.post(server.checkEmailURI, headers: server.headers, body: {
+    await http.post(server.checkEmailURI, headers: server.headers, body: {
       Seller.FORM_EMAIL_Key: email,
     });
     if (request.statusCode == 200) {
@@ -186,7 +204,7 @@ class AuthService {
 
   static Future<ApiResponse<bool>> isPhoneTaken(context, phone) async {
     final request =
-        await http.post(server.checkPhoneURI, headers: server.headers, body: {
+    await http.post(server.checkPhoneURI, headers: server.headers, body: {
       "phone": phone,
     });
     if (request.statusCode == 200) {
@@ -217,4 +235,11 @@ class AuthService {
     }
     return providerUserDeleted && tokenDeleted;
   }
+
+  NetworkLayer _networkLayer = NetworkLayer();
+
+  Future<Response> refreshUserNetworkLayer(){
+    return _networkLayer.authDio.get('/api/seller/user',);
+  }
+
 }

@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:revmo/models/Notification/notification_model.dart';
 import 'package:revmo/shared/colors.dart';
@@ -8,7 +9,10 @@ import 'package:revmo/Configurations/Extensions/extensions.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart' as smart;
 
+import '../../environment/paths.dart';
 import '../../services/notification_service.dart';
+import '../../shared/theme.dart';
+import '../../shared/widgets/misc/not_found_widget.dart';
 
 class NotificationsTab extends StatefulWidget {
   static const screenName = "notificationsTab";
@@ -125,7 +129,45 @@ class _NotificationsTabState extends State<NotificationsTab> {
                     if (connectionState.connectionState ==
                         ConnectionState.done) {
                       if (notificationList.isEmpty) {
-                        return Text('no data');
+                        return FadeInUp(
+                          child: Center(
+                              child: LayoutBuilder(
+                                  builder: (context, constraints) =>
+                                      ListView(children: [
+                                        Container(
+                                            alignment: Alignment.center,
+                                            height: constraints.maxHeight,
+                                            child: Center(
+                                                child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                  SvgPicture.asset(
+                                                    Paths.noCustomersSVG,
+                                                    color:
+                                                        RevmoColors.darkerBlue,
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  FittedBox(
+                                                    child:
+                                                        RevmoTheme.getSemiBold(
+                                                            "No Notifications",
+                                                            2,
+                                                            color: RevmoColors
+                                                                .originalBlue),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 20,
+                                                  ),
+
+                                                ])))
+                                      ]))
+                              // fetchCustomers
+                              ),
+                        );
                       } else {
                         return Container(
                             decoration: BoxDecoration(

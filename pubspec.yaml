@@ -55,7 +55,6 @@ dependencies:
   flutter_multi_select_items: ^0.4.0
   persistent_bottom_nav_bar: ^4.0.2
   cached_network_image: ^3.2.0
-  pmvvm: ^2.3.0
   firebase_core: ^2.9.0
   firebase_messaging: ^14.0.1
   currency_text_input_formatter: ^2.1.8
@@ -63,6 +62,8 @@ dependencies:
   expandable_page_view: ^1.0.17
   pull_to_refresh: ^2.0.0
   modal_bottom_sheet: ^3.0.0-pre
+  pinput: ^2.2.12
+
 
 
 
