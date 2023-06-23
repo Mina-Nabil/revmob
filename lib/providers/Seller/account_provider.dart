@@ -368,37 +368,40 @@ class AccountProvider extends ChangeNotifier {
     try {
       return _service.getCurrentPlan().then((value) {
         if (value.statusCode == 200) {
-          var plan = Plans.fromJson(value.data["body"]["plan"]);
-          plans = plan;
-          // subscribtion = Plans(
-          //   id: 2,
-          //   name: "Pro Plan",
-          //   monthlyPrice: 500,
-          //   annualPrice: 500,
-          //   adminsLimit: 10,
-          //   usersLimit: 10,
-          //   modelsLimit: 10,
-          //   offersLimit: 70,
-          //   servicesLimit: 100,
-          //   facilityPayment: 100,
-          //   emailSupport: 1,
-          //   chatSupport: 1,
-          //   phoneSupport: 1,
-          //   dashboardAccess: 1,
-          //   order: 1,
-          // );
-          // print('this is plan ${plans}');
+          if(value.data["body"] != null ) {
+            var plan = Plans.fromJson(value.data["body"]["plan"]);
+            plans = plan;
+            // subscribtion = Plans(
+            //   id: 2,
+            //   name: "Pro Plan",
+            //   monthlyPrice: 500,
+            //   annualPrice: 500,
+            //   adminsLimit: 10,
+            //   usersLimit: 10,
+            //   modelsLimit: 10,
+            //   offersLimit: 70,
+            //   servicesLimit: 100,
+            //   facilityPayment: 100,
+            //   emailSupport: 1,
+            //   chatSupport: 1,
+            //   phoneSupport: 1,
+            //   dashboardAccess: 1,
+            //   order: 1,
+            // );
+            // print('this is plan ${plans}');
 
-          var current = CurrentPlan.fromJson(value.data["body"]["current"]);
-          currentPlan = current;
-          // currentPlan!.offers = current.offers;
-          // currentPlan = CurrentPlan(
-          //   users: 5,
-          //   admins: 5,
-          //   offers: 60,
-          //   models: 5,
-          // );
-          notifyListeners();
+            var current = CurrentPlan.fromJson(value.data["body"]["current"]);
+            currentPlan = current;
+            // currentPlan!.offers = current.offers;
+            // currentPlan = CurrentPlan(
+            //   users: 5,
+            //   admins: 5,
+            //   offers: 60,
+            //   models: 5,
+            // );
+            notifyListeners();
+          }
+
           return Future.value(true);
         } else {
           return Future.value(false);
