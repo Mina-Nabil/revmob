@@ -188,7 +188,7 @@ class _AccountScreenState extends State<AccountScreen> {
             SizedBox(
               height: 30,
             ),
-          
+
             _dataInfo(
                 title: AppLocalizations.of(context)!.fullName,
                 info: sellerProvider.user!.fullName,

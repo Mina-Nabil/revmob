@@ -46,11 +46,15 @@ class _CustomersTabState extends State<CustomersTab> {
       key: scaffoldKey,
       backgroundColor: RevmoColors.darkBlue,
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        // Container(
+        //   child: Text(
+        //     AppLocalizations.of(context)!.customers,
+        //     style: TextStyle(fontSize: 20),
+        //   ),
+        // ),
         Container(
-          child: Text(
-            AppLocalizations.of(context)!.customers,
-            style: TextStyle(fontSize: 20),
-          ),
+          width: double.infinity,
+          child: RevmoTheme.getSemiBold( AppLocalizations.of(context)!.customers, 3),
         ),
         SizedBox(
           height: 20,

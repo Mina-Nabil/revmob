@@ -218,6 +218,8 @@ class _VerifyViewState extends State<VerifyView> {
     }
   }
 
+
+
   @override
   void initState() {
     if (widget.mail != null) {

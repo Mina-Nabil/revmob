@@ -73,10 +73,13 @@ class _ModelColorsSelectionsScreenState extends State<ModelColorsSelectionsScree
                                     selectedColors: widget.catalog.getCarColors(widget.catalog.fullCarList[itemIndex])),
                               )),
                     ),
-                    MainButton(
-                      text: AppLocalizations.of(context)!.addCars,
-                      width: double.infinity,
-                      callBack: (!isLoading) ? () => submitAddCars(context) : null,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 23.0),
+                      child: MainButton(
+                        text: AppLocalizations.of(context)!.addCars,
+                        width: double.infinity,
+                        callBack: (!isLoading) ? () => submitAddCars(context) : null,
+                      ),
                     )
                   ],
                 ),

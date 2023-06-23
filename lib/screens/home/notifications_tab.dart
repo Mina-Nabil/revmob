@@ -113,11 +113,15 @@ class _NotificationsTabState extends State<NotificationsTab> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Container(
+            //   child: Text(
+            //     AppLocalizations.of(context)!.notifications,
+            //     style: TextStyle(fontSize: 20),
+            //   ),
+            // ),
             Container(
-              child: Text(
-                AppLocalizations.of(context)!.notifications,
-                style: TextStyle(fontSize: 20),
-              ),
+              width: double.infinity,
+              child: RevmoTheme.getSemiBold( AppLocalizations.of(context)!.notifications, 3),
             ),
             SizedBox(
               height: 10,
