@@ -222,7 +222,7 @@ class _DashboardTabState extends State<DashboardTab> {
                       itemCount: 5,
                       itemBuilder: (context, index) {
                         return Container(
-                          width: mediaQuery.size.width * 0.7,
+                          width: mediaQuery.size.width * 0.8,
                           padding: EdgeInsets.all(10
                           ),
                           decoration: BoxDecoration(
