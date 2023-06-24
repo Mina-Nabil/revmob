@@ -38,7 +38,7 @@ class _VerficationFormState extends State<VerficationForm> {
   Future<Response> verifyMob() {
     return _networkLayer.authDio.post('/api/seller/verify/mob', data: {
       "code": otp.text,
-      "mob": Provider.of<AccountProvider>(context, listen: false).phoneNumber
+      "mob":  Provider.of<AccountProvider>(context, listen: false).user?.mob ?? Provider.of<AccountProvider>(context, listen: false).phoneNumber
     });
   }
 
@@ -175,7 +175,7 @@ class _VerficationFormState extends State<VerficationForm> {
                 }
                 verify(
                         otp.text,
-                        Provider.of<AccountProvider>(context, listen: false)
+                    Provider.of<AccountProvider>(context, listen: false).user?.mob ??      Provider.of<AccountProvider>(context, listen: false)
                             .emailSignUp
                             .toString())
                     .then((value) async {
@@ -395,7 +395,7 @@ class _VerficationFormCompanyState extends State<VerficationFormCompany> {
                 }
                 verify(
                         otp.text,
-                        Provider.of<AccountProvider>(context, listen: false)
+                     Provider.of<AccountProvider>(context, listen: false)
                             .emailSignUp
                             .toString())
                     .then((value) async {

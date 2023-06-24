@@ -36,12 +36,13 @@ class NetworkLayer {
     unAuthDio.interceptors.add(InterceptorsWrapper(
         onRequest:(options, handler){
           // Do something before request is sent
-
-
+          if (options.method == 'POST') {
+            options.headers['accept'] = "application/json";
+            options.headers['content-type'] = "application/json";
+          }
           print('send request ${options.uri}');
           print('headers ${options.headers}');
           print('data: ${options.data}');
-
           return handler.next(options); //continue
           // If you want to resolve the request with some custom data，
           // you can resolve a `Response` object eg: `handler.resolve(response)`.
@@ -83,7 +84,10 @@ class NetworkLayer {
         onRequest:(options, handler){
           // Do something before request is sent
        options.headers = server.headers;
-
+       if (options.method == 'POST') {
+         options.headers['accept'] = "application/json";
+         options.headers['content-type'] = "application/json";
+       }
           print('send request ${options.uri}');
           print('headers ${options.headers}');
           print('data on request: ${options.data}');

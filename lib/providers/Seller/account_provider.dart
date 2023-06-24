@@ -460,6 +460,7 @@ class AccountProvider extends ChangeNotifier {
       var response = await AuthService.getCurrentUser(context);
       if (response.status == true) {
         _currentUser = response.body;
+        print(_currentUser!.mob);
       }
     }
     notifyListeners();

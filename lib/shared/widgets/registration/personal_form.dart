@@ -265,6 +265,7 @@ class _PersonalFormState extends State<PersonalForm> {
       if (response.status == true && response.body != null) {
         Provider.of<AccountProvider>(context, listen: false)
             .setUserMobile(_mobileNumberController.text);
+        print('this is mobile number ${ Provider.of<AccountProvider>(context, listen: false).phoneNumber}');
         moveBar();
         RevmoTheme.showRevmoSnackbar(context, response.msg);
         movePage();

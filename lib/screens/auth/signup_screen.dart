@@ -69,6 +69,10 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     Future.delayed(Duration.zero).then((_) async {
+      if(Provider.of<AccountProvider>(context, listen: false).user != null ){
+        print("user retreived");
+        await Provider.of<AccountProvider>(context, listen: false).refresshUser(context, forceReload: true);
+      }
       await Provider.of<AccountProvider>(context, listen: false).loadUser(context, forceReload: true);
       if (Provider.of<AccountProvider>(context, listen: false).showroom != null) {
         Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.ROUTE_NAME, ModalRoute.withName('/'));
