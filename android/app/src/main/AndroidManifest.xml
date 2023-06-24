@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.revmo">
    <application
-        android:label="revmo"
+        android:label="Revmo Seller"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"

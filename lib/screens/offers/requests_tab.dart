@@ -53,6 +53,7 @@ class _RequestsTabState extends State<RequestsTab> {
 
   @override
   Widget build(BuildContext context) {
+    var offerProvider =  Provider.of<OffersProvider>(context);
     final mediaQuery = MediaQuery.of(context);
     return Scaffold(
         backgroundColor: RevmoColors.darkBlue,
