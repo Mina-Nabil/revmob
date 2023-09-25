@@ -119,11 +119,18 @@ class NetworkLayer {
           }
           if (e.response?.statusCode == 401) {
 
-            handler.resolve(e.response!);
+            return handler.resolve(e.response!);
+          } else if(e.response?.statusCode== 500){
+           return handler.resolve(e.response!);
+          } else if(e.response?.statusCode == 422){
+            return handler.resolve(e.response!);
           }
+          return handler.next(e);
+
+
           // If you want to resolve the request with some custom data，
           // you can resolve a `Response` object eg: `handler.resolve(response)`.
-          return handler.next(e); // continue
+          // return handler.next(e); // continue
 
         }
     ));

@@ -14,9 +14,12 @@ import '../../shared/widgets/Customers/revmo_customer_deal_card.dart';
 import '../../shared/widgets/home/revmo_appbar.dart';
 import '../../shared/widgets/misc/revmo_expandable_info_card.dart';
 
+
 class ApprovedOfferDetail extends StatefulWidget {
   final Offer offerFromApproved;
-  const ApprovedOfferDetail({Key? key, required this.offerFromApproved}) : super(key: key);
+
+  const ApprovedOfferDetail({Key? key, required this.offerFromApproved})
+      : super(key: key);
 
   @override
   State<ApprovedOfferDetail> createState() => _ApprovedOfferDetailState();
@@ -36,7 +39,8 @@ class _ApprovedOfferDetailState extends State<ApprovedOfferDetail> {
               children: [
                 Row(
                   children: [
-                    RevmoInitialNameWidget(initial:  widget.offerFromApproved.buyer.initials),
+                    RevmoInitialNameWidget(
+                        initial: widget.offerFromApproved.buyer.initials),
                     SizedBox(
                       width: 10,
                     ),
@@ -55,9 +59,19 @@ class _ApprovedOfferDetailState extends State<ApprovedOfferDetail> {
             SizedBox(
               height: 20,
             ),
-            FadeIn(child: _RevmoBuyerDetailsCard(isInitiallyExpanded: true,buyer: widget.offerFromApproved.buyer!,)),
-            FadeInUp(child: RevmoCarCustomerDetailsCard(car: widget.offerFromApproved.car,)),
-            FadeInUp(child: _RevmoCustomerDealDetailsCard(offer: widget.offerFromApproved,)),
+            FadeIn(
+                child: _RevmoBuyerDetailsCard(
+              isInitiallyExpanded: true,
+              buyer: widget.offerFromApproved.buyer!,
+            )),
+            FadeInUp(
+                child: RevmoCarCustomerDetailsCard(
+              car: widget.offerFromApproved.car,
+            )),
+            FadeInUp(
+                child: _RevmoCustomerDealDetailsCard(
+              offer: widget.offerFromApproved,
+            )),
             // FadeInUp(child: RevmoReviewsList())
           ],
         ).setPageHorizontalPadding(context),
@@ -65,13 +79,15 @@ class _ApprovedOfferDetailState extends State<ApprovedOfferDetail> {
     );
   }
 }
+
 class _RevmoCustomerDealDetailsCard extends StatelessWidget {
   //haneb3at el customer class badal el car
   // final Car car;
   final Offer offer;
   final bool isInitiallyExpanded;
 
-  const _RevmoCustomerDealDetailsCard({this.isInitiallyExpanded = false, required this.offer});
+  const _RevmoCustomerDealDetailsCard(
+      {this.isInitiallyExpanded = false, required this.offer});
 
   final double maxBoxHeight = 330;
 
@@ -81,7 +97,9 @@ class _RevmoCustomerDealDetailsCard extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 20.0),
       alignment: Alignment.topCenter,
       child: RevmoExpandableInfoCard(
-        body: _DealDetails(offer: offer,),
+        body: _DealDetails(
+          offer: offer,
+        ),
         //Todo customer details
         // title: AppLocalizations.of(context)!.details,
         title: 'Deal Details',
@@ -95,7 +113,8 @@ class _RevmoCustomerDealDetailsCard extends StatelessWidget {
 
 class _DealDetails extends StatelessWidget {
   final Offer offer;
-  const _DealDetails({ required this.offer});
+
+  const _DealDetails({required this.offer});
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +148,9 @@ class _DealDetails extends StatelessWidget {
                   ),
                   Text(
                     // '25/2/1997',
-                    DateFormat('dd-MM-yyyy').format(offer.issuingDate).toString(),
+                    DateFormat('dd-MM-yyyy')
+                        .format(offer.issuingDate)
+                        .toString(),
                     style: TextStyle(color: RevmoColors.darkBlue, fontSize: 12),
                   )
                 ],
@@ -145,13 +166,13 @@ class _DealDetails extends StatelessWidget {
                   title: "Price",
                   info: formatter.format(offer.price),
                 ),
-               _DetailText(
+                _DetailText(
                   title: "Min Reservation Payment",
                   info: formatter.format(offer.downPayment),
                 ),
-               _DetailText(
+                _DetailText(
                   title: "Payment Method",
-                  info: offer.isLoan  ? 'No Loan Option' : 'Loan',
+                  info: offer.isLoan ? 'No Loan Option' : 'Loan',
                 ),
 
                 // offer.offerCanLoan == 1 ? SizedBox.shrink():
@@ -220,7 +241,10 @@ class _DetailText extends StatelessWidget {
 class _RevmoBuyerDetailsCard extends StatelessWidget {
   final Buyer buyer;
   final bool isInitiallyExpanded;
-  const _RevmoBuyerDetailsCard({this.isInitiallyExpanded = false,required this.buyer});
+
+  const _RevmoBuyerDetailsCard(
+      {this.isInitiallyExpanded = false, required this.buyer});
+
   final double maxBoxHeight = 330;
 
   @override
@@ -231,7 +255,9 @@ class _RevmoBuyerDetailsCard extends StatelessWidget {
         child: RevmoExpandableInfoCard(
           body: Padding(
             padding: EdgeInsets.only(left: 10, right: 10),
-            child: _Details(buyer: buyer,),
+            child: _Details(
+              buyer: buyer,
+            ),
           ),
           //Todo customer details
           title: AppLocalizations.of(context)!.details,
@@ -244,6 +270,7 @@ class _RevmoBuyerDetailsCard extends StatelessWidget {
 
 class _Details extends StatelessWidget {
   final Buyer buyer;
+
   const _Details({required this.buyer});
 
   @override
@@ -277,6 +304,35 @@ class _Details extends StatelessWidget {
           //   info: DateFormat('dd-MM-yyyy').format(buyer.buyerBday!).toString(),
           // ),
         ],
+      ),
+    );
+  }
+}
+
+
+class TileContainer extends StatelessWidget {
+  final Widget child;
+  final Function() onTap;
+  const TileContainer({Key? key, required this.child, required this.onTap}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.1),
+                spreadRadius: 3,
+                blurRadius: 10,
+              ),
+            ]),
+        child: child,
       ),
     );
   }

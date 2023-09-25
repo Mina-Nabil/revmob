@@ -64,6 +64,15 @@ dependencies:
   pull_to_refresh: ^2.0.0
   modal_bottom_sheet: ^3.0.0-pre
   pinput: ^2.2.12
+  flutter_bounceable: ^1.0.3
+  pmvvm: ^3.0.0
+  rounded_loading_button: ^2.0.8
+  fade_shimmer: ^2.0.1
+
+
+
+
+
 
 
 
