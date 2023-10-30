@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:pmvvm/pmvvm.dart';
 import 'package:revmo/Configurations/Extensions/capitalize_extension.dart';
 import 'package:revmo/Configurations/Extensions/extensions.dart';
+import 'package:revmo/services/toast_service.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../../models/offers/offer.dart';
@@ -59,18 +60,17 @@ class ExtrasView extends HookView<ExtraViewModel> {
                     builder: (BuildContext context, StateSetter setState) {
                       return Container(
                         height: mediaQuery.size.height * 0.8,
-                        // decoration: BoxDecoration(
-                        //   borderRadius: BorderRadius.vertical(
-                        //     top: Radius.circular(25.0),
-                        //   ),
-                        // ),
                         padding: EdgeInsets.only(
                             bottom:
                                 MediaQuery.of(context).viewInsets.bottom * 0.8),
-                        // margin: EdgeInsets.only(
-                        //     bottom: MediaQuery.of(context).viewInsets.bottom * 0.8 ),
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            FocusScopeNode currentFocus = FocusScope.of(context);
+
+                            if (!currentFocus.hasPrimaryFocus) {
+                              currentFocus.unfocus();
+                            }
+                          },
                           child: ListView(
                             children: [
                               IgnorePointer(
@@ -78,8 +78,6 @@ class ExtrasView extends HookView<ExtraViewModel> {
                                 child: Container(
                                   padding: const EdgeInsets.all(20),
                                   width: mediaQuery.size.width,
-                                  // height:
-                                  // mediaQuery.size.height * 0.695,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(20),
                                       color: Colors.white),
@@ -135,7 +133,7 @@ class ExtrasView extends HookView<ExtraViewModel> {
                                           hintText:
                                               "Wheel Rims, mirrors, seats...",
                                           keyboardType:
-                                              TextInputType.numberWithOptions(),
+                                              TextInputType.text
                                           // validator: ValidationBuilder().number(context).build(),
                                         ),
                                       ),
@@ -146,15 +144,13 @@ class ExtrasView extends HookView<ExtraViewModel> {
                                         width: mediaQuery.size.width,
                                         child: RevmoTextField(
                                           controller: viewModel.noteController,
-                                          // controller: TextEditingController(),
-
                                           title: "Accessory type",
                                           darkMode: false,
                                           hintText:
                                               "Spare parts, Accessories, Entertainment  ",
                                           keyboardType:
-                                              TextInputType.numberWithOptions(),
-                                          // validator: ValidationBuilder().number(context).build(),
+                                          TextInputType.text
+
                                         ),
                                       ),
                                       SizedBox(
@@ -346,38 +342,45 @@ class ExtrasView extends HookView<ExtraViewModel> {
                                           if (!currentFocus.hasPrimaryFocus) {
                                             currentFocus.unfocus();
                                           }
-                                          setState(() {
-                                            viewModel.ignoring = true;
-                                            viewModel.notifyListeners();
-                                          });
-                                          //
-                                          viewModel
-                                              .uploadDocument()
-                                              .then((value) {
+
+                                          if(viewModel.picture != null && viewModel.titleController.text.isNotEmpty && viewModel.priceController.text.isNotEmpty && viewModel.noteController.text.isNotEmpty ) {
                                             setState(() {
-                                              viewModel.ignoring = false;
+                                              viewModel.ignoring = true;
                                               viewModel.notifyListeners();
                                             });
-                                            if (value) {
-                                              viewModel.fetchExtras();
-
+                                            viewModel
+                                                .uploadDocument()
+                                                .then((value) {
                                               setState(() {
-                                                viewModel.noteController
-                                                    .clear();
-                                                viewModel.titleController
-                                                    .clear();
-                                                viewModel.priceController
-                                                    .clear();
-                                                viewModel.picture = null;
+                                                viewModel.ignoring = false;
                                                 viewModel.notifyListeners();
                                               });
-                                              Navigator.pop(context);
-                                            } else {}
-                                            Future.delayed(Duration(seconds: 1),
-                                                () {
-                                              viewModel.btnController.reset();
+                                              if (value) {
+                                                viewModel.fetchExtras();
+
+                                                setState(() {
+                                                  viewModel.noteController
+                                                      .clear();
+                                                  viewModel.titleController
+                                                      .clear();
+                                                  viewModel.priceController
+                                                      .clear();
+                                                  viewModel.picture = null;
+                                                  viewModel.notifyListeners();
+                                                });
+                                                Navigator.pop(context);
+                                              } else {}
+                                              Future.delayed(Duration(seconds: 1),
+                                                      () {
+                                                    viewModel.btnController.reset();
+                                                  });
                                             });
-                                          });
+                                          } else {
+                                            // RevmoTheme.showRevmoSnackbar(context,"Please fill all data");
+ToastService.showErrorToast("Please fill all data");
+                                            viewModel.btnController.reset();
+                                          }
+
                                         },
                                       ),
                                     ],
@@ -401,177 +404,257 @@ class ExtrasView extends HookView<ExtraViewModel> {
       appBar: RevmoAppBar(
         title: 'Extras',
       ),
-      body: Column(
-        children: [
-          FutureBuilder(
-              future: viewModel.getExtrasFuture,
-              builder: (context, snapShot) {
-                if (snapShot.connectionState == ConnectionState.done) {
-                  print("con1 sellerDocuments");
-                  if (viewModel.extras.isEmpty) {
-                    print("con2 sellerDocuments");
-
-                    return Text("");
-                  } else {
-                    print("con3 sellerDocuments");
-
-                    return
-                        // Center(child: Text("no Data", style: TextStyle(color: Colors.black),));
-                        Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "Your Uploaded Extras",
-                          style: Theme.of(context).textTheme.caption?.copyWith(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 2),
-                          height: 3,
-                          width: 10,
-                          decoration: BoxDecoration(
-                              color: RevmoColors.originalBlue,
-                              borderRadius: BorderRadius.circular(20)),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: viewModel.extras.length,
-                          itemBuilder: (context, index) {
-                            final RoundedLoadingButtonController deletebtnController =
-                            RoundedLoadingButtonController();
-
-                            return Container(
-                              margin: EdgeInsets.only(bottom: 20),
-                              padding: const EdgeInsets.all(15),
-                              decoration: BoxDecoration(
-                                // color: const Color(0xffF5F5F1),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            FutureBuilder(
+                future: viewModel.getExtrasFuture,
+                builder: (context, snapShot) {
+                  if (snapShot.connectionState == ConnectionState.done) {
+                    print("con1 sellerDocuments");
+                    if (viewModel.extras.isEmpty) {
+                      print("con2 sellerDocuments");
+                      return SizedBox(
+                        height: mediaQuery.size.height * 0.7,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Center(
+                              child: Icon(
+                                Iconsax.timer_14,
                                 color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      blurRadius: 5,
-                                      spreadRadius: 5)
-                                ],
-                                borderRadius: BorderRadius.circular(20),
                               ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: SizedBox(
-                                      height: 100,
-                                      width: 150,
-                                      child: Image.network(
-                                        viewModel.extras[index].fullUrl,
-                                        fit: BoxFit.cover,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Center(
+                              child: Text(
+                                "No Extras Please add Extra products to the offer",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption
+                                    ?.copyWith(
+                                    color: Colors.grey,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ).setPageHorizontalPadding(context),
+                      );                  } else {
+                      print("con3 sellerDocuments");
+
+                      return
+                          // Center(child: Text("no Data", style: TextStyle(color: Colors.black),));
+                          Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Your Uploaded Extras",
+                            style: Theme.of(context).textTheme.caption?.copyWith(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 2),
+                            height: 3,
+                            width: 10,
+                            decoration: BoxDecoration(
+                                color: RevmoColors.originalBlue,
+                                borderRadius: BorderRadius.circular(20)),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: viewModel.extras.length,
+                            itemBuilder: (context, index) {
+                              final RoundedLoadingButtonController deletebtnController =
+                              RoundedLoadingButtonController();
+
+                              return Container(
+                                margin: EdgeInsets.only(bottom: 20),
+                                padding: const EdgeInsets.all(15),
+                                decoration: BoxDecoration(
+                                  // color: const Color(0xffF5F5F1),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey.withOpacity(0.1),
+                                        blurRadius: 5,
+                                        spreadRadius: 5)
+                                  ],
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: SizedBox(
+                                        height: 100,
+                                        width: 150,
+                                        child: Image.network(
+                                          viewModel.extras[index].fullUrl,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        viewModel.extras[index].note.capitalize(),
-                                        style: TextStyle(color: Colors.grey),
-                                      ),
-                                      SizedBox(
-                                        height: 2,
-                                      ),
-                                      Text(
-                                         viewModel.extras[index].title.capitalize(),
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        '${NumberFormat().format(int.parse(viewModel.extras[index].price))} EGP',
-                                        style: TextStyle(
-                                            color: RevmoColors.darkBlue,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      RoundedLoadingButton(
-                                        borderRadius: 50,
-                                        errorColor: Colors.red,
-                                        width: mediaQuery.size.width * 0.19,
-                                        height: 30,
-                                        elevation: 0,
-                                        loaderSize: 15,
-                                        color: RevmoColors.pinkishRed,
-                                        successColor: Colors.green,
-                                        successIcon: Icons.check,
-                                        failedIcon: Icons.close,
-                                        child: Text(
-                                          "Delete",
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              // fontFamily: context.locale.toString() == "en"
-                                              //     ? 'Gibson-Light.otf'
-                                              //     : "Noto",
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w200),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          viewModel.extras[index].note.capitalize(),
+                                          style: TextStyle(color: Colors.grey),
                                         ),
-                                        controller: deletebtnController,
-                                        onPressed: () {
-                                          FocusScopeNode currentFocus =
-                                          FocusScope.of(context);
-                                          if (!currentFocus.hasPrimaryFocus) {
-                                            currentFocus.unfocus();
-                                          }
+                                        SizedBox(
+                                          height: 2,
+                                        ),
+                                        Text(
+                                           viewModel.extras[index].title.capitalize(),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          '${NumberFormat().format(int.parse(viewModel.extras[index].price))} EGP',
+                                          style: TextStyle(
+                                              color: RevmoColors.darkBlue,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        RoundedLoadingButton(
+                                          borderRadius: 50,
+                                          errorColor: Colors.red,
+                                          width: mediaQuery.size.width * 0.19,
+                                          height: 30,
+                                          elevation: 0,
+                                          loaderSize: 15,
+                                          color: RevmoColors.pinkishRed,
+                                          successColor: Colors.green,
+                                          successIcon: Icons.check,
+                                          failedIcon: Icons.close,
+                                          child: Text(
+                                            "Delete",
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                // fontFamily: context.locale.toString() == "en"
+                                                //     ? 'Gibson-Light.otf'
+                                                //     : "Noto",
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w200),
+                                          ),
+                                          controller: deletebtnController,
+                                          onPressed: () {
+                                            FocusScopeNode currentFocus =
+                                            FocusScope.of(context);
+                                            if (!currentFocus.hasPrimaryFocus) {
+                                              currentFocus.unfocus();
+                                            }
 
 
-                                          viewModel
-                                              .deleteDocument(viewModel.extras[index].id)
-                                              .then((value) {
+                                            viewModel
+                                                .deleteDocument(viewModel.extras[index].id)
+                                                .then((value) {
 
-                                            if (value) {
-                                              viewModel.extras.removeAt(index);
-                                              viewModel.notifyListeners();
+                                              if (value) {
+                                                viewModel.extras.removeAt(index);
+                                                viewModel.notifyListeners();
 
-                                            } else {}
-                                            Future.delayed(Duration(seconds: 0),
-                                                    () {
-                                                  deletebtnController.reset();
-                                                });
-                                          });
-                                        },
-                                      ),
+                                              } else {}
+                                              Future.delayed(Duration(seconds: 0),
+                                                      () {
+                                                    deletebtnController.reset();
+                                                  });
+                                            });
+                                          },
+                                        ),
 
-                                    ],
-                                  )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                            shrinkWrap: true,
+                          )
+                        ],
+                      ).setPageHorizontalPadding(context);
+                    }
+                  } else {
+                    return ListView.separated(
+                        padding: const EdgeInsets.only(top: 20),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Row(
+                            children: [
+                              FadeShimmer(
+                                height: mediaQuery.size.height * 0.15,
+                                width: mediaQuery.size.width * 0.48,
+                                highlightColor: const Color(0xffF9F9FB),
+                                baseColor: const Color(0xffE6E8EB),
+                                radius: 20,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  const FadeShimmer(
+                                    height: 10,
+                                    width: 40,
+                                    highlightColor: Color(0xffF9F9FB),
+                                    baseColor: Color(0xffE6E8EB),
+                                    radius: 10,
+                                  ),
+                                  const SizedBox(
+                                    height: 3,
+                                  ),
+                                  const FadeShimmer(
+                                    height: 10,
+                                    width: 100,
+                                    highlightColor: Color(0xffF9F9FB),
+                                    baseColor: Color(0xffE6E8EB),
+                                    radius: 10,
+                                  ),
                                 ],
                               ),
-                            );
-                          },
-                          shrinkWrap: true,
-                        )
-                      ],
-                    ).setPageHorizontalPadding(context);
+                            ],
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(
+                            height: 10,
+                          );
+                        },
+                        itemCount: 6)
+                        .setPageHorizontalPadding(context);
                   }
-                } else {
-                  return Container();
-                }
-              }),
-        ],
+                }),
+          ],
+        ),
       ),
     );
   }

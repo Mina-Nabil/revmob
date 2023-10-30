@@ -15,6 +15,8 @@ class RevmoAppBar extends StatefulWidget implements PreferredSizeWidget {
   final bool _addSettings;
   final Iterable<PopupMenuItem<String>> _buttonsToAdd;
   final String? title;
+  final Widget? actionWidget;
+  final Widget? leading;
   final String? subtitle;
  final  bool centerTitle;
 
@@ -25,6 +27,8 @@ class RevmoAppBar extends StatefulWidget implements PreferredSizeWidget {
       bool showMenuIcon = false,
       this. centerTitle = true,
       this.title,
+      this.leading,
+      this.actionWidget,
       this.subtitle})
       : preferredSize = Size.fromHeight(kToolbarHeight),
         this._showMenuIcon = showMenuIcon,
@@ -48,6 +52,7 @@ class _RevmoAppBarState extends State<RevmoAppBar> {
     return AppBar(
       backgroundColor: RevmoColors.darkBlue,
       elevation: 0.0,
+      leading: widget.leading ?? null,
       centerTitle: widget.centerTitle,
       titleSpacing: 0,
       title: widget.title != null
@@ -126,6 +131,8 @@ class _RevmoAppBarState extends State<RevmoAppBar> {
               iconPadding: _actionIconPadding,
             ),
           ),
+        if(widget.actionWidget != null)
+          widget.actionWidget!
       ],
     );
   }

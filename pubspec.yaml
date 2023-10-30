@@ -51,7 +51,7 @@ dependencies:
   flutter_easyloading: ^3.0.3
   lottie: ^1.2.1
   dio: ^4.0.6
-  syncfusion_flutter_sliders: ^20.1.59
+#  syncfusion_flutter_sliders: ^20.1.59
   filter_list: ^1.0.1
   flutter_multi_select_items: ^0.4.0
   persistent_bottom_nav_bar: ^4.0.2
@@ -68,6 +68,16 @@ dependencies:
   pmvvm: ^3.0.0
   rounded_loading_button: ^2.0.8
   fade_shimmer: ^2.0.1
+  fluttertoast: ^8.0.9
+  toggle_switch: ^2.1.0
+  flutter_switch: ^0.3.2
+#  syncfusion_flutter_datepicker: ^21.1.41
+#  syncfusion_flutter_core: ^21.2.3
+  animated_custom_dropdown: ^1.5.0
+  syncfusion_flutter_calendar: ^21.1.35
+  calendar_view:
+
+
 
 
 

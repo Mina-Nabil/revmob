@@ -68,7 +68,6 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     super.initState();
     // _controller = PersistentTabController(initialIndex: 2);
-    //
     // _tabController =
     //     TabController(length: pageKeys.length, vsync: this, initialIndex: 0);
   }

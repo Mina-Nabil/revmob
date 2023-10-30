@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pmvvm/pmvvm.dart';
 import 'package:revmo/Configurations/Extensions/extensions.dart';
 import 'package:revmo/models/offers/offer.dart';
+import 'package:revmo/services/toast_service.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
@@ -118,7 +119,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                                         darkMode: false,
                                         hintText: "Documents required label",
                                         keyboardType:
-                                            TextInputType.numberWithOptions(),
+                                            TextInputType.text
                                         // validator: ValidationBuilder().number(context).build(),
                                       ),
                                     ),
@@ -133,7 +134,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                                         darkMode: false,
                                         hintText: "Notes for buyer",
                                         keyboardType:
-                                            TextInputType.numberWithOptions(),
+                                            TextInputType.text
                                         // validator: ValidationBuilder().number(context).build(),
                                       ),
                                     ),
@@ -312,35 +313,41 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                                         if (!currentFocus.hasPrimaryFocus) {
                                           currentFocus.unfocus();
                                         }
-                                        setState(() {
-                                          viewModel.ignoring = true;
-                                          viewModel.notifyListeners();
 
-                                        });
-                                        viewModel.uploadDocument().then((value) {
+                                        if( viewModel.titleController.text.isNotEmpty &&
+                                        viewModel.noteController.text.isNotEmpty &&
+                                        viewModel.photoFromDevice != null ){
                                           setState(() {
-                                            viewModel.ignoring = false;
+                                            viewModel.ignoring = true;
                                             viewModel.notifyListeners();
-
                                           });
-                                          if (value) {
-                                            viewModel.fetchDocuments();
-
+                                          viewModel.uploadDocument().then((value) {
                                             setState(() {
-                                              viewModel.noteController.clear();
-                                              viewModel.titleController.clear();
-                                              viewModel.photoFromDevice = null;
+                                              viewModel.ignoring = false;
                                               viewModel.notifyListeners();
-                                            });
-                                            Navigator.pop(context);
 
-                                          } else {
-                                          }
-                                          Future.delayed(Duration(seconds: 1),
-                                              () {
-                                            viewModel.btnController.reset();
+                                            });
+                                            if (value) {
+                                              viewModel.fetchDocuments();
+
+                                              setState(() {
+                                                viewModel.noteController.clear();
+                                                viewModel.titleController.clear();
+                                                viewModel.photoFromDevice = null;
+                                                viewModel.notifyListeners();
+                                              });
+                                              Navigator.pop(context);
+
+                                            } else {
+                                            }
+                                            Future.delayed(Duration(seconds: 1),
+                                                    () {
+                                                  viewModel.btnController.reset();
+                                                });
                                           });
-                                        });
+                                        }else {
+                                          ToastService.showErrorToast("Please fill all data");
+                                        }
                                       },
                                     ),
                                   ],
@@ -367,44 +374,78 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              // height: mediaQuery.size.height * 0.16,
-              padding: const EdgeInsets.all(20),
-              color: const Color(0xffEBE4D1),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Terms and Condition",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean quis leo non metus pharetra bibendum ut a arcu. Phasellus lobortis magna lacus, vitae elementuget lectus. Aenean quis varius velit. Nam dictum nisl sit amet justo euismod porttitor. Nulla luct. Cras dictum metus odio, ut viverra purus iaculis vitae.",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ],
-              ),
-            ),
+            // Container(
+            //   // height: mediaQuery.size.height * 0.16,
+            //   padding: const EdgeInsets.all(20),
+            //   color: const Color(0xffEBE4D1),
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       Text(
+            //         "Terms and Condition",
+            //         style: TextStyle(
+            //             color: Colors.black,
+            //             fontWeight: FontWeight.bold,
+            //             fontSize: 16),
+            //       ),
+            //       SizedBox(
+            //         height: 10,
+            //       ),
+            //       Text(
+            //         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean quis leo non metus pharetra bibendum ut a arcu. Phasellus lobortis magna lacus, vitae elementuget lectus. Aenean quis varius velit. Nam dictum nisl sit amet justo euismod porttitor. Nulla luct. Cras dictum metus odio, ut viverra purus iaculis vitae.",
+            //         style: TextStyle(color: Colors.black),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             SizedBox(
               height: 10,
             ),
             Column(
               children: [
-
                 FutureBuilder(
                     future: viewModel.getDocsFuture,
                     builder: (context, snapShot) {
                       if (snapShot.connectionState == ConnectionState.done) {
                         print("con1 documents");
                         if (viewModel.documents.isEmpty) {
-                          print("con2 documents");
-                          return Container();
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 10,),
+                              Text(
+                                "Required Documents",
+                                style: Theme.of(context).textTheme.caption?.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 2),
+                                height:3, width: 20,
+                                decoration:  BoxDecoration(color: RevmoColors.originalBlue, borderRadius: BorderRadius.circular(20)),
+                              ),
+                              const SizedBox(height: 30,),
+                              const   Center(
+                                child: Icon(
+                                  Iconsax.timer_14,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const SizedBox(height: 10,),
+
+                              Center(
+                                child: Text(
+                                  "No Documents Uploaded yet...",
+                                  style: Theme.of(context).textTheme.caption?.copyWith(
+                                      color: Colors.grey,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+
+                            ],
+                          ).setPageHorizontalPadding(context);
                         } else {
                           print("con3 documents");
                           return Column(
@@ -446,7 +487,9 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                             ).setPageHorizontalPadding(context);
                         }
                       } else {
-                        return const CircularProgressIndicator();
+                        return SizedBox(
+                            height: mediaQuery.size.height * 0.7,
+                            child: Center(child: const CircularProgressIndicator()));
                       }
                     }),
                 const SizedBox(height: 25,),
@@ -458,7 +501,44 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                         if (viewModel.sellerDocuments.isEmpty) {
                           print("con2 sellerDocuments");
 
-                          return Text("");
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 10,),
+                              Text(
+                                "Your uploaded documents",
+                                style: Theme.of(context).textTheme.caption?.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 2),
+                                height:3, width: 20,
+                                decoration:  BoxDecoration(color: RevmoColors.originalBlue, borderRadius: BorderRadius.circular(20)),
+                              ),
+                              const SizedBox(height: 30,),
+                              const   Center(
+                                child: Icon(
+                                  Iconsax.timer_14,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const SizedBox(height: 10,),
+
+                              Center(
+                                child: Text(
+                                  "No Documents Uploaded yet...",
+                                  style: Theme.of(context).textTheme.caption?.copyWith(
+                                      color: Colors.grey,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+
+                            ],
+                          ).setPageHorizontalPadding(context);
+
                         } else {
                           print("con3 sellerDocuments");
 
@@ -509,7 +589,6 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                       }
                     }),
                 const SizedBox(height: 30,),
-
               ],
             )
           ],

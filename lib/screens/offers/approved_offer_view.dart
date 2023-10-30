@@ -7,6 +7,7 @@ import 'package:revmo/screens/offers/RequestDocuments/request_documents_view.dar
 
 import '../../models/offers/offer.dart';
 import '../../shared/colors.dart';
+import 'Calendar/calendar_view.dart';
 import 'approved_offer_detail.dart';
 
 class AcceptedOfferView extends StatefulWidget {
@@ -259,138 +260,11 @@ class _AcceptedOfferViewState extends State<AcceptedOfferView> {
                               ],
                             ),
 
-                          // const CustomDivider(),
-                          // ListView.separated(
-                          //     shrinkWrap: true,
-                          //     physics:
-                          //     const NeverScrollableScrollPhysics(),
-                          //     itemBuilder: (context, index) {
-                          //       return Column(
-                          //         crossAxisAlignment:
-                          //         CrossAxisAlignment.start,
-                          //         children: [
-                          //           Text(
-                          //             widget.offer.car!.availableOptions![index]
-                          //                 .adjtName!,
-                          //             style: const TextStyle(
-                          //                 color: RevmoColors.darkBlue,
-                          //                 // fontFamily: 'Gibson',
-                          //                 fontSize: 14,
-                          //                 fontWeight: FontWeight.w600),
-                          //           ),
-                          //           const SizedBox(
-                          //             height: 7,
-                          //           ),
-                          //           SizedBox(
-                          //             height: 100,
-                          //             child: ListView.separated(
-                          //                 scrollDirection:
-                          //                 Axis.horizontal,
-                          //                 itemBuilder: (context, i) {
-                          //                   return Column(
-                          //                     crossAxisAlignment:
-                          //                     CrossAxisAlignment
-                          //                         .start,
-                          //                     children: [
-                          //                       SizedBox(
-                          //                           height: 50,
-                          //                           width: 100,
-                          //                           child:
-                          //                           CustomCachedImageNetwork(
-                          //                             imageUrl: widget.offer
-                          //                                 .car!
-                          //                                 .availableOptions![
-                          //                             index]
-                          //                                 .options![i]
-                          //                                 .imageUrl ??
-                          //                                 "null",
-                          //                             fit: true,
-                          //                           )),
-                          //                       const SizedBox(
-                          //                         height: 5,
-                          //                       ),
-                          //                       SizedBox(
-                          //                         width: mediaQuery
-                          //                             .size.width *
-                          //                             0.25,
-                          //                         child: Text(
-                          //                           widget.offer
-                          //                               .car!
-                          //                               .availableOptions![
-                          //                           index]
-                          //                               .options![0]
-                          //                               .adopName!,
-                          //                           style: const TextStyle(
-                          //                               color: RevmoColors
-                          //                                   .darkBlue,
-                          //                               fontSize: 10),
-                          //                         ),
-                          //                       ),
-                          //                     ],
-                          //                   );
-                          //                 },
-                          //                 separatorBuilder: (context, i) {
-                          //                   return SizedBox(
-                          //                     width: 5,
-                          //                   );
-                          //                 },
-                          //                 itemCount: widget.offer
-                          //                     .car!
-                          //                     .availableOptions![index]
-                          //                     .options!
-                          //                     .length),
-                          //           )
-                          //         ],
-                          //       );
-                          //     },
-                          //     separatorBuilder: (context, index) {
-                          //       return const SizedBox(
-                          //         height: 25,
-                          //       );
-                          //     },
-                          //     itemCount:
-                          //     widget.offer.car!.availableOptions!.length),
-                          // const SizedBox(
-                          //   height: 20,
-                          // ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                // context.locale.toString() == 'en'
-                //     ? Positioned(
-                //     top: 0,
-                //     right: 0,
-                //     child: Container(
-                //       padding: const EdgeInsets.only(
-                //           top: 5, bottom: 5, right: 15, left: 15),
-                //       decoration: BoxDecoration(
-                //           color: RevmoColors.originalBlue.withOpacity(0.4),
-                //           borderRadius: const BorderRadius.only(
-                //               topRight: Radius.circular(10),
-                //               bottomLeft: Radius.circular(10))),
-                //       child: Text(
-                //         "#${widget.offer.id!}",
-                //         style: const TextStyle(color: Colors.black),
-                //       ),
-                //     ))
-                //     : Positioned(
-                //     top: 0,
-                //     left: 0,
-                //     child: Container(
-                //       padding: const EdgeInsets.only(
-                //           top: 5, bottom: 5, right: 15, left: 15),
-                //       decoration: BoxDecoration(
-                //           color: RevmoColors.originalBlue.withOpacity(0.4),
-                //           borderRadius: const BorderRadius.only(
-                //               topLeft: Radius.circular(10),
-                //               bottomRight: Radius.circular(10))),
-                //       child: Text(
-                //         "#${widget.offer.id!}",
-                //         style: const TextStyle(color: Colors.black),
-                //       ),
-                //     )),
               ],
             ),
             const SizedBox(
@@ -444,6 +318,12 @@ class _AcceptedOfferViewState extends State<AcceptedOfferView> {
             ),
             TileContainer(
                 onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CalendarPage(
+                                offer: widget.offer,
+                              )));
                   print("hello");
                 },
                 child: Column(
