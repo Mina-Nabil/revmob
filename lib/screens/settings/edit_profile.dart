@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/Configurations/Extensions/capitalize_extension.dart';
@@ -14,9 +13,7 @@ import '../../shared/colors.dart';
 import '../../shared/widgets/UIwidgets/image_uploader.dart';
 import '../../shared/widgets/UIwidgets/small_custom_indicator.dart';
 import '../../shared/widgets/UIwidgets/success_message.dart';
-import '../../shared/widgets/misc/display_photo_uploader.dart';
 import '../../shared/widgets/misc/revmo_text_field.dart';
-import '../../shared/widgets/settings/user_image.dart';
 
 class EditProfileView extends StatefulWidget {
   @override
@@ -43,10 +40,10 @@ class _EditProfileViewState extends State<EditProfileView> {
         .user!
         .fullName
         .toTitleCase();
-    // _phoneNumber2.text = Provider.of<AccountProvider>(context, listen: false)
-    //     .user!
-    //     .mob2
-    //     .toTitleCase();
+    _phoneNumber2.text = Provider.of<AccountProvider>(context, listen: false)
+        .user!
+        .mob2 ?? "";
+
 
     // TODO: implement initState
     super.initState();
@@ -63,209 +60,214 @@ class _EditProfileViewState extends State<EditProfileView> {
     );
     final sellerProvider = Provider.of<AccountProvider>(context);
 
-    return Scaffold(
-      backgroundColor: RevmoColors.white,
-      appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle(
-          // statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark,
-          statusBarBrightness:
-              Platform.isIOS ? Brightness.light : Brightness.dark,
-        ),
-        title:  Text( AppLocalizations.of(context)!.editProfile,
-            style: TextStyle(
-                color: RevmoColors.darkBlue,
-                fontSize: 22,
-                fontWeight: FontWeight.bold)),
-        centerTitle: false,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.close_rounded,
-            color: RevmoColors.darkBlue,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        actions: [
-          const SizedBox(
-            width: 10,
-          ),
-          loading == false
-              ? IconButton(
-                  icon: const Icon(
-                    Icons.check,
-                    color: RevmoColors.darkBlue,
-                  ),
-                  onPressed: () {
-                    if (editProfileFormState.currentState!.validate()) {
-                      setState(() {
-                        loading = true;
-                      });
+    return GestureDetector(
 
-                      sellerProvider
-                          .editProfile(_userName.text, _phoneNumber.text,
-                              _phoneNumber2.text, _selectedImage.value)
-                          .then((value) async {
-                        setState(() {
-                          loading = false;
-                        });
-                        if (value) {
-                          // await (Provider.of<AccountProvider>(context,
-                          //         listen: false)
-                          //     .refreshUser(context, forceReload: true));
+      onTap: (){
 
-                          Navigator.pop(context);
-
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                Future.delayed(const Duration(seconds: 2), () {
-                                  Navigator.of(context).pop(true);
-                                });
-                                return SuccessMessage(
-                                  message:
-                                  AppLocalizations.of(context)!.profileHasBeenEditedSuccessfully,
-                                );
-                              });
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        }
-                      });
-                    }
-                  },
-                )
-              : Container(
-                  padding: const EdgeInsets.all(20),
-                  width: 55,
-                  child: smallCustomIndicator(context, color: Colors.black)),
-          const SizedBox(
-            width: 10,
+      },
+      child: Scaffold(
+        backgroundColor: RevmoColors.white,
+        appBar: AppBar(
+          systemOverlayStyle: SystemUiOverlayStyle(
+            // statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.dark,
+            statusBarBrightness: Platform.isIOS ? Brightness.light : Brightness.dark,
           ),
-        ],
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: Form(
-        key: editProfileFormState,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 40,
-              ),
-              Row(
-                children: [
-                   Expanded(
-                      flex: 2,
-                      child: Text( AppLocalizations.of(context)!.photo,
-                          style: TextStyle(
-                              color: RevmoColors.darkBlue, fontSize: 18))),
-                  Expanded(
-                    flex: 4,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        PhotoUploader(_selectedImage),
-                      ],
+          title:  Text( AppLocalizations.of(context)!.editProfile,
+              style: TextStyle(
+                  color: RevmoColors.darkBlue,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold)),
+          centerTitle: false,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.close_rounded,
+              color: RevmoColors.darkBlue,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          actions: [
+            const SizedBox(
+              width: 10,
+            ),
+            loading == false
+                ? IconButton(
+                    icon: const Icon(
+                      Icons.check,
+                      color: RevmoColors.darkBlue,
                     ),
-                  ),
-                ],
-              ),
-              EditTile(
-                child: RevmoTextField(
-                  // fieldMargin: 7,
-                  addTitle: false,
-                  darkMode: false,
-                  // editing: true,
-                  title: "",
-                  controller: _userName,
-                  validator: ValidationBuilder()
-                      .required()
-                      .maxLength(18)
-                      .minLength(10)
-                      .build(),
-                  hintText: "Enter your full name here",
-                ),
-                title: AppLocalizations.of(context)!.fullName,
-              ),
-              EditTile(
-                child: RevmoTextField(
-                  // fieldMargin: 7,
-                  darkMode: false,
-                  addTitle: false,
+                    onPressed: () {
+                      if (editProfileFormState.currentState!.validate()) {
+                        setState(() {
+                          loading = true;
+                        });
 
-                  // editing: true,
-                  title: "",
-                  keyboardType: TextInputType.phone,
-                  controller: _phoneNumber,
-                  validator: ValidationBuilder()
-                      .required("required")
-                      .phone()
-                      .minLength(11)
-                      .maxLength(11)
-                      .build(),
-                  hintText: "Enter your phone number here",
+                        sellerProvider
+                            .editProfile(_userName.text, _phoneNumber.text,
+                                _phoneNumber2.text, _selectedImage.value)
+                            .then((value) async {
+                          setState(() {
+                            loading = false;
+                          });
+                          if (value) {
+                            // await (Provider.of<AccountProvider>(context,
+                            //         listen: false)
+                            //     .refreshUser(context, forceReload: true));
+
+                            Navigator.pop(context);
+
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  Future.delayed(const Duration(seconds: 2), () {
+                                    Navigator.of(context).pop(true);
+                                  });
+                                  return SuccessMessage(
+                                    message:
+                                    AppLocalizations.of(context)!.profileHasBeenEditedSuccessfully,
+                                  );
+                                });
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          }
+                        });
+                      }
+                    },
+                  )
+                : Container(
+                    padding: const EdgeInsets.all(20),
+                    width: 55,
+                    child: smallCustomIndicator(context, color: Colors.black)),
+            const SizedBox(
+              width: 10,
+            ),
+          ],
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        body: Form(
+          key: editProfileFormState,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 40,
                 ),
-                title: AppLocalizations.of(context)!.yourPhoneNumber,
-              ),
-              EditTile(
-                child: RevmoTextField(
-                  addTitle: false,
-                  // optional: true,
-                  // fieldMargin: 7,
-                  // darkMode: false,
-                  // editing: true,
-                  title: "",
-                  controller: _phoneNumber2,
-                  // validator:
-                  //     ValidationBuilder().optional = true,
-                  hintText: "Enter your secondary phone number",
+                Row(
+                  children: [
+                     Expanded(
+                        flex: 2,
+                        child: Text( AppLocalizations.of(context)!.photo,
+                            style: TextStyle(
+                                color: RevmoColors.darkBlue, fontSize: 18))),
+                    Expanded(
+                      flex: 4,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          PhotoUploader(_selectedImage),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                title: AppLocalizations.of(context)!.yourSecondPhoneNumber,
-              ),
-              // EditTile(
-              //   child: InkWell(
-              //     onTap: () {
-              //       DatePicker.showDatePicker(
-              //         context,
-              //         showTitleActions: true,
-              //         maxTime: DateTime(2006, 12, 30),
-              //         onChanged: (date) {
-              //           print('change $date');
-              //         },
-              //         onConfirm: (date) {
-              //           setState(() {
-              //             _date.text = date.dateFormatter();
-              //           });
-              //           print('confirm ${date.dateFormatter()}');
-              //         },
-              //         currentTime: DateTime(1990, 3, 5),
-              //       );
-              //     },
-              //     child: IgnorePointer(
-              //       ignoring: true,
-              //       child: RevmoTextField(
-              //         // optional: true,
-              //         // editing: true,
-              //         addTitle: false,
-              //
-              //         // fieldMargin: 7,
-              //         darkMode: false,
-              //         title: "'sign_up.yourBirthDateHere'.tr()",
-              //         controller: _date,
-              //         validator:
-              //             ValidationBuilder().required("required").build(),
-              //         hintText: " 'sign_up.yourBirthDateHere'.tr()",
-              //       ),
-              //     ),
-              //   ),
-              //   title: "'sign_up.yourBirthDateHere'.tr()",
-              // ),
-            ],
-          ).setPageHorizontalPadding(context),
+                EditTile(
+                  child: RevmoTextField(
+                    // fieldMargin: 7,
+                    addTitle: false,
+                    darkMode: false,
+                    // editing: true,
+                    title: "",
+                    controller: _userName,
+                    validator: ValidationBuilder()
+                        .required()
+                        .maxLength(18)
+                        .minLength(10)
+                        .build(),
+                    hintText: "Enter your full name here",
+                  ),
+                  title: AppLocalizations.of(context)!.fullName,
+                ),
+                EditTile(
+                  child: RevmoTextField(
+                    // fieldMargin: 7,
+                    darkMode: false,
+                    addTitle: false,
+
+                    // editing: true,
+                    title: "",
+                    keyboardType: TextInputType.phone,
+                    controller: _phoneNumber,
+                    validator: ValidationBuilder()
+                        .required("required")
+                        .phone()
+                        .minLength(11)
+                        .maxLength(11)
+                        .build(),
+                    hintText: "Enter your phone number here",
+                  ),
+                  title: AppLocalizations.of(context)!.yourPhoneNumber,
+                ),
+                EditTile(
+                  child: RevmoTextField(
+                    addTitle: false,
+                    // optional: true,
+                    // fieldMargin: 7,
+                    // darkMode: false,
+                    // editing: true,
+                    title: "",
+                    controller: _phoneNumber2,
+                    // validator:
+                    //     ValidationBuilder().optional = true,
+                    hintText: "Enter your secondary phone number",
+                  ),
+                  title: AppLocalizations.of(context)!.yourSecondPhoneNumber,
+                ),
+                // EditTile(
+                //   child: InkWell(
+                //     onTap: () {
+                //       DatePicker.showDatePicker(
+                //         context,
+                //         showTitleActions: true,
+                //         maxTime: DateTime(2006, 12, 30),
+                //         onChanged: (date) {
+                //           print('change $date');
+                //         },
+                //         onConfirm: (date) {
+                //           setState(() {
+                //             _date.text = date.dateFormatter();
+                //           });
+                //           print('confirm ${date.dateFormatter()}');
+                //         },
+                //         currentTime: DateTime(1990, 3, 5),
+                //       );
+                //     },
+                //     child: IgnorePointer(
+                //       ignoring: true,
+                //       child: RevmoTextField(
+                //         // optional: true,
+                //         // editing: true,
+                //         addTitle: false,
+                //
+                //         // fieldMargin: 7,
+                //         darkMode: false,
+                //         title: "'sign_up.yourBirthDateHere'.tr()",
+                //         controller: _date,
+                //         validator:
+                //             ValidationBuilder().required("required").build(),
+                //         hintText: " 'sign_up.yourBirthDateHere'.tr()",
+                //       ),
+                //     ),
+                //   ),
+                //   title: "'sign_up.yourBirthDateHere'.tr()",
+                // ),
+              ],
+            ).setPageHorizontalPadding(context),
+          ),
         ),
       ),
     );

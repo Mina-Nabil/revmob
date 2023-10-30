@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:form_validator/form_validator.dart';
+import 'package:provider/provider.dart';
 import 'package:revmo/environment/api_response.dart';
 import 'package:revmo/models/accounts/showroom.dart';
 import 'package:revmo/screens/auth/signup_screen.dart';
@@ -13,6 +14,8 @@ import 'package:revmo/shared/widgets/misc/error_dialog.dart';
 import 'package:revmo/shared/widgets/misc/main_button.dart';
 import 'package:revmo/shared/widgets/misc/revmo_text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../../providers/Seller/account_provider.dart';
 
 class CompanyForm extends StatefulWidget {
   final Duration animationsDuration;
@@ -127,6 +130,7 @@ class _CompanyFormState extends State<CompanyForm> {
           mobNumber: _mobileNumberController.text,
           image: _selectedImage.value);
       if (response.status == true && response.body is Showroom) {
+        Provider.of<AccountProvider>(context,listen: false).setEmailSignup(_emailController.text);
         moveBar();
         RevmoTheme.showRevmoSnackbar(context, response.msg);
         movePage();
@@ -152,15 +156,15 @@ class _CompanyFormState extends State<CompanyForm> {
 
   moveBar() {
     SignUpSteps.of(context).animationController.reset();
-    SignUpSteps.of(context).barTween.begin = 1;
-    SignUpSteps.of(context).barTween.end = 2;
+    SignUpSteps.of(context).barTween.begin = 2;
+    SignUpSteps.of(context).barTween.end = 3;
     SignUpSteps.of(context).animationController.forward();
   }
 
   movePage() {
     SignUpSteps.of(context)
         .formsController
-        .animateToPage(2, duration: SignUpSteps.of(context).animationDuration, curve: widget.defaultCurve);
+        .animateToPage(3, duration: SignUpSteps.of(context).animationDuration, curve: widget.defaultCurve);
   }
 
   disableForm() {

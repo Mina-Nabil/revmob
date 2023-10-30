@@ -7,6 +7,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:revmo/providers/Seller/account_provider.dart';
 import 'package:revmo/screens/settings/edit_profile.dart';
+import 'package:revmo/screens/settings/verify_account_credentials.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/widgets/UIwidgets/title_header.dart';
 import 'package:revmo/shared/widgets/home/revmo_appbar.dart';
@@ -29,7 +30,7 @@ class _AccountScreenState extends State<AccountScreen> {
     final sellerProvider = Provider.of<AccountProvider>(context);
 
     return Scaffold(
-      backgroundColor: RevmoColors.white,
+      backgroundColor: RevmoColors.darkBlue,
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle(
           // statusBarColor: Colors.transparent,
@@ -40,7 +41,8 @@ class _AccountScreenState extends State<AccountScreen> {
         backgroundColor: Colors.transparent,
         centerTitle: true,
         elevation: 0,
-        title: RevmoTheme.getTitle(AppLocalizations.of(context)!.account, color: RevmoColors.darkBlue),
+        title: RevmoTheme.getTitle(AppLocalizations.of(context)!.account,
+            color: RevmoColors.darkBlue),
         actions: [
           IconButton(
               onPressed: () {
@@ -49,7 +51,7 @@ class _AccountScreenState extends State<AccountScreen> {
               },
               icon: Icon(
                 Icons.edit,
-                color: Colors.black,
+                color: Colors.white,
               ))
         ],
         leading: IconButton(
@@ -58,182 +60,230 @@ class _AccountScreenState extends State<AccountScreen> {
           },
           icon: Icon(
             Icons.arrow_back_ios,
-            color: Colors.black,
+            color: Colors.white,
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          Positioned(
-            bottom: 0,
-            left: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: RevmoColors.darkBlue,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(50),
-                      topRight: Radius.circular(50))),
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.7,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 30,
             ),
-          ),
-          Positioned(
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(30),
-                      width: double.infinity,
-                      // height: 300,
+            Container(
+              padding: EdgeInsets.all(30),
+              width: double.infinity,
+              // height: 300,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            top: 0,
-                            right: 0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color:
-                                      sellerProvider.user!.isEmailVerified == 0
-                                          ? Colors.red
-                                          : Colors.green),
-                              // height: 20,
-                              // width: 20,
-                              child: sellerProvider.user!.isEmailVerified == 0
-                                  ? Icon(Icons.close)
-                                  : Icon(Icons.check),
-                            ),
+                          shape: BoxShape.circle,
+                          color: sellerProvider.user!.isEmailVerified == 0
+                              ? Colors.red
+                              : Colors.green),
+                      // height: 20,
+                      // width: 20,
+                      child: sellerProvider.user!.isEmailVerified == 0
+                          ? Icon(Icons.close)
+                          : Icon(Icons.check),
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                spreadRadius: 0.8,
+                                blurRadius: 7,
+                              ),
+                            ],
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          child: UserImage(
+                            sellerProvider.user!,
+                            64,
+                            fallbackTiInitials:
+                                sellerProvider.user!.image == null
+                                    ? true
+                                    : false,
+                          )),
+
+                      // Center(child: UserCard(sellerProvider.user!)),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      SizedBox(
+                        height: 25,
+                        child: RevmoTheme.getTitle(
+                            sellerProvider.user!.fullName,
+                            color: RevmoColors.darkBlue),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      if (sellerProvider.user!.showroom != null)
+                        SizedBox(
+                          height: 25,
+                          child: RevmoTheme.getCaption(
+                              sellerProvider.user!.showroom!.fullName
+                                  .toUpperCase(),
+                              1,
+                              color: RevmoColors.darkBlue),
+                        ),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
                             children: [
-                              Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.2),
-                                        spreadRadius: 0.8,
-                                        blurRadius: 7,
-                                      ),
-                                    ],
-                                  ),
-                                  child: UserImage(
-                                    sellerProvider.user!,
-                                    64,
-                                    fallbackTiInitials:
-                                        sellerProvider.user!.image == null
-                                            ? true
-                                            : false,
-                                  )),
-
-                              // Center(child: UserCard(sellerProvider.user!)),
-                              SizedBox(
-                                height: 25,
-                              ),
-                              SizedBox(
-                                height: 25,
-                                child: RevmoTheme.getTitle(
-                                    sellerProvider.user!.fullName,
-                                    color: RevmoColors.darkBlue),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              if (sellerProvider.user!.showroom != null)
-                                SizedBox(
-                                  height: 25,
-                                  child: RevmoTheme.getCaption(
-                                      sellerProvider.user!.showroom!.fullName
-                                          .toUpperCase(),
-                                      1,
-                                      color: RevmoColors.darkBlue),
+                              RatingBarIndicator(
+                                rating: 3,
+                                itemBuilder: (context, index) => Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
                                 ),
-
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      RatingBarIndicator(
-                                        rating: 3,
-                                        itemBuilder: (context, index) => Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                        ),
-                                        itemCount: 5,
-                                        itemSize: 15.0,
-                                        unratedColor:
-                                            Colors.amber.withAlpha(50),
-                                        direction: Axis.horizontal,
-                                      ),
-                                      Text(
-                                        ' |  3.0',
-                                        style: TextStyle(
-                                            fontSize: 10,
-                                            color: RevmoColors.darkBlue),
-                                      )
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.timelapse_outlined,
-                                        color: RevmoColors.darkBlue,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text('Very Responsive',
-                                          style: TextStyle(
-                                              color: RevmoColors.darkBlue))
-                                    ],
-                                  ),
-                                ],
+                                itemCount: 5,
+                                itemSize: 15.0,
+                                unratedColor: Colors.amber.withAlpha(50),
+                                direction: Axis.horizontal,
                               ),
+                              Text(
+                                ' |  3.0',
+                                style: TextStyle(
+                                    fontSize: 10, color: RevmoColors.darkBlue),
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.timelapse_outlined,
+                                color: RevmoColors.darkBlue,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text('Very Responsive',
+                                  style: TextStyle(color: RevmoColors.darkBlue))
                             ],
                           ),
                         ],
                       ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    _dataInfo(
-                        title: AppLocalizations.of(context)!.companyProfile,
-                        info: "https://www.google.com",
-                        icon: Icon(Icons.copy_rounded)),
-                    _dataInfo(
-                        title: AppLocalizations.of(context)!.fullName,
-                        info: sellerProvider.user!.fullName,
-                        icon: Icon(Iconsax.user)),
-                    _dataInfo(
-                        title: AppLocalizations.of(context)!.mobileNumber,
-                        info: sellerProvider.user!.mob,
-                        icon: Icon(Iconsax.mobile)),
-                    // sellerProvider.user!.mob2 != ""
-                    //     ? _dataInfo(
-                    //         title: "Mobile Num secondary",
-                    //         info: sellerProvider.user!.mob2,
-                    //         icon: Icon(Iconsax.mobile))
-                    //     : SizedBox.shrink(),
-                  ],
-                ).setPageHorizontalPadding(context),
-              ))
-        ],
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+
+            _dataInfo(
+                title: AppLocalizations.of(context)!.fullName,
+                info: sellerProvider.user!.fullName,
+                icon: Icon(Iconsax.user)),
+            sellerProvider.user!.email != ""
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      _dataInfo(
+                          title: "Email address",
+                          info: sellerProvider.user!.email,
+                          icon: Icon(Iconsax.mobile)),
+                      if (sellerProvider.user!.isEmailVerified == false)
+                        Row(
+                          children: [
+                            Text(
+                                'Email is not verified please verify your email'),
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => VerifyView(
+                                                mail:
+                                                    sellerProvider.user!.email,
+                                              )));
+                                },
+                                child: Text('Verify now')),
+                          ],
+                        )
+                    ],
+                  )
+                : SizedBox.shrink(),
+            Column(
+              children: [
+                _dataInfo(
+                    title: AppLocalizations.of(context)!.mobileNumber,
+                    info: sellerProvider.user!.mob,
+                    icon: Icon(Iconsax.mobile)),
+                if (sellerProvider.user!.isMobVerified == false)
+                  Row(
+                    children: [
+                      Text('Mobile is not verified please'),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => VerifyView(
+                                        phoneNumber: sellerProvider.user!.mob,
+                                        )));
+                          },
+                          child: Text('Verify now')),
+                    ],
+                  )
+              ],
+            ),
+            if (sellerProvider.user!.mob2.isNotEmpty)
+              Column(
+                children: [
+                  _dataInfo(
+                      title: "Secondary mobile number",
+                      info: sellerProvider.user!.mob2,
+                      icon: Icon(Iconsax.mobile)),
+                  if (sellerProvider.user!.isMob2Verified == false)
+                    Row(
+                      children: [
+                        Text('Number is not verified please'),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => VerifyView(
+                                            phoneNumber2: sellerProvider.user!.mob2,
+                                          )));
+                            },
+                            child: Text('Verify now')),
+                      ],
+                    )
+                ],
+              ),
+
+            SizedBox(
+              height: 100,
+            ),
+
+            // sellerProvider.user!.mob2 != ""
+            //     ? _dataInfo(
+            //         title: "Mobile Num secondary",
+            //         info: sellerProvider.user!.mob2,
+            //         icon: Icon(Iconsax.mobile))
+            //     : SizedBox.shrink(),
+          ],
+        ).setPageHorizontalPadding(context),
       ),
     );
   }

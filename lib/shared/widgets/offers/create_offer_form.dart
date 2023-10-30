@@ -800,7 +800,7 @@ class _NewOfferFormState extends State<NewOfferForm> {
     }
   }
   Future refreshPendingRequests() async {
-    await Provider.of<OffersProvider>(context, listen: false).loadPendingOffersNetworkLayer();
+    await Provider.of<OffersProvider>(context, listen: false).loadPendingOffers(forceReload: true);
   }
 
   @override

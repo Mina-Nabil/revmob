@@ -8,6 +8,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:revmo/shared/widgets/misc/revmo_breadcrumb.dart';
 import 'package:revmo/shared/widgets/registration/sign_up_pages.dart';
 
+import 'pre_login_screen.dart';
+
 class SignUpSteps extends InheritedWidget {
   //forms pages controller
   final PageController formsController;
@@ -40,10 +42,13 @@ class SignUpSteps extends InheritedWidget {
 }
 
 class SignUp extends StatefulWidget {
-  const SignUp.showroom() : _isShowroom = true;
-  const SignUp.seller() : _isShowroom = false;
+  const SignUp.showroom() : _isShowroom = true, _mobNotVerified = false;
+  const SignUp.seller() : _isShowroom = false, _mobNotVerified = false;
+  const SignUp.showRoomNotVerified() : _isShowroom = true,_mobNotVerified = true ;
+
 
   final bool _isShowroom;
+  final bool _mobNotVerified;
 
   static const SELLER_ROUTE_NAME = "/signUp/seller";
   static const SHOWROOM_ROUTE_NAME = "/signUp/showroom";
@@ -64,6 +69,10 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     Future.delayed(Duration.zero).then((_) async {
+      if(Provider.of<AccountProvider>(context, listen: false).user != null ){
+        print("user retreived");
+        await Provider.of<AccountProvider>(context, listen: false).refresshUser(context, forceReload: true);
+      }
       await Provider.of<AccountProvider>(context, listen: false).loadUser(context, forceReload: true);
       if (Provider.of<AccountProvider>(context, listen: false).showroom != null) {
         Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.ROUTE_NAME, ModalRoute.withName('/'));
@@ -80,6 +89,10 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
     AppBar appbar = AppBar(
       elevation: 0.0,
       backgroundColor: Colors.transparent,
+      leading: GestureDetector(onTap: (){
+        Navigator.of(context)
+            .pushReplacementNamed(PreLoginScreen.ROUTE_NAME);
+      },child: Icon(Icons.arrow_back_ios),),
     );
 
     return GestureDetector(
@@ -107,24 +120,21 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
                     SizedBox(
                       height: widget._titleBottomMargin,
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: widget._horizontalPadding),
-                      child: RevmoBreadcrumb(
-                        animation: animation,
-                        stepsList: (widget._isShowroom)
-                            ? {
-                                0: AppLocalizations.of(context)!.signUpStep_ContactInformation,
-                                1: AppLocalizations.of(context)!.signUpStep_CompanyDetails,
-                                2: AppLocalizations.of(context)!.signUpStep_PaymentDetails,
-                                3: AppLocalizations.of(context)!.signUpStep_AccountVerfication
-                              }
-                            : {
-                                0: AppLocalizations.of(context)!.signUpStep_ContactInformation,
-                                1: AppLocalizations.of(context)!.signUpStep_AccountVerfication
-                              },
-                        width: MediaQuery.of(context).size.width,
-                        height: widget._breadCrumbHeight,
-                      ),
+                    RevmoBreadcrumb(
+                      animation: animation,
+                      stepsList: (widget._isShowroom)
+                          ? {
+                              0: AppLocalizations.of(context)!.signUpStep_ContactInformation,
+                              1: AppLocalizations.of(context)!.signUpStep_AccountVerfication,
+                              2: AppLocalizations.of(context)!.signUpStep_CompanyDetails,
+                              3: AppLocalizations.of(context)!.signUpStep_AccountVerfication
+                            }
+                          : {
+                              0: AppLocalizations.of(context)!.signUpStep_ContactInformation,
+                              1: AppLocalizations.of(context)!.signUpStep_AccountVerfication
+                            },
+                      width: MediaQuery.of(context).size.width,
+                      height: widget._breadCrumbHeight,
                     ),
                     Expanded(
                       child: SignUpPages(

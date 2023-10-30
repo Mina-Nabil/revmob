@@ -335,6 +335,19 @@ class AccountProvider extends ChangeNotifier {
   Plans? plans;
   Subscription? subscription;
 
+  String? emailSignUp;
+  String? phoneNumber;
+
+  setEmailSignup(String email) {
+    emailSignUp = email;
+    notifyListeners();
+  }
+
+  setUserMobile(String number) {
+    phoneNumber = number;
+    notifyListeners();
+  }
+
   //setting fcm token
   Future setFcmToken(String token) async {
     try {
@@ -355,37 +368,40 @@ class AccountProvider extends ChangeNotifier {
     try {
       return _service.getCurrentPlan().then((value) {
         if (value.statusCode == 200) {
-          var plan = Plans.fromJson(value.data["body"]["plan"]);
-          plans = plan;
-          // subscribtion = Plans(
-          //   id: 2,
-          //   name: "Pro Plan",
-          //   monthlyPrice: 500,
-          //   annualPrice: 500,
-          //   adminsLimit: 10,
-          //   usersLimit: 10,
-          //   modelsLimit: 10,
-          //   offersLimit: 70,
-          //   servicesLimit: 100,
-          //   facilityPayment: 100,
-          //   emailSupport: 1,
-          //   chatSupport: 1,
-          //   phoneSupport: 1,
-          //   dashboardAccess: 1,
-          //   order: 1,
-          // );
-          // print('this is plan ${plans}');
+          if(value.data["body"] != null ) {
+            var plan = Plans.fromJson(value.data["body"]["plan"]);
+            plans = plan;
+            // subscribtion = Plans(
+            //   id: 2,
+            //   name: "Pro Plan",
+            //   monthlyPrice: 500,
+            //   annualPrice: 500,
+            //   adminsLimit: 10,
+            //   usersLimit: 10,
+            //   modelsLimit: 10,
+            //   offersLimit: 70,
+            //   servicesLimit: 100,
+            //   facilityPayment: 100,
+            //   emailSupport: 1,
+            //   chatSupport: 1,
+            //   phoneSupport: 1,
+            //   dashboardAccess: 1,
+            //   order: 1,
+            // );
+            // print('this is plan ${plans}');
 
-          var current = CurrentPlan.fromJson(value.data["body"]["current"]);
-          currentPlan = current;
-          // currentPlan!.offers = current.offers;
-          // currentPlan = CurrentPlan(
-          //   users: 5,
-          //   admins: 5,
-          //   offers: 60,
-          //   models: 5,
-          // );
-          notifyListeners();
+            var current = CurrentPlan.fromJson(value.data["body"]["current"]);
+            currentPlan = current;
+            // currentPlan!.offers = current.offers;
+            // currentPlan = CurrentPlan(
+            //   users: 5,
+            //   admins: 5,
+            //   offers: 60,
+            //   models: 5,
+            // );
+            notifyListeners();
+          }
+
           return Future.value(true);
         } else {
           return Future.value(false);
@@ -396,9 +412,12 @@ class AccountProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> subscribe(String planId, String type, String days, String amount, String transactionId) async {
+  Future<bool> subscribe(String planId, String type, String days, String amount,
+      String transactionId) async {
     try {
-      return await _service.subscribe(planId, type, days, amount, transactionId).then((value) {
+      return await _service
+          .subscribe(planId, type, days, amount, transactionId)
+          .then((value) {
         if (value.statusCode == 200 && value.data["status"] == true) {
           loadCurrentPlan();
           return Future.value(true);
@@ -408,12 +427,9 @@ class AccountProvider extends ChangeNotifier {
         }
       });
     } catch (e) {
-
       return Future.value(false);
     }
   }
-
-
 
   Future<bool> editProfile(String username, String mobNumber1,
       String? mobNumber2, File? image) async {
@@ -426,7 +442,8 @@ class AccountProvider extends ChangeNotifier {
               mobNumber2: mobNumber2!.isEmpty ? null : mobNumber2)
           .then((value) {
         if (value.statusCode == 200) {
-         _currentUser =  Seller.fromJson(value.data["body"]["seller"]);
+          _currentUser = Seller.fromJson(value.data["body"]["seller"]);
+
           notifyListeners();
           return Future.value(true);
         } else {
@@ -443,8 +460,17 @@ class AccountProvider extends ChangeNotifier {
       var response = await AuthService.getCurrentUser(context);
       if (response.status == true) {
         _currentUser = response.body;
+        print(_currentUser!.mob);
       }
     }
+    notifyListeners();
+  }
+
+  Future refreshUserNetworkLayer(context) async {
+      var response = await AuthService().refreshUserNetworkLayer();
+      if (response.statusCode == 200) {
+        _currentUser = Seller.fromJson(response.data["body"]);
+      }
     notifyListeners();
   }
 }

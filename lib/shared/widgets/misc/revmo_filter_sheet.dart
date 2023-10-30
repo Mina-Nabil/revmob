@@ -301,6 +301,7 @@ class _RevmoFiltersSheetState extends State<RevmoFiltersSheet> {
                             callBack: cancel,
                             textColor: RevmoColors.originalBlue,
                           ),
+                          SizedBox(height: 30,)
                         ],
                       ),
                     ],

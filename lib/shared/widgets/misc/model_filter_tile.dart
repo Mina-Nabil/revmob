@@ -45,9 +45,17 @@ class CarModelFilterTile extends StatelessWidget {
             ),
             SizedBox(width: 2,),
 
+            // Expanded(
+            //     flex: 2,
+            //     child: FittedBox(child: RevmoTheme.getBody(model.name, 1, color: RevmoColors.darkBlue))),
+
             Expanded(
-                flex: 2,
-                child: FittedBox(child: RevmoTheme.getBody(model.name, 1, color: RevmoColors.darkBlue))),
+              child: Text(
+                model.name,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 10 , color: RevmoColors.darkBlue, fontStyle:  FontStyle.normal, fontWeight: FontWeight.w700, ),
+              ),
+            ),
          SizedBox(width: 3,),
           ],
         ),

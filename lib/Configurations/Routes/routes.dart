@@ -39,12 +39,12 @@ class Routes {
         return PageTransition(
             child: SettingsScreen(), type: PageTransitionType.rightToLeft);
 
-      case PageRouteName.SignUpSeller:
-        return PageTransition(
-            child: SignUp.seller(), type: PageTransitionType.fade);
-      case PageRouteName.SignUpShowRoom:
-        return PageTransition(
-            child: SignUp.showroom(), type: PageTransitionType.fade);
+      // case PageRouteName.SignUpSeller:
+      //   return PageTransition(
+      //       child: SignUp.seller(), type: PageTransitionType.fade);
+      // case PageRouteName.SignUpShowRoom:
+      //   return PageTransition(
+      //       child: SignUp.showroom(), type: PageTransitionType.fade);
 
       case PageRouteName.JoinShowroomScreen:
         return PageTransition(

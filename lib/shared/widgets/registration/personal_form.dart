@@ -17,7 +17,12 @@ import 'dart:io';
 class PersonalForm extends StatefulWidget {
   final Duration animationsDuration;
   final Curve defaultCurve;
-  const PersonalForm({this.animationsDuration = const Duration(milliseconds: 500), this.defaultCurve = Curves.slowMiddle});
+  final bool isShowroom;
+
+  const PersonalForm(
+      {this.animationsDuration = const Duration(milliseconds: 500),
+      this.defaultCurve = Curves.slowMiddle,
+      this.isShowroom = false});
 
   @override
   _PersonalFormState createState() => _PersonalFormState();
@@ -29,9 +34,11 @@ class _PersonalFormState extends State<PersonalForm> {
 
   TextEditingController _fullNameController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
-  TextEditingController _confirmPasswordController = new TextEditingController();
+  TextEditingController _confirmPasswordController =
+      new TextEditingController();
   TextEditingController _emailController = new TextEditingController();
-  TextEditingController _mobileNumberController = new TextEditingController(text: "01");
+  TextEditingController _mobileNumberController =
+      new TextEditingController(text: "01");
   ValueNotifier<File?> _selectedImage = new ValueNotifier(null);
 
   GlobalKey<FormFieldState> _confirmPwKey = new GlobalKey<FormFieldState>();
@@ -51,20 +58,21 @@ class _PersonalFormState extends State<PersonalForm> {
       await loadSeller();
       if (Provider.of<AccountProvider>(context, listen: false).user != null &&
           Provider.of<AccountProvider>(context, listen: false).user is Seller) {
-        moveBar();
-        RevmoTheme.showRevmoSnackbar(context, AppLocalizations.of(context)!.alreadySignedIn);
-        movePage();
+        moveBarInit();
+        RevmoTheme.showRevmoSnackbar(
+            context, AppLocalizations.of(context)!.alreadySignedIn);
+        movePageInit();
       }
       setState(() {
         isWaitingForResponse = false;
       });
     });
-
     super.initState();
   }
 
   Future loadSeller() async {
-    await Provider.of<AccountProvider>(context, listen: false).loadUser(context);
+    await Provider.of<AccountProvider>(context, listen: false)
+        .loadUser(context);
   }
 
   @override
@@ -105,7 +113,8 @@ class _PersonalFormState extends State<PersonalForm> {
                 validateOnChange: true,
                 hintText: AppLocalizations.of(context)!.passwordHint,
                 validator: (input) {
-                  if (input != _passwordController.text) return AppLocalizations.of(context)!.confirmPasswordMsg;
+                  if (input != _passwordController.text)
+                    return AppLocalizations.of(context)!.confirmPasswordMsg;
                 },
               ),
               RevmoTextField(
@@ -118,7 +127,8 @@ class _PersonalFormState extends State<PersonalForm> {
                     .required(AppLocalizations.of(context)!.fieldReqMsg)
                     .email(AppLocalizations.of(context)!.emailMsg)
                     .add((value) {
-                  if (isEmailTaken) return AppLocalizations.of(context)!.emailTaken;
+                  if (isEmailTaken)
+                    return AppLocalizations.of(context)!.emailTaken;
                 }).build(),
                 onEditingComplete: checkEmail,
               ),
@@ -134,7 +144,8 @@ class _PersonalFormState extends State<PersonalForm> {
                     .minLength(11, AppLocalizations.of(context)!.any11MinLength)
                     .phone(AppLocalizations.of(context)!.mobInvalidMsg)
                     .add((value) {
-                  if (isPhoneTaken) return AppLocalizations.of(context)!.phoneTaken;
+                  if (isPhoneTaken)
+                    return AppLocalizations.of(context)!.phoneTaken;
                 }).build(),
                 onEditingComplete: checkPhone,
               ),
@@ -155,7 +166,8 @@ class _PersonalFormState extends State<PersonalForm> {
   }
 
   checkEmail() async {
-    var response = await AuthService.isEmailTaken(context, _emailController.text);
+    var response =
+        await AuthService.isEmailTaken(context, _emailController.text);
     try {
       if (response.body != null && response.body != isEmailTaken) {
         setState(() {
@@ -169,7 +181,8 @@ class _PersonalFormState extends State<PersonalForm> {
   }
 
   checkPhone() async {
-    var response = await AuthService.isPhoneTaken(context, _mobileNumberController.text);
+    var response =
+        await AuthService.isPhoneTaken(context, _mobileNumberController.text);
     if (response.body != null && response.body != isPhoneTaken) {
       setState(() {
         isPhoneTaken = response.body!;
@@ -186,7 +199,44 @@ class _PersonalFormState extends State<PersonalForm> {
   }
 
   movePage() {
-    SignUpSteps.of(context).formsController.animateToPage(1, duration: widget.animationsDuration, curve: widget.defaultCurve);
+    SignUpSteps.of(context).formsController.animateToPage(1,
+        duration: widget.animationsDuration, curve: widget.defaultCurve);
+  }
+
+  moveBarInit() {
+    if (widget.isShowroom) {
+      bool verified = Provider.of<AccountProvider>(context, listen: false)
+              .user
+              ?.isMobVerified ??
+          false;
+      SignUpSteps.of(context).animationController.reset();
+      SignUpSteps.of(context).barTween.begin = 0;
+      SignUpSteps.of(context).barTween.end = verified ? 2 : 1;
+      SignUpSteps.of(context).animationController.forward();
+    } else {
+      SignUpSteps.of(context).animationController.reset();
+      SignUpSteps.of(context).barTween.begin = 0;
+      SignUpSteps.of(context).barTween.end = 2;
+      SignUpSteps.of(context).animationController.forward();
+    }
+  }
+
+  movePageInit() {
+    if (widget.isShowroom) {
+      print("condition1");
+      bool verified = Provider.of<AccountProvider>(context, listen: false)
+              .user
+              ?.isMobVerified ??
+          false;
+      print(verified);
+
+      SignUpSteps.of(context).formsController.animateToPage(verified ? 2 : 1,
+          duration: widget.animationsDuration, curve: widget.defaultCurve);
+    } else {
+      print('condition2');
+      SignUpSteps.of(context).formsController.animateToPage(2,
+          duration: widget.animationsDuration, curve: widget.defaultCurve);
+    }
   }
 
   disableForm() {
@@ -213,6 +263,9 @@ class _PersonalFormState extends State<PersonalForm> {
           mobNumber: _mobileNumberController.text,
           password: _passwordController.text);
       if (response.status == true && response.body != null) {
+        Provider.of<AccountProvider>(context, listen: false)
+            .setUserMobile(_mobileNumberController.text);
+        print('this is mobile number ${ Provider.of<AccountProvider>(context, listen: false).phoneNumber}');
         moveBar();
         RevmoTheme.showRevmoSnackbar(context, response.msg);
         movePage();

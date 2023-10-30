@@ -66,6 +66,10 @@ class _RevmoSellerAppState extends State<RevmoSellerApp> {
     //         Platform.isIOS ? Brightness.light : Brightness.dark,
     //   ),
     // );
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,

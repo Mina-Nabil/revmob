@@ -36,12 +36,13 @@ class NetworkLayer {
     unAuthDio.interceptors.add(InterceptorsWrapper(
         onRequest:(options, handler){
           // Do something before request is sent
-
-
+          if (options.method == 'POST') {
+            options.headers['accept'] = "application/json";
+            options.headers['content-type'] = "application/json";
+          }
           print('send request ${options.uri}');
           print('headers ${options.headers}');
           print('data: ${options.data}');
-
           return handler.next(options); //continue
           // If you want to resolve the request with some custom data，
           // you can resolve a `Response` object eg: `handler.resolve(response)`.
@@ -83,7 +84,10 @@ class NetworkLayer {
         onRequest:(options, handler){
           // Do something before request is sent
        options.headers = server.headers;
-
+       if (options.method == 'POST') {
+         options.headers['accept'] = "application/json";
+         options.headers['content-type'] = "application/json";
+       }
           print('send request ${options.uri}');
           print('headers ${options.headers}');
           print('data on request: ${options.data}');
@@ -95,6 +99,7 @@ class NetworkLayer {
         },
         onResponse:(response,handler) {
           // Do something with response data
+          print('statusCode: ${response.statusCode}');
           print('data: ${response.data}');
           if (response.statusCode == 200) {
             return handler.next(response); // continue
@@ -114,11 +119,18 @@ class NetworkLayer {
           }
           if (e.response?.statusCode == 401) {
 
-            handler.resolve(e.response!);
+            return handler.resolve(e.response!);
+          } else if(e.response?.statusCode== 500){
+           return handler.resolve(e.response!);
+          } else if(e.response?.statusCode == 422){
+            return handler.resolve(e.response!);
           }
+          return handler.next(e);
+
+
           // If you want to resolve the request with some custom data，
           // you can resolve a `Response` object eg: `handler.resolve(response)`.
-          return handler.next(e); // continue
+          // return handler.next(e); // continue
 
         }
     ));

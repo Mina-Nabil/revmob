@@ -131,7 +131,7 @@ class _BrandModelsScreenState extends State<BrandModelsScreen> {
                               : NoCarsFound(false),
                     ),
                     Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
+                      padding: EdgeInsets.only(bottom: 23),
                       child: MainButton(
                         text: (modelsProvider.brandModels.length > 0)
                             ? AppLocalizations.of(context)!.done

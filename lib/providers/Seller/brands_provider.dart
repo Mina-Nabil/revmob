@@ -17,6 +17,7 @@ class BrandsProvider extends ChangeNotifier {
     if (response.body != null && response.body is List<Brand>) {
       _brands.clear();
       _brands = response.body!;
+      print(response.body);
       notifyListeners();
     } else {
       RevmoTheme.showRevmoSnackbar(context, response.msg);

@@ -53,6 +53,7 @@ class _RequestsTabState extends State<RequestsTab> {
 
   @override
   Widget build(BuildContext context) {
+    var offerProvider =  Provider.of<OffersProvider>(context);
     final mediaQuery = MediaQuery.of(context);
     return Scaffold(
         backgroundColor: RevmoColors.darkBlue,
@@ -74,11 +75,15 @@ class _RequestsTabState extends State<RequestsTab> {
                   //   child: RevmoTheme.getSemiBold(
                   //       AppLocalizations.of(context)!.requests, 3),
                   // ),
+                  // Container(
+                  //   child: Text(
+                  //     AppLocalizations.of(context)!.requests,
+                  //     style: TextStyle(fontSize: 20),
+                  //   ),
+                  // ),
                   Container(
-                    child: Text(
-                      AppLocalizations.of(context)!.requests,
-                      style: TextStyle(fontSize: 20),
-                    ),
+                    width: double.infinity,
+                    child: RevmoTheme.getSemiBold(AppLocalizations.of(context)!.requests, 3),
                   ),
                   SizedBox(
                     height: 15,

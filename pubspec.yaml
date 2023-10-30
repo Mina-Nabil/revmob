@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  flutter_launcher_icons: ^0.13.1
   flutter:
     sdk: flutter
 
@@ -30,7 +31,7 @@ dependencies:
 
   cupertino_icons: ^1.0.2
 
-  flutter_svg: ^0.21.0
+  flutter_svg: ^2.0.0
   path_provider: ^2.0.6
   http: ^0.13.4
   page_transition: ^2.0.4
@@ -50,19 +51,39 @@ dependencies:
   flutter_easyloading: ^3.0.3
   lottie: ^1.2.1
   dio: ^4.0.6
-  syncfusion_flutter_sliders: ^20.1.59
+#  syncfusion_flutter_sliders: ^20.1.59
   filter_list: ^1.0.1
   flutter_multi_select_items: ^0.4.0
   persistent_bottom_nav_bar: ^4.0.2
   cached_network_image: ^3.2.0
-  pmvvm: ^2.3.0
-  firebase_core: ^1.20.0
-  firebase_messaging: ^12.0.1
+  firebase_core: ^2.9.0
+  firebase_messaging: ^14.0.1
   currency_text_input_formatter: ^2.1.8
   iconsax: ^0.0.8
   expandable_page_view: ^1.0.17
   pull_to_refresh: ^2.0.0
-  modal_bottom_sheet: ^2.1.2
+  modal_bottom_sheet: ^3.0.0-pre
+  pinput: ^2.2.12
+  flutter_bounceable: ^1.0.3
+  pmvvm: ^3.0.0
+  rounded_loading_button: ^2.0.8
+  fade_shimmer: ^2.0.1
+  fluttertoast: ^8.0.9
+  toggle_switch: ^2.1.0
+  flutter_switch: ^0.3.2
+#  syncfusion_flutter_datepicker: ^21.1.41
+#  syncfusion_flutter_core: ^21.2.3
+  animated_custom_dropdown: ^1.5.0
+  syncfusion_flutter_calendar: ^21.1.35
+  calendar_view:
+
+
+
+
+
+
+
+
 
 
 
@@ -72,6 +93,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/app-logo-revmo.png"
+  min_sdk_android: 21
 
 
 flutter:

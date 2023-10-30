@@ -27,24 +27,18 @@ class OffersProvider extends ChangeNotifier {
   List<OfferRequest> get displayedNew => _displayedNew;
 
   List<Offer> _pending = [];
-
   List<Offer> get pending => _pending;
   List<Offer> _displayedPending = [];
-
   List<Offer> get displayedPending => _displayedPending;
 
   List<Offer> _approved = [];
-
   List<Offer> get approved => _approved;
   List<Offer> _displayedApproved = [];
-
   List<Offer> get displayedApproved => _displayedApproved;
 
   List<Offer> _expired = [];
-
   List<Offer> get expired => _expired;
   List<Offer> _displayedExpired = [];
-
   List<Offer> get displayedExpired => _displayedExpired;
 
   OffersService _service = OffersService();
@@ -156,13 +150,17 @@ class OffersProvider extends ChangeNotifier {
     try {
       return await _service.networkLayerGetPendingOffers().then((value) {
         if (value.statusCode == 200) {
+          print('refresh pending offers ');
           List<Offer> response = List<Offer>.from(
               value.data["body"]["offers"].map((x) => Offer.fromJson(x)));
+          print('refresh pending after ');
           _pending.clear();
           _pending = response;
           _pending.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
           _displayedPending = _pending;
-
+          print('------------');
+          print(displayedPending.length);
+          print('------------');
           notifyListeners();
           return Future.value(true);
         } else {

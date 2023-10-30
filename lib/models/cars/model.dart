@@ -52,7 +52,7 @@ class CarModel {
         _arbcName = json[API_arbcName_Key],
         _brand = Brand.fromJson(json[API_brand_Key]),
         _type = CarType.fromJson(json[API_type_Key]),
-        _imageURL = json[API_imageURL_Key],
+        _imageURL = json[API_imageURL_Key]??"no image",
         _colorImages = [],
         _colors = [],
         _images = [],

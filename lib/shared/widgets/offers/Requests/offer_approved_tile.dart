@@ -8,6 +8,8 @@ import 'package:revmo/shared/widgets/UIwidgets/custom_cachedNetwork.dart';
 import '../../../../environment/paths.dart';
 import '../../../../models/cars/revmo_image.dart';
 import '../../../../models/offers/offer.dart';
+import '../../../../screens/offers/approved_offer_detail.dart';
+import '../../../../screens/offers/approved_offer_view.dart';
 import '../../../colors.dart';
 import '../../../theme.dart';
 import '../../UIwidgets/initial_name_widget.dart';
@@ -179,7 +181,8 @@ class ApprovedExpiredRequestTile extends StatelessWidget {
                                   ),
                             SizedBox(
                                 height: 100,
-                                child: CustomCachedImageNetwork(imageUrl:offer.car.model.imageUrl)),
+                                child: CustomCachedImageNetwork(
+                                    imageUrl: offer.car.model.imageUrl)),
                             // SizedBox(
                             //   height: 4,
                             // ),
@@ -255,6 +258,12 @@ class ApprovedExpiredRequestTile extends StatelessWidget {
                           : AppLocalizations.of(context)!.renewOffer,
                       callBack: () {
                         if (approved) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AcceptedOfferView(
+                                        offer: offer,
+                                      )));
                         } else {
                           // expired tab
                           print(offer.id);
@@ -443,9 +452,18 @@ class _CarLogoName extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 25, child: Image.network(logoUrl, errorBuilder: (context,e,s){
-          return Icon(Icons.error, size: 10 , color: Colors.red,);
-        },)),
+        SizedBox(
+            height: 25,
+            child: Image.network(
+              logoUrl,
+              errorBuilder: (context, e, s) {
+                return Icon(
+                  Icons.error,
+                  size: 10,
+                  color: Colors.red,
+                );
+              },
+            )),
         SizedBox(
           height: 5,
         ),
