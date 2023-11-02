@@ -1,5 +1,5 @@
 {
-    "dashboard": "Dashboard",
+   "dashboard": "Dashboard",
     "@dashboard": {
       "description": "The name of the dashboard screen"
     },
@@ -67,7 +67,7 @@
       "subscriptions": "Subscriptions",
               "@mobileNumber": {
                "description": "Subscriptions in subscription screen"
-             }, 
+             },
 
 
       "upgradetopremiumtounlockadditionalfeatures":   "Upgrade to premium to unlock additional features",
@@ -76,16 +76,16 @@
       },
        "freePlan": "Free Plan",
               "@freePlan": {
-               "description": "Free Planin subscription screen"
-             }, 
+               "description": "Free Plan in subscription screen"
+             },
               "businessPlan": "Business Plan",
               "@businessPlan": {
-               "description": "Business Planin subscription screen"
-             }, 
+               "description": "Business Plan in subscription screen"
+             },
            "proPlan": "Pro Plan",
               "@proPlan": {
                "description": "Pro Planin subscription screen"
-             },  
+             },
               "pricing": "Pricing",
               "@pricing": {
                "description": "Pricing in subscription screen"
@@ -93,19 +93,19 @@
              "subscribe": "Subscribe",
               "@subscribe": {
                "description": "Subscribe in subscription screen"
-             }, 
+             },
               "subscribeNow": "Subscribe Now",
               "@subscribeNow": {
                "description": "Subscribe Now in subscription screen"
-             },  
+             },
               "subscribeToMonthlyPlan": "Subscribe to monthly plan",
               "@subscribeToMonthlyPlan": {
                "description": "Subscribe to monthly plan in subscription screen"
-             }, 
+             },
               "subscribeToAnnualPlan": "Subscribe to annual plan",
               "@subscribeToAnnualPlan": {
                "description": "Subscribe to annual plan in subscription screen"
-             }, 
+             },
       "whatYouGet": "What you get",
               "@whatYouGet": {
                "description": "What you get in subscription screen"
@@ -551,7 +551,7 @@
     "rims": "Rims",
     "torque": "Torque",
     "dimensions": "Dimensions",
-    
+
     "addressHint": "Your address here",
     "@addressHint" : {
       "description": "Address Hint in forms"
@@ -863,5 +863,221 @@
     "slogan": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vulputate sapien at tellus scelerisque, non ornare ante elementum. Mauris commodo urna magna, ac eleifend magna scelerisque ut.",
     "@slogan" : {
       "description": "PreLogin Page Slogan"
-    }
+    },
+       "communicateWithBuyer": "Communicate with Buyer",
+       "@communicateWithBuyer" : {
+          "description": "Communicate with Buyer in approved offer view"
+        },
+        "offersDetails": "Offers Details",
+        "@offersDetails" : {
+              "description": "Offers Details in approved offer view"
+        },
+        "requestDocuments": "Request Documents",
+        "@requestDocuments" : {
+              "description": "Request Documents in approved offer view"
+         },
+        "requestNessecaryDocumentsNeededfromBuyer": "Request nessecary Documents needed from buyer",
+        "@requestNessecaryDocumentsNeededfromBuyer" : {
+               "description": "Request nessecary Documents needed from buyer in approved offer view"
+         },
+         "calendar": "Calendar",
+         "@calendar" : {
+           "description": "Calendar in approved offer view"
+          },
+         "checkOrAddEventsSharedwiththeBuyer": "Check or add events shared with the buyer",
+         "@checkOrAddEventsSharedwiththeBuyer" : {
+             "description": "Check or add events shared with the buyer in approved offer view"
+         },
+         "extras": "Extras",
+                  "@extras" : {
+                      "description": "Extras in approved offer view"
+                  },
+                   "carAccessories": "Car Accessories",
+                                   "@carAccessories" : {
+                                       "description": "Car Accessories in approved offer view"
+                                   },
+                                       "dealDetails": "Deal Details",
+                                                                      "@dealDetails" : {
+                                                                          "description": "Deal Details in approved offer detail"
+                                                                      },
+           "minReservationPayment": "Min Reservation Payment",
+                  "@minReservationPayment" : {
+                 "description": "Min Reservation Payment in approved offer detail"
+                     },
+            "paymentMethod": "Payment Method",
+                             "@paymentMethod" : {
+                            "description": "Payment Method in approved offer detail"
+                                },
+            "noLoanOption": "No Loan Option",
+                                         "@noLoanOption" : {
+                                        "description": "No Loan Option in approved offer detail"
+                                            },
+            "loan": "Loan",
+                 "@loan" : {
+                "description": "Loan in approved offer detail"
+               },
+            "name": "Name",
+                             "@name" : {
+                            "description": "Name in approved offer detail"
+                           },
+            "email": "Email",
+                             "@email" : {
+                            "description": "Email in approved offer detail"
+                           },
+            "addDocumentRequest": "Add Document Request",
+                             "@addDocumentRequest" : {
+                            "description": "Add Document Request in request documents view"
+                           },
+           "documentsRequiredlabel": "Documents required label",
+                                        "@documentsRequiredlabel" : {
+                                       "description": "Documents required label in request documents view"
+                                      },
+          "notesForBuyer": "Notes for buyer",
+                                       "@notesForBuyer" : {
+                                      "description": "Notes for buyer in request documents view"
+                                     },
+          "title": "Title",
+                   "@title" : {
+                     "description": "Title in request documents view"
+                                     },
+          "note": "Note",
+                             "@note" : {
+                               "description": "Note in request documents view"
+                                               },
+          "addPhoto": "Add photo",
+                      "@addPhoto" : {
+                       "description": "Add photo in request documents view"
+                                     },
+          "startUpload": "Start Upload",
+                           "@startUpload" : {
+                            "description": "Start Upload in request documents view"
+                                     },
+          "pleaseFillAllData": "Please fill all data",
+                       "@pleaseFillAllData" : {
+                        "description": "Please fill all data in request documents view"
+                                     },
+          "requiredDocuments": "Required Documents",
+                               "@requiredDocuments" : {
+                                "description": "Required Documents in request documents view"
+                                               },
+          "noDocumentsUploadedYet": "No Documents Uploaded yet...",
+                              "@noDocumentsUploadedYet" : {
+                                "description": "No Documents Uploaded yet in request documents view"
+                                               },
+           "upload": "Upload (PNG,JPG)",
+                                  "@upload" : {
+                                    "description": "Upload (PNG,JPG) in request documents view"
+                                                },
+           "yourUploadedDocuments": "Your uploaded documents",
+                                   "@yourUploadedDocuments" : {
+                                     "description": "Your uploaded documents in request documents view"
+                                                },
+          "addExtras": "Add Extras",
+                             "@addExtras" : {
+                               "description": "Add Extras in  Extras view"
+                                               },
+          "wheelRimsMirrorsSeats": "Wheel Rims, mirrors, seats...",
+                             "@wheelRimsMirrorsSeats" : {
+                               "description": "Wheel Rims, mirrors, seats in Extras view"
+                                               },
+          "accessoryType": "Accessory type",
+                             "@accessoryType" : {
+                               "description": "Accessory type in Extras view"
+                                               },
+          "sparePartsAccessoriesEntertainment": "Spare parts, Accessories, Entertainment",
+                             "@sparePartsAccessoriesEntertainment" : {
+                               "description": "Spare parts, Accessories, Entertainment in Extras view"
+                                               },
+          "noExtrasPleaseAddExtraProductstotheoffer": "No Extras Please add Extra products to the offer",
+                             "@noExtrasPleaseAddExtraProductstotheoffer" : {
+                               "description": "No Extras Please add Extra products to the offer in Extras view"
+                                               },
+          "yourUploadedExtras": "Your Uploaded Extras",
+                             "@yourUploadedExtras" : {
+                               "description": "Your Uploaded Extras in Extras view"
+                                               },
+          "delete": "Delete",
+                             "@delete" : {
+                               "description": "Delete in Extras view"
+                                               },
+           "extras": "Extras",
+                                        "@extras" : {
+                                          "description": "Extras in Extras view"
+                                                          },
+           "deleteEvent": "Delete event",
+                                                   "@deleteEvent" : {
+                                                     "description": "Delete event in calendar details view"
+                                                                     },
+           "eventDetails": "Event Details",
+                                                              "@eventDetails" : {
+                                                                "description": "Event Details in calendar details view"
+                                                                                },
+           "participants": "Participants",
+                                                              "@participants" : {
+                                                                "description": "Participants in calendar details view"
+                                                                                },
+            "notes": "Notes",
+                                                               "@notes" : {
+                                                                 "description": "Notes in calendar details view"
+                                                                                 },
+            "reminder": "Reminder",
+                                                               "@reminder" : {
+                                                                 "description": "Reminder in calendar details view"
+                                                                                 },
+           "daysBefore": "days before",
+                                                              "@daysBefore" : {
+                                                                "description": "days before in calendar details view"
+                                                                                },
+            "pleaseFillAllFields": "Please fill all fields",
+                                                               "@pleaseFillAllFields" : {
+                                                                 "description": "Please fill all fields in calendar details view"
+                                                                 },
+             "editEvent": "Edit Event",
+                                                               "@editEvent" : {
+                                                                  "description": "Edit Event in calendar details view"
+                                                                  },
+            "location": "Location",
+                                                               "@location" : {
+                                                                 "description": "Location in calendar details view"
+                                                                 },
+            "starts": "Starts",
+                                 "@starts" : {
+                                    "description": "Starts in calendar details view"
+                                         },
+            "ends": "Ends",
+                           "@ends" : {
+                             "description": "Ends in calendar details view"},
+
+            "alert": "Alert",
+                      "@alert" : {
+                       "description": "Alert in calendar details view"
+                                                       },
+            "alertMe1DayBefore": "Alert me 1 day before",
+                                      "@alertMe1DayBefore" : {
+                                       "description": "Alert me 1 day before in calendar details view"
+                                                                                                         },
+            "alertMe2DayBefore": "Alert me 2 day before",
+                                                                                       "@alertMe2DayBefore" : {
+                                                                                         "description": "Alert me 2 day before in calendar details view"
+                                                                                                         },
+            "alertMe1WeekBefore": "Alert me 1 week before",
+                                                                                       "@alertMe1WeekBefore" : {
+                                                                                         "description": "Alert me 1 week before in calendar details view"
+                                                                                                         },
+             "add": "Add",
+                                                    "@add" : {
+                                                      "description": "Add in calendar view"
+                                                                      },
+              "newEvent": "New Event",
+                                                     "@newEvent" : {
+                                                       "description": "New Event in calendar  view"
+                                                                       }
+
+
+
+
+
+
+
+
 }

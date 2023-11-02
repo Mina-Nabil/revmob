@@ -102,7 +102,7 @@ class _RevmoCustomerDealDetailsCard extends StatelessWidget {
         ),
         //Todo customer details
         // title: AppLocalizations.of(context)!.details,
-        title: 'Deal Details',
+        title: AppLocalizations.of(context)!.dealDetails,
         initialStateExpanded: isInitiallyExpanded,
         minHeight: RevmoTheme.DETAILS_BOXES_MIN,
         maxHeight: maxBoxHeight,
@@ -163,16 +163,16 @@ class _DealDetails extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _DetailText(
-                  title: "Price",
+                  title: AppLocalizations.of(context)!.price,
                   info: formatter.format(offer.price),
                 ),
                 _DetailText(
-                  title: "Min Reservation Payment",
+                  title: AppLocalizations.of(context)!.minReservationPayment,
                   info: formatter.format(offer.downPayment),
                 ),
                 _DetailText(
-                  title: "Payment Method",
-                  info: offer.isLoan ? 'No Loan Option' : 'Loan',
+                  title: AppLocalizations.of(context)!.paymentMethod,
+                  info: offer.isLoan ? AppLocalizations.of(context)!.noLoanOption : AppLocalizations.of(context)!.loan,
                 ),
 
                 // offer.offerCanLoan == 1 ? SizedBox.shrink():
@@ -283,16 +283,16 @@ class _Details extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           DetailText(
-            title: "Name",
+            title: AppLocalizations.of(context)!.name,
             info: buyer.fullName,
           ),
 
           DetailText(
-            title: "Email",
+            title: AppLocalizations.of(context)!.email,
             info: buyer.email,
           ),
           DetailText(
-            title: "Mobile No",
+            title: AppLocalizations.of(context)!.mobileNumber,
             info: buyer.mob,
           ),
           // DetailText(

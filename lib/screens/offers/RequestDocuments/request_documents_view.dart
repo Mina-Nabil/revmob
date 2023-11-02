@@ -12,7 +12,7 @@ import 'package:revmo/models/offers/offer.dart';
 import 'package:revmo/services/toast_service.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../shared/theme.dart';
 import '../../../shared/widgets/UIwidgets/isnert_phot.dart';
 import '../../../shared/widgets/home/revmo_appbar.dart';
@@ -80,7 +80,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                                           height: 30,
                                         ),
                                         Text(
-                                          "Add Document Request",
+                                          AppLocalizations.of(context)!.addDocumentRequest,
                                           style: TextStyle(
                                               color: RevmoColors.darkBlue,
                                               fontSize: 18,
@@ -115,9 +115,9 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                                       width: mediaQuery.size.width,
                                       child: RevmoTextField(
                                         controller: viewModel.titleController,
-                                        title: "Title",
+                                        title: AppLocalizations.of(context)!.title,
                                         darkMode: false,
-                                        hintText: "Documents required label",
+                                        hintText: AppLocalizations.of(context)!.documentsRequiredlabel,
                                         keyboardType:
                                             TextInputType.text
                                         // validator: ValidationBuilder().number(context).build(),
@@ -130,9 +130,9 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                                       width: mediaQuery.size.width,
                                       child: RevmoTextField(
                                         controller: viewModel.noteController,
-                                        title: "Note",
+                                        title: AppLocalizations.of(context)!.note,
                                         darkMode: false,
-                                        hintText: "Notes for buyer",
+                                        hintText: AppLocalizations.of(context)!.notesForBuyer,
                                         keyboardType:
                                             TextInputType.text
                                         // validator: ValidationBuilder().number(context).build(),
@@ -146,7 +146,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                                         margin:
                                             EdgeInsets.symmetric(vertical: 10),
                                         child: RevmoTheme.getTextFieldLabel(
-                                            "Add photo",
+                                            AppLocalizations.of(context)!.addPhoto,
                                             color: RevmoColors.darkBlue)),
                                     viewModel.loading
                                         ? const FadeShimmer(
@@ -271,7 +271,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                                                         ).setOnlyPadding(context,
                                                             right: 0.02),
                                                         Text(
-                                                          "Upload (PNG,JPG)",
+                                                          AppLocalizations.of(context)!.upload,
                                                           style: RevmoTheme
                                                               .getBodyStyle(1,
                                                                   color: RevmoColors
@@ -297,7 +297,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                                       successIcon: Icons.check,
                                       failedIcon: Icons.close,
                                       child: Text(
-                                        "Start Upload",
+                                        AppLocalizations.of(context)!.startUpload,
                                         style: TextStyle(
                                             fontSize: 12,
                                             // fontFamily: context.locale.toString() == "en"
@@ -346,7 +346,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                                                 });
                                           });
                                         }else {
-                                          ToastService.showErrorToast("Please fill all data");
+                                          ToastService.showErrorToast(AppLocalizations.of(context)!.pleaseFillAllData);
                                         }
                                       },
                                     ),
@@ -368,7 +368,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
       ),
       backgroundColor: RevmoColors.darkBlue,
       appBar: RevmoAppBar(
-        title: 'Request documents',
+        title: AppLocalizations.of(context)!.requestDocuments,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -414,7 +414,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                             children: [
                               const SizedBox(height: 10,),
                               Text(
-                                "Required Documents",
+                                AppLocalizations.of(context)!.requestDocuments,
                                 style: Theme.of(context).textTheme.caption?.copyWith(
                                     color: Colors.white,
                                     fontSize: 18,
@@ -436,7 +436,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
 
                               Center(
                                 child: Text(
-                                  "No Documents Uploaded yet...",
+                                  AppLocalizations.of(context)!.noDocumentsUploadedYet,
                                   style: Theme.of(context).textTheme.caption?.copyWith(
                                       color: Colors.grey,
                                       fontSize: 14,
@@ -453,7 +453,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                               children: [
                                 const SizedBox(height: 10,),
                                 Text(
-                                  "Required Documents",
+                                  AppLocalizations.of(context)!.requestDocuments,
                                   style: Theme.of(context).textTheme.caption?.copyWith(
                                       color: Colors.white,
                                       fontSize: 18,
@@ -475,7 +475,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                                       title: viewModel.documents[index].title,
                                       description:
                                       viewModel.documents[index].note,
-                                      startUploadText: 'Upload (PNG,JPG)',
+                                      startUploadText: AppLocalizations.of(context)!.upload,
                                       showAddAfterAdding: true,
                                       onAddPhotoPressed: () {},
                                       onDeletePhotoPressed: (index) {},
@@ -506,7 +506,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                             children: [
                               const SizedBox(height: 10,),
                               Text(
-                                "Your uploaded documents",
+                                AppLocalizations.of(context)!.yourUploadedDocuments,
                                 style: Theme.of(context).textTheme.caption?.copyWith(
                                     color: Colors.white,
                                     fontSize: 18,
@@ -528,7 +528,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
 
                               Center(
                                 child: Text(
-                                  "No Documents Uploaded yet...",
+                                  AppLocalizations.of(context)!.noDocumentsUploadedYet,
                                   style: Theme.of(context).textTheme.caption?.copyWith(
                                       color: Colors.grey,
                                       fontSize: 14,
@@ -551,7 +551,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
 
                                 SizedBox(height: 10,),
                                 Text(
-                                  "Your Uploaded Documents",
+                                  AppLocalizations.of(context)!.yourUploadedDocuments,
                                   style: Theme.of(context).textTheme.caption?.copyWith(
                                       color: Colors.white,
                                       fontSize: 18,
@@ -573,7 +573,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                                       title: viewModel.sellerDocuments[index].title,
                                       description:
                                       viewModel.sellerDocuments[index].note,
-                                      startUploadText: 'Upload (PNG,JPG)',
+                                      startUploadText: AppLocalizations.of(context)!.upload,
                                       showAddAfterAdding: true,
                                       onAddPhotoPressed: () {},
                                       onDeletePhotoPressed: (index) {},

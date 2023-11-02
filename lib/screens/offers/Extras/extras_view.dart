@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:fade_shimmer/fade_shimmer.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,7 @@ import 'package:revmo/Configurations/Extensions/capitalize_extension.dart';
 import 'package:revmo/Configurations/Extensions/extensions.dart';
 import 'package:revmo/services/toast_service.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../models/offers/offer.dart';
 import '../../../shared/colors.dart';
 import '../../../shared/theme.dart';
@@ -92,7 +91,7 @@ class ExtrasView extends HookView<ExtraViewModel> {
                                             height: 30,
                                           ),
                                           Text(
-                                            "Add Extras",
+                                            AppLocalizations.of(context)!.addExtras,
                                             style: TextStyle(
                                                 color: RevmoColors.darkBlue,
                                                 fontSize: 18,
@@ -128,10 +127,10 @@ class ExtrasView extends HookView<ExtraViewModel> {
                                         child: RevmoTextField(
                                           controller: viewModel.titleController,
                                           // controller: TextEditingController(),
-                                          title: "Title",
+                                          title: AppLocalizations.of(context)!.title,
                                           darkMode: false,
                                           hintText:
-                                              "Wheel Rims, mirrors, seats...",
+                                          AppLocalizations.of(context)!.wheelRimsMirrorsSeats,
                                           keyboardType:
                                               TextInputType.text
                                           // validator: ValidationBuilder().number(context).build(),
@@ -144,10 +143,10 @@ class ExtrasView extends HookView<ExtraViewModel> {
                                         width: mediaQuery.size.width,
                                         child: RevmoTextField(
                                           controller: viewModel.noteController,
-                                          title: "Accessory type",
+                                          title: AppLocalizations.of(context)!.accessoryType,
                                           darkMode: false,
                                           hintText:
-                                              "Spare parts, Accessories, Entertainment  ",
+                                          AppLocalizations.of(context)!.sparePartsAccessoriesEntertainment,
                                           keyboardType:
                                           TextInputType.text
 
@@ -158,7 +157,7 @@ class ExtrasView extends HookView<ExtraViewModel> {
                                         child: RevmoTextField(
                                           controller: viewModel.priceController,
                                           // controller: TextEditingController(),
-                                          title: "Price",
+                                          title: AppLocalizations.of(context)!.price,
                                           darkMode: false,
                                           hintText: "10,000",
                                           keyboardType: TextInputType.number,
@@ -173,7 +172,7 @@ class ExtrasView extends HookView<ExtraViewModel> {
                                           margin: EdgeInsets.symmetric(
                                               vertical: 10),
                                           child: RevmoTheme.getTextFieldLabel(
-                                              "Add photo",
+                                              AppLocalizations.of(context)!.addPhoto,
                                               color: RevmoColors.darkBlue)),
                                       viewModel.loading
                                           ? const FadeShimmer(
@@ -300,7 +299,7 @@ class ExtrasView extends HookView<ExtraViewModel> {
                                                               context,
                                                               right: 0.02),
                                                           Text(
-                                                            "Upload (PNG,JPG)",
+                                                            AppLocalizations.of(context)!.upload,
                                                             style: RevmoTheme
                                                                 .getBodyStyle(1,
                                                                     color: RevmoColors
@@ -326,7 +325,7 @@ class ExtrasView extends HookView<ExtraViewModel> {
                                         successIcon: Icons.check,
                                         failedIcon: Icons.close,
                                         child: Text(
-                                          "Start Upload",
+                                          AppLocalizations.of(context)!.startUpload,
                                           style: TextStyle(
                                               fontSize: 12,
                                               // fontFamily: context.locale.toString() == "en"
@@ -377,7 +376,7 @@ class ExtrasView extends HookView<ExtraViewModel> {
                                             });
                                           } else {
                                             // RevmoTheme.showRevmoSnackbar(context,"Please fill all data");
-ToastService.showErrorToast("Please fill all data");
+ToastService.showErrorToast(AppLocalizations.of(context)!.pleaseFillAllData);
                                             viewModel.btnController.reset();
                                           }
 
@@ -402,7 +401,7 @@ ToastService.showErrorToast("Please fill all data");
       ),
       backgroundColor: RevmoColors.darkBlue,
       appBar: RevmoAppBar(
-        title: 'Extras',
+        title: AppLocalizations.of(context)!.extras,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -434,7 +433,7 @@ ToastService.showErrorToast("Please fill all data");
                             ),
                             Center(
                               child: Text(
-                                "No Extras Please add Extra products to the offer",
+                                AppLocalizations.of(context)!.noExtrasPleaseAddExtraProductstotheoffer,
                                 style: Theme.of(context)
                                     .textTheme
                                     .caption
@@ -458,7 +457,7 @@ ToastService.showErrorToast("Please fill all data");
                             height: 10,
                           ),
                           Text(
-                            "Your Uploaded Extras",
+                            AppLocalizations.of(context)!.yourUploadedExtras,
                             style: Theme.of(context).textTheme.caption?.copyWith(
                                 color: Colors.white,
                                 fontSize: 18,
@@ -555,7 +554,7 @@ ToastService.showErrorToast("Please fill all data");
                                           successIcon: Icons.check,
                                           failedIcon: Icons.close,
                                           child: Text(
-                                            "Delete",
+                                            AppLocalizations.of(context)!.delete,
                                             style: TextStyle(
                                                 fontSize: 12,
                                                 // fontFamily: context.locale.toString() == "en"

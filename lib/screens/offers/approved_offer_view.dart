@@ -4,7 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:revmo/Configurations/Extensions/extensions.dart';
 import 'package:revmo/screens/offers/Extras/extras_view.dart';
 import 'package:revmo/screens/offers/RequestDocuments/request_documents_view.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../models/offers/offer.dart';
 import '../../shared/colors.dart';
 import 'Calendar/calendar_view.dart';
@@ -91,7 +91,7 @@ class _AcceptedOfferViewState extends State<AcceptedOfferView> {
                               ),
                               Text(
                                 // ${widget.offer.showroom!.shrmName!}
-                                "Communicate with Buyer",
+                                AppLocalizations.of(context)!.communicateWithBuyer ,
                                 style: const TextStyle(
                                     color: Colors.grey, fontSize: 12),
                               ),
@@ -181,7 +181,7 @@ class _AcceptedOfferViewState extends State<AcceptedOfferView> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Offers Details',
+                                AppLocalizations.of(context)!.offersDetails,
                                 style: const TextStyle(
                                     color: RevmoColors.darkBlue,
                                     fontFamily: 'Gibson',
@@ -199,7 +199,7 @@ class _AcceptedOfferViewState extends State<AcceptedOfferView> {
                                                       widget.offer,
                                                 )));
                                   },
-                                  child: Text("Show Details")),
+                                  child: Text(AppLocalizations.of(context)!.offerDetail)),
                             ],
                           ),
                           // const SizedBox(
@@ -295,15 +295,15 @@ class _AcceptedOfferViewState extends State<AcceptedOfferView> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              "Request Documents",
+                             Text(
+                              AppLocalizations.of(context)!.requestDocuments,
                               style: TextStyle(color: RevmoColors.darkBlue),
                             ),
                             const SizedBox(
                               height: 5,
                             ),
-                            const Text(
-                              "Request nessecary Documents needed from buyer",
+                             Text(
+                               AppLocalizations.of(context)!.requestNessecaryDocumentsNeededfromBuyer,
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 12),
                             ),
@@ -342,15 +342,15 @@ class _AcceptedOfferViewState extends State<AcceptedOfferView> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              "Calendar",
+                             Text(
+                              AppLocalizations.of(context)!.calendar,
                               style: TextStyle(color: RevmoColors.darkBlue),
                             ),
                             const SizedBox(
                               height: 5,
                             ),
-                            const Text(
-                              "Check or add events shared with the buyer",
+                             Text(
+                              AppLocalizations.of(context)!.checkOrAddEventsSharedwiththeBuyer,
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 12),
                             ),
@@ -387,15 +387,15 @@ class _AcceptedOfferViewState extends State<AcceptedOfferView> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              "Extras",
+                             Text(
+                              AppLocalizations.of(context)!.extras,
                               style: TextStyle(color: RevmoColors.darkBlue),
                             ),
                             const SizedBox(
                               height: 5,
                             ),
-                            const Text(
-                              "Car Accessories",
+                            Text(
+                            AppLocalizations.of(context)!.carAccessories  ,
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 12),
                             ),

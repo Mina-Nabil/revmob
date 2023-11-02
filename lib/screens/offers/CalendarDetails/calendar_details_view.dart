@@ -9,6 +9,7 @@ import 'package:pmvvm/pmvvm.dart';
 import 'package:revmo/Configurations/Extensions/extensions.dart';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../models/offers/calendar_model.dart';
 import '../../../models/offers/offer.dart';
 import '../../../services/toast_service.dart';
@@ -55,14 +56,14 @@ class CalendarDetailsView extends HookView<CalendarDetailsViewModel> {
             },
 
             child: Text(
-              "Delete event",
+              AppLocalizations.of(context)!.deleteEvent,
               style: theme.textTheme.bodySmall
                   ?.copyWith(color: Colors.white, fontSize: 16),
             )),
       ),
       backgroundColor: RevmoColors.darkBlue,
       appBar: RevmoAppBar(
-        title: "Event Details",
+        title: AppLocalizations.of(context)!.eventDetails,
         leading: IconButton(onPressed: (){
           Navigator.pop(context, "Refresh");
         },icon: Icon(Icons.arrow_back_ios_new),),
@@ -171,7 +172,7 @@ class CalendarDetailsView extends HookView<CalendarDetailsViewModel> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Participants",
+                AppLocalizations.of(context)!.participants,
                 style: theme.textTheme.bodySmall?.copyWith(
                     color: Colors.white,
                     fontSize: 18,
@@ -283,7 +284,7 @@ class CalendarDetailsView extends HookView<CalendarDetailsViewModel> {
                 height: 20,
               ),
               Text(
-                "Notes",
+                AppLocalizations.of(context)!.notes,
                 style: theme.textTheme.bodySmall?.copyWith(
                     color: Colors.white,
                     fontSize: 18,
@@ -311,7 +312,7 @@ class CalendarDetailsView extends HookView<CalendarDetailsViewModel> {
             height: 20,
           ),
           Text(
-            "Reminder",
+            AppLocalizations.of(context)!.reminder,
             style: theme.textTheme.bodySmall?.copyWith(
                 color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
           ),
@@ -325,7 +326,7 @@ class CalendarDetailsView extends HookView<CalendarDetailsViewModel> {
                 width: 10,
               ),
               Text(
-                "${(viewModel.appointment!.notificationTime!.difference(viewModel.appointment!.start).inDays).toString().replaceAll("-", "")} days before",
+                "${(viewModel.appointment!.notificationTime!.difference(viewModel.appointment!.start).inDays).toString().replaceAll("-", "")} ${AppLocalizations.of(context)!.daysBefore}",
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: Colors.grey,
                   fontSize: 14,
@@ -412,13 +413,13 @@ class _EditEventState extends State<EditEvent> {
                 border: Border.all(color: Colors.transparent),
                 backgroundColor: Color(0xffEBEAEE),
                 leading: TextButton(
-                  child: Text("Cancel"),
+                  child: Text(AppLocalizations.of(context)!.cancel),
                   onPressed: () {
                     Navigator.pop(context);
                   },
                 ),
                 trailing: TextButton(
-                  child: Text("Confirm"),
+                  child: Text(AppLocalizations.of(context)!.confirm),
                   onPressed: () {
                     if (titleController.text.isNotEmpty &&
                         locationController.text.isNotEmpty &&
@@ -436,22 +437,22 @@ class _EditEventState extends State<EditEvent> {
                           initialStartingDate
                               .subtract(Duration(
                               days: alertController.text ==
-                                  "Alert me 1 day before"
+                                  AppLocalizations.of(context)!.alertMe1DayBefore
                                   ? 1
                                   : alertController.text ==
-                                  "Alert me 2 day before"
+                                  AppLocalizations.of(context)!.alertMe2DayBefore
                                   ? 2
                                   : 7))
 
                       );
                       Navigator.pop(context);
                     } else {
-                      ToastService.showErrorToast("Please fill all fields");
+                      ToastService.showErrorToast(AppLocalizations.of(context)!.pleaseFillAllFields);
                     }
                   },
                 ),
                 middle: Text(
-                  'Edit Event',
+                  AppLocalizations.of(context)!.editEvent,
                   style: theme.textTheme.bodySmall?.copyWith(
                       color: RevmoColors.darkBlue,
                       fontSize: 18,
@@ -483,7 +484,7 @@ class _EditEventState extends State<EditEvent> {
                           decoration: InputDecoration(
                             isDense: true,
                             focusedBorder: InputBorder.none,
-                            hintText: "Title",
+                            hintText: AppLocalizations.of(context)!.title,
                             hintStyle: theme.textTheme.bodyMedium
                                 ?.copyWith(color: Colors.black.withOpacity(0.5)),
                             // label: Text("Title")
@@ -499,7 +500,7 @@ class _EditEventState extends State<EditEvent> {
                           decoration: InputDecoration(
                             isDense: true,
                             focusedBorder: InputBorder.none,
-                            hintText: "Location",
+                            hintText: AppLocalizations.of(context)!.location,
                             hintStyle: theme.textTheme.bodyMedium
                                 ?.copyWith(color: Colors.black.withOpacity(0.5)),
                             // label: Text("Title")
@@ -552,7 +553,7 @@ class _EditEventState extends State<EditEvent> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "Starts",
+                                      AppLocalizations.of(context)!.starts,
                                       style: theme.textTheme.bodyMedium
                                           ?.copyWith(color: RevmoColors.darkBlue),
                                     ),
@@ -663,7 +664,7 @@ class _EditEventState extends State<EditEvent> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "Ends",
+                                      AppLocalizations.of(context)!.ends,
                                       style: theme.textTheme.bodyMedium
                                           ?.copyWith(color: RevmoColors.darkBlue),
                                     ),
@@ -781,7 +782,7 @@ class _EditEventState extends State<EditEvent> {
                             SizedBox(
                               width: mediaQuery.size.width * 0.88,
                               child: CustomDropdown(
-                                hintText: 'Alert',
+                                hintText: AppLocalizations.of(context)!.alert,
                                 // fillColor: Colors.red,
                                 excludeSelected: true,
                                 listItemStyle: theme.textTheme.bodyMedium
@@ -789,10 +790,10 @@ class _EditEventState extends State<EditEvent> {
                                 selectedStyle: theme.textTheme.bodyMedium?.copyWith(
                                     color: RevmoColors.darkBlue,
                                     fontWeight: FontWeight.bold),
-                                items: const [
-                                  'Alert me 1 day before',
-                                  'Alert me 2 day before ',
-                                  'Alert me 1 week before'
+                                items:  [
+                                  AppLocalizations.of(context)!.alertMe1DayBefore,
+                                  AppLocalizations.of(context)!.alertMe2DayBefore,
+                                  AppLocalizations.of(context)!.alertMe1WeekBefore
                                 ],
                                 controller: alertController,
                               ),
@@ -819,7 +820,7 @@ class _EditEventState extends State<EditEvent> {
                             decoration: InputDecoration(
                               isDense: true,
                               focusedBorder: InputBorder.none,
-                              hintText: "Notes",
+                              hintText: AppLocalizations.of(context)!.notes,
                               hintStyle: theme.textTheme.bodyMedium
                                   ?.copyWith(color: Colors.black.withOpacity(0.5)),
                             ),

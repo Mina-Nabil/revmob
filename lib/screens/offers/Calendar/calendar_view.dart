@@ -9,6 +9,7 @@ import 'package:pmvvm/pmvvm.dart';
 import 'package:revmo/Configurations/Extensions/extensions.dart';
 import 'package:revmo/services/toast_service.dart';
 import 'package:revmo/shared/widgets/home/revmo_appbar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '../../../models/offers/calendar_model.dart';
 import '../../../models/offers/offer.dart';
@@ -43,7 +44,7 @@ class CalendarPageView extends HookView<CalendarViewModel> {
       child: Scaffold(
         backgroundColor: RevmoColors.darkBlue,
         appBar: RevmoAppBar(
-          title: "Calendar",
+          title: AppLocalizations.of(context)!.calendar,
           actionWidget: Row(
             children: [
               IconButton(
@@ -212,13 +213,13 @@ class _AddEventState extends State<AddEvent> {
             border: Border.all(color: Colors.transparent),
             backgroundColor: Color(0xffEBEAEE),
             leading: TextButton(
-              child: Text("Cancel"),
+              child: Text(AppLocalizations.of(context)!.cancel),
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
             trailing: TextButton(
-              child: Text("Add"),
+              child: Text(AppLocalizations.of(context)!.add),
               onPressed: () {
                 if (titleController.text.isNotEmpty &&
                     locationController.text.isNotEmpty &&
@@ -236,22 +237,22 @@ class _AddEventState extends State<AddEvent> {
                       initialStartingDate
                           .subtract(Duration(
                               days: alertController.text ==
-                                      "Alert me 1 day before"
+                                  AppLocalizations.of(context)!.alertMe1DayBefore
                                   ? 1
                                   : alertController.text ==
-                                          "Alert me 2 day before"
+                                  AppLocalizations.of(context)!.alertMe2DayBefore
                                       ? 2
                                       : 7))
                           .toString()
                       );
                   Navigator.pop(context);
                 } else {
-                  ToastService.showErrorToast("Please fill all fields");
+                  ToastService.showErrorToast(AppLocalizations.of(context)!.pleaseFillAllFields);
                 }
               },
             ),
             middle: Text(
-              'New Event',
+              AppLocalizations.of(context)!.newEvent,
               style: theme.textTheme.bodySmall?.copyWith(
                   color: RevmoColors.darkBlue,
                   fontSize: 18,
@@ -283,7 +284,7 @@ class _AddEventState extends State<AddEvent> {
                       decoration: InputDecoration(
                         isDense: true,
                         focusedBorder: InputBorder.none,
-                        hintText: "Title",
+                        hintText: AppLocalizations.of(context)!.title,
                         hintStyle: theme.textTheme.bodyMedium
                             ?.copyWith(color: Colors.black.withOpacity(0.5)),
                         // label: Text("Title")
@@ -299,7 +300,7 @@ class _AddEventState extends State<AddEvent> {
                       decoration: InputDecoration(
                         isDense: true,
                         focusedBorder: InputBorder.none,
-                        hintText: "Location",
+                        hintText: AppLocalizations.of(context)!.location,
                         hintStyle: theme.textTheme.bodyMedium
                             ?.copyWith(color: Colors.black.withOpacity(0.5)),
                         // label: Text("Title")
@@ -352,7 +353,7 @@ class _AddEventState extends State<AddEvent> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "Starts",
+                                  AppLocalizations.of(context)!.starts,
                                   style: theme.textTheme.bodyMedium
                                       ?.copyWith(color: RevmoColors.darkBlue),
                                 ),
@@ -463,7 +464,7 @@ class _AddEventState extends State<AddEvent> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "Ends",
+                                  AppLocalizations.of(context)!.ends,
                                   style: theme.textTheme.bodyMedium
                                       ?.copyWith(color: RevmoColors.darkBlue),
                                 ),
@@ -581,7 +582,7 @@ class _AddEventState extends State<AddEvent> {
                         SizedBox(
                           width: mediaQuery.size.width * 0.88,
                           child: CustomDropdown(
-                            hintText: 'Alert',
+                            hintText: AppLocalizations.of(context)!.alert,
                             // fillColor: Colors.red,
                             excludeSelected: true,
                             listItemStyle: theme.textTheme.bodyMedium
@@ -589,10 +590,10 @@ class _AddEventState extends State<AddEvent> {
                             selectedStyle: theme.textTheme.bodyMedium?.copyWith(
                                 color: RevmoColors.darkBlue,
                                 fontWeight: FontWeight.bold),
-                            items: const [
-                              'Alert me 1 day before',
-                              'Alert me 2 day before ',
-                              'Alert me 1 week before'
+                            items:  [
+                              AppLocalizations.of(context)!.alertMe1DayBefore,
+                              AppLocalizations.of(context)!.alertMe2DayBefore,
+                              AppLocalizations.of(context)!.alertMe1WeekBefore
                             ],
                             controller: alertController,
                           ),
@@ -619,7 +620,7 @@ class _AddEventState extends State<AddEvent> {
                         decoration: InputDecoration(
                           isDense: true,
                           focusedBorder: InputBorder.none,
-                          hintText: "Notes",
+                          hintText: AppLocalizations.of(context)!.notes,
                           hintStyle: theme.textTheme.bodyMedium
                               ?.copyWith(color: Colors.black.withOpacity(0.5)),
                         ),
