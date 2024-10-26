@@ -144,6 +144,7 @@ class _BrandModelsScreenState extends State<BrandModelsScreen> {
                   ],
                 )),
           ),
-        ));
+        )
+    );
   }
 }

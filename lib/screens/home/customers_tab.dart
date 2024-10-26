@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as m;
 import 'package:flutter_multi_select_items/flutter_multi_select_items.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -67,15 +68,20 @@ class _CustomersTabState extends State<CustomersTab> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: SearchBar(
-                        height: RevmoTheme.SEARCH_BAR_HEIGHT,
-                        searchCallback: () {
+                      child: m.SearchBar(
+                        constraints: BoxConstraints(
+                            minHeight: RevmoTheme.SEARCH_BAR_HEIGHT,
+                            maxHeight: RevmoTheme.SEARCH_BAR_HEIGHT),
+                        onChanged: (value) {
                           Provider.of<CustomersProvider>(context, listen: false)
                               .searchInTeam(
-                                  customerProvider.search.text.toLowerCase());
-                          print(customerProvider.search.text);
-                        },
-                        textEditingController: customerProvider.search,
+                              customerProvider.search.text.toLowerCase());
+                          print(customerProvider.search.text);                        },
+                        // searchCallback: () {
+                        //
+                        // },
+                        controller:
+                        customerProvider.search,
                       ),
                     ),
                     Container(

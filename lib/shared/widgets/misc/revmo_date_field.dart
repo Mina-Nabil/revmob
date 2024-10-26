@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart' as themedate;
 import 'package:intl/intl.dart';
 import 'package:revmo/shared/colors.dart';
 import 'package:revmo/shared/theme.dart';
@@ -102,12 +103,18 @@ class _RevmoDateFieldState extends State<RevmoDateField> {
                     onTap: () {
                       DatePicker.showPicker(context,
                           showTitleActions: true,
-                          pickerModel: RevmoDatePicker(currentTime: DateTime.now()),
-                          theme: DatePickerTheme(
+                          // pickerModel: RevmoDatePicker(currentTime: DateTime.now()),
+                          theme: themedate.DatePickerTheme(
                               headerColor: Colors.white,
                               backgroundColor: RevmoColors.white,
                               itemStyle: TextStyle(color: RevmoColors.darkBlue, fontWeight: FontWeight.bold, fontSize: 18),
-                              doneStyle: TextStyle(color: RevmoColors.darkBlue, fontSize: 16)), onChanged: (date) {
+                              doneStyle: TextStyle(color: RevmoColors.darkBlue, fontSize: 16)),
+                          // theme: DatePickerTheme(
+                          //     headerColor: Colors.white,
+                          //     backgroundColor: RevmoColors.white,
+                          //     itemStyle: TextStyle(color: RevmoColors.darkBlue, fontWeight: FontWeight.bold, fontSize: 18),
+                          //     doneStyle: TextStyle(color: RevmoColors.darkBlue, fontSize: 16)),
+                          onChanged: (date) {
                         widget.controller.value = TextEditingValue(text: DateFormat('dd-MM-yyyy').format(date));
                       }, onConfirm: (date) {
                         widget.controller.value = TextEditingValue(text: DateFormat('dd-MM-yyyy').format(date));

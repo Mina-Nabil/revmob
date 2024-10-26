@@ -91,6 +91,7 @@ class _RevmoSellerAppState extends State<RevmoSellerApp> {
                 brightness: Brightness.dark,
                 fontFamily: RevmoTheme.FONT_GIBSON_LIGHT,
                 primarySwatch: Colors.blue,
+                useMaterial3: false
               ),
               debugShowCheckedModeBanner: false,
               localizationsDelegates: [

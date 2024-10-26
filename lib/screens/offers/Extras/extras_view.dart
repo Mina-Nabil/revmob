@@ -437,7 +437,7 @@ ToastService.showErrorToast("Please fill all data");
                                 "No Extras Please add Extra products to the offer",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .caption
+                                    .bodyMedium
                                     ?.copyWith(
                                     color: Colors.grey,
                                     fontSize: 14,
@@ -459,7 +459,7 @@ ToastService.showErrorToast("Please fill all data");
                           ),
                           Text(
                             "Your Uploaded Extras",
-                            style: Theme.of(context).textTheme.caption?.copyWith(
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 color: Colors.white,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),

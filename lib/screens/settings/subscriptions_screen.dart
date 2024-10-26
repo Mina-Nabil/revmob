@@ -387,7 +387,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                 Center(
                                   child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        primary:
+                                        backgroundColor:
                                             Colors.blueGrey.withOpacity(0.3),
                                       ),
                                       onPressed: () {},

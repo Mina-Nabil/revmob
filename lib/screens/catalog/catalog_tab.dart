@@ -169,7 +169,7 @@ class _CatalogTabState extends State<CatalogTab> {
                           ),
                           //Cars Catalog
                           BrandsGrid(brandSearch)
-                        ]),
+                        ],),
                   ),
                 ],
               ),

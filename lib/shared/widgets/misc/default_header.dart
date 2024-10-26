@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as m;
 import 'package:flutter_svg/svg.dart';
 import 'package:revmo/environment/paths.dart';
 import 'package:revmo/shared/colors.dart';
@@ -34,12 +35,24 @@ class RevmoDefaultHeader extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: SearchBar(
-              height: _headerHeight,
-              searchCallback: searchCallback,
-              textEditingController: searchTextController,
-              hintText: searchHint,
+           child: m.SearchBar(
+              constraints: BoxConstraints(
+                  minHeight:_headerHeight,
+                  maxHeight: _headerHeight),
+              onChanged: (value) {
+                searchCallback!();       },
+              // searchCallback: () {
+              //
+              // },
+              controller:
+              searchTextController,
             ),
+            // child: SearchBar(
+            //   height: _headerHeight,
+            //   searchCallback: searchCallback,
+            //   textEditingController: searchTextController,
+            //   hintText: searchHint,
+            // ),
           ),
           if (!hideSortbutton)
             Container(

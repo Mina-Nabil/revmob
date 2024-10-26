@@ -17,6 +17,8 @@ class RevmoCarImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(revmoImage.url);
+    print('this is the image url ${revmoImage.url}');
     return Image.network(
       revmoImage.url,
       height: _imageHeight,

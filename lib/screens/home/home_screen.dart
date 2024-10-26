@@ -23,7 +23,6 @@ import '../../providers/Seller/catalog_provider.dart';
 import '../../providers/Seller/customers_provider.dart';
 import '../../providers/Seller/models_provider.dart';
 import '../../providers/Seller/offers_provider.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String ROUTE_NAME = "/home";

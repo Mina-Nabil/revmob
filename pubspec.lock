@@ -367,10 +367,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_multi_select_items
-      sha256: d30af6dbf64c38c296110a9512eef91b196a185cca056cd1eb32614e5fa91d1c
+      sha256: f8182eddcc3a9a19a56b401da2e4408eb4b6a9d2a99123d70f14bbf81868d8df
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.2"
+    version: "0.4.3"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:

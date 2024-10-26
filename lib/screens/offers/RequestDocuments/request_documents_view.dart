@@ -146,7 +146,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                                         margin:
                                             EdgeInsets.symmetric(vertical: 10),
                                         child: RevmoTheme.getTextFieldLabel(
-                                            "Add photo",
+                                            "Add photo (optional)",
                                             color: RevmoColors.darkBlue)),
                                     viewModel.loading
                                         ? const FadeShimmer(
@@ -315,8 +315,8 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                                         }
 
                                         if( viewModel.titleController.text.isNotEmpty &&
-                                        viewModel.noteController.text.isNotEmpty &&
-                                        viewModel.photoFromDevice != null ){
+                                        viewModel.noteController.text.isNotEmpty
+                                         ){
                                           setState(() {
                                             viewModel.ignoring = true;
                                             viewModel.notifyListeners();
@@ -415,7 +415,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                               const SizedBox(height: 10,),
                               Text(
                                 "Required Documents",
-                                style: Theme.of(context).textTheme.caption?.copyWith(
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                     color: Colors.white,
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold),
@@ -437,7 +437,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                               Center(
                                 child: Text(
                                   "No Documents Uploaded yet...",
-                                  style: Theme.of(context).textTheme.caption?.copyWith(
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                       color: Colors.grey,
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold),
@@ -454,7 +454,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                                 const SizedBox(height: 10,),
                                 Text(
                                   "Required Documents",
-                                  style: Theme.of(context).textTheme.caption?.copyWith(
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                       color: Colors.white,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
@@ -507,7 +507,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                               const SizedBox(height: 10,),
                               Text(
                                 "Your uploaded documents",
-                                style: Theme.of(context).textTheme.caption?.copyWith(
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                     color: Colors.white,
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold),
@@ -529,7 +529,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                               Center(
                                 child: Text(
                                   "No Documents Uploaded yet...",
-                                  style: Theme.of(context).textTheme.caption?.copyWith(
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                       color: Colors.grey,
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold),
@@ -552,7 +552,7 @@ class RequestDocumentsView extends HookView<RequestDocumentsViewModel> {
                                 SizedBox(height: 10,),
                                 Text(
                                   "Your Uploaded Documents",
-                                  style: Theme.of(context).textTheme.caption?.copyWith(
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                       color: Colors.white,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
